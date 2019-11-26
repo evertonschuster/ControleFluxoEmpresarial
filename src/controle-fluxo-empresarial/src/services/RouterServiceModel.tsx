@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 import TesteForm from '../pages/TesteForm';
-import Pais from '../pages/Pais/ListPais/ListPais';
+import ListPais from '../pages/Pais/ListPais/ListPais';
 import { BasicLayoutContextProvider, FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
+import RegisterPais from '../pages/Pais/RegisterPais/RegisterPais';
+import RegisterEstado from '../pages/Estado/RegisterEstado/RegisterEstado';
+import ListEstado from '../pages/Estado/ListEstado/ListEstado';
 
 export interface Props {
     path?: string;
@@ -14,12 +17,22 @@ const RouterServiceModel: React.FC<RouteComponentProps & Props> = (props) => {
     const [breadcrumb, setBreadcrumb] = useState();
     const [formMode, setFormMode] = useState<FormMode>(FormMode.SelectOne)
 
-    // props.history.location
+    // useEffect(() => {
+
+    //     console.log("props.location.pathname", props.location.pathname)
+
+    //     props.history.push(props.location.pathname)
+
+    //     return () => {
+    //         props.history.push(props.location.pathname)
+    //     };
+
+    // }, [])
 
     //basename={props.history.location.pathname >
     return (
         <BrowserRouter basename={props.history.location.pathname}  >
-            <Switch  >
+            <Switch >
                 <BasicLayoutContextProvider value={{
                     breadcrumb,
                     setBreadcrumb,
@@ -27,15 +40,15 @@ const RouterServiceModel: React.FC<RouteComponentProps & Props> = (props) => {
                     formMode,
                     setFormMode
                 }}>
-                    {/* <BasicLayout> */}
 
-                    <Route path="/pais" component={Pais} />
+
+                    <Route path="/pais/new" component={RegisterPais} />
+                    <Route exact path="/pais" component={ListPais} />
+                    <Route path="/estado/new" component={RegisterEstado} />
+                    <Route exact path="/estado" component={ListEstado} />
                     <Route exact path="/" component={TesteForm} />
 
-                    <Redirect to={props.path || "/"} ></Redirect>
-                    <Redirect to={{ pathname: props.path || "/" }} ></Redirect>
-
-                    {/* </BasicLayout> */}
+                    <Redirect to={{ pathname: "/" + (props.path || "") }} ></Redirect>
                 </BasicLayoutContextProvider>
             </Switch>
         </BrowserRouter>

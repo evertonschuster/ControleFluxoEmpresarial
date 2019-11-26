@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal } from 'antd';
 import RouterServiceModel from '../../services/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 export interface Props {
     visible: boolean;
@@ -11,10 +12,12 @@ export interface Props {
     path: string;
 }
 
-const ModelForm: React.FC<Props> = (props) => {
+const ModelForm: React.FC<Props & RouteComponentProps> = (props) => {
 
     function handleOk() {
         props.setVisible(!props.visible);
+
+        props.history.push(props.location.pathname)
     }
 
     return (
@@ -26,9 +29,8 @@ const ModelForm: React.FC<Props> = (props) => {
                 onOk={handleOk}
                 onCancel={handleOk}>
 
-                    <RouterServiceModel path={props.path} setState={props.setState}>
-                        
-                </RouterServiceModel>
+                {props.visible ? <RouterServiceModel path={props.path} setState={props.setState} /> : null}
+
             </Modal>
 
         </ModalFormContextProvider >
@@ -36,4 +38,4 @@ const ModelForm: React.FC<Props> = (props) => {
 
 }
 
-export default ModelForm;
+export default withRouter(ModelForm);

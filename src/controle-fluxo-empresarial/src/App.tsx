@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import BasicLayout from './layouts/BasicLayout/BasicLayout';
 import 'antd/dist/antd.css';
