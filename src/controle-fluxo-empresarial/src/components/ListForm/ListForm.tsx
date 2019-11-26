@@ -1,52 +1,59 @@
 import React, { useContext } from 'react';
-import { Table, Input, Row, Col, Button } from 'antd';
+import { Table, Input, Row, Col, Button, Divider, Tag } from 'antd';
 import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import ModalFormContext from '../ModalForm/ModalFormContext';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
-export interface Props<T>  {
+export interface Props<T> {
     dataSource: T[];
     columns: ColumnProps<T>[];
 }
 
 const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
-
+    //#region Constantes
     const { formMode } = useContext(BasicLayoutContext);
-    const { setState } = useContext(ModalFormContext)
+    const { setState, state } = useContext(ModalFormContext)
 
+    const columns = props.columns.concat({
+        title: 'Ações',
+        key: 'action',
+        width: "150px",
+        render: (text: any, record: any, index: number) => (
+            <>
+                <Tag color="green" key={index + "12"}>Editar</Tag>
+                <Tag color="red" key={index + "23"}>Excluir</Tag>
+            </>
+        ),
+    })
 
-
-    // {
-    //     title: 'Action',
-    //     key: 'action',
-    //     render: (text: any, record: any) => (
-    //         <span>
-    //             <a>Invite {record.name}</a>
-    //             <Divider type="vertical" />
-    //             <a>Delete</a>
-    //         </span>
-    //     ),
-    // },
+    //#endregion
 
     const rowSelection: TableRowSelection<any> = {
         // selections: false,
         type: formMode == FormMode.SelectMultiple ? "checkbox" : "radio",
-        onChange: (selectedRowKeys: string[] | number[], selectedRows: any[]) => { setState(selectedRows) }
+        onChange: onChange,
+        // selectedRowKeys: (state || []).map(e => e.key)
+    }
+
+
+    function onChange<T>(selectedRowKeys: string[] | number[], selectedRows: T[]) {
+        setState(selectedRows);
+        console.log("selectedRows", selectedRows)
     }
 
     return (
         <>
-            <Row>
+            <Row style={{ paddingBottom: "20px" }}>
                 <Col span={10}>
                     <Input placeholder="Filtrar" />
                 </Col>
-                <Col span={2}>
+                <Col span={1} style={{ textAlign: "center" }}>
                     <Button type="primary" shape="circle" icon="search" />
                 </Col>
 
-                <Col span={2} push={10}>
+                <Col span={2} push={11} style={{ textAlign: "right" }}>
                     <Button type="primary">
                         <Link to={props.location.pathname + "/new"}>
                             Adicionar
@@ -59,8 +66,12 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 <Col>
                     <Table
                         rowSelection={formMode == FormMode.SelectMultiple || formMode == FormMode.SelectOne ? rowSelection : undefined}
-                        columns={props.columns}
-                        dataSource={props.dataSource} />
+                        columns={columns}
+                        dataSource={props.dataSource}
+                        bordered={true}
+                        // scroll={{ y: 3000 }}
+                        useFixedHeader={true}
+                        size="small" />
                 </Col>
             </Row>
         </>

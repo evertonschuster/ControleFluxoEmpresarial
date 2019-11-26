@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'antd';
 import RouterServiceModel from '../../services/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
@@ -14,22 +14,35 @@ export interface Props {
 
 const ModelForm: React.FC<Props & RouteComponentProps> = (props) => {
 
-    function handleOk() {
-        props.setVisible(!props.visible);
+    const [state, setState] = useState(props.state);
 
+
+    function CloseForm() {
+        props.setVisible(!props.visible);
         props.history.push(props.location.pathname)
     }
 
+    function handleCancel() {
+        CloseForm();
+    }
+
+    function handleOk() {
+        props.setState(state);
+        CloseForm()
+    }
+
     return (
-        <ModalFormContextProvider value={{ setState: props.setState, state: props.state }}>
+        <ModalFormContextProvider value={{ setState, state }}>
 
             <Modal
+                width="90%"
                 title="Basic Modal"
                 visible={props.visible}
+                destroyOnClose={true}
                 onOk={handleOk}
-                onCancel={handleOk}>
-
-                {props.visible ? <RouterServiceModel path={props.path} setState={props.setState} /> : null}
+                onCancel={handleCancel}>
+                <RouterServiceModel path={props.path} setState={props.setState} />
+                {/* {props.visible ? <RouterServiceModel path={props.path} setState={props.setState} /> : null} */}
 
             </Modal>
 

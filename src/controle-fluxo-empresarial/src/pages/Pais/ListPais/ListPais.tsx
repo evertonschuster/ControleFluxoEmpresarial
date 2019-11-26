@@ -27,17 +27,17 @@ const ListPais: React.FC<RouteComponentProps> = () => {
         {
             title: 'Codigo',
             dataIndex: 'id',
-            key: 'id',
+            // key: 'id',
         },
         {
             title: 'Pais',
             dataIndex: 'pais',
-            key: 'pais',
+            // key: 'pais',
         },
         {
             title: 'Sigla',
             dataIndex: 'sigla',
-            key: 'sigla',
+            // key: 'sigla',
         },
     ];
 
@@ -45,9 +45,7 @@ const ListPais: React.FC<RouteComponentProps> = () => {
     return (
         <FormLayout breadcrumbList={[{ displayName: "Pais", URL: "/pais" }, { displayName: "Listagem", URL: undefined }]} >
 
-
             <ListForm dataSource={data} columns={columns} />
-
 
         </FormLayout>
     );

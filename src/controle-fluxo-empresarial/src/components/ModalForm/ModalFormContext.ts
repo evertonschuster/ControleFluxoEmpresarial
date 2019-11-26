@@ -1,8 +1,8 @@
 import React from 'react'
 
 export interface ModalFormContextProp<T> {
-    state?: T;
-    setState: (value?: T) => void;
+    state?: T[];
+    setState: (value?: T[]) => void;
 }
 
 const ModalFormContext = React.createContext<ModalFormContextProp<any>>(
