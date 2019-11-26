@@ -2,24 +2,36 @@ import React, { useState } from 'react';
 import { BrowserRouter, Switch, Router, Route } from 'react-router-dom';
 import TesteForm from '../pages/TesteForm';
 import BasicLayout from '../layouts/BasicLayout/BasicLayout';
-import TesteForm2 from '../pages/TesteForm2';
+import ListPais from '../pages/Pais/ListPais/ListPais';
+import { BasicLayoutContextProvider, FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
+import ListEstado from '../pages/Estado/ListEstado/ListEstado';
+import RegisterEstado from '../pages/Estado/RegisterEstado/RegisterEstado';
 
 
 const RouterService: React.FC = (props) => {
 
-
+    const [breadcrumb, setBreadcrumb] = useState();
+    const [formMode, setFormMode] = useState<FormMode>(FormMode.View)
 
     return (
         <BrowserRouter >
-            <Switch >
-                <BasicLayout>
+            <Switch  >
+                <BasicLayoutContextProvider value={{
+                    breadcrumb,
+                    setBreadcrumb,
 
-                    <Route path="/teste" component={TesteForm2} />
-                    <Route exact path="/" component={TesteForm} />
+                    formMode,
+                    setFormMode
+                }}>
+                    <BasicLayout>
 
+                        <Route path="/pais" component={ListPais} />
+                        <Route path="/estado/new" component={RegisterEstado} />
+                        <Route exact path="/estado" component={ListEstado} />
+                        <Route exact path="/" component={TesteForm} />
 
-
-                </BasicLayout>
+                    </BasicLayout>
+                </BasicLayoutContextProvider>
             </Switch>
         </BrowserRouter>
     );

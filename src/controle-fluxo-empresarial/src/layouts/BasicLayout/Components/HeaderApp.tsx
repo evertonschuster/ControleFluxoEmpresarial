@@ -1,31 +1,33 @@
-import React, { memo } from 'react';
-import { Layout, Breadcrumb, Avatar, Row, Col, Badge } from 'antd';
-import { Link } from "react-router-dom";
-import { BreadcrumbProp } from '../FormLayout';
+import React from 'react';
+import { Layout, Avatar, Row, Col, Badge, Breadcrumb } from 'antd';
+import { BreadcrumbProp } from '../BasicLayout';
+import { Link } from 'react-router-dom';
 
 export interface Props {
     breadcrumbList?: BreadcrumbProp[]
 }
 
-const HeaderApp: React.FC = () => {
+const HeaderApp: React.FC<Props> = (props) => {
 
     const { Header } = Layout;
-
-    console.log("Me Chamaraaaaaaaa")
 
     return (
         <Header style={{ background: '#fff', padding: 0 }}>
 
             <Row type="flex" align="middle" gutter={20} >
                 <Col span={18} className="gutter-row">
-                    {/* <Breadcrumb style={{ paddingLeft: "10px" }}>
+                    <Breadcrumb style={{ paddingLeft: "10px" }}>
+                        <Breadcrumb.Item key={-1}>
+                            <Link to="/">Inicial</Link>
+                        </Breadcrumb.Item>
                         {
-                            (props.breadcrumbList || []).map((e, index) => <Breadcrumb.Item key={index}>
-                                <Link to={e.URL}>{e.displayName}</Link>
-                            </Breadcrumb.Item>)
+                            (props.breadcrumbList || []).map((e, index) =>
+                                <Breadcrumb.Item key={index}>
+                                    {e.URL == undefined ? e.displayName : <Link to={e.URL}>{e.displayName}</Link>}
+                                </Breadcrumb.Item>)
                         }
 
-                    </Breadcrumb> */}
+                    </Breadcrumb>
                 </Col>
 
                 <Col span={6} >
@@ -46,10 +48,5 @@ const HeaderApp: React.FC = () => {
     );
 }
 
-function arePropsEqual(prevProps: any, nextProps: any) {
 
-    console.log("ME chamar")
-    return false;
-}
-
-export default memo(HeaderApp, arePropsEqual);
+export default React.memo(HeaderApp);
