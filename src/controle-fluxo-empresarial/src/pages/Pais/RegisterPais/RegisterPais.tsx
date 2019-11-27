@@ -15,8 +15,6 @@ const RegisterPais: React.FC<RouteComponentProps> = () => {
             Cadastro de pais
             <Button onClick={() => setVisible(true)}>Select Pais</Button>
 
-            <ModelForm visible={visible} setVisible={setVisible} setState={setstate} state={state} path="pais" />
-
         </FormLayout>
     );
 

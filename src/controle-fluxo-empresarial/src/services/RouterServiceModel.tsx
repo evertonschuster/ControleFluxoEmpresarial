@@ -17,19 +17,6 @@ const RouterServiceModel: React.FC<RouteComponentProps & Props> = (props) => {
     const [breadcrumb, setBreadcrumb] = useState();
     const [formMode, setFormMode] = useState<FormMode>(FormMode.SelectOne)
 
-    // useEffect(() => {
-
-    //     console.log("props.location.pathname", props.location.pathname)
-
-    //     props.history.push(props.location.pathname)
-
-    //     return () => {
-    //         props.history.push(props.location.pathname)
-    //     };
-
-    // }, [])
-
-    //basename={props.history.location.pathname >
     return (
         <BrowserRouter basename={props.history.location.pathname}  >
             <Switch >

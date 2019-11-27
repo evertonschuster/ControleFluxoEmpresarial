@@ -74,7 +74,7 @@ const TesteForm: React.FC<RouteComponentProps> = (props) => {
             <br></br>
             <button onClick={() => setVisible(true)}>Modal</button>
 
-            <ModelForm visible={visible} setVisible={setVisible} setState={setstate} state={state} path="teste" />
+            {/* <ModelForm visible={visible} setVisible={setVisible} setState={setstate} state={state} path="teste" /> */}
 
 
             {state.map(e => e.name)}

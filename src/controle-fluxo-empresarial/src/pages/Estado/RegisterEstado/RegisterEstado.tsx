@@ -3,42 +3,50 @@ import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Input, Button } from 'antd';
 import ModelForm from '../../../components/ModalForm/ModalForm';
+import SelectModel from '../../../components/SelectModel/SelectModelOne';
+import { Formik } from 'formik';
+import { Form } from 'formik-antd';
 
 const RegisterEstado: React.FC<RouteComponentProps> = () => {
 
-
     const [visible, setVisible] = useState<boolean>(false);
-    const [state, setstate] = useState<any>([])
-    
-    console.log("Pais selecionado", (state[0] || {}).id)
+    const [state, setstate] = useState<any>(null)
+
+    console.log("RegisterEstado")
 
     return (
         <FormLayout breadcrumbList={[{ displayName: "Estado", URL: "/Estado" }, { displayName: "Novo Estado", URL: undefined }]} >
+            <Formik<{ name: string }> initialValues={{ name: "" }} onSubmit={() => { }}>
+                <Form>
 
-            <Row>
-                <Col span={12}>
-                    <Input placeholder="Codigo" />
-                </Col>
-                <Col span={12}>
-                    <Input placeholder="Estado" />
-                </Col>
-            </Row>
+                    <Row>
+                        <Col span={12}>
+                            <Input placeholder="Codigo" />
+                        </Col>
+                        <Col span={12}>
+                            <Input placeholder="Estado" />
+                        </Col>
+                    </Row>
 
-            <Row>
-                <Col span={12}>
-                    <Input placeholder="UF" />
-                </Col>
-                <Col span={10}>
-                    <Input placeholder="Pais" value={(state[0] || {}).pais} /> 
-                </Col>
-                <Col span={2}>
-                    <Button onClick={() => setVisible(true)}>Select Pais</Button>
-                </Col>
-            </Row>
+                    <Row>
+                        <Col span={12}>
+                            <Input placeholder="UF" />
+                        </Col>
+                        <Col span={12}>
+                            <SelectModel
+                                name="paisId"
+                                keyId="id"
+                                keyDescription="pais"
+                                setState={setstate}
+                                state={state}
+                                label={{ title: "Seleção de Pais" }}
+                                errorMessage={{ noSelection: "Selecione ao menos um Pais!" }}
+                                path="pais" />
+                        </Col>
+                    </Row>
 
-            <ModelForm visible={visible} setVisible={setVisible} setState={setstate} state={state} path="pais" />
-
-
+                </Form>
+            </Formik>
         </FormLayout>
     );
 

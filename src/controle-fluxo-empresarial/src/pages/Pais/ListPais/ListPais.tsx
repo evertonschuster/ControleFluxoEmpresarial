@@ -2,22 +2,23 @@ import React from 'react';
 import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../components/ListForm/ListForm';
+import createReactContext from '@ant-design/create-react-context';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
 
     const data = [
         {
-            id: '1',
+            id: 1,
             pais: 'Brasil',
             sigla: "Br"
         },
         {
-            id: '2',
+            id: 2,
             pais: 'Argentina',
             sigla: "Agr"
         },
         {
-            id: '3',
+            id: 3,
             pais: 'Paraguai',
             sigla: "Py"
         },
@@ -27,7 +28,7 @@ const ListPais: React.FC<RouteComponentProps> = () => {
         {
             title: 'Codigo',
             dataIndex: 'id',
-            // key: 'id',
+            key: 'id',
         },
         {
             title: 'Pais',
@@ -45,7 +46,7 @@ const ListPais: React.FC<RouteComponentProps> = () => {
     return (
         <FormLayout breadcrumbList={[{ displayName: "Pais", URL: "/pais" }, { displayName: "Listagem", URL: undefined }]} >
 
-            <ListForm dataSource={data} columns={columns} />
+            <ListForm dataSource={data} columns={columns}  />
 
         </FormLayout>
     );

@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
-import { Modal } from 'antd';
+import React, { useState, memo } from 'react';
+import { Modal, message } from 'antd';
 import RouterServiceModel from '../../services/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
 import { withRouter, RouteComponentProps } from 'react-router';
 
-export interface Props {
-    visible: boolean;
-    setVisible: (values: boolean) => void;
-    setState: (values: any) => void;
-    state: any;
-    path: string;
+export interface ErrorMessage {
+    noSelection: string;
 }
 
-const ModelForm: React.FC<Props & RouteComponentProps> = (props) => {
+export interface Label {
+    title: string
+}
+
+export interface Props<T> {
+    visible: boolean;
+    setVisible: (values: boolean) => void;
+    setState: (values: T | T[]) => void;
+    state: T | T[];
+    path: string;
+    errorMessage: ErrorMessage;
+    label: Label
+}
+
+const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     const [state, setState] = useState(props.state);
 
@@ -27,6 +37,12 @@ const ModelForm: React.FC<Props & RouteComponentProps> = (props) => {
     }
 
     function handleOk() {
+
+        if (state == undefined || (Array.isArray(state) && state.length == 0)) {
+            message.error(props.errorMessage.noSelection);
+            return;
+        }
+
         props.setState(state);
         CloseForm()
     }
@@ -36,11 +52,12 @@ const ModelForm: React.FC<Props & RouteComponentProps> = (props) => {
 
             <Modal
                 width="90%"
-                title="Basic Modal"
+                title={props.label.title}
                 visible={props.visible}
                 destroyOnClose={true}
                 onOk={handleOk}
-                onCancel={handleCancel}>
+                onCancel={handleCancel}
+                okText="Selecionar">
                 <RouterServiceModel path={props.path} setState={props.setState} />
                 {/* {props.visible ? <RouterServiceModel path={props.path} setState={props.setState} /> : null} */}
 
@@ -51,4 +68,4 @@ const ModelForm: React.FC<Props & RouteComponentProps> = (props) => {
 
 }
 
-export default withRouter(ModelForm);
+export default withRouter(memo(ModelForm));
