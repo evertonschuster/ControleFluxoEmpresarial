@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
-import ModelForm from '../../../components/ModalForm/ModalForm';
-import { Row, Col, Input, Button } from 'antd';
+import { Button } from 'antd';
 
 const RegisterPais: React.FC<RouteComponentProps> = () => {    
 
-    const [visible, setVisible] = useState<boolean>(false);
-    const [state, setstate] = useState<any>([])
+    const [, setVisible] = useState<boolean>(false);
+    const [] = useState<any>([])
     
     return (
         <FormLayout breadcrumbList={[{ displayName: "Pais", URL: "/Pais" }, { displayName: "Novo Pais", URL: undefined }]} >

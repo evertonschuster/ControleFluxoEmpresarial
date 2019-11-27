@@ -12,24 +12,26 @@ export interface Props<T> {
     errorMessage: ErrorMessage;
     label: Label;
     name: string;
-    keyId: string;
+    keyId?: string;
     keyDescription: string;
+    required?: boolean;
 }
 
 const SelectModelOne: React.FC<Props<any>> = (props) => {
 
     const InputForm = withItemNone(InputAntd);
-    const [visible, setVisible] = useState(false)
-    const itemObject = ((props.state || [])[0] || {})
+    const [visible, setVisible] = useState(false);
+    const itemObject = ((props.state || [])[0] || {});
+    const keyId = props.keyId || "id";
 
     return (
         <>
             <Row>
                 <Col span={2}>
-                    <Input name={props.name} required={true} label="Pais" value={itemObject[props.keyId]} />
+                    <Input name={props.name} required={props.required} label={props.label.label} value={itemObject[keyId]} />
                 </Col>
                 <Col span={20}>
-                    <InputForm value={itemObject[props.keyDescription]} readOnly={true} />
+                    <InputForm value={itemObject[props.keyDescription]} disabled={true} />
                 </Col>
                 <Col span={2} style={{ textAlign: "right" }} >
                     <ItemFormRender>
@@ -40,6 +42,7 @@ const SelectModelOne: React.FC<Props<any>> = (props) => {
             </Row>
 
             <ModelForm
+                required={props.required}
                 visible={visible}
                 setVisible={setVisible}
                 setState={props.setState}

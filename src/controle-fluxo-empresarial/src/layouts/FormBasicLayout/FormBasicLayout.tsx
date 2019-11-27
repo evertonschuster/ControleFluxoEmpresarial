@@ -9,8 +9,8 @@ export interface Props {
 
 const FormBasicLayout: React.FC<Props> = (props) => {
 
-    const { breadcrumb, setBreadcrumb } = useContext(BasicLayoutContext);
-    const [state, setstate] = useState(props.breadcrumbList)
+    const { setBreadcrumb } = useContext(BasicLayoutContext);
+    const [state] = useState(props.breadcrumbList)
     
     useEffect(() => {
 

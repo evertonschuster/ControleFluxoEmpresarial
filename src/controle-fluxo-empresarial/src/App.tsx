@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import BasicLayout from './layouts/BasicLayout/BasicLayout';
 import 'antd/dist/antd.css';
 import RouterService from './services/RouterService';
 
