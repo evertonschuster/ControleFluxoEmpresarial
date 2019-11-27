@@ -28,10 +28,10 @@ const SelectModelOne: React.FC<Props<any>> = (props) => {
                 <Col span={2}>
                     <Input name={props.name} required={true} label="Pais" value={itemObject[props.keyId]} />
                 </Col>
-                <Col span={20}>
+                <Col span={21}>
                     <InputForm value={itemObject[props.keyDescription]} readOnly={true} />
                 </Col>
-                <Col span={2} style={{ textAlign: "right" }} >
+                <Col span={1} style={{ textAlign: "right" }} >
                     <ItemFormRender>
                         <Button type="primary" shape="circle" icon="search" onClick={() => setVisible(true)} ></Button>
                     </ItemFormRender>
