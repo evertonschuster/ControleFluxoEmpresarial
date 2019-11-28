@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const ContentApp: React.FC = (props) => {
 

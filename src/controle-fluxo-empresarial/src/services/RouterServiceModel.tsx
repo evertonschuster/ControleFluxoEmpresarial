@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 import TesteForm from '../pages/TesteForm';
 import ListPais from '../pages/Pais/ListPais/ListPais';

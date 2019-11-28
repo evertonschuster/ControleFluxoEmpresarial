@@ -1,7 +1,6 @@
 import React from 'react';
 import { Menu, Icon, Layout } from "antd";
 import SubMenu from 'antd/lib/menu/SubMenu';
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const SideMenuApp: React.FC = () => {
     const { Sider } = Layout;

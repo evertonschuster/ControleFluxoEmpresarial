@@ -1,15 +1,17 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useContext } from 'react';
 import { Modal, message } from 'antd';
 import RouterServiceModel from '../../services/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
 import { withRouter, RouteComponentProps } from 'react-router';
+import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 
 export interface ErrorMessage {
     noSelection: string;
 }
 
 export interface Label {
-    title: string
+    title: string;
+    label: string;
 }
 
 export interface Props<T> {
@@ -19,13 +21,14 @@ export interface Props<T> {
     state: T | T[];
     path: string;
     errorMessage: ErrorMessage;
-    label: Label
+    label: Label;
+    required?: boolean;
 }
 
 const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
-    const [state, setState] = useState(props.state);
-
+    const [state, setState] = useState<any[]>(props.state);
+    const { formMode } = useContext(BasicLayoutContext);
 
     function CloseForm() {
         props.setVisible(!props.visible);
@@ -38,12 +41,19 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     function handleOk() {
 
-        if (state == undefined || (Array.isArray(state) && state.length == 0)) {
+        if (props.required && (state === undefined || (Array.isArray(state) && state.length === 0))) {
             message.error(props.errorMessage.noSelection);
             return;
         }
 
-        props.setState(state);
+        if (formMode == FormMode.SelectMultiple) {
+            props.setState(state);
+        } else {
+            if (state != null && state.length > 0) {
+                props.setState(state[0]);
+            }
+        }
+
         CloseForm()
     }
 
@@ -59,7 +69,6 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 onCancel={handleCancel}
                 okText="Selecionar">
                 <RouterServiceModel path={props.path} setState={props.setState} />
-                {/* {props.visible ? <RouterServiceModel path={props.path} setState={props.setState} /> : null} */}
 
             </Modal>
 

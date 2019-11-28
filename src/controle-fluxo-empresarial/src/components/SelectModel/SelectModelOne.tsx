@@ -1,35 +1,39 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { Row, Col, Button } from 'antd';
 import { Input } from "../WithFormItem/withFormItem"
 import { Input as InputAntd } from "antd"
 import { withItemNone, ItemFormRender } from '../../hoc/WithFormItem';
 import ModelForm, { ErrorMessage, Label } from '../ModalForm/ModalForm';
+import { connect, FormikContextType, Field } from 'formik';
 
 export interface Props<T> {
-    setState: (values: T | T[]) => void;
-    state: T | T[];
     path: string;
     errorMessage: ErrorMessage;
     label: Label;
     name: string;
-    keyId: string;
+    keyId?: string;
     keyDescription: string;
+    required?: boolean;
 }
 
-const SelectModelOne: React.FC<Props<any>> = (props) => {
+const SelectModelOne: React.FC<Props<any> & { formik: FormikContextType<any> }> = (props) => {
 
     const InputForm = withItemNone(InputAntd);
-    const [visible, setVisible] = useState(false)
-    const itemObject = ((props.state || [])[0] || {})
+    const [visible, setVisible] = useState(false);
+    const keyId = props.keyId || "id";
+
+    function setState(params: any) {
+
+    }
 
     return (
         <>
             <Row>
                 <Col span={2}>
-                    <Input name={props.name} required={true} label="Pais" value={itemObject[props.keyId]} />
+                    <Input name={props.name} required={props.required} label={props.label.label} />
                 </Col>
-                <Col span={21}>
-                    <InputForm value={itemObject[props.keyDescription]} readOnly={true} />
+                <Col span={20}>
+                    <Field type="email" name="email" />
                 </Col>
                 <Col span={1} style={{ textAlign: "right" }} >
                     <ItemFormRender>
@@ -40,10 +44,11 @@ const SelectModelOne: React.FC<Props<any>> = (props) => {
             </Row>
 
             <ModelForm
+                required={props.required}
                 visible={visible}
                 setVisible={setVisible}
-                setState={props.setState}
-                state={props.state}
+                setState={setState}
+                state={props.formik.values}
                 label={props.label}
                 errorMessage={props.errorMessage}
                 path={props.path} />
@@ -52,4 +57,4 @@ const SelectModelOne: React.FC<Props<any>> = (props) => {
 
 }
 
-export default memo(SelectModelOne);
+export default connect<Props<any>, {}>(SelectModelOne);

@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Input, Button } from 'antd';
-import ModelForm from '../../../components/ModalForm/ModalForm';
+import { Row, Col, Input } from 'antd';
 import SelectModel from '../../../components/SelectModel/SelectModelOne';
 import { Formik } from 'formik';
 import { Form } from 'formik-antd';
 
 const RegisterEstado: React.FC<RouteComponentProps> = () => {
 
-    const [visible, setVisible] = useState<boolean>(false);
+    const [] = useState<boolean>(false);
     const [state, setstate] = useState<any>(null)
 
     console.log("RegisterEstado")
@@ -35,11 +34,11 @@ const RegisterEstado: React.FC<RouteComponentProps> = () => {
                         <Col span={12}>
                             <SelectModel
                                 name="paisId"
-                                keyId="id"
                                 keyDescription="pais"
+                                required={true}
                                 setState={setstate}
                                 state={state}
-                                label={{ title: "Seleção de Pais" }}
+                                label={{ title: "Seleção de Pais", label: "Pais" }}
                                 errorMessage={{ noSelection: "Selecione ao menos um Pais!" }}
                                 path="pais" />
                         </Col>

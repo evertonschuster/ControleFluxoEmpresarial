@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import FormLayout from '../layouts/FormBasicLayout/FormBasicLayout';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { Modal, Tag, Divider } from 'antd';
-import TesteForm2 from './Pais/ListPais/ListPais';
-import RouterService from '../services/RouterService';
-import RouterServiceModel from '../services/RouterServiceModel';
-import ModelForm from '../components/ModalForm/ModalForm';
 import ListForm from '../components/ListForm/ListForm';
 
-const TesteForm: React.FC<RouteComponentProps> = (props) => {
+const TesteForm: React.FC<RouteComponentProps> = () => {
 
-    const [visible, setVisible] = useState<boolean>(false);
-    const [state, setstate] = useState<any[]>([])
+    const [, setVisible] = useState<boolean>(false);
+    const [state] = useState<any[]>([])
 
 
     console.log("Render")

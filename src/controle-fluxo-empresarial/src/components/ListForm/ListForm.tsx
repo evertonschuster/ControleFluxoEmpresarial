@@ -1,5 +1,5 @@
 import React, { useContext, memo } from 'react';
-import { Table, Input, Row, Col, Button, Divider, Tag } from 'antd';
+import { Table, Input, Row, Col, Button, Tag } from 'antd';
 import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import ModalFormContext from '../ModalForm/ModalFormContext';
@@ -17,7 +17,7 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
     const { formMode } = useContext(BasicLayoutContext);;
     const { setState, state } = useContext(ModalFormContext);
 
-    const isSelectMode = formMode == FormMode.SelectMultiple || formMode == FormMode.SelectOne;
+    const isSelectMode = formMode === FormMode.SelectMultiple || formMode === FormMode.SelectOne;
     const key = props.keyProp || "id";
     const ListSelectedItem: any[] = state ? [].concat(state) : [];
 
@@ -38,7 +38,7 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     const rowSelection: TableRowSelection<any> = {
         // selections: false,
-        type: formMode == FormMode.SelectMultiple ? "checkbox" : "radio",
+        type: formMode === FormMode.SelectMultiple ? "checkbox" : "radio",
         onChange: onChange,
         selectedRowKeys: ListSelectedItem.map(e => e[key])
     }
@@ -48,10 +48,10 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
         setState(selectedRows);
     }
 
-    function onClick(record: any, index: number, arg: React.MouseEvent) {
+    function onClick(record: any) {
         if (!isSelectMode) return;
 
-        if (FormMode.SelectOne == formMode) {
+        if (FormMode.SelectOne === formMode) {
             setState([record]);
             return;
         }
@@ -59,11 +59,11 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
         let newState = ListSelectedItem;
 
-        if (ListSelectedItem.find(e => e[key] == record[key]) == undefined) {
+        if (ListSelectedItem.find(e => e[key] === record[key]) === undefined) {
             newState = ListSelectedItem.concat(record);
         }
         else {
-            newState = ListSelectedItem.filter(e => e[key] != record[key]);
+            newState = ListSelectedItem.filter(e => e[key] !== record[key]);
         }
 
         setState(newState);
@@ -92,11 +92,11 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 <Col>
                     <Table
                         rowSelection={isSelectMode ? rowSelection : undefined}
-                        onRow={(record: any, index: number) => { return { onClick: (arg: React.MouseEvent) => { onClick(record, index, arg) } } }}
+                        onRow={(record: any, index: number) => { return { onClick: (arg: React.MouseEvent) => { onClick(record) } } }}
                         columns={columns}
                         dataSource={props.dataSource}
                         bordered={true}
-                        rowKey={(record: any, index: number) => record[key]}
+                        rowKey={(record: any) => record[key]}
                         // scroll={{ y: 3000 }}
                         useFixedHeader={true}
                         size="small" />

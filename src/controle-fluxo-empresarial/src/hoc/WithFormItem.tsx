@@ -1,19 +1,25 @@
-import React from 'react'
-import { FormItemProps, FormItem } from 'formik-antd';
-import { Row, Col, Button } from 'antd';
-import { Props } from './../services/RouterServiceModel';
+import React, { useContext } from 'react'
+import { FormItem } from 'formik-antd';
+import BasicLayoutContext, { FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
 
 interface WithFormITemProps {
     label: string;
     required?: boolean;
 }
 
-export const withFormItem = <P extends object>(Field: React.ComponentType<P>): React.FC<P & WithFormITemProps> => (props: any) =>
-    (
-        <FormItem name={props.name} label={props.label} required={props.required} style={{ padding: "3px" }}>
-            <Field {...props} />
+export const withFormItem = <P extends object>(Field: React.ComponentType<P>): React.FC<P & WithFormITemProps> => (props: any) => {
+
+    const basicLayoutContext = useContext(BasicLayoutContext);
+
+    const isViewMode = basicLayoutContext  != null && basicLayoutContext.formMode == FormMode.View;
+    const isDisabled = props.disabled || isViewMode;
+
+    return(
+        <FormItem name={props.name} label={props.label || ""} required={props.required} style={{ padding: "3px" }}>
+            <Field autoComplete="off" disabled={isDisabled} {...props} />
         </FormItem >
     )
+}
 
 export const withItemNone = <P extends object>(Field: React.ComponentType<P>): React.FC<P> => (props: any) =>
     (

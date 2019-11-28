@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Switch, Router, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import TesteForm from '../pages/TesteForm';
 import BasicLayout from '../layouts/BasicLayout/BasicLayout';
 import ListPais from '../pages/Pais/ListPais/ListPais';
@@ -9,10 +9,10 @@ import ListEstado from '../pages/Estado/ListEstado/ListEstado';
 import RegisterEstado from '../pages/Estado/RegisterEstado/RegisterEstado';
 
 
-const RouterService: React.FC = (props) => {
+const RouterService: React.FC = () => {
 
     const [breadcrumb, setBreadcrumb] = useState();
-    const [formMode, setFormMode] = useState<FormMode>(FormMode.View)
+    const [formMode, setFormMode] = useState<FormMode>(FormMode.New)
 
     return (
         <BrowserRouter >
