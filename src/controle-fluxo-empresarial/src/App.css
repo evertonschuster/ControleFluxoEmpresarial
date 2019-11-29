@@ -24,3 +24,7 @@
 .ant-table-small > .ant-table-content > .ant-table-body {
    margin: 0 !important; 
 }
+
+.ant-form-item{
+  margin-bottom: 0 !important; 
+}

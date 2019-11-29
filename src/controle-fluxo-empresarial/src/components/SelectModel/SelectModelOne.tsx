@@ -18,12 +18,11 @@ export interface Props<T> {
 
 const SelectModelOne: React.FC<Props<any> & { formik: FormikContextType<any> }> = (props) => {
 
-    const InputForm = withItemNone(InputAntd);
     const [visible, setVisible] = useState(false);
     const keyId = props.keyId || "id";
 
     function setState(params: any) {
-
+        props.formik.setFieldValue(props.name, params[keyId])
     }
 
     return (
@@ -32,8 +31,10 @@ const SelectModelOne: React.FC<Props<any> & { formik: FormikContextType<any> }> 
                 <Col span={2}>
                     <Input name={props.name} required={props.required} label={props.label.label} />
                 </Col>
-                <Col span={20}>
-                    <Field type="email" name="email" />
+                <Col span={21}>
+                    <ItemFormRender>
+                        <InputAntd />
+                    </ItemFormRender>
                 </Col>
                 <Col span={1} style={{ textAlign: "right" }} >
                     <ItemFormRender>
@@ -48,7 +49,7 @@ const SelectModelOne: React.FC<Props<any> & { formik: FormikContextType<any> }> 
                 visible={visible}
                 setVisible={setVisible}
                 setState={setState}
-                state={props.formik.values}
+                state={{ [keyId]: Number(props.formik.values[props.name]) }}
                 label={props.label}
                 errorMessage={props.errorMessage}
                 path={props.path} />

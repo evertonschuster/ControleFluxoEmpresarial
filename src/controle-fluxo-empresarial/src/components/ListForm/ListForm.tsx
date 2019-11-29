@@ -17,6 +17,8 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
     const { formMode } = useContext(BasicLayoutContext);;
     const { setState, state } = useContext(ModalFormContext);
 
+    console.log("ListForm ListForm", state)
+
     const isSelectMode = formMode === FormMode.SelectMultiple || formMode === FormMode.SelectOne;
     const key = props.keyProp || "id";
     const ListSelectedItem: any[] = state ? [].concat(state) : [];

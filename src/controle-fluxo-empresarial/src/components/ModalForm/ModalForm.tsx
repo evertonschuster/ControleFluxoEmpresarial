@@ -1,4 +1,4 @@
-import React, { useState, memo, useContext } from 'react';
+import React, { useState, memo, useContext, useEffect } from 'react';
 import { Modal, message } from 'antd';
 import RouterServiceModel from '../../services/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
@@ -27,7 +27,9 @@ export interface Props<T> {
 
 const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
-    const [state, setState] = useState<any[]>(props.state);
+
+
+    const [state, setState] = useState<any[]>();
     const { formMode } = useContext(BasicLayoutContext);
 
     function CloseForm() {
@@ -56,6 +58,10 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
         CloseForm()
     }
+
+    useEffect(() => {
+        setState([].concat(props.state))
+    }, [props.state])
 
     return (
         <ModalFormContextProvider value={{ setState, state }}>
