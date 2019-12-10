@@ -1,17 +1,20 @@
-﻿using System;
+﻿using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public interface IDAO<TEntity> where TEntity : class
+    public interface IDAO<TEntity> where TEntity : IBaseEntity
     {
-        IQueryable<TEntity> GetContext();
+        PaginationResult<TEntity> GetPagined(PaginationQuery filter);
 
         TEntity GetByID(int id);
 
-        void Insert(TEntity entity);
+        int Insert(TEntity entity);
 
         void Update(TEntity entity);
 
@@ -19,10 +22,5 @@ namespace ControleFluxoEmpresarial.DAOs
 
         void Delete(TEntity entity);
 
-        void InsertOrUpdate(TEntity entity);
-
-        //EntityEntry<TEntity> Attach(TEntity entity);
-
-        int SalveChanges();
     }
 }

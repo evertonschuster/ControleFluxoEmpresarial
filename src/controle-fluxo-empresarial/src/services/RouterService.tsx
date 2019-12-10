@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import TesteForm from '../pages/TesteForm';
 import BasicLayout from '../layouts/BasicLayout/BasicLayout';
 import ListPais from '../pages/Pais/ListPais/ListPais';
 import RegisterPais from '../pages/Pais/RegisterPais/RegisterPais';
@@ -30,7 +29,6 @@ const RouterService: React.FC = () => {
                         <Route exact path="/pais" component={ListPais} />
                         <Route path="/estado/new" component={RegisterEstado} />
                         <Route exact path="/estado" component={ListEstado} />
-                        <Route exact path="/" component={TesteForm} />
 
                     </BasicLayout>
                 </BasicLayoutContextProvider>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.Architectures;
 using ControleFluxoEmpresarial.Models.Users;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,7 +40,10 @@ namespace ControleFluxoEmpresarial
             services.AddMvcCore(opts =>
             {
                 //opts.Filters.Add(typeof(ModelStateFeatureFilter));
-            }).AddApiExplorer();
+            }).AddApiExplorer()
+            .AddFluentValidation();
+
+
             services.AddSwaggerGenConfig();
 
         }

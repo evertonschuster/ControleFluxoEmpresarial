@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
-import TesteForm from '../pages/TesteForm';
 import ListPais from '../pages/Pais/ListPais/ListPais';
 import { BasicLayoutContextProvider, FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
 import RegisterPais from '../pages/Pais/RegisterPais/RegisterPais';
@@ -33,7 +32,6 @@ const RouterServiceModel: React.FC<RouteComponentProps & Props> = (props) => {
                     <Route exact path="/pais" component={ListPais} />
                     <Route path="/estado/new" component={RegisterEstado} />
                     <Route exact path="/estado" component={ListEstado} />
-                    <Route exact path="/" component={TesteForm} />
 
                     <Redirect to={{ pathname: "/" + (props.path || "") }} ></Redirect>
                 </BasicLayoutContextProvider>

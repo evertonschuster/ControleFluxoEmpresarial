@@ -5,8 +5,15 @@ import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLay
 import ModalFormContext from '../ModalForm/ModalFormContext';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
-export interface Props<T> {
+export interface TableProps<T> {
     dataSource: T[];
+    current: number;
+    pageSize: number;
+    total: number;
+}
+
+export interface Props<T> {
+    tableProps: TableProps<T>;
     columns: ColumnProps<T>[];
     keyProp?: string;
 }
@@ -93,10 +100,15 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
             <Row>
                 <Col>
                     <Table
+                        pagination={{
+                            current: props.tableProps.current, 
+                            pageSize: props.tableProps.pageSize, 
+                            total: props.tableProps.total
+                        }}
                         rowSelection={isSelectMode ? rowSelection : undefined}
                         onRow={(record: any, index: number) => { return { onClick: (arg: React.MouseEvent) => { onClick(record) } } }}
                         columns={columns}
-                        dataSource={props.dataSource}
+                        dataSource={props.tableProps.dataSource}
                         bordered={true}
                         rowKey={(record: any) => record[key]}
                         // scroll={{ y: 3000 }}

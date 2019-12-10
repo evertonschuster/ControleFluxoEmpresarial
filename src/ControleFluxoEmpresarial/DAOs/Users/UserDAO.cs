@@ -3,6 +3,7 @@ using ControleFluxoEmpresarial.Models.Users;
 using ControleFluxoEmpresarial.ModelView.Filters.Queries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Users
 {
-    public class UserDAO : DAO<ApplicationUser>
+    public class UserDAO : IDAO<ApplicationUser>
     {
         public UserDAO(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
@@ -39,7 +40,7 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             return user;
         }
 
-        public ApplicationUser FindByName(string userName )
+        public ApplicationUser FindByName(string userName)
         {
             return UserManager.FindByNameAsync(userName).Result;
         }
@@ -57,6 +58,31 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             {
                 Result = users
             };
+        }
+
+        public int Insert(ApplicationUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(ApplicationUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int InsertOrUpdate(ApplicationUser entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PaginationResult<ApplicationUser> GetPagined(PaginationQuery filter)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Avatar, Row, Col, Badge, Breadcrumb } from 'antd';
+import { Layout, Avatar, Row, Col, Badge, Breadcrumb, Icon } from 'antd';
 import { BreadcrumbProp } from '../BasicLayout';
 import { Link } from 'react-router-dom';
 
@@ -32,6 +32,9 @@ const HeaderApp: React.FC<Props> = (props) => {
 
                 <Col span={6} >
                     <Row type="flex" justify="end" gutter={20} style={{ paddingRight: "30px" }}>
+                        <Col>
+                            <Icon type="loading" />
+                        </Col>
                         <Col>
                             <Badge count={1}>
                                 <Avatar size="large" icon="user" />

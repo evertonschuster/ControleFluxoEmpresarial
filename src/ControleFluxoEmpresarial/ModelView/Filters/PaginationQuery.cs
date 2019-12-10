@@ -11,8 +11,8 @@ namespace ControleFluxoEmpresarial.Filters.ModelView
 
         public int CurrentPage { get; set; } = 1;
 
-        public string Filter { get; set; }
+        public string? Filter { get; set; }
 
-        public string OrderByProps { get; set; }
+        public string? OrderByProps { get; set; }
     }
 }

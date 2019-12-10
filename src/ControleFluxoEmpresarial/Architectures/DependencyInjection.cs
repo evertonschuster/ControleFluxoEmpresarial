@@ -1,4 +1,7 @@
-﻿using ControleFluxoEmpresarial.DAOs.Users;
+﻿using ControleFluxoEmpresarial.DAOs.Cidades;
+using ControleFluxoEmpresarial.DAOs.Users;
+using ControleFluxoEmpresarial.Models.Cidades;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,6 +15,13 @@ namespace ControleFluxoEmpresarial.Architectures
         public static void ResolveInjection(this IServiceCollection services)
         {
             services.AddScoped<UserDAO>();
+            services.AddScoped<PaisDAO>();
+            services.AddScoped<EstadoDAO>();
+            services.AddScoped<CidadeDAO>();
+
+
+            services.AddTransient<IValidator<Pais>, PaisValidator>();
+
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Models.Users;
+﻿using ControleFluxoEmpresarial.Models.Cidades;
+using ControleFluxoEmpresarial.Models.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,12 +17,13 @@ namespace ControleFluxoEmpresarial
             this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
+        public DbSet<Pais> Paises { get; set; }
+        public DbSet<Estado> Estados { get; set; }
+        public DbSet<Cidade> Cidades { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             base.OnModelCreating(modelBuilder);
-
         }
 
     }
