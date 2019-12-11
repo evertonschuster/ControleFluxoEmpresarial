@@ -45,7 +45,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                             FROM Cidades
                          WHERE ID = {id}";
 
-            var entity = base.ExecuteGetFirstOrDefault(sql, false);
+            var entity = base.ExecuteGetFirstOrDefault(sql);
             if (entity != null)
             {
                 this.EstadoDAO.CreateTransaction(this.Transaction);
@@ -61,6 +61,22 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                           FROM Cidades";
 
             return base.ExecuteGetPaginated(sql, filter);
+        }
+
+        internal Cidade GetByNome(string nome)
+        {
+            var sql = $@"SELECT TOP 1 *
+                            FROM Cidades
+                         WHERE nome = '{nome}'";
+
+            var entity = base.ExecuteGetFirstOrDefault(sql);
+            if (entity != null)
+            {
+                this.EstadoDAO.CreateTransaction(this.Transaction);
+                entity.Estado = this.EstadoDAO.GetByID(entity.EstadoId);
+            }
+
+            return entity;
         }
 
         public override int Insert(Cidade entity)

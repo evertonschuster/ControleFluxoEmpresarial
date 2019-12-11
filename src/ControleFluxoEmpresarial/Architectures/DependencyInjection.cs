@@ -21,6 +21,8 @@ namespace ControleFluxoEmpresarial.Architectures
 
 
             services.AddTransient<IValidator<Pais>, PaisValidator>();
+            services.AddTransient<IValidator<Estado>, EstadoValidator>();
+            services.AddTransient<IValidator<Cidade>, CidadeValidator>();
 
 
         }

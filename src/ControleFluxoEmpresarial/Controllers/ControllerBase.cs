@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFluxoEmpresarial.Controllers
 {
-    [Authorize]
     public abstract class ControllerBase<TEntity> : ControllerBase where TEntity : IBaseEntity
     {
         protected ControllerBase(IDAO<TEntity> dAO)
@@ -23,7 +22,6 @@ namespace ControleFluxoEmpresarial.Controllers
         public IDAO<TEntity> DAO { get; set; }
 
         // GET: api/Default/5
-        [Authorize]
         [HttpGet("{id}")]
         public virtual IActionResult Get(int id)
         {

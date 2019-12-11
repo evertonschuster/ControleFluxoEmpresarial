@@ -44,7 +44,23 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                             FROM Estados
                          WHERE ID = {id}";
 
-            var entity = base.ExecuteGetFirstOrDefault(sql, false);
+            var entity = base.ExecuteGetFirstOrDefault(sql);
+            if (entity != null)
+            {
+                PaisDAO.CreateTransaction(this.Transaction);
+                entity.Pais = PaisDAO.GetByID(entity.PaisId);
+            }
+
+            return entity;
+        }
+
+        internal Estado GetByNome(string nome)
+        {
+            var sql = $@"SELECT TOP 1 Id, Nome, UF, PaisId
+                            FROM Estados
+                         WHERE Nome = '{nome}'";
+
+            var entity = base.ExecuteGetFirstOrDefault(sql);
             if (entity != null)
             {
                 PaisDAO.CreateTransaction(this.Transaction);
