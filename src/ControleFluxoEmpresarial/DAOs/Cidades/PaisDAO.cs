@@ -90,6 +90,11 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises";
 
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                sql += $" WHERE nome like '%{filter.Filter}%' ";
+            }
+
             return base.ExecuteGetPaginated(sql, filter);
         }
     }

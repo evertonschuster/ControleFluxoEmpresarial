@@ -168,6 +168,20 @@ namespace ControleFluxoEmpresarial.teste.Cidades
             Assert.True(httpResponse.StatusCode != System.Net.HttpStatusCode.OK);
 
 
+            estado = new Estado()
+            {
+                Nome = $"Parana_test_{DateTime.Now}",
+                PaisId = 0,
+                UF = "PR",
+            };
+
+            json = JsonConvert.SerializeObject(estado);
+            data = new StringContent(json, Encoding.UTF8, "application/json");
+            httpResponse = _client.PostAsync("/api/Estado", data).Result;
+
+            Assert.True(httpResponse.StatusCode != System.Net.HttpStatusCode.OK);
+
+
 
             estado = new Estado()
             {

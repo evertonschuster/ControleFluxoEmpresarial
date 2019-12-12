@@ -194,6 +194,21 @@ namespace ControleFluxoEmpresarial.teste.Cidades
             cidade = new Cidade()
             {
                 Nome = $"Parana_test_{DateTime.Now}",
+                EstadoId = 0,
+                DDD = "55",
+            };
+
+            json = JsonConvert.SerializeObject(cidade);
+            data = new StringContent(json, Encoding.UTF8, "application/json");
+            httpResponse = _client.PostAsync("/api/Cidade", data).Result;
+
+            Assert.True(httpResponse.StatusCode != System.Net.HttpStatusCode.OK);
+
+
+
+            cidade = new Cidade()
+            {
+                Nome = $"Parana_test_{DateTime.Now}",
                 EstadoId = estado.Id,
                 DDD = "PR",
             };

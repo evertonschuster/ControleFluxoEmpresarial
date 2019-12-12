@@ -23,10 +23,12 @@ namespace ControleFluxoEmpresarial.Models.Cidades
     public class EstadoValidator : AbstractValidator<Estado>
     {
         public EstadoDAO EstadoDAO { get; set; }
+        public PaisDAO PaisDAO { get; set; }
 
-        public EstadoValidator(EstadoDAO estadoDAO)
+        public EstadoValidator(EstadoDAO estadoDAO, PaisDAO paisDAO)
         {
             this.EstadoDAO = estadoDAO;
+            this.PaisDAO = paisDAO;
 
             RuleFor(e => e.Nome)
                 .NotEmpty().WithMessage("[Nome] do Estado não pode ser vaziu.")
@@ -41,7 +43,9 @@ namespace ControleFluxoEmpresarial.Models.Cidades
 
             RuleFor(e => e.Nome).Must(NameIsAllow).When(e => e.Id == 0).WithMessage("Estado já cadastrado.");
 
-            RuleFor(e => e.Id).Must(ExistsPais).When(e => e.Id > 0).WithMessage("Estado não cadastrado.");
+            RuleFor(e => e.Id).Must(ExistsEstado).When(e => e.Id > 0).WithMessage("Estado não cadastrado.");
+
+            RuleFor(e => e.PaisId).Must(ExistsPais).WithMessage("Pais não cadastrado");
         }
 
         private bool NameIsAllow(string nome)
@@ -49,9 +53,14 @@ namespace ControleFluxoEmpresarial.Models.Cidades
             return this.EstadoDAO.GetByNome(nome) == null;
         }
 
-        private bool ExistsPais(int id)
+        private bool ExistsEstado(int id)
         {
             return this.EstadoDAO.GetByID(id) != null;
+        }
+
+        private bool ExistsPais(int id)
+        {
+            return this.PaisDAO.GetByID(id) != null;
         }
     }
 }
