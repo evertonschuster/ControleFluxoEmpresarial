@@ -1,9 +1,10 @@
-import React, { useContext, memo } from 'react';
+import React, { useContext, memo, useState } from 'react';
 import { Table, Input, Row, Col, Button, Tag } from 'antd';
 import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import ModalFormContext from '../ModalForm/ModalFormContext';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { PaginationQuery } from '../../hoc/UseListPagined';
 
 export interface TableProps<T> {
     dataSource: T[];
@@ -12,8 +13,15 @@ export interface TableProps<T> {
     total: number;
 }
 
+export interface ListItem<T> {
+    requestResult: TableProps<T>;
+    isLoading: boolean;
+    filterRequest: PaginationQuery;
+    setFilterRequest: (values: PaginationQuery) => void
+}
+
 export interface Props<T> {
-    tableProps: TableProps<T>;
+    tableProps: ListItem<T>;
     columns: ColumnProps<T>[];
     keyProp?: string;
 }
@@ -23,8 +31,7 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
     //#region Constantes
     const { formMode } = useContext(BasicLayoutContext);;
     const { setState, state } = useContext(ModalFormContext);
-
-    console.log("ListForm ListForm", state)
+    const [filterValues, setFilterValues] = useState<string>()
 
     const isSelectMode = formMode === FormMode.SelectMultiple || formMode === FormMode.SelectOne;
     const key = props.keyProp || "id";
@@ -45,15 +52,19 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     //#endregion
 
+
     const rowSelection: TableRowSelection<any> = {
         // selections: false,
         type: formMode === FormMode.SelectMultiple ? "checkbox" : "radio",
-        onChange: onChange,
+        onChange: onChangeRowSelection,
         selectedRowKeys: ListSelectedItem.map(e => e[key])
     }
 
+    function onChangePagination(page: number, pageSize?: number) {
+        props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: page })
+    }
 
-    function onChange<T>(selectedRowKeys: string[] | number[], selectedRows: T[]) {
+    function onChangeRowSelection<T>(selectedRowKeys: string[] | number[], selectedRows: T[]) {
         setState(selectedRows);
     }
 
@@ -82,10 +93,17 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
         <>
             <Row style={{ paddingBottom: "20px" }}>
                 <Col span={10}>
-                    <Input placeholder="Filtrar" />
+                    <Input placeholder="Filtrar" value={filterValues}
+                        onChange={(event) => { setFilterValues(event.target.value) }}
+                        onPressEnter={() => {
+                            props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: 1, filter: filterValues })
+                        }} />
                 </Col>
                 <Col span={1} style={{ textAlign: "center" }}>
-                    <Button type="primary" shape="circle" icon="search" />
+                    <Button type="primary" shape="circle" icon="search" 
+                    onClick={() => {
+                        props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: 1, filter: filterValues })
+                    }}/>
                 </Col>
 
                 <Col span={2} push={11} style={{ textAlign: "right" }}>
@@ -101,14 +119,16 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 <Col>
                     <Table
                         pagination={{
-                            current: props.tableProps.current, 
-                            pageSize: props.tableProps.pageSize, 
-                            total: props.tableProps.total
+                            current: props.tableProps.requestResult.current,
+                            pageSize: props.tableProps.requestResult.pageSize,
+                            total: props.tableProps.requestResult.total,
+                            onChange: onChangePagination
                         }}
+                        loading={props.tableProps.isLoading}
                         rowSelection={isSelectMode ? rowSelection : undefined}
                         onRow={(record: any, index: number) => { return { onClick: (arg: React.MouseEvent) => { onClick(record) } } }}
                         columns={columns}
-                        dataSource={props.tableProps.dataSource}
+                        dataSource={props.tableProps.requestResult.dataSource}
                         bordered={true}
                         rowKey={(record: any) => record[key]}
                         // scroll={{ y: 3000 }}

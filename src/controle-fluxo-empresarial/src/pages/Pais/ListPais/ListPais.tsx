@@ -1,27 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../components/ListForm/ListForm';
+import { UseListPagined } from '../../../hoc/UseListPagined';
+import { Button } from 'antd';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
 
-    const data = [
-        {
-            id: 1,
-            pais: 'Brasil',
-            sigla: "Br"
-        },
-        {
-            id: 2,
-            pais: 'Argentina',
-            sigla: "Agr"
-        },
-        {
-            id: 3,
-            pais: 'Paraguai',
-            sigla: "Py"
-        },
-    ]
+    const response = UseListPagined({ URL: "/api/pais/list" });
 
     const columns = [
         {
@@ -31,7 +17,7 @@ const ListPais: React.FC<RouteComponentProps> = () => {
         },
         {
             title: 'Pais',
-            dataIndex: 'pais',
+            dataIndex: 'nome',
             // key: 'pais',
         },
         {
@@ -42,15 +28,11 @@ const ListPais: React.FC<RouteComponentProps> = () => {
     ];
 
 
+
     return (
         <FormLayout breadcrumbList={[{ displayName: "Pais", URL: "/pais" }, { displayName: "Listagem", URL: undefined }]} >
 
-            <ListForm tableProps={{
-                current: 2,
-                dataSource: data,
-                pageSize: 10,
-                total: 120
-            }}
+            <ListForm tableProps={response}
                 columns={columns} />
 
         </FormLayout>

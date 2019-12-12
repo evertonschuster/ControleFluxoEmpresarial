@@ -61,12 +61,12 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
         <FormLayout breadcrumbList={[{ displayName: "Estado", URL: "/Estado" }, { displayName: "Listagem", URL: undefined }]} >
 
 
-            <ListForm tableProps={{
+            {/* <ListForm tableProps={{
                 current: 2,
                 dataSource: data,
                 pageSize: 10,
                 total: 120
-            }} columns={columns} />
+            }} columns={columns} /> */}
 
 
         </FormLayout>
