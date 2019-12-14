@@ -14,6 +14,8 @@ export interface RequestResult {
     isLoading: boolean;
     filterRequest: PaginationQuery;
     setFilterRequest: (values: PaginationQuery) => void
+    reflesh: () => void;
+
 }
 
 export interface PaginationQuery {
@@ -36,6 +38,7 @@ export function UseListPagined(props: Props): RequestResult {
     );
 
     function getDataBack() {
+        setIsLoading(true);
         api.post(props.URL, { ...filterRequest, ...props.valuesFilter })
             .then(response => {
                 setResponseBack({
@@ -51,7 +54,6 @@ export function UseListPagined(props: Props): RequestResult {
     }
 
     useEffect(() => {
-        setIsLoading(true);
         getDataBack();
         console.error("Fui por back")
     }, [props.URL, filterRequest, props.valuesFilter])
@@ -75,7 +77,8 @@ export function UseListPagined(props: Props): RequestResult {
         requestResult: responseBack,
         isLoading,
         filterRequest,
-        setFilterRequest
+        setFilterRequest,
+        reflesh: getDataBack
     };
     return result;
 }

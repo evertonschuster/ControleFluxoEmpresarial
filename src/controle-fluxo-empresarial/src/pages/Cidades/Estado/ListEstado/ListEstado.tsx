@@ -7,7 +7,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 const ListEstado: React.FC<RouteComponentProps> = () => {
 
     const response = UseListPagined({ URL: "/api/Estado/list" });
-    
+
     const columns = [
         {
             title: 'Codigo',
@@ -29,7 +29,10 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
         <FormLayout breadcrumbList={[{ displayName: "Estado", URL: "/Estado" }, { displayName: "Listagem", URL: undefined }]} >
 
 
-            <ListForm tableProps={response} columns={columns} />
+            <ListForm
+                tableProps={response}
+                deleteFunction={() => { }}
+                columns={columns} />
 
 
         </FormLayout>

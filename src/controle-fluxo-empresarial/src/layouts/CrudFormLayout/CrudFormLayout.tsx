@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, { useState, ReactNode, useEffect, KeyboardEventHandler } from 'react';
 import { Row, Col, Button, message, Icon } from 'antd';
 import { Formik, FormikConfig, FormikErrors, FormikHelpers } from 'formik';
 import { Form } from 'formik-antd';
@@ -51,12 +51,17 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
         )
     }
 
+    function onKeyDown(keyEvent: any) {
+        if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+            keyEvent.preventDefault();
+        }
+    }
 
     return (
         <FormBasicLayout breadcrumbList={props.breadcrumbList} >
-            <Formik {...props} onSubmit={onSubmit} enableReinitialize={true} >
+            <Formik {...props} onSubmit={onSubmit} enableReinitialize={true}  >
                 {({ isSubmitting, values }) => (
-                    <Form >
+                    <Form onKeyDown={onKeyDown} >
                         {renderLoading(isSubmitting)}
 
                         {props.children}

@@ -18,3 +18,6 @@ export function GetPais(id: number): Promise<AxiosResponse<Pais>> {
     return api.get(`${endPoint}/${id.toString()}`);
 }
 
+export function ExcluirPais(id: number): Promise<AxiosResponse<any>> {
+    return api.delete(`${endPoint}/${id.toString()}`);
+}

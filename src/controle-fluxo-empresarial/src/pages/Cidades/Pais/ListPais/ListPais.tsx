@@ -4,6 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { Button } from 'antd';
+import { ExcluirPais } from '../../../../apis/cidades/PaisApi';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
 
@@ -32,7 +33,9 @@ const ListPais: React.FC<RouteComponentProps> = () => {
     return (
         <FormLayout breadcrumbList={[{ displayName: "Pais", URL: "/pais" }, { displayName: "Listagem", URL: undefined }]} >
 
-            <ListForm tableProps={response}
+            <ListForm
+                tableProps={response}
+                deleteFunction={ExcluirPais}
                 columns={columns} />
 
         </FormLayout>
