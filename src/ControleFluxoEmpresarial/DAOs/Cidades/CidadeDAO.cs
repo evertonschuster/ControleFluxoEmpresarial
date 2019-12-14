@@ -60,6 +60,17 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var sql = $@"SELECT *
                           FROM Cidades";
 
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                int cidadeId;
+                if (Int32.TryParse(filter.Filter, out cidadeId))
+                {
+                    sqlId += $" OR id = {cidadeId} ";
+                }
+                sql += $" WHERE nome like '%{filter.Filter}%' {sqlId} ";
+            }
+
             return base.ExecuteGetPaginated(sql, filter);
         }
 

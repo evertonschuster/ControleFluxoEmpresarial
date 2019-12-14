@@ -3,10 +3,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
-import { SignupSchema } from './PaisSchema';
-import { SavePais, GetPais, UpdatePais } from '../../../../apis/cidades/PaisApi';
-import { errorBack } from '../../../../utils/MessageApi';
-import { FormikHelpers, useFormikContext } from 'formik';
+import { PaisSchema } from './PaisSchema';
+import { SavePais, GetPaisById, UpdatePais } from '../../../../apis/cidades/PaisApi';
 import { Pais } from '../../../../models/Cidades/Pais';
 
 const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
@@ -35,7 +33,7 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         }
 
         setLoading(true);
-        let bdpais = await GetPais(id);
+        let bdpais = await GetPaisById(id);
         setPais(bdpais.data);
         setLoading(false);
     }
@@ -44,8 +42,9 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         <CrudFormLayout
             isLoading={loading}
             onSubmit={onSubmit}
-            validationSchema={SignupSchema}
+            validationSchema={PaisSchema}
             breadcrumbList={[{ displayName: "Pais", URL: "/Pais" }, { displayName: "Novo Pais", URL: undefined }]}
+            backPath="/pais"
             initialValues={pais}>
 
             <Row>

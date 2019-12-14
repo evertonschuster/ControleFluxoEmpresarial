@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { Pais } from '../../../../models/Cidades/Pais';
 
 
-export const SignupSchema = Yup.object().shape<Pais>({
+export const PaisSchema = Yup.object().shape<Pais>({
     nome: Yup.string()
         .max(50, "O campo [Nome] não deve possuir mais de 50 caracteres.")
         .required('[Nome] do pais não pode ser vaziu.'),

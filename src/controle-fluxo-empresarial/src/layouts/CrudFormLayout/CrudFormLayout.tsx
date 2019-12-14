@@ -8,8 +8,9 @@ import { errorBack } from '../../utils/MessageApi';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 export interface Props extends FormikConfig<any> {
-    breadcrumbList?: BreadcrumbProp[],
-    isLoading?: boolean
+    breadcrumbList?: BreadcrumbProp[];
+    isLoading?: boolean;
+    backPath: string;
 }
 
 
@@ -60,7 +61,7 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
     return (
         <FormBasicLayout breadcrumbList={props.breadcrumbList} >
             <Formik {...props} onSubmit={onSubmit} enableReinitialize={true}  >
-                {({ isSubmitting, values }) => (
+                {({ isSubmitting, values, submitForm, errors }) => (
                     <Form onKeyDown={onKeyDown} >
                         {renderLoading(isSubmitting)}
 
@@ -68,8 +69,8 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
                         < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
                             <Col>
-                                <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.goBack()}>Cancelar</Button>
-                                <button type="submit" className="ant-btn ant-btn-primary">Salvar</button>
+                                <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
+                                <Button type="primary" onClick={() => submitForm()}>Salvar</Button>
                             </Col>
                         </Row>
                     </Form>

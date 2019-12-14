@@ -1,6 +1,6 @@
 import React, { useState, memo, useContext, useEffect } from 'react';
 import { Modal, message } from 'antd';
-import RouterServiceModel from '../../services/RouterServiceModel';
+import RouterServiceModel from '../../services/RouterService/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
 import { withRouter, RouteComponentProps } from 'react-router';
 import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
@@ -35,6 +35,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
     function CloseForm() {
         props.setVisible(!props.visible);
         props.history.push(props.location.pathname)
+
     }
 
     function handleCancel() {
@@ -43,6 +44,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     function handleOk() {
 
+        
         if (props.required && (state === undefined || (Array.isArray(state) && state.length === 0))) {
             message.error(props.errorMessage.noSelection);
             return;

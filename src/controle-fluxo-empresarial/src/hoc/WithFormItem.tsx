@@ -16,7 +16,7 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
     return (
         <FormItem name={props.name} label={props.label || ""} required={props.required} style={{ padding: "3px" }}>
-            <Field autoComplete="off" disabled={isDisabled} {...props} />
+            <Field autoComplete="off" disabled={isDisabled} {...props} required={false} style={{ width: "100%" }} />
         </FormItem >
     )
 }

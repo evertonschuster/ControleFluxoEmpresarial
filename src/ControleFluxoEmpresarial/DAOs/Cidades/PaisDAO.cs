@@ -92,7 +92,13 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
             if (!string.IsNullOrEmpty(filter.Filter))
             {
-                sql += $" WHERE nome like '%{filter.Filter}%' ";
+                var sqlId = "";
+                int paisId;
+                if (Int32.TryParse(filter.Filter, out paisId))
+                {
+                    sqlId += $" OR id = {paisId} ";
+                }
+                sql += $" WHERE nome like '%{filter.Filter}%' {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, filter);

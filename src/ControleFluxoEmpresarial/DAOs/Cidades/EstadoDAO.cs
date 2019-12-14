@@ -73,7 +73,20 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         public override PaginationResult<Estado> GetPagined(PaginationQuery filter)
         {
             var sql = $@"SELECT *
-                          FROM Estados";
+                          FROM Estados ";
+
+
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                int estadoId;
+                if (Int32.TryParse(filter.Filter, out estadoId))
+                {
+                    sqlId += $" OR id = {estadoId} ";
+                }
+
+                sql += $" WHERE (nome LIKE '%{filter.Filter}%' {sqlId})";
+            }
 
             return base.ExecuteGetPaginated(sql, filter);
         }

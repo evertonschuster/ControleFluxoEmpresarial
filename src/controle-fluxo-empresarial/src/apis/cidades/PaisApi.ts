@@ -14,7 +14,7 @@ export function UpdatePais(pais: Pais): Promise<AxiosResponse<any>> {
     return api.put(endPoint, pais);
 }
 
-export function GetPais(id: number): Promise<AxiosResponse<Pais>> {
+export function GetPaisById(id: number): Promise<AxiosResponse<Pais>> {
     return api.get(`${endPoint}/${id.toString()}`);
 }
 

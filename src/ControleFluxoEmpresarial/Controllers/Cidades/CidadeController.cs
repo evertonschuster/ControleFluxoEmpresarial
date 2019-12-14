@@ -19,8 +19,8 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
         {
         }
 
-        [HttpGet("list")]
-        public new IActionResult GetListPagined([FromQuery] PaginationQuery filter)
+        [HttpPost("list")]
+        public new IActionResult GetListPagined(PaginationQuery filter)
         {
             return Ok(this.DAO.GetPagined(filter));
         }

@@ -3,6 +3,7 @@ import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
+import { ExcluirEstado } from '../../../../apis/cidades/EstadoApi';
 
 const ListEstado: React.FC<RouteComponentProps> = () => {
 
@@ -31,7 +32,7 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={() => { }}
+                deleteFunction={ExcluirEstado}
                 columns={columns} />
 
 
