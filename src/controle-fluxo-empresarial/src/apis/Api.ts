@@ -26,7 +26,7 @@ api.interceptors.response.use((response) => {
 },
     function (error) {
 
-        if(error.response == undefined){
+        if (error.response == undefined) {
             return Promise.reject(error);
         }
 

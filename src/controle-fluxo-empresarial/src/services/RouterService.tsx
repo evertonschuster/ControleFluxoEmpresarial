@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import BasicLayout from '../layouts/BasicLayout/BasicLayout';
-import ListPais from '../pages/Pais/ListPais/ListPais';
-import RegisterPais from '../pages/Pais/RegisterPais/RegisterPais';
+import ListPais from '../pages/Cidades/Pais/ListPais/ListPais';
+import RegisterPais from '../pages/Cidades/Pais/RegisterPais/RegisterPais';
 import { BasicLayoutContextProvider, FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
-import ListEstado from '../pages/Estado/ListEstado/ListEstado';
-import RegisterEstado from '../pages/Estado/RegisterEstado/RegisterEstado';
+import ListEstado from '../pages/Cidades/Estado/ListEstado/ListEstado';
+import RegisterEstado from '../pages/Cidades/Estado/RegisterEstado/RegisterEstado';
 
 
 const RouterService: React.FC = () => {
@@ -26,6 +26,7 @@ const RouterService: React.FC = () => {
                     <BasicLayout>
 
                         <Route path="/pais/new" component={RegisterPais} />
+                        <Route path="/pais/edit/:id" component={RegisterPais} />
                         <Route exact path="/pais" component={ListPais} />
                         <Route path="/estado/new" component={RegisterEstado} />
                         <Route exact path="/estado" component={ListEstado} />

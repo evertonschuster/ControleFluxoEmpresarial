@@ -1,5 +1,5 @@
-import React, { useContext, memo, useState } from 'react';
-import { Table, Input, Row, Col, Button, Tag } from 'antd';
+import React, { useContext, memo, useState, useEffect } from 'react';
+import { Table, Input, Row, Col, Button, Tag, Tooltip } from 'antd';
 import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import ModalFormContext from '../ModalForm/ModalFormContext';
@@ -44,14 +44,13 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
         width: "150px",
         render: (text: any, record: any, index: number) => (
             <>
-                <Tag color="green" key={index + "12"}>Editar</Tag>
-                <Tag color="red" key={index + "23"}>Excluir</Tag>
+                <Link to={(props.location.pathname + "/edit/" + record.id).replace("//", "/")}><Tooltip placement="top" title="Editar Registro Selecionado." > <Tag color="green" key={index + "12"}>Editar</Tag></Tooltip></Link>
+                <Tooltip placement="top" title="Excluir Registro Selecionado." ><Tag color="red" key={index + "23"}>Excluir</Tag></Tooltip>
             </>
         ),
     })
 
     //#endregion
-
 
     const rowSelection: TableRowSelection<any> = {
         // selections: false,
@@ -100,15 +99,15 @@ const ListForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                         }} />
                 </Col>
                 <Col span={1} style={{ textAlign: "center" }}>
-                    <Button type="primary" shape="circle" icon="search" 
-                    onClick={() => {
-                        props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: 1, filter: filterValues })
-                    }}/>
+                    <Button type="primary" shape="circle" icon="search"
+                        onClick={() => {
+                            props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: 1, filter: filterValues })
+                        }} />
                 </Col>
 
                 <Col span={2} push={11} style={{ textAlign: "right" }}>
                     <Button type="primary">
-                        <Link to={props.location.pathname + "/new"}>
+                        <Link to={(props.location.pathname + "/new").replace("//", "/")}>
                             Adicionar
                         </Link>
                     </Button>

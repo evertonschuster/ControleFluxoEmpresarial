@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
-import SelectModel from '../../../components/SelectModel/SelectModelOne';
-import { Formik } from 'formik';
-import { Form } from 'formik-antd';
-import { Input } from '../../../components/WithFormItem/withFormItem';
-import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
+import SelectModel from '../../../../components/SelectModel/SelectModelOne';
+import { Input } from '../../../../components/WithFormItem/withFormItem';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 
 const RegisterEstado: React.FC<RouteComponentProps> = () => {
 

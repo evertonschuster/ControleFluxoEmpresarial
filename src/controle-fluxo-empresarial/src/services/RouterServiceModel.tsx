@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
-import ListPais from '../pages/Pais/ListPais/ListPais';
+import ListPais from '../pages/Cidades/Pais/ListPais/ListPais';
 import { BasicLayoutContextProvider, FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
-import RegisterPais from '../pages/Pais/RegisterPais/RegisterPais';
-import RegisterEstado from '../pages/Estado/RegisterEstado/RegisterEstado';
-import ListEstado from '../pages/Estado/ListEstado/ListEstado';
+import RegisterPais from '../pages/Cidades/Pais/RegisterPais/RegisterPais';
+import RegisterEstado from '../pages/Cidades/Estado/RegisterEstado/RegisterEstado';
+import ListEstado from '../pages/Cidades/Estado/ListEstado/ListEstado';
 
 export interface Props {
     path?: string;

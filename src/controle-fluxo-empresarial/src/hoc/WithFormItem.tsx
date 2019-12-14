@@ -11,10 +11,10 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
     const basicLayoutContext = useContext(BasicLayoutContext);
 
-    const isViewMode = basicLayoutContext  != null && basicLayoutContext.formMode == FormMode.View;
+    const isViewMode = basicLayoutContext != null && basicLayoutContext.formMode == FormMode.View;
     const isDisabled = props.disabled || isViewMode;
 
-    return(
+    return (
         <FormItem name={props.name} label={props.label || ""} required={props.required} style={{ padding: "3px" }}>
             <Field autoComplete="off" disabled={isDisabled} {...props} />
         </FormItem >

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import FormLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
+import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import ListForm from '../../../components/ListForm/ListForm';
-import { UseListPagined } from '../../../hoc/UseListPagined';
+import ListForm from '../../../../components/ListForm/ListForm';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { Button } from 'antd';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
