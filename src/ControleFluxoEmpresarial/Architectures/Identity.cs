@@ -1,10 +1,13 @@
 ﻿using ControleFluxoEmpresarial.Models.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Architectures
@@ -29,9 +32,42 @@ namespace ControleFluxoEmpresarial.Architectures
             });
 
 
+            var key = Encoding.ASCII.GetBytes("appSettings.Secret");
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                //x.Events = new JwtBearerEvents
+                //{
+                //    OnTokenValidated = context =>
+                //    {
+                //        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                //        var userId = int.Parse(context.Principal.Identity.Name);
+                //        var user = userService.GetById(userId);
+                //        if (user == null)
+                //        {
+                //            // return unauthorized if user no longer exists
+                //            context.Fail("Unauthorized");
+                //        }
+                //        return Task.CompletedTask;
+                //    }
+                //};
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
 
-        public static void UseAuthorizationConfiG(this IApplicationBuilder app)
+        public static void UseAuthorizationConfig(this IApplicationBuilder app)
         {
             app.UseAuthentication();
             app.UseAuthorization();

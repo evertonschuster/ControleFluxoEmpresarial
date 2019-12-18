@@ -32,7 +32,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return entity;
         }
 
-        public override void Delete(int id)
+        public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE paises 
                         WHERE Id = {id.ToString()}";
@@ -50,7 +50,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         }
 
 
-        public override int Insert(Pais entity)
+        public override int Insert(Pais entity, bool commit = true)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return base.ExecuteGetFirstOrDefault(sql);
         }
 
-        public override void Update(Pais entity)
+        public override void Update(Pais entity, bool commit = true)
         {
             var sql = $@"UPDATE paises 
                         SET Nome = '{entity.Nome}',

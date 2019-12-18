@@ -28,7 +28,7 @@ namespace ControleFluxoEmpresarial.DAOs.Users
         }
 
 
-        public virtual void Delete(ApplicationUser user)
+        public virtual void Delete(ApplicationUser user, bool commit = true)
         {
             _ = this.UserManager.DeleteAsync(user).Result;
         }
@@ -60,17 +60,17 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             };
         }
 
-        public int Insert(ApplicationUser entity)
+        public int Insert(ApplicationUser entity, bool commit = true)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(ApplicationUser entity)
+        public void Update(ApplicationUser entity, bool commit = true)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void Delete(int id, bool commit = true)
         {
             throw new NotImplementedException();
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ControleFluxoEmpresarial.Migrations
 {
-    public partial class initial : Migration
+    public partial class Clients : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,21 @@ namespace ControleFluxoEmpresarial.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Paises",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(nullable: true),
+                    Sigla = table.Column<string>(nullable: true),
+                    DDI = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Paises", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +167,99 @@ namespace ControleFluxoEmpresarial.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Estados",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(nullable: true),
+                    UF = table.Column<string>(nullable: true),
+                    PaisId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Estados", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Estados_Paises_PaisId",
+                        column: x => x.PaisId,
+                        principalTable: "Paises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cidades",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(nullable: true),
+                    DDD = table.Column<string>(nullable: true),
+                    EstadoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cidades", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cidades_Estados_EstadoId",
+                        column: x => x.EstadoId,
+                        principalTable: "Estados",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(nullable: true),
+                    CPF = table.Column<string>(nullable: true),
+                    Telephone = table.Column<string>(nullable: true),
+                    CellPhone = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    CidadeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_Cidades_CidadeId",
+                        column: x => x.CidadeId,
+                        principalTable: "Cidades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Addess = table.Column<string>(nullable: true),
+                    Number = table.Column<string>(nullable: true),
+                    IsPrincipal = table.Column<bool>(nullable: false),
+                    ClientId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_ClientId",
+                table: "Addresses",
+                column: "ClientId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -190,10 +298,28 @@ namespace ControleFluxoEmpresarial.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cidades_EstadoId",
+                table: "Cidades",
+                column: "EstadoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_CidadeId",
+                table: "Clients",
+                column: "CidadeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Estados_PaisId",
+                table: "Estados",
+                column: "PaisId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Addresses");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -210,10 +336,22 @@ namespace ControleFluxoEmpresarial.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Cidades");
+
+            migrationBuilder.DropTable(
+                name: "Estados");
+
+            migrationBuilder.DropTable(
+                name: "Paises");
         }
     }
 }

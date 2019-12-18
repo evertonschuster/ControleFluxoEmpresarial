@@ -9,8 +9,6 @@
   <ItemGroup>
     <Compile Remove="Architectures\DataBase\20191115230045_initial2.cs" />
     <Compile Remove="Architectures\DataBase\20191115230045_initial2.Designer.cs" />
-    <Compile Remove="Migrations\20191116165752_teste.cs" />
-    <Compile Remove="Migrations\20191116165752_teste.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,8 +35,8 @@
 
   <ItemGroup>
     <Folder Include="Architectures\DataBase\" />
+    <Folder Include="Models\CompraVenda\" />
     <Folder Include="ModelView\Filters\Results\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

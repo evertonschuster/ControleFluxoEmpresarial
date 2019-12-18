@@ -31,7 +31,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return entity;
         }
 
-        public override void Delete(int id)
+        public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE FROM Cidades
                         WHERE Id = {id}";
@@ -90,7 +90,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return entity;
         }
 
-        public override int Insert(Cidade entity)
+        public override int Insert(Cidade entity, bool commit = true)
         {
             var sql = $@"INSERT INTO Cidades(Nome, DDD, EstadoId)
                             VALUES('{entity.Nome}', '{entity.DDD}', {entity.EstadoId})";
@@ -98,7 +98,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return base.ExecuteScriptInsert(sql);
         }
 
-        public override void Update(Cidade entity)
+        public override void Update(Cidade entity, bool commit = true)
         {
             var sql = $@" UPDATE Cidades
                         SET Nome = '{entity.Nome}',

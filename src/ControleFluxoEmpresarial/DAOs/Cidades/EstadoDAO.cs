@@ -30,7 +30,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return entity;
         }
 
-        public override void Delete(int id)
+        public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE FROM Estados
                         WHERE Id = {id}";
@@ -91,7 +91,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return base.ExecuteGetPaginated(sql, filter);
         }
 
-        public override int Insert(Estado entity)
+        public override int Insert(Estado entity, bool commit = true)
         {
             var sql = $@"INSERT INTO Estados(Nome, UF, PaisId)
                             VALUES('{entity.Nome}', '{entity.UF}', {entity.PaisId})";
@@ -99,7 +99,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             return base.ExecuteScriptInsert(sql);
         }
 
-        public override void Update(Estado entity)
+        public override void Update(Estado entity, bool commit = true)
         {
             var sql = $@" UPDATE Estados
                         SET Nome = '{entity.Nome}',

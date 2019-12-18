@@ -32,14 +32,14 @@ namespace ControleFluxoEmpresarial.DAOs
 
         #region PUBLIC CRUD
 
-        public virtual void Delete(int id)
+        public virtual void Delete(int id, bool commit = true)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity, bool commit = true)
         {
-            this.Delete(entity.Id);
+            this.Delete(entity.Id, commit);
         }
 
         public virtual TEntity GetByID(int id)
@@ -48,12 +48,12 @@ namespace ControleFluxoEmpresarial.DAOs
         }
 
 
-        public virtual int Insert(TEntity entity)
+        public virtual int Insert(TEntity entity, bool commit = true)
         {
             throw new Exception();
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual void Update(TEntity entity, bool commit = true)
         {
         }
 
@@ -99,7 +99,7 @@ namespace ControleFluxoEmpresarial.DAOs
             return entity;
         }
 
-        protected virtual void ExecuteScript(string sql, bool commit = true, bool closeConnection = true)
+        protected virtual void ExecuteScript(string sql, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -128,7 +128,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (closeConnection)
+                if (commit)
                 {
                     command.Connection.Close();
                 }
@@ -225,7 +225,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual int ExecuteScriptInsert(string sql, bool commit = true, bool closeConnection = true)
+        protected virtual int ExecuteScriptInsert(string sql, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -256,7 +256,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (closeConnection)
+                if (commit)
                 {
                     command.Connection.Close();
                 }

@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using ControleFluxoEmpresarial.Architectures;
 using ControleFluxoEmpresarial.Models.Users;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +41,10 @@ namespace ControleFluxoEmpresarial
 
             services.AddMvcCore(opts =>
             {
+                var policy = new AuthorizationPolicyBuilder()
+                 .RequireAuthenticatedUser()
+                 .Build();
+                opts.Filters.Add(new AuthorizeFilter(policy));
                 //opts.Filters.Add(typeof(ModelStateFeatureFilter));
             }).AddApiExplorer()
             .AddFluentValidation();
@@ -59,12 +65,12 @@ namespace ControleFluxoEmpresarial
 
 
             //app.UseHttpsRedirection();
-            app.UseAuthorizationConfiG();
+            app.UseAuthorizationConfig();
             app.UseRouting();
             app.UseCorsConfig();
 
             app.UseSwaggerUIConfig();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleFluxoEmpresarial.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191208223925_Cidades")]
-    partial class Cidades
+    [Migration("20191215005539_Clients")]
+    partial class Clients
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,64 @@ namespace ControleFluxoEmpresarial.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Paises");
+                });
+
+            modelBuilder.Entity("ControleFluxoEmpresarial.Models.Clients.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Addess")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPrincipal")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("ControleFluxoEmpresarial.Models.Clients.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CellPhone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CidadeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telephone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CidadeId");
+
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("ControleFluxoEmpresarial.Models.Users.ApplicationRole", b =>
@@ -298,6 +356,24 @@ namespace ControleFluxoEmpresarial.Migrations
                     b.HasOne("ControleFluxoEmpresarial.Models.Cidades.Pais", "Pais")
                         .WithMany()
                         .HasForeignKey("PaisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ControleFluxoEmpresarial.Models.Clients.Address", b =>
+                {
+                    b.HasOne("ControleFluxoEmpresarial.Models.Clients.Client", "Client")
+                        .WithMany("Address")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ControleFluxoEmpresarial.Models.Clients.Client", b =>
+                {
+                    b.HasOne("ControleFluxoEmpresarial.Models.Cidades.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

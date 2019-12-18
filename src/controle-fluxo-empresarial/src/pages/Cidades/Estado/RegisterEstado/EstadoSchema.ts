@@ -13,5 +13,6 @@ export const EstadoSchema = Yup.object().shape<Estado>({
 
     paisId: Yup.number()
         .nullable()
+        .typeError("Id inválido")
         .required('O campo Pais é obrigatório'),
 });

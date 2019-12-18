@@ -14,13 +14,13 @@ namespace ControleFluxoEmpresarial.DAOs
 
         TEntity GetByID(int id);
 
-        int Insert(TEntity entity);
+        int Insert(TEntity entity, bool commit = true);
 
-        void Update(TEntity entity);
+        void Update(TEntity entity, bool commit = true);
 
-        void Delete(int id);
+        void Delete(int id, bool commit = true);
 
-        void Delete(TEntity entity);
+        void Delete(TEntity entity, bool commit = true);
 
     }
 }

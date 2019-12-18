@@ -1,6 +1,8 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
+using ControleFluxoEmpresarial.DAOs.Clients;
 using ControleFluxoEmpresarial.DAOs.Users;
 using ControleFluxoEmpresarial.Models.Cidades;
+using ControleFluxoEmpresarial.Models.Clients;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,11 +20,14 @@ namespace ControleFluxoEmpresarial.Architectures
             services.AddScoped<PaisDAO>();
             services.AddScoped<EstadoDAO>();
             services.AddScoped<CidadeDAO>();
+            services.AddScoped<AddressDAO>();
+            services.AddScoped<ClientDAO>();
 
 
             services.AddTransient<IValidator<Pais>, PaisValidator>();
             services.AddTransient<IValidator<Estado>, EstadoValidator>();
             services.AddTransient<IValidator<Cidade>, CidadeValidator>();
+            services.AddTransient<IValidator<Client>, ClientValidator>();
 
 
         }
