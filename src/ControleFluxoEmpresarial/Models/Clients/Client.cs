@@ -23,10 +23,16 @@ namespace ControleFluxoEmpresarial.Models.Clients
 
         public String Email { get; set; }
 
+        public String Sexo { get; set; }
+
         [JsonIgnore]
         public Cidade Cidade { get; set; }
 
         public int CidadeId { get; set; }
+
+        public String Address { get; set; }
+
+        public String Number { get; set; }
 
     }
 

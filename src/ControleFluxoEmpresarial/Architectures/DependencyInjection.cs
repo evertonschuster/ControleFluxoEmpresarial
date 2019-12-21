@@ -20,7 +20,6 @@ namespace ControleFluxoEmpresarial.Architectures
             services.AddScoped<PaisDAO>();
             services.AddScoped<EstadoDAO>();
             services.AddScoped<CidadeDAO>();
-            services.AddScoped<AddressDAO>();
             services.AddScoped<ClientDAO>();
 
 
