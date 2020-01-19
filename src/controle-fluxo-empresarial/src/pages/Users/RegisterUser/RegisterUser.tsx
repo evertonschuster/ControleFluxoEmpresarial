@@ -1,58 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col, Menu, Icon } from 'antd';
-import UserModel from '../../../models/Users/UserModel';
-import { Input } from '../../../components/WithFormItem/withFormItem';
-import { GetUserById, UpdateUser, SaveUser } from '../../../apis/Users/UserApi';
-import BasicLayoutContext from '../../../layouts/BasicLayout/BasicLayoutContext';
-import { UserSchema } from './UserSchema';
-import { FormikHelpers } from 'formik';
+import { Menu, Icon } from 'antd';
+import RegisterUserGeneral from './Components/RegisterUserGeneral';
 
-const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = () => {
 
-    const [userModel, setUserModel] = useState<UserModel>({ userName: "", email: "", phoneNumber: "", password: "", confirmPassword: "" })
-    const [loading, setLoading] = useState(false);
-    const { formMode } = useContext(BasicLayoutContext);
 
-    console.log("formMode", formMode)
-
-    useEffect(() => {
-        getUser(props.match.params.id);
-    }, [])
-
-    async function getUser(id: number) {
-        if (!id) {
-            return;
-        }
-
-        try {
-            setLoading(true);
-            let bdestado = await GetUserById(id);
-            setUserModel(bdestado.data);
-        }
-        finally {
-            setLoading(false);
-        }
-    }
-
-    async function onSubmit(values: UserModel, formikHelpers: FormikHelpers<any>) {
-
-        try {
-
-            if (props.match.params.id) {
-                await UpdateUser(values);
-            } else {
-                await SaveUser(values);
-            }
-            props.history.push("/user")
-        }
-        catch (e) {
-            formikHelpers.setErrors(e.errors);
-
-        }
-
-    }
 
     return (
         <>
@@ -67,43 +20,10 @@ const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
                 </Menu.Item>
             </Menu>
 
-            <CrudFormLayout
-                isLoading={loading}
-                backPath="/user"
-                breadcrumbList={[{ displayName: "Usuários", URL: "/user" }, { displayName: "Novo Usuario", URL: undefined }]}
-                initialValues={userModel}
-                validationSchema={UserSchema(formMode)}
-                onSubmit={(onSubmit)}
-            >
+            <div style={{ animation: `fadeIn 1s` }}>
+                <RegisterUserGeneral ></RegisterUserGeneral>
+            </div>
 
-                <Row>
-                    <Col span={12}>
-                        <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
-                    </Col>
-                    <Col span={12}>
-                        <Input name="userName" label="Nome" placeholder="Nome" required />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col span={12}>
-                        <Input name="phoneNumber" label="Telefone" placeholder="(45) 9882932328" required />
-                    </Col>
-                    <Col span={12}>
-                        <Input name="email" label="E-mail" placeholder="joao@gmai.com" required type="email" />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col span={12}>
-                        <Input name="password" label="Senha" required type="password" />
-                    </Col>
-                    <Col span={12}>
-                        <Input name="confirmPassword" label="Confirmar Senha" required type="password" />
-                    </Col>
-                </Row>
-
-            </CrudFormLayout>
         </>
     );
 

@@ -74,7 +74,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
                 Email = model.Email
             };
 
-            var response = this.UserDAO.Insert(user, model.Password);
+            var response = this.UserDAO.Insert(user, model.Password, model.ConfirmPassword);
             return Ok(response);
         }
 

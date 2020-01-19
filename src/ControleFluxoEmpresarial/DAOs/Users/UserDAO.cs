@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Users;
 using ControleFluxoEmpresarial.ModelView.Filters.Queries;
 using Microsoft.AspNetCore.Identity;
@@ -22,9 +23,21 @@ namespace ControleFluxoEmpresarial.DAOs.Users
         public UserManager<ApplicationUser> UserManager { get; private set; }
         public SignInManager<ApplicationUser> SignInManager { get; private set; }
 
-        public IdentityResult Insert(ApplicationUser user, string password)
+        public IdentityResult Insert(ApplicationUser user, string password, string confirmPassword)
         {
-            return this.UserManager.CreateAsync(user, password).Result;
+            if (confirmPassword != password)
+            {
+                throw new BusinessException(new { ConfirmPassword = "Senha e confirmar senha não conferem." });
+            }
+
+            var result = this.UserManager.CreateAsync(user, password).Result;
+
+            if (!result.Succeeded)
+            {
+               this.FormatMessageError(result);
+            }
+
+            return result;
         }
 
 
@@ -40,6 +53,12 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             return user;
         }
 
+        public ApplicationUser GetByID(Guid id)
+        {
+            var user = this.UserManager.FindByIdAsync(id.ToString()).Result;
+
+            return user;
+        }
         public ApplicationUser FindByName(string userName)
         {
             return UserManager.FindByNameAsync(userName).Result;
@@ -50,17 +69,44 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             return this.SignInManager.PasswordSignInAsync(userName, password, false, true).Result;
         }
 
-        public PaginationResult<ApplicationUser> PaginationUser(SearchUser search)
+
+
+        public PaginationResult<ApplicationUser> GetPagined(PaginationQuery filter)
         {
-            var users = this.UserManager.Users.ToList();
+            var listUser = this.UserManager.Users
+                .Where(e => string.IsNullOrEmpty(filter.Filter) || e.UserName.Contains(filter.Filter)).ToList();
 
             return new PaginationResult<ApplicationUser>()
             {
-                Result = users
+                Result = listUser
             };
         }
 
         public int Insert(ApplicationUser entity, bool commit = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(ApplicationUser entity, string password, string confirmPassword)
+        {
+            var user = UserManager.FindByIdAsync(entity.Id).Result;
+
+            user.UserName = entity.UserName;
+            user.Email = entity.Email;
+            user.PhoneNumber = entity.PhoneNumber;
+
+            var result = UserManager.UpdateAsync(user).Result;
+
+            if (!result.Succeeded)
+            {
+                this.FormatMessageError(result);
+            }
+
+
+            //this.UserManager.pass
+        }
+
+        public void Delete(int id, bool commit = true)
         {
             throw new NotImplementedException();
         }
@@ -70,19 +116,29 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             throw new NotImplementedException();
         }
 
-        public void Delete(int id, bool commit = true)
+        private void FormatMessageError(IdentityResult result)
         {
-            throw new NotImplementedException();
-        }
-
-        public int InsertOrUpdate(ApplicationUser entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PaginationResult<ApplicationUser> GetPagined(PaginationQuery filter)
-        {
-            throw new NotImplementedException();
+            var lisErrors = new Dictionary<Object, Object>();
+            foreach (var item in result.Errors)
+            {
+                if (item.Code == "PasswordTooShort")
+                {
+                    lisErrors.Add("Password", "Senha deve conter no minimo 6 caracteres.");
+                }
+                if (item.Code == "DuplicateUserName")
+                {
+                    lisErrors.Add("UserName", "Nome de usuário em uso.");
+                }
+                else if (item.Code.Contains("Password"))
+                {
+                    lisErrors.Add("Password", item.Description);
+                }
+                else
+                {
+                    lisErrors.Add("UserName", item.Description);
+                }
+            }
+            throw new BusinessException(lisErrors, result);
         }
     }
 }

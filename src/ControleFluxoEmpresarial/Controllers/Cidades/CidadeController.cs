@@ -6,6 +6,7 @@ using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Cidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
         }
 
         [HttpPost("list")]
+        [AllowAnonymous]
         public new IActionResult GetListPagined(PaginationQuery filter)
         {
             return Ok(this.DAO.GetPagined(filter));
