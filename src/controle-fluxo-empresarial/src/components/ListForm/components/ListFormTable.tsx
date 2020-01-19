@@ -10,13 +10,13 @@ export interface Props<T> {
     keyProp?: string;
     columns: ColumnProps<T>[];
     tableProps: ListItem<T>;
-    deleteFunction: (id: number) => void;
+    deleteFunction?: (id: number) => void;
     keyDescription?: string;
 }
 
 const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
-    const { formMode } = useContext(BasicLayoutContext);;
+    const { formMode, setFormMode } = useContext(BasicLayoutContext);
     const { setState, state } = useContext(ModalFormContext);
     const isSelectMode = formMode === FormMode.SelectMultiple || formMode === FormMode.SelectOne;
     const key = props.keyProp || "id";
@@ -24,7 +24,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [record, setRecord] = useState()
     const [loading, setLoading] = useState(false)
-    
+
     const keyDescription = props.keyDescription || "nome";
 
     const columns = props.columns.concat({
@@ -33,14 +33,18 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
         width: "150px",
         render: (text: any, record: any, index: number) => (
             <>
-                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")}>
-                    <Tooltip placement="top" title="Editar Registro Selecionado." >
-                        <Tag color="green" key={index + "12"}>Editar</Tag>
+                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => setFormMode(FormMode.Edit)}>
+                    <Tooltip placement="top" title="Editar Registro Selecionado."  >
+                        <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
                     </Tooltip>
                 </Link>
-                <Tooltip placement="top" title="Excluir Registro Selecionado." >
-                    <Tag color="red" key={index + "23"} onClick={() => showExluir(record)} >Excluir</Tag>
-                </Tooltip>
+
+                {props.deleteFunction ?
+                    <Tooltip placement="top" title="Excluir Registro Selecionado." >
+                        <Tag color="red" key={index + "23"} className="custom-cursor-pointer" onClick={() => { setFormMode(FormMode.Edit); showExluir(record) }} >Excluir</Tag>
+                    </Tooltip>
+                    : null}
+
             </>
         ),
     })
@@ -94,10 +98,11 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 visible={showModal}
                 onOk={async () => {
                     setLoading(true);
-                    await props.deleteFunction((record || {})[key])
+                    props.deleteFunction && await props.deleteFunction((record || {})[key])
                     setLoading(false);
                     setShowModal(false);
                     props.tableProps.reflesh();
+                    setFormMode(FormMode.List)
                 }}
                 onCancel={() => { setShowModal(false) }}
                 okText="Excluir"

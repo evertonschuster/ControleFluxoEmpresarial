@@ -1,9 +1,10 @@
-import React, { memo } from 'react';
+import React, { memo, useContext, useEffect } from 'react';
 import { Row, Col } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { PaginationQuery } from '../../hoc/UseListPagined';
 import ListFormTable from './components/ListFormTable';
 import ListFormHeader from './components/ListFormHeader';
+import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 
 export interface TableProps<T> {
     dataSource: T[];
@@ -24,10 +25,20 @@ export interface Props<T> {
     tableProps: ListItem<T>;
     columns: ColumnProps<T>[];
     keyProp?: string;
-    deleteFunction: (id: number) => void
+    deleteFunction?: (id: number) => void
 }
 
 const ListForm: React.FC<Props<any>> = (props) => {
+
+    const { formMode, setFormMode } = useContext(BasicLayoutContext);
+
+    useEffect(() => {
+
+        if (formMode == FormMode.SelectMultiple || formMode == FormMode.SelectOne) {
+            return;
+        }
+        setFormMode(FormMode.List);
+    }, [])
 
     return (
         <>

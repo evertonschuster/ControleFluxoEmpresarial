@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import SelectModel from '../../../../components/SelectModel/SelectModelOne';
@@ -6,29 +6,35 @@ import { Input } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Estado } from '../../../../models/Cidades/Estado';
 import { EstadoSchema } from './EstadoSchema';
-import { UpdateEstado, SaveEstado, GetEstadoById } from '../../../../apis/cidades/EstadoApi';
-import { GetPaisById } from '../../../../apis/cidades/PaisApi';
+import { UpdateEstado, SaveEstado, GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
+import { GetPaisById } from '../../../../apis/Cidades/PaisApi';
+import BasicLayoutContext from '../../../../layouts/BasicLayout/BasicLayoutContext';
+import { FormikHelpers } from 'formik';
 
 const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
-    const [estado, setEstado] = useState<Estado>({ nome: "", uf: "", paisId: undefined })
+    const [estado, setEstado] = useState<Estado>({ nome: "", uF: "", paisId: undefined })
     const [loading, setLoading] = useState(false);
-
 
     useEffect(() => {
         getEstado(props.match.params.id);
     }, [])
 
 
-    async function onSubmit(values: Estado) {
-        if (props.match.params.id) {
-            await UpdateEstado(values);
-        } else {
-            await SaveEstado(values);
-        }
+    async function onSubmit(values: Estado, formikHelpers: FormikHelpers<any>) {
+        try {
 
-        props.history.push("/Estado")
+            if (props.match.params.id) {
+                await UpdateEstado(values);
+            } else {
+                await SaveEstado(values);
+            }
+
+            props.history.push("/Estado")
+        } catch (e) {
+            formikHelpers.setErrors(e.errors);
+        }
     }
 
     async function getEstado(id: number) {
@@ -63,7 +69,7 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
             <Row>
                 <Col span={12}>
-                    <Input name="uf" label="UF" placeholder="UF" required/>
+                    <Input name="uF" label="UF" placeholder="UF" required />
                 </Col>
                 <Col span={12}>
                     <SelectModel

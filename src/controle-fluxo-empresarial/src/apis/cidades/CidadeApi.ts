@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios'
-import api from './../Api';
+import api from '../Api';
 import { Cidade } from '../../models/Cidades/Cidade';
+import { AxiosResponse } from 'axios';
 
 
 export const endPoint: string = 'api/Cidade';

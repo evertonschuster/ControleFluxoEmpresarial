@@ -4,27 +4,33 @@ import { Row, Col } from 'antd';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { PaisSchema } from './PaisSchema';
-import { SavePais, GetPaisById, UpdatePais } from '../../../../apis/cidades/PaisApi';
+import { SavePais, GetPaisById, UpdatePais } from '../../../../apis/Cidades/PaisApi';
 import { Pais } from '../../../../models/Cidades/Pais';
+import { FormikHelpers } from 'formik';
 
 const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [loading, setLoading] = useState(false);
-    const [pais, setPais] = useState<Pais>({ nome: "", ddi: "", sigla: "" })
+    const [pais, setPais] = useState<Pais>({ nome: "", dDI: "", sigla: "" })
 
     useEffect(() => {
         getPais(props.match.params.id);
     }, [])
 
-    async function onSubmit(values: any) {
+    async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
 
-        if (props.match.params.id) {
-            await UpdatePais(values);
-        } else {
-            await SavePais(values);
+        try{
+
+            if (props.match.params.id) {
+                await UpdatePais(values);
+            } else {
+                await SavePais(values);
+            }
+            props.history.push("/Pais")
         }
-
-        props.history.push("/Pais")
+        catch(e){
+            formikHelpers.setErrors(e.errors)
+        }
     }
 
     async function getPais(id: number) {
@@ -61,7 +67,7 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
                     <Input name="sigla" label="Sigla" placeholder="Sigla" required />
                 </Col>
                 <Col span={12}>
-                    <Input name="ddi" label="DDI" placeholder="DDI" required />
+                    <Input name="dDI" label="DDI" placeholder="DDI" required />
                 </Col>
             </Row>
 

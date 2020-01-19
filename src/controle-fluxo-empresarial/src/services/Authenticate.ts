@@ -1,21 +1,41 @@
+import AuthenticatedUser from "../models/Users/AuthenticatedUser";
+
 export const TOKEN_KEY = "GestaoPessoalToken";
 
-// export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
-
 export function isAuthenticated() {
-    return localStorage.getItem(TOKEN_KEY) !== null;
+    return !(!localStorage.getItem(TOKEN_KEY));
 }
 
-export const getToken = () => localStorage.getItem(TOKEN_KEY);
+export function getToken() {
+    let userData = localStorage.getItem(TOKEN_KEY);
+    var obj = JSON.parse(userData!);
 
-export const login = (token: string) => {
-    localStorage.setItem(TOKEN_KEY, token);
+    return obj?.token || "";
+}
+
+export function login(user: AuthenticatedUser) {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(user));
+}
+
+export function logout() {
+    localStorage.removeItem(TOKEN_KEY);
+    window.location.href = "/login"
 };
 
-export const logout = () => {
+export function removeToken() {
     localStorage.removeItem(TOKEN_KEY);
-};
+}
 
-export const removeToken = () => {
-    localStorage.removeItem(TOKEN_KEY);
+export function getUserName() {
+    verefiIsLogedAndLogaut();
+    let userData = localStorage.getItem(TOKEN_KEY);
+    var obj = JSON.parse(userData!);
+
+    return obj?.userName || "";
+}
+
+export function verefiIsLogedAndLogaut() {
+    if (!isAuthenticated()) {
+        window.location.href = "/login"
+    }
 }

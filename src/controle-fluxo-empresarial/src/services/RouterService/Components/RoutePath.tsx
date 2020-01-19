@@ -6,6 +6,8 @@ import RegisterEstado from '../../../pages/Cidades/Estado/RegisterEstado/Registe
 import ListEstado from '../../../pages/Cidades/Estado/ListEstado/ListEstado';
 import ListCidade from '../../../pages/Cidades/Cidade/ListCidade/ListCidade';
 import RegisterCidade from '../../../pages/Cidades/Cidade/RegisterCidade/RegisterCidade';
+import ListUser from '../../../pages/Users/ListUser/ListUser';
+import RegisterUser from '../../../pages/Users/RegisterUser/RegisterUser';
 
 const RoutePath: React.FC = () => {
 
@@ -22,6 +24,12 @@ const RoutePath: React.FC = () => {
             <Route path="/cidade/new" component={RegisterCidade} />
             <Route path="/cidade/edit/:id" component={RegisterCidade} />
             <Route exact path="/cidade" component={ListCidade} />
+
+
+            <Route exact path="/user/new" component={RegisterUser} />
+            <Route exact path="/user/edit/:id" component={RegisterUser} />
+            <Route exact path="/user" component={ListUser} />
+
         </>
     );
 }

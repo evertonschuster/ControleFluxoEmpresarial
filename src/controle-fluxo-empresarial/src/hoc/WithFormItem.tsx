@@ -15,7 +15,7 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
     const isDisabled = props.disabled || isViewMode;
 
     return (
-        <FormItem name={props.name} label={props.label || ""} required={props.required} style={{ padding: "3px" }}>
+        <FormItem name={props.name} label={props.label || ""} required={props.required} className="form-custom-item" >
             <Field autoComplete="off" disabled={isDisabled} {...props} required={false} style={{ width: "100%" }} />
         </FormItem >
     )
@@ -23,7 +23,7 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
 export const withItemNone = <P extends object>(Field: React.ComponentType<P>): React.FC<P> => (props: any) =>
     (
-        <div className="ant-row ant-form-item" style={{ padding: "3px" }}>
+        <div className="ant-row ant-form-item" >
             <div className="ant-col ant-form-item-label">
                 <span >&nbsp;</span>
             </div>
@@ -39,7 +39,7 @@ export const withItemNone = <P extends object>(Field: React.ComponentType<P>): R
 
 export const ItemFormRender: React.FC<any> = (props) => {
     return (
-        <div className="ant-row ant-form-item" style={{ padding: "3px" }}>
+        <div className="ant-row ant-form-item" >
             <div className="ant-col ant-form-item-label">
                 <span >&nbsp;</span>
             </div>

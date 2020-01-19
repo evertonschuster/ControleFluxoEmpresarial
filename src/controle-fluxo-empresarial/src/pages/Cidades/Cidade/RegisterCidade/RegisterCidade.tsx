@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import SelectModel from '../../../../components/SelectModel/SelectModelOne';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Cidade } from '../../../../models/Cidades/Cidade';
-import { UpdateCidade, SaveCidade, GetCidadeById } from '../../../../apis/cidades/CidadeApi';
-import { GetEstadoById } from '../../../../apis/cidades/EstadoApi';
+import { UpdateCidade, SaveCidade, GetCidadeById } from '../../../../apis/Cidades/CidadeApi';
+import { GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
 import { CidadeSchema } from './CidadeSchema';
+import { FormikHelpers } from 'formik';
 
 const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
-    const [cidade, setCidade] = useState<Cidade>({ nome: "", ddd: "", estadoId: undefined })
+    const [cidade, setCidade] = useState<Cidade>({ nome: "", dDD: "", estadoId: undefined })
     const [loading, setLoading] = useState(false);
 
 
@@ -21,14 +22,20 @@ const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> =
     }, [])
 
 
-    async function onSubmit(values: Cidade) {
-        if (props.match.params.id) {
-            await UpdateCidade(values);
-        } else {
-            await SaveCidade(values);
-        }
+    async function onSubmit(values: Cidade, formikHelpers: FormikHelpers<any>) {
 
-        props.history.push("/Cidade")
+        try {
+
+            if (props.match.params.id) {
+                await UpdateCidade(values);
+            } else {
+                await SaveCidade(values);
+            }
+
+            props.history.push("/Cidade")
+        } catch (e) {
+            formikHelpers.setErrors(e.errors)
+        }
     }
 
     async function getCidade(id: number) {
@@ -63,7 +70,7 @@ const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
             <Row>
                 <Col span={12}>
-                    <Input name="ddd" label="DDD" placeholder="DDD" required />
+                    <Input name="dDD" label="DDD" placeholder="DDD" required />
                 </Col>
                 <Col span={12}>
                     <SelectModel

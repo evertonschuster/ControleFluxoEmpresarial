@@ -1,7 +1,6 @@
-import { AxiosResponse } from 'axios'
-import api from './../Api';
-import moment from 'moment';
-import { Pais } from './../../models/Cidades/Pais';
+import api from '../Api';
+import { Pais } from '../../models/Cidades/Pais';
+import { AxiosResponse } from 'axios';
 
 export const endPoint: string = 'api/pais';
 

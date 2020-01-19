@@ -41,6 +41,21 @@ const SideMenuApp: React.FC = () => {
                     </Menu.ItemGroup>
                 </SubMenu>
 
+
+                <SubMenu
+                    key="system"
+                    title={
+                        <Icon type="folder-open" />
+                    }>
+                    <Menu.ItemGroup key="UserMenu" title="Cadastros do sistema">
+
+                        <Menu.Item key="UserCrud">
+                            <Link to="/user">Usuário</Link>
+                        </Menu.Item>
+
+                    </Menu.ItemGroup>
+                </SubMenu>
+
                 {/* <Icon type="shop" />
                 <Icon type="contacts" /> */}
             </Menu>

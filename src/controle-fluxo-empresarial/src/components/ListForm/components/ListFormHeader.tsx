@@ -1,7 +1,8 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useContext } from 'react';
 import { Input, Col, Button } from 'antd';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 import { ListItem } from '../ListForm';
+import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
 
 
 export interface Props<T> {
@@ -13,7 +14,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
     //#region Constantes
 
     const [filterValues, setFilterValues] = useState<string>()
-
+    const { formMode, setFormMode } = useContext(BasicLayoutContext);
     //#endregion
 
 
@@ -35,7 +36,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
             <Col span={2} push={11} style={{ textAlign: "right" }}>
                 <Button type="primary">
-                    <Link to={(props.location.pathname + "/new").replace("//", "/")}>
+                    <Link to={(props.location.pathname + "/new").replace("//", "/")} onClick={() => setFormMode(FormMode.New)}>
                         Adicionar
                         </Link>
                 </Button>

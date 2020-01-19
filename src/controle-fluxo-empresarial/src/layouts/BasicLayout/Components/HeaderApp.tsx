@@ -1,7 +1,8 @@
 import React from 'react';
-import { Layout, Avatar, Row, Col, Badge, Breadcrumb, Icon } from 'antd';
+import { Layout, Avatar, Row, Col, Badge, Breadcrumb, Icon, Menu, Dropdown } from 'antd';
 import { BreadcrumbProp } from '../BasicLayout';
 import { Link } from 'react-router-dom';
+import { getUserName, logout } from '../../../services/Authenticate';
 
 export interface Props {
     breadcrumbList?: BreadcrumbProp[]
@@ -10,6 +11,16 @@ export interface Props {
 const HeaderApp: React.FC<Props> = (props) => {
 
     const { Header } = Layout;
+
+    function renderMenu() {
+        return (
+            <Menu >
+                <Menu.Item key="1">1st menu item</Menu.Item>
+                <Menu.Item key="2">2nd memu item</Menu.Item>
+                <Menu.Item key="3" onClick={() => logout()}>Sair</Menu.Item>
+            </Menu>
+        );
+    }
 
     return (
         <Header style={{ background: '#fff', padding: 0 }}>
@@ -33,15 +44,16 @@ const HeaderApp: React.FC<Props> = (props) => {
                 <Col span={6} >
                     <Row type="flex" justify="end" gutter={20} style={{ paddingRight: "30px" }}>
                         <Col>
-                            <Icon type="loading" />
-                        </Col>
-                        <Col>
                             <Badge count={1}>
                                 <Avatar size="large" icon="user" />
                             </Badge>
                         </Col>
                         <Col>
-                            Everton
+                            <Dropdown overlay={renderMenu()}>
+                                <span>
+                                    {getUserName()} <Icon type="down" />
+                                </span>
+                            </Dropdown>
                         </Col>
                     </Row>
                 </Col>

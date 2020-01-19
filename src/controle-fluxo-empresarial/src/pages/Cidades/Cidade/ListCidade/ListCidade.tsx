@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { Button } from 'antd';
-import { ExcluirCidade } from '../../../../apis/cidades/CidadeApi';
+import { ExcluirCidade } from '../../../../apis/Cidades/CidadeApi';
 
 const ListCidade: React.FC<RouteComponentProps> = () => {
 

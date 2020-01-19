@@ -78,12 +78,12 @@ const SelectModelOne: React.FC<Props & { formik: FormikContextType<any> }> = (pr
                         min={0}
                         label={props.label.label} />
                 </Col>
-                <Col span={20}>
+                <Col span={19}>
                     <ItemFormRender>
                         <InputAntd value={description} />
                     </ItemFormRender>
                 </Col>
-                <Col span={1} style={{ textAlign: "right" }} >
+                <Col span={2} style={{ textAlign: "right" }} >
                     <ItemFormRender>
                         <Button type="primary" shape="circle" icon="search" onClick={() => setVisible(true)} ></Button>
                     </ItemFormRender>

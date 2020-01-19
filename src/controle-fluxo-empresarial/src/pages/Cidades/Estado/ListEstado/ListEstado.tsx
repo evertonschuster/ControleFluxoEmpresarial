@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirEstado } from '../../../../apis/cidades/EstadoApi';
+import { ExcluirEstado } from '../../../../apis/Cidades/EstadoApi';
 
 const ListEstado: React.FC<RouteComponentProps> = () => {
 
@@ -24,7 +24,6 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
             dataIndex: 'uf',
         },
     ];
-
 
     return (
         <FormLayout breadcrumbList={[{ displayName: "Estado", URL: "/Estado" }, { displayName: "Listagem", URL: undefined }]} >

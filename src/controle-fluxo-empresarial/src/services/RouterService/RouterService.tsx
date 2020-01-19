@@ -7,6 +7,7 @@ import { BasicLayoutContextProvider, FormMode } from '../../layouts/BasicLayout/
 import ListEstado from '../../pages/Cidades/Estado/ListEstado/ListEstado';
 import RegisterEstado from '../../pages/Cidades/Estado/RegisterEstado/RegisterEstado';
 import RoutePath from './Components/RoutePath';
+import LoginUser from '../../pages/Users/Login/LoginUser';
 
 
 const RouterService: React.FC = () => {
@@ -17,6 +18,8 @@ const RouterService: React.FC = () => {
     return (
         <BrowserRouter >
             <Switch  >
+                <Route exact path="/login" component={LoginUser} />
+
                 <BasicLayoutContextProvider value={{
                     breadcrumb,
                     setBreadcrumb,
