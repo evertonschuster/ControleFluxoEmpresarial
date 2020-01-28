@@ -32,3 +32,12 @@
 .custom-cursor-pointer:hover{
   cursor: pointer;
 }
+
+
+.form-custom-item-footer{
+  padding-top: 20px;
+}
+
+.form-custom-item{
+  padding: 0 13px !important;
+}

@@ -38,7 +38,7 @@ const LoginUser: React.FC = () => {
                         <Card title="Credenciais do sistema" className="ant-card-ant-card-bordered">
                             <Form className="login-form">
 
-                                <FormItem name="userName" required={true} className="form-custom-item" >
+                                <FormItem name="userName" required={true} className="form-custom-item-form" >
                                     <Input
                                         autoComplete="on"
                                         name="userName"
@@ -47,7 +47,7 @@ const LoginUser: React.FC = () => {
                                     />
                                 </FormItem>
 
-                                <FormItem name="password" required={true} className="form-custom-item">
+                                <FormItem name="password" required={true} className="form-custom-item-form">
                                     <Input
                                         name="password"
                                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}

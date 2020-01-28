@@ -23,15 +23,19 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
 export const withItemNone = <P extends object>(Field: React.ComponentType<P>): React.FC<P> => (props: any) =>
     (
-        <div className="ant-row ant-form-item" >
+        <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
             <div className="ant-col ant-form-item-label">
-                <span >&nbsp;</span>
+                <span>&nbsp;</span>
             </div>
+
             <div className="ant-col ant-form-item-control-wrapper">
-                <div className="ant-form-item-control">
+                <div className="ant-form-item-control ">
                     <span className="ant-form-item-children">
+
                         <Field {...props} />
+
                     </span>
+
                 </div>
             </div>
         </div>
@@ -39,15 +43,19 @@ export const withItemNone = <P extends object>(Field: React.ComponentType<P>): R
 
 export const ItemFormRender: React.FC<any> = (props) => {
     return (
-        <div className="ant-row ant-form-item" >
+        <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
             <div className="ant-col ant-form-item-label">
-                <span >&nbsp;</span>
+                <span>&nbsp;</span>
             </div>
+
             <div className="ant-col ant-form-item-control-wrapper">
-                <div className="ant-form-item-control">
+                <div className="ant-form-item-control ">
                     <span className="ant-form-item-children">
+
                         {props.children}
+
                     </span>
+
                 </div>
             </div>
         </div>
