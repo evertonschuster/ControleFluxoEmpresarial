@@ -49,6 +49,23 @@ namespace ControleFluxoEmpresarial
             }).AddApiExplorer()
             .AddFluentValidation();
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = (context) =>
+                {
+                    var errors = context.ModelState.ToDictionary(e => e.Key[0].ToString().ToLower() + e.Key.Substring(1),
+                        e => e.Value.Errors.Select(ee => ee.ErrorMessage).ToList() );
+
+                    var result = new
+                    {
+                        Code = "00009",
+                        Message = "Validation Errors",
+                        Errors = errors
+                    };
+
+                    return new BadRequestObjectResult(result);
+                };
+            });
 
             services.AddSwaggerGenConfig();
 

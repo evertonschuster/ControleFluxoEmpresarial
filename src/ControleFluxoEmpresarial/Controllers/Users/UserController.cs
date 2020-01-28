@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.DAOs.Users;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Users;
 using ControleFluxoEmpresarial.ModelView.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +30,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
 
         [AllowAnonymous]
         [HttpPost("authorize")]
-        public IActionResult Authenticate([FromForm][FromBody] AuthenticateModel model)
+        public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
             var login = this.UserDAO.PasswordSignIn(model?.UserName, model.Password);
 
@@ -76,6 +77,25 @@ namespace ControleFluxoEmpresarial.Controllers.Users
 
             var response = this.UserDAO.Insert(user, model.Password, model.ConfirmPassword);
             return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        public virtual IActionResult Get(Guid id)
+        {
+            var entity = this.UserDAO.GetByID(id);
+            if (entity == null)
+            {
+                return Ok();
+            }
+
+            return Ok(entity);
+        }
+
+        [HttpPost("list")]
+        [AllowAnonymous]
+        public new IActionResult GetListPagined(PaginationQuery filter)
+        {
+            return Ok(this.UserDAO.GetPagined(filter));
         }
 
     }
