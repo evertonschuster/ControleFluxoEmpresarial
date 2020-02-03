@@ -22,6 +22,7 @@ const LoginUser: React.FC = () => {
             history.push("/");
 
         } catch (e) {
+            console.log("e.errors", e);
             formikHelpers.setErrors(e.errors);
         }
     }

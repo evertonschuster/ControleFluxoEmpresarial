@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import LoginUserModel from '../../models/Users/LoginUser';
 import AuthenticatedUser from '../../models/Users/AuthenticatedUser';
 import UserModel from '../../models/Users/UserModel';
+import UserChangePasswordModel from '../../models/Users/UserChangePasswordModel';
 
 export const endPoint: string = 'api/user';
 
@@ -14,6 +15,11 @@ export function tryLoginUser(user: LoginUserModel): Promise<AxiosResponse<Authen
 export function UpdateUser(user: UserModel): Promise<AxiosResponse<any>> {
     return api.put(endPoint, user);
 }
+
+export function ChangePasswordUser(user: UserChangePasswordModel): Promise<AxiosResponse<any>> {
+    return api.put(endPoint + "/Change-Password", user);
+}
+
 
 export function SaveUser(user: UserModel): Promise<AxiosResponse<any>> {
     return api.post(endPoint, user);

@@ -5,7 +5,7 @@ import { Row, Col, Menu, Icon } from 'antd';
 import UserModel from '../../../../models/Users/UserModel';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { GetUserById, UpdateUser, SaveUser } from '../../../../apis/Users/UserApi';
-import BasicLayoutContext from '../../../../layouts/BasicLayout/BasicLayoutContext';
+import BasicLayoutContext, { FormMode } from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import { UserSchema } from './../UserSchema';
 import { FormikHelpers } from 'formik';
 
@@ -14,8 +14,6 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
     const [userModel, setUserModel] = useState<UserModel>({ userName: "", email: "", phoneNumber: "", password: "", confirmPassword: "" })
     const [loading, setLoading] = useState(false);
     const { formMode } = useContext(BasicLayoutContext);
-
-    console.log("formMode", formMode)
 
     useEffect(() => {
         getUser(props.match.params.id);
@@ -83,7 +81,7 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
                     </Col>
                 </Row>
 
-                <Row>
+                <Row hidden={!(formMode == FormMode.New)}>
                     <Col span={12}>
                         <Input name="password" label="Senha" required type="password" />
                     </Col>

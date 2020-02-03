@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -45,5 +46,15 @@ namespace ControleFluxoEmpresarial.Architectures
             context.Response.WriteAsync(result).Wait();
         }
 
+    }
+
+
+    // Extension method used to add the middleware to the HTTP request pipeline.
+    public static class MyMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ErrorHandlingMiddleware>();
+        }
     }
 }

@@ -28,8 +28,8 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         public UserDAO UserDAO { get; }
 
 
-        [AllowAnonymous]
         [HttpPost("authorize")]
+        [AllowAnonymous]
         public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
             var login = this.UserDAO.PasswordSignIn(model?.UserName, model.Password);
@@ -80,7 +80,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpGet("{id}")]
-        public virtual IActionResult Get(Guid id)
+        public IActionResult Get(Guid id)
         {
             var entity = this.UserDAO.GetByID(id);
             if (entity == null)
@@ -96,6 +96,16 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         public new IActionResult GetListPagined(PaginationQuery filter)
         {
             return Ok(this.UserDAO.GetPagined(filter));
+        }
+
+        [HttpPut("Change-Password")]
+        public IActionResult ChangePassword(UserChangePasswordModel model)
+        {
+            var user = this.Request.HttpContext.User;
+
+            this.UserDAO.UpdatePassword(user, model.CurrentPassword, model.NewPassword, model.ConfirmPassword);
+
+            return Ok();
         }
 
     }

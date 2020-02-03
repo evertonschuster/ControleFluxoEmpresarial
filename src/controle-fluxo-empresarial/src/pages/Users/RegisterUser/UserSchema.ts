@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import UserModel from '../../../models/Users/UserModel';
 import { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
+import UserChangePasswordModel from '../../../models/Users/UserChangePasswordModel';
 
 
 export const UserSchema = (formMode: FormMode) => Yup.object().shape<UserModel>({
@@ -21,9 +22,24 @@ export const UserSchema = (formMode: FormMode) => Yup.object().shape<UserModel>(
 
     password: Yup
         .string()
-        .required(() => formMode == FormMode.New ? "Informe uma senha" : undefined),
+        .required(() => formMode == FormMode.New ? "Informe uma senha." : undefined),
 
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], "Senha e Confirmar senha não coincidem.")
-        .required((e) => formMode == FormMode.New ? "Informe uma senha" : undefined)
+        .required((e) => formMode == FormMode.New ? "Informe uma senha." : undefined)
+});
+
+export const UserChangePasswor = Yup.object().shape<UserChangePasswordModel>({
+
+    currentPassword: Yup
+        .string()
+        .required("Informe a senha atual."),
+
+    newPassword: Yup
+        .string()
+        .required("Informe a nova senha."),
+
+    confirmPassword: Yup.string()
+        .oneOf([Yup.ref('newPassword'), null], "Senha e Confirmar senha não coincidem.")
+        .required("Informe a nova senha.")
 });

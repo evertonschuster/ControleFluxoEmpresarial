@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Users
@@ -34,7 +35,7 @@ namespace ControleFluxoEmpresarial.DAOs.Users
 
             if (!result.Succeeded)
             {
-               this.FormatMessageError(result);
+                this.FormatMessageError(result);
             }
 
             return result;
@@ -125,9 +126,13 @@ namespace ControleFluxoEmpresarial.DAOs.Users
                 {
                     lisErrors.Add("Password", "Senha deve conter no minimo 6 caracteres.");
                 }
-                if (item.Code == "DuplicateUserName")
+                else if (item.Code == "DuplicateUserName")
                 {
                     lisErrors.Add("UserName", "Nome de usuário em uso.");
+                }
+                else if (item.Code == "PasswordMismatch")
+                {
+                    lisErrors.Add("PasswordMismatch", "Senha e confirmar senha inválidos.");
                 }
                 else if (item.Code.Contains("Password"))
                 {
@@ -139,6 +144,14 @@ namespace ControleFluxoEmpresarial.DAOs.Users
                 }
             }
             throw new BusinessException(lisErrors, result);
+        }
+
+        public void UpdatePassword(ClaimsPrincipal userClaim, string currentPassword, string newPassword, string confirmPassword)
+        {
+            var user = this.UserManager.GetUserAsync(userClaim).Result;
+            var errors = this.UserManager.ChangePasswordAsync(user, currentPassword, newPassword).Result;
+
+            FormatMessageError(errors);
         }
     }
 }

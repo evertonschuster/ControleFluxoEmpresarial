@@ -85,6 +85,7 @@ namespace ControleFluxoEmpresarial
             app.UseAuthorizationConfig();
             app.UseRouting();
             app.UseCorsConfig();
+            app.UseErrorHandlingMiddleware();
 
             app.UseSwaggerUIConfig();
 
