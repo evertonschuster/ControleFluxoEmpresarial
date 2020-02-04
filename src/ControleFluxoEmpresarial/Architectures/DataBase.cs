@@ -13,10 +13,10 @@ namespace ControleFluxoEmpresarial.Architectures
         public static void AddDataBase(this IServiceCollection services, IConfiguration configuration)
         {
 
-            var conectionString = configuration.GetConnectionString("DefaultConnectionProd");
+            var conectionString = configuration.GetConnectionString("DefaultConnectionPg");
 
             services.AddDbContext<ApplicationContext>(b => b
-              .UseSqlServer(conectionString));
+              .UseNpgsql(conectionString));
             //.AddInterceptors(new HintCommandInterceptor()));
 
         }

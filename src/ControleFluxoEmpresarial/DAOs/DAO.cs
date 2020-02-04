@@ -147,7 +147,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             try
             {
-                command.CommandText = sql;
+                command.CommandText = sql.Replace("\n", "").Replace("\r", "").Replace("TOP 1", "");
                 command.CommandType = CommandType.Text;
 
                 var reader = command.ExecuteReader();
