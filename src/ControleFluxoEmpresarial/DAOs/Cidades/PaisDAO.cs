@@ -34,7 +34,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public override void Delete(int id, bool commit = true)
         {
-            var sql = $@"DELETE paises 
+            var sql = $@"DELETE FROM paises 
                         WHERE Id = {id.ToString()}";
 
             base.ExecuteScript(sql);
@@ -42,9 +42,11 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public override Pais GetByID(int id)
         {
-            var sql = $@"SELECT top 1 Id, Nome, Sigla, DDI
+            var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = {id.ToString()}
+                    
+                        ";
 
             return base.ExecuteGetFirstOrDefault(sql);
         }
@@ -67,9 +69,11 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public Pais GetByNome(string nome)
         {
-            var sql = $@"SELECT top 1 Id, Nome, Sigla, DDI
+            var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises
-                        WHERE Nome = '{nome}' ";
+                        WHERE Nome = '{nome}' 
+                        
+                        limit 1";
 
             return base.ExecuteGetFirstOrDefault(sql);
         }

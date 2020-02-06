@@ -1,4 +1,4 @@
-﻿CREATE DATABASE Teste;
+﻿CREATE DATABASE GestaoPessoalPostgress;
 
 CREATE TABLE AspNetRoles (
     Id text NOT NULL,

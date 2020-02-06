@@ -147,7 +147,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             try
             {
-                command.CommandText = sql.Replace("\n", "").Replace("\r", "").Replace("TOP 1", "");
+                command.CommandText = sql += " limit 1";
                 command.CommandType = CommandType.Text;
 
                 var reader = command.ExecuteReader();
@@ -190,8 +190,8 @@ namespace ControleFluxoEmpresarial.DAOs
             try
             {
                 command.CommandText = sql.Insert(6, "   COUNT(*) OVER() AS TotalItem,   ")
-                                      + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) } ROWS  "
-                                      + $@"  FETCH NEXT {filter.PageSize} ROWS ONLY OPTION (RECOMPILE) ";
+                                      + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) }  "
+                                      + $@" LIMIT {filter.PageSize}  ";
 
                 command.CommandType = CommandType.Text;
                 var reader = command.ExecuteReader();
@@ -237,7 +237,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             try
             {
-                command.CommandText = sql += "; SELECT SCOPE_IDENTITY();";
+                command.CommandText = sql += "RETURNING id;";
                 command.CommandType = CommandType.Text;
 
                 int id = Convert.ToInt32(command.ExecuteScalar());
