@@ -88,12 +88,12 @@
 //                    throw new AppException("Username " + userParam.Username + " is already taken");
 //            }
 
-//            // update user properties
+//            // UPDATE FROM user properties
 //            user.FirstName = userParam.FirstName;
 //            user.LastName = userParam.LastName;
 //            user.Username = userParam.Username;
 
-//            // update password if it was entered
+//            // UPDATE FROM password if it was entered
 //            if (!string.IsNullOrWhiteSpace(password))
 //            {
 //                byte[] passwordHash, passwordSalt;

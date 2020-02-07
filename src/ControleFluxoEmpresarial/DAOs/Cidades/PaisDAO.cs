@@ -44,9 +44,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         {
             var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises
-                        WHERE Id = {id.ToString()}
-                    
-                        ";
+                        WHERE Id = {id.ToString()}";
 
             return base.ExecuteGetFirstOrDefault(sql);
         }
@@ -71,9 +69,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         {
             var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises
-                        WHERE Nome = '{nome}' 
-                        
-                        limit 1";
+                        WHERE Nome = '{nome}' ";
 
             return base.ExecuteGetFirstOrDefault(sql);
         }

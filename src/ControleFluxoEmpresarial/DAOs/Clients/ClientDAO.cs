@@ -45,7 +45,7 @@ namespace ControleFluxoEmpresarial.DAOs.Clients
 
         public override Client GetByID(int id)
         {
-            var sql = $@"SELECT top 1 *
+            var sql = $@"SELECT *
                           FROM Clients
                         WHERE Id = {id.ToString()}";
 
@@ -73,7 +73,7 @@ namespace ControleFluxoEmpresarial.DAOs.Clients
 
         public Client GetByNome(string nome)
         {
-            var sql = $@"SELECT top 1 *
+            var sql = $@"SELECT *
                           FROM Clients
                         WHERE Nome = '{nome}' ";
 
@@ -82,7 +82,7 @@ namespace ControleFluxoEmpresarial.DAOs.Clients
 
         public override void Update(Client entity, bool commit = true)
         {
-            var sql = $@"UPDATE clients 
+            var sql = $@"UPDATE FROM clients 
                         SET Nome = '{entity.Nome}',
                             CPF = '{entity.CPF}',
                             Telephone = '{entity.Telephone}',

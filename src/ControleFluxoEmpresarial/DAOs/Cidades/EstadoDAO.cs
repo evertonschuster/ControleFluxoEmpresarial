@@ -40,7 +40,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public override Estado GetByID(int id)
         {
-            var sql = $@"SELECT TOP 1 Id, Nome, UF, PaisId
+            var sql = $@"SELECT Id, Nome, UF, PaisId
                             FROM Estados
                          WHERE ID = {id}";
 
@@ -56,7 +56,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         internal Estado GetByNome(string nome)
         {
-            var sql = $@"SELECT TOP 1 Id, Nome, UF, PaisId
+            var sql = $@"SELECT Id, Nome, UF, PaisId
                             FROM Estados
                          WHERE Nome = '{nome}'";
 

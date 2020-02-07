@@ -67,6 +67,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Insert([FromBody] ApplicationUserModel model)
         {
             var user = new ApplicationUser()
@@ -80,6 +81,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult Get(Guid id)
         {
             var entity = this.UserDAO.GetByID(id);
@@ -99,6 +101,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpPut("Change-Password")]
+        [AllowAnonymous]
         public IActionResult ChangePassword(UserChangePasswordModel model)
         {
             var user = this.Request.HttpContext.User;

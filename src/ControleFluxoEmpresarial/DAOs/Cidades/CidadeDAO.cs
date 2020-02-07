@@ -41,7 +41,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public override Cidade GetByID(int id)
         {
-            var sql = $@"SELECT TOP 1 *
+            var sql = $@"SELECT *
                             FROM Cidades
                          WHERE ID = {id}";
 
@@ -76,7 +76,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         internal Cidade GetByNome(string nome)
         {
-            var sql = $@"SELECT TOP 1 *
+            var sql = $@"SELECT *
                             FROM Cidades
                          WHERE nome = '{nome}'";
 
