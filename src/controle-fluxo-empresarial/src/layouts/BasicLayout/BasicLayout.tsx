@@ -4,6 +4,7 @@ import SideMenuApp from './Components/SideMenuApp';
 import ContentApp from './Components/ContentApp';
 import HeaderApp from './Components/HeaderApp';
 import BasicLayoutContext from './BasicLayoutContext';
+import "./basic-layout.css";
 
 
 export interface BreadcrumbProp {
@@ -20,17 +21,19 @@ const BasicLayout: React.FC<Props> = (props) => {
     const { breadcrumb } = useContext(BasicLayoutContext);
 
     return (
-        <Layout style={{ minHeight: "100vh" }}>
+        <div style={{ animationName: "openSystem", animationDuration: "5s" }}>
+            <Layout style={{ minHeight: "100vh" }} >
 
-            <SideMenuApp />
+                <SideMenuApp />
 
-            <Layout style={{ marginLeft: 80 }}>
+                <Layout style={{ marginLeft: 80 }} >
 
-                <HeaderApp breadcrumbList={breadcrumb} />
-                <ContentApp > {props.children} </ContentApp>
+                    <HeaderApp breadcrumbList={breadcrumb} />
+                    <ContentApp > {props.children} </ContentApp>
 
+                </Layout>
             </Layout>
-        </Layout>
+        </div>
     );
 }
 

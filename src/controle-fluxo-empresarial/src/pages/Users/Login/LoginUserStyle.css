@@ -6,23 +6,76 @@
 
     .form-custom-item-footer{
         padding-top: 20px;
+        width: 100%;
+        text-align: center;
+        animation: animationLoginInput 1s ease-out; 
     }
 
     .form-custom-item-form{
         padding: 13px 2px !important;
     }
 
+    .form-custom-item-form:nth-child(1){
+        animation: animationLoginInput 1s ease-out; 
+    }
+
+    .form-custom-item-form:nth-child(2){
+        animation: animationLoginInput 1.3s ease-out; 
+    }
+
     .ant-card-head-title{
         font-size: 25px;
+        animation: animationLoginText 1.7s ease-out; 
     }
 
     .ant-card-ant-card-bordered {
         box-shadow: 2px 2px 20px -2px;
         border-radius: 5px;
+
+        animation: animationLoginCard 1.7s ease-out; 
+    }
+
+    .forget-password-item-form{
+        animation: animationLoginText 1.7s ease-out; 
     }
 
     body{
         min-height: 100vh;
         background-image: linear-gradient(20deg,#3498db,#8e44ad);
-      }
-  }
+    }
+
+    .login-form{
+        overflow: hidden;   
+    }
+}
+
+@keyframes animationLoginInput {
+    from{
+        opacity: 0;
+        transform: translateX(-35%) scale(0.2);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0%) scale(1);
+    }
+}
+
+@keyframes animationLoginCard {
+    from{
+        opacity: 0;
+        transform: translateY(-50%) scale(0.9);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0%) scale(1);
+    }
+}
+
+@keyframes animationLoginText {
+    from{
+        transform: scale(0.2);
+    }
+    to{
+        transform: scale(1);
+    }
+}

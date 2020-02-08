@@ -24,6 +24,7 @@ const LoginUser: React.FC = () => {
         } catch (e) {
             console.log("e.errors", e);
             formikHelpers.setErrors(e.errors);
+            // formikHelpers.tes
         }
     }
 
@@ -31,7 +32,7 @@ const LoginUser: React.FC = () => {
         <Formik
             onSubmit={handleSubmit}
             initialValues={{ userName: "", password: "" }}
-            validationSchema={LoginUserSchema}
+            // validationSchema={LoginUserSchema}
             enableReinitialize={true}>
             {({ submitForm }) => (
                 <Row type="flex" justify="space-around" align="middle" style={{ height: "100%" }}>
@@ -41,6 +42,8 @@ const LoginUser: React.FC = () => {
 
                                 <FormItem name="userName" required={true} className="form-custom-item-form" >
                                     <Input
+                                        autoFocus
+                                        tabIndex={1}
                                         autoComplete="on"
                                         name="userName"
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -50,6 +53,7 @@ const LoginUser: React.FC = () => {
 
                                 <FormItem name="password" required={true} className="form-custom-item-form">
                                     <Input
+                                        tabIndex={2}
                                         name="password"
                                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         type="password"
@@ -57,12 +61,19 @@ const LoginUser: React.FC = () => {
                                     />
                                 </FormItem>
 
-                                <Form.Item>
+                                <Form.Item className="forget-password-item-form">
                                     <Link to="forget-password" className="login-form-forgot" > Esqueci a senha</Link>
                                 </Form.Item>
 
                                 <Form.Item className="form-custom-item-footer">
-                                    <Button type="primary" htmlType="submit" onClick={() => submitForm()} style={{ width: "100%" }}>Logar</Button>
+                                    <Button type="primary"
+                                        htmlType="submit"
+                                        onClick={() => submitForm()}
+                                        style={{ width: "100%" }}
+                                        tabIndex={2}
+                                    >
+                                        Logar
+                                        </Button>
                                 </Form.Item>
 
                             </Form>

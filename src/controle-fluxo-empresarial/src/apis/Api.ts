@@ -32,11 +32,29 @@ api.interceptors.response.use((response) => {
         if (error.response.status === 401 && !originalRequest._retry) {
 
             window.location.href = "/login"
-
         }
+
+        if (error.response!.data!.code === 422) {
+            console.log("Cambioooo")
+            return Promise.reject(new ValidationError(error.response.data));
+        }
+
 
         return Promise.reject(error.response.data);
     }
 )
 
 export default api;
+
+
+export class ValidationError {
+    constructor(values: any) {
+        this.errors = values.errors;
+        this.code = values.code;
+        this.message = values.message;
+    }
+
+    errors: any;
+    code: number;
+    message: string;
+}
