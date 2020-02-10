@@ -9,6 +9,7 @@ import { UpdateCidade, SaveCidade, GetCidadeById } from '../../../../apis/Cidade
 import { GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
 import { CidadeSchema } from './CidadeSchema';
 import { FormikHelpers } from 'formik';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -34,7 +35,7 @@ const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
             props.history.push("/Cidade")
         } catch (e) {
-            formikHelpers.setErrors(e.errors)
+            errorBack(formikHelpers, e, ["nome"]);
         }
     }
 

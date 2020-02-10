@@ -8,6 +8,7 @@ import { LoginUserSchema } from './LoginUserSchema';
 import { tryLoginUser } from '../../../apis/Users/UserApi';
 import { message } from 'antd';
 import { login, getUserName } from '../../../services/Authenticate';
+import { errorBack } from '../../../utils/MessageApi';
 
 const LoginUser: React.FC = () => {
 
@@ -21,10 +22,8 @@ const LoginUser: React.FC = () => {
             message.success(`Bem vindo ${getUserName()}!!!`);
             history.push("/");
 
-        } catch (e) {
-            console.log("e.errors", e);
-            formikHelpers.setErrors(e.errors);
-            // formikHelpers.tes
+        } catch (e) {            
+            errorBack(formikHelpers, e);
         }
     }
 

@@ -7,6 +7,7 @@ import { PaisSchema } from './PaisSchema';
 import { SavePais, GetPaisById, UpdatePais } from '../../../../apis/Cidades/PaisApi';
 import { Pais } from '../../../../models/Cidades/Pais';
 import { FormikHelpers } from 'formik';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -19,8 +20,7 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
 
-        try{
-
+        try {
             if (props.match.params.id) {
                 await UpdatePais(values);
             } else {
@@ -28,8 +28,8 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
             }
             props.history.push("/Pais")
         }
-        catch(e){
-            formikHelpers.setErrors(e.errors)
+        catch (e) {
+            errorBack(formikHelpers, e, ["nome"]);
         }
     }
 

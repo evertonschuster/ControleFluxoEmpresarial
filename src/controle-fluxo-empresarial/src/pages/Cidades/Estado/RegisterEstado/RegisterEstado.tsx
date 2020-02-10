@@ -10,6 +10,7 @@ import { UpdateEstado, SaveEstado, GetEstadoById } from '../../../../apis/Cidade
 import { GetPaisById } from '../../../../apis/Cidades/PaisApi';
 import BasicLayoutContext from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import { FormikHelpers } from 'formik';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -33,7 +34,7 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
             props.history.push("/Estado")
         } catch (e) {
-            formikHelpers.setErrors(e.errors);
+            errorBack(formikHelpers, e, ["nome"]);
         }
     }
 

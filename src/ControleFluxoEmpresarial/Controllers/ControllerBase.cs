@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFluxoEmpresarial.Controllers
 {
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public abstract class ControllerBase<TEntity> : ControllerBase where TEntity : IBaseEntity
     {
         protected ControllerBase(IDAO<TEntity> dAO)

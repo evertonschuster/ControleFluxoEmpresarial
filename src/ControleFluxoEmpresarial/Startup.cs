@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.Architectures;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Users;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
@@ -58,8 +60,8 @@ namespace ControleFluxoEmpresarial
 
                     var result = new
                     {
-                        Code = "00009",
-                        Message = "Validation Errors",
+                        Code = HttpStatusCode.UnprocessableEntity,
+                        Message = "Erros ao preencher valores do formúlario",
                         Errors = errors
                     };
 
@@ -79,7 +81,7 @@ namespace ControleFluxoEmpresarial
                 app.UseDeveloperExceptionPage();
             }
 
-
+            
 
             //app.UseHttpsRedirection();
             app.UseAuthorizationConfig();
@@ -94,7 +96,7 @@ namespace ControleFluxoEmpresarial
                 endpoints.MapControllers();
             });
 
-
+            new UserSeed().Execute(app.ApplicationServices);
         }
     }
 }

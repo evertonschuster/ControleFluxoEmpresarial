@@ -21,8 +21,5 @@
   },
   "include": [
     "src"
-  ],
-  // "files": [
-  //   "src/utils/typesCustom.d.ts"
-  // ]
+  ]
 }
