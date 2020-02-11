@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Tabs } from 'antd';
 import "./RegisterUserStyle.css"
 import RegisterUserGeneral from './Components/RegisterUserGeneral';
 import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
@@ -13,33 +13,21 @@ enum Menus {
 
 const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = () => {
 
-    const [selectedMenu, setselectedMenu] = useState(Menus.Profile)
+    const { TabPane } = Tabs;
     const { formMode } = useContext(BasicLayoutContext)
-
+    
     return (
-        <>
-            <Menu mode="horizontal" defaultSelectedKeys={[Menus.Profile]} onSelect={a => setselectedMenu(a.key as Menus)}>
+        <Tabs defaultActiveKey={Menus.Profile} >
+            <TabPane tab={<><Icon type="user" />Informações basicas</>} key={Menus.Profile}>
+                <RegisterUserGeneral />
+            </TabPane>
 
-                <Menu.Item key={Menus.Profile}>
-                    <Icon type="user" />
-                    Informações basicas
-                </Menu.Item>
-
-                <Menu.Item key={Menus.changePassword} hidden={formMode == FormMode.New} >
-                    <Icon type="key" />
-                    Trocar de senha
-                </Menu.Item>
-
-            </Menu>
-
-            {
-                selectedMenu === Menus.Profile ? <RegisterUserGeneral/> : null
-            }
-            {
-                selectedMenu === Menus.changePassword ? <ChangePassword/> : null
-            }
-
-        </>
+            <TabPane disabled={formMode == FormMode.New}
+                tab={<><Icon type="key" />Trocar de senha</>}
+                key={Menus.changePassword}>
+                <ChangePassword />
+            </TabPane>
+        </Tabs>
     );
 
 }

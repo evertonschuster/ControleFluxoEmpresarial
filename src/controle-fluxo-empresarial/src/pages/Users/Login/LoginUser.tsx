@@ -31,7 +31,7 @@ const LoginUser: React.FC = () => {
         <Formik
             onSubmit={handleSubmit}
             initialValues={{ userName: "", password: "" }}
-            // validationSchema={LoginUserSchema}
+            validationSchema={LoginUserSchema}
             enableReinitialize={true}>
             {({ submitForm }) => (
                 <Row type="flex" justify="space-around" align="middle" style={{ height: "100%" }}>

@@ -8,19 +8,15 @@
         padding-top: 20px;
         width: 100%;
         text-align: center;
-        animation: animationLoginInput 1s ease-out; 
+        animation: animationLoginText 1s ease-out; 
     }
 
     .form-custom-item-form{
         padding: 13px 2px !important;
     }
 
-    .form-custom-item-form:nth-child(1){
-        animation: animationLoginInput 1s ease-out; 
-    }
-
-    .form-custom-item-form:nth-child(2){
-        animation: animationLoginInput 1.3s ease-out; 
+    .form-custom-item-form {
+        animation: animationLoginText 1s ease-out; 
     }
 
     .ant-card-head-title{
@@ -46,17 +42,6 @@
 
     .login-form{
         overflow: hidden;   
-    }
-}
-
-@keyframes animationLoginInput {
-    from{
-        opacity: 0;
-        transform: translateX(-35%) scale(0.2);
-    }
-    to{
-        opacity: 1;
-        transform: translateX(0%) scale(1);
     }
 }
 

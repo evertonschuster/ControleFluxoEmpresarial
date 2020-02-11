@@ -1,5 +1,5 @@
 import { MessageType, ConfigOnClose } from "antd/lib/message";
-import { message } from "antd";
+import { message, notification } from "antd";
 import { FormikHelpers } from "formik";
 
 export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage?: string[]) {
@@ -11,13 +11,19 @@ export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage
         }
 
         formik.setErrors(response.errors);
-        message.error(response["message"]);
+        notification.error({
+            message: response["message"],
+            duration: 10
+        });
 
         const errors = response.errors;
 
         prosMessage && Object.keys(errors).forEach(element => {
             let result = prosMessage!.find(e => e == element);
-            result && message.error(errors[element]);
+            result && notification.error({
+                message: errors[element],
+                duration: 10
+            });
         });
 
 

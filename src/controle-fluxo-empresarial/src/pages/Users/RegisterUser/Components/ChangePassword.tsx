@@ -7,6 +7,8 @@ import { ChangePasswordUser } from '../../../../apis/Users/UserApi';
 import { FormikHelpers } from 'formik';
 import UserChangePasswordModel from '../../../../models/Users/UserChangePasswordModel';
 import { ErrorMessage } from '../../../../helpers/ErrorMessageForm';
+import { errorBack } from '../../../../utils/MessageApi';
+import { UserChangePasswor } from '../UserSchema';
 
 const ChangePassword: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -21,10 +23,7 @@ const ChangePassword: React.FC<RouteComponentProps & RouteComponentProps<any>> =
             props.history.push("/user")
         }
         catch (e) {
-
-            formikHelpers.setErrors(e.errors);
-            ErrorMessage(e.errors);
-
+            errorBack(formikHelpers, e, ["passwordMismatch"]);
         }
         finally {
             setLoading(false);
@@ -40,7 +39,7 @@ const ChangePassword: React.FC<RouteComponentProps & RouteComponentProps<any>> =
             backPath="/user"
             breadcrumbList={[{ displayName: "Usuários", URL: "/user" }, { displayName: "Novo Usuario", URL: undefined }]}
             initialValues={{ currentPassword: "", newPassword: "", confirmPassword: "", password: "" }}
-            // validationSchema={UserChangePasswor}
+            validationSchema={UserChangePasswor}
             onSubmit={(onSubmit)}
         >
 

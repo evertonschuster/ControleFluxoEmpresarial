@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.Users;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Users;
@@ -32,11 +33,21 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         [AllowAnonymous]
         public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
+            if (string.IsNullOrEmpty(model.Password))
+            {
+                throw new BusinessException(new { Password = "Campo senha não foi informado!" });
+            }
+
+            if (string.IsNullOrEmpty(model.UserName))
+            {
+                throw new BusinessException(new { UserName = "Campo usuário não foi informado!" });
+            }
+
             var login = this.UserDAO.PasswordSignIn(model?.UserName, model.Password);
 
             if (login == null || !login.Succeeded)
             {
-                return BadRequest(new { message = "Username or password is incorrect" });
+                throw new BusinessException(new { userName = "Usuário ou senha inválido!" }, "Usuário ou senha inválido!");
             }
 
             var user = this.UserDAO.FindByName(model.UserName);

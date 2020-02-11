@@ -28,7 +28,7 @@ namespace ControleFluxoEmpresarial.DAOs.Users
         {
             if (confirmPassword != password)
             {
-                throw new BusinessException(new { ConfirmPassword = "Senha e confirmar senha não conferem." });
+                throw new BusinessException(new { password = "Senha e confirmar senha não conferem." });
             }
 
             var result = this.UserManager.CreateAsync(user, password).Result;
@@ -143,7 +143,7 @@ namespace ControleFluxoEmpresarial.DAOs.Users
                     lisErrors.Add("UserName", item.Description);
                 }
             }
-            throw new BusinessException(lisErrors, result);
+            throw new BusinessException(lisErrors, helper: result);
         }
 
         public void UpdatePassword(ClaimsPrincipal userClaim, string currentPassword, string newPassword, string confirmPassword)
