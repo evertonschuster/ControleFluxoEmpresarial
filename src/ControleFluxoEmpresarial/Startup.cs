@@ -96,7 +96,7 @@ namespace ControleFluxoEmpresarial
                 endpoints.MapControllers();
             });
 
-            new UserSeed().Execute(app.ApplicationServices);
+            new ExecuteSeed(app).Execute();
         }
     }
 }
