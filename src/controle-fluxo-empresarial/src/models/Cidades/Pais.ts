@@ -2,5 +2,5 @@ export interface Pais {
     id?: number;
     nome: string ;
     sigla: string;
-    dDI: string;
+    ddi: string;
 }

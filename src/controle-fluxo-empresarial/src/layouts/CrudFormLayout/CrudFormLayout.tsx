@@ -60,7 +60,10 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
     return (
         <FormBasicLayout breadcrumbList={props.breadcrumbList} >
-            <Formik {...props} onSubmit={onSubmit} enableReinitialize={true}  >
+            <Formik
+                {...props}
+                onSubmit={onSubmit}
+                enableReinitialize={true}  >
                 {({ isSubmitting, values, submitForm, errors }) => (
                     <Form onKeyDown={onKeyDown} >
                         {renderLoading(isSubmitting)}

@@ -7,7 +7,7 @@ export const CidadeSchema = Yup.object().shape<Cidade>({
         .max(50, "O campo [Nome] não deve possuir mais de 50 caracteres.")
         .required('[Nome] da Cidade não pode ser vaziu.'),
 
-    dDD: Yup.string()
+    ddd: Yup.string()
         .max(5, "O campo [DDD] não deve possuir mais de 5 caracteres.")
         .required('[DDD] do Cidade não pode ser vaziu.'),
 

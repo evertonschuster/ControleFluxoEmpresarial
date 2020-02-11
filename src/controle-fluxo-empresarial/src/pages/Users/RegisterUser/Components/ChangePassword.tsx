@@ -6,7 +6,6 @@ import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { ChangePasswordUser } from '../../../../apis/Users/UserApi';
 import { FormikHelpers } from 'formik';
 import UserChangePasswordModel from '../../../../models/Users/UserChangePasswordModel';
-import { ErrorMessage } from '../../../../helpers/ErrorMessageForm';
 import { errorBack } from '../../../../utils/MessageApi';
 import { UserChangePasswor } from '../UserSchema';
 

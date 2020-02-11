@@ -14,7 +14,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
-    const [cidade, setCidade] = useState<Cidade>({ nome: "", dDD: "", estadoId: undefined })
+    const [cidade, setCidade] = useState<Cidade>({ nome: "", ddd: "", estadoId: undefined })
     const [loading, setLoading] = useState(false);
 
 
@@ -71,7 +71,7 @@ const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
             <Row>
                 <Col span={12}>
-                    <Input name="dDD" label="DDD" placeholder="DDD" required />
+                    <Input name="ddd" label="DDD" placeholder="DDD" required />
                 </Col>
                 <Col span={12}>
                     <SelectModel

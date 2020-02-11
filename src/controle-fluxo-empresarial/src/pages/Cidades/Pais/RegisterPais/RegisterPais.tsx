@@ -12,7 +12,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [loading, setLoading] = useState(false);
-    const [pais, setPais] = useState<Pais>({ nome: "", dDI: "", sigla: "" })
+    const [pais, setPais] = useState<Pais>({ nome: "", ddi: "", sigla: "" })
 
     useEffect(() => {
         getPais(props.match.params.id);
@@ -67,7 +67,7 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
                     <Input name="sigla" label="Sigla" placeholder="Sigla" required />
                 </Col>
                 <Col span={12}>
-                    <Input name="dDI" label="DDI" placeholder="DDI" required />
+                    <Input name="ddi" label="DDI" placeholder="DDI" required />
                 </Col>
             </Row>
 

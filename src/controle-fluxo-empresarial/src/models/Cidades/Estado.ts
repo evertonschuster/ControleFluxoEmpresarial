@@ -1,6 +1,6 @@
 export interface Estado {
     id?: number;
     nome: string;
-    uF: string;
+    uf: string;
     paisId?: number | null;
 }
