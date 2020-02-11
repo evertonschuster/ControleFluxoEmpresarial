@@ -16,7 +16,7 @@ export interface Props<T> {
 
 const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
-    const { formMode, setFormMode } = useContext(BasicLayoutContext);
+    const { formMode, setFormMode, sharedState } = useContext(BasicLayoutContext);
     const { setState, state } = useContext(ModalFormContext);
     const isSelectMode = formMode === FormMode.SelectMultiple || formMode === FormMode.SelectOne;
     const key = props.keyProp || "id";
@@ -41,7 +41,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
                 {props.deleteFunction ?
                     <Tooltip placement="top" title="Excluir Registro Selecionado." >
-                        <Tag color="red" key={index + "23"} className="custom-cursor-pointer" onClick={() => { setFormMode(FormMode.Edit); showExluir(record) }} >Excluir</Tag>
+                        <Tag color="red" key={index + "23"} className="custom-cursor-pointer" onClick={() => { setFormMode(FormMode.Delete); showExluir(record) }} >Excluir</Tag>
                     </Tooltip>
                     : null}
 
@@ -68,6 +68,15 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
         setShowModal(true);
         setRecord(record);
     }
+
+    function hidenExluir() {
+        setShowModal(false);
+
+        if (sharedState.savedFormMode) {
+            setFormMode(sharedState.savedFormMode);
+        }
+    }
+
 
     function onClick(record: any) {
         if (!isSelectMode) return;
@@ -100,11 +109,11 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     setLoading(true);
                     props.deleteFunction && await props.deleteFunction((record || {})[key])
                     setLoading(false);
-                    setShowModal(false);
                     props.tableProps.reflesh();
                     setFormMode(FormMode.List)
+                    hidenExluir();
                 }}
-                onCancel={() => { setShowModal(false) }}
+                onCancel={hidenExluir}
                 okText="Excluir"
                 cancelText="Cancelar"
                 okType="danger"

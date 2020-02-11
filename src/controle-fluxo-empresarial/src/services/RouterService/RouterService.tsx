@@ -9,7 +9,8 @@ import LoginUser from '../../pages/Users/Login/LoginUser';
 const RouterService: React.FC = () => {
 
     const [breadcrumb, setBreadcrumb] = useState();
-    const [formMode, setFormMode] = useState<FormMode>((localStorage.getItem("formMode") || FormMode.New) as FormMode )
+    const [sharedState, setSharedState] = useState();
+    const [formMode, setFormMode] = useState<FormMode>((localStorage.getItem("formMode") || FormMode.New) as FormMode)
 
     useEffect(() => {
         localStorage.setItem("formMode", formMode.toString())
@@ -21,11 +22,9 @@ const RouterService: React.FC = () => {
                 <Route exact path="/login" component={LoginUser} />
 
                 <BasicLayoutContextProvider value={{
-                    breadcrumb,
-                    setBreadcrumb,
-
-                    formMode,
-                    setFormMode
+                    breadcrumb, setBreadcrumb,
+                    formMode, setFormMode,
+                    sharedState, setSharedState,
                 }}>
                     <BasicLayout>
                         <RoutePath />

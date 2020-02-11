@@ -19,14 +19,22 @@ export interface BasicLayoutContextProp {
 
     formMode: FormMode;
     setFormMode: (values: FormMode) => void;
+
+    sharedState: any;
+    setSharedState: (value: any) => void;
 }
 
 const BasicLayoutContext = React.createContext<BasicLayoutContextProp>(
     {
         breadcrumb: undefined,
         setBreadcrumb: () => { },
+
         formMode: FormMode.View,
         setFormMode: () => { },
+
+        sharedState: undefined,
+        setSharedState: () => { },
+
     }
 );
 

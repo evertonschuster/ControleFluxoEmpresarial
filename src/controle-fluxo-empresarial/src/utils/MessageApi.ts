@@ -6,10 +6,8 @@ export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage
 
     try {
 
-        console.error("Erros da requisição", response);
-
         if (!response.errors) {
-            message.error("O sistema está temporariamente fora do ar!");
+            return;
         }
 
         formik.setErrors(response.errors);

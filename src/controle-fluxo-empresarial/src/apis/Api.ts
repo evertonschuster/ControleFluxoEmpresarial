@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getToken, removeToken } from "../services/Authenticate";
+import { message } from "antd";
 
 let baseUri = "https://gestao-da-casa.herokuapp.com/";
 if (process.env.NODE_ENV == "development") {
@@ -25,6 +26,10 @@ api.interceptors.response.use((response) => {
     function (error) {
 
         if (error.response == undefined) {
+
+            console.error("Erros da requisição", error.response);
+            message.error("O sistema está temporariamente fora do ar!");
+
             return Promise.reject(error);
         }
 

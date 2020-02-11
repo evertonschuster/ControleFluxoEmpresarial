@@ -21,7 +21,7 @@ const BasicLayout: React.FC<Props> = (props) => {
     const { breadcrumb } = useContext(BasicLayoutContext);
 
     return (
-        <div style={{ animationName: "openSystem", animationDuration: "5s" }}>
+        <div style={{ animationName: "openSystem", animationDuration: "3s" }}>
             <Layout style={{ minHeight: "100vh" }} >
 
                 <SideMenuApp />

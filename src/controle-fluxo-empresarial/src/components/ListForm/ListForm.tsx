@@ -30,13 +30,20 @@ export interface Props<T> {
 
 const ListForm: React.FC<Props<any>> = (props) => {
 
-    const { formMode, setFormMode } = useContext(BasicLayoutContext);
+    const { formMode, setFormMode, sharedState, setSharedState } = useContext(BasicLayoutContext);
 
     useEffect(() => {
 
         if (formMode == FormMode.SelectMultiple || formMode == FormMode.SelectOne) {
+            setSharedState({ ...sharedState, savedFormMode: formMode })
             return;
         }
+
+        if (sharedState?.savedFormMode) {
+            setFormMode(sharedState.savedFormMode);
+            return;
+        }
+
         setFormMode(FormMode.List);
     }, [])
 

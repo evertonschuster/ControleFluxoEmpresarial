@@ -11,17 +11,16 @@ export interface Props {
 const RouterServiceModel: React.FC<RouteComponentProps & Props> = (props) => {
 
     const [breadcrumb, setBreadcrumb] = useState();
+    const [sharedState, setSharedState] = useState();
     const [formMode, setFormMode] = useState<FormMode>(FormMode.SelectOne)
 
     return (
         <BrowserRouter basename={props.history.location.pathname}  >
             <Switch >
                 <BasicLayoutContextProvider value={{
-                    breadcrumb,
-                    setBreadcrumb,
-
-                    formMode,
-                    setFormMode
+                    breadcrumb, setBreadcrumb,
+                    formMode, setFormMode,
+                    sharedState, setSharedState,
                 }}>
 
                     <RoutePath />
