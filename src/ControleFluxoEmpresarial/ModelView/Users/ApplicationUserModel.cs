@@ -12,6 +12,8 @@ namespace ControleFluxoEmpresarial.ModelView.Users
 
         public string UserName { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         [NotMapped]
         public string Password { get; set; }
 

@@ -5,8 +5,17 @@ import { FormikHelpers } from "formik";
 export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage?: string[]) {
 
     try {
+        console.info("Cabaciou", response.errors);
 
-        if (!response.errors) {
+        if (response?.response?.status == 405) {
+            notification.error({
+                message: "405 (Method Not Allowed)",
+                duration: 10
+            })
+            return;
+        }
+
+        if (!response?.errors) {
             return;
         }
 

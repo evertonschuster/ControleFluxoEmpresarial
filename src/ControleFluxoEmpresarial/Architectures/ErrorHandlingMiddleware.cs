@@ -40,7 +40,7 @@ namespace ControleFluxoEmpresarial.Architectures
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             var result = JsonConvert.SerializeObject(exception.Response, serializerSettings);
 
-            var code = HttpStatusCode.BadRequest;
+            var code = HttpStatusCode.UnprocessableEntity;
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             context.Response.WriteAsync(result).Wait();

@@ -32,11 +32,7 @@ namespace ControleFluxoEmpresarial.DAOs.Users
             }
 
             var result = this.UserManager.CreateAsync(user, password).Result;
-
-            if (!result.Succeeded)
-            {
-                this.FormatMessageError(result);
-            }
+            this.FormatMessageError(result);
 
             return result;
         }
@@ -119,6 +115,11 @@ namespace ControleFluxoEmpresarial.DAOs.Users
 
         private void FormatMessageError(IdentityResult result)
         {
+            if (result.Succeeded)
+            {
+                return;
+            }
+
             var lisErrors = new Dictionary<Object, Object>();
             foreach (var item in result.Errors)
             {
@@ -150,6 +151,18 @@ namespace ControleFluxoEmpresarial.DAOs.Users
         {
             var user = this.UserManager.GetUserAsync(userClaim).Result;
             var errors = this.UserManager.ChangePasswordAsync(user, currentPassword, newPassword).Result;
+
+            FormatMessageError(errors);
+        }
+
+        public void Update(ClaimsPrincipal userClaim, ApplicationUser userUpdate)
+        {
+            var user = this.UserManager.GetUserAsync(userClaim).Result;
+            user.UserName = userUpdate.UserName;
+            user.Email = userUpdate.Email;
+            user.PhoneNumber = userUpdate.PhoneNumber;
+
+            var errors = this.UserManager.UpdateAsync(user).Result;
 
             FormatMessageError(errors);
         }

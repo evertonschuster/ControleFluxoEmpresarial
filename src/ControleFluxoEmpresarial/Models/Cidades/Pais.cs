@@ -36,14 +36,15 @@ namespace ControleFluxoEmpresarial.Models.Cidades
                 .NotEmpty().WithMessage("[DDI] do pais não pode ser vaziu.")
                 .MaximumLength(5).WithMessage("O campo [DDI] não deve possuir mais de 5 caracteres.");
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).When(e => e.Id == 0).WithMessage("Pais já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Pais já cadastrado.");
 
             RuleFor(e => e.Id).Must(ExistsPais).When(e => e.Id > 0).WithMessage("Pais não cadastrado.");
         }
 
-        private bool NameIsAllow(string nome)
+        private bool NameIsAllow(Pais pais, string nome)
         {
-            return this.PaisDAO.GetByNome(nome) == null;
+            var findPais = this.PaisDAO.GetByNome(nome);
+            return findPais == null || findPais?.Id == pais.Id;
         }
 
         private bool ExistsPais(int id)

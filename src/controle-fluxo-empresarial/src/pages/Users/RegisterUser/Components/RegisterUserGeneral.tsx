@@ -8,6 +8,7 @@ import { GetUserById, UpdateUser, SaveUser } from '../../../../apis/Users/UserAp
 import BasicLayoutContext, { FormMode } from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import { UserSchema } from './../UserSchema';
 import { FormikHelpers } from 'formik';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -45,8 +46,9 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
             }
             props.history.push("/user")
         }
+        
         catch (e) {
-            formikHelpers.setErrors(e.errors);
+            errorBack(formikHelpers, e, ["passwordMismatch"]);
 
         }
 

@@ -1,0 +1,16 @@
+
+.form-application-container {
+ animation: render 1s;   
+}
+
+
+@keyframes render {
+    from{
+        opacity: 0.2;
+        transform: translateY(-5%);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}

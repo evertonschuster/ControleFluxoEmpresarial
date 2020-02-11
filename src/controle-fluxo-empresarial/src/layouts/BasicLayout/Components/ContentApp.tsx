@@ -13,10 +13,11 @@ const ContentApp: React.FC = (props) => {
                 padding: 24,
                 background: '#fff',
                 minHeight: 280,
+                overflow: "hidden"
             }}>
 
 
-                {props.children}
+            {props.children}
 
         </Content>
     );

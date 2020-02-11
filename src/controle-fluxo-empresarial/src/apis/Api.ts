@@ -39,13 +39,13 @@ api.interceptors.response.use((response) => {
             window.location.href = "/login"
         }
 
-        if (error.response!.data!.code === 422) {
+        if (error.response!.data!.code === 422 || error.response.status === 422) {
             console.log("Cambioooo")
             return Promise.reject(new ValidationError(error.response.data));
         }
 
 
-        return Promise.reject(error.response.data);
+        return Promise.reject(error);
     }
 )
 

@@ -43,16 +43,17 @@ namespace ControleFluxoEmpresarial.Models.Cidades
             RuleFor(e => e.EstadoId)
                 .NotEmpty().WithMessage("[EstadoId] da Cidade não pode ser vaziu.");
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).When(e => e.Id == 0).WithMessage("Cidade já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Cidade já cadastrado.");
 
             RuleFor(e => e.Id).Must(ExistsCidade).When(e => e.Id > 0).WithMessage("Cidade não cadastrado.");
 
             RuleFor(e => e.EstadoId).Must(ExistsEstado).WithMessage("Estado não cadastrado");
         }
 
-        private bool NameIsAllow(string nome)
+        private bool NameIsAllow(Cidade cidade, string nome)
         {
-            return this.CidadeDAO.GetByNome(nome) == null;
+            var findCidade = this.CidadeDAO.GetByNome(nome);
+            return findCidade == null || findCidade?.Id == cidade.Id;
         }
 
         private bool ExistsCidade(int id)

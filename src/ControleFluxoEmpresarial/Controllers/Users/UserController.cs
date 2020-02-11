@@ -78,21 +78,36 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult Insert([FromBody] ApplicationUserModel model)
         {
             var user = new ApplicationUser()
             {
                 UserName = model.UserName,
-                Email = model.Email
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
             };
 
             var response = this.UserDAO.Insert(user, model.Password, model.ConfirmPassword);
             return Ok(response);
         }
 
+        [HttpPut]
+        public IActionResult Update([FromBody] ApplicationUserModel model)
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
+            };
+
+            var userClaim = this.Request.HttpContext.User;
+
+            this.UserDAO.Update(userClaim, user);
+            return Ok();
+        }
+
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public IActionResult Get(Guid id)
         {
             var entity = this.UserDAO.GetByID(id);
@@ -105,14 +120,12 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpPost("list")]
-        [AllowAnonymous]
         public new IActionResult GetListPagined(PaginationQuery filter)
         {
             return Ok(this.UserDAO.GetPagined(filter));
         }
 
         [HttpPut("Change-Password")]
-        [AllowAnonymous]
         public IActionResult ChangePassword(UserChangePasswordModel model)
         {
             var user = this.Request.HttpContext.User;
