@@ -26,7 +26,7 @@ const BasicLayout: React.FC<Props> = (props) => {
 
                 <SideMenuApp />
 
-                <Layout style={{ marginLeft: 80 }} >
+                <Layout  >
 
                     <HeaderApp breadcrumbList={breadcrumb} />
                     <ContentApp > {props.children} </ContentApp>
