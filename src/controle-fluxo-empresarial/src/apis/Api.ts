@@ -35,8 +35,7 @@ api.interceptors.response.use((response) => {
 
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
-
-            window.location.href = "/login"
+            window.location.href = "/login?redirectUrl=" + window.location.pathname;
         }
 
         if (error.response!.data!.code === 422 || error.response.status === 422) {

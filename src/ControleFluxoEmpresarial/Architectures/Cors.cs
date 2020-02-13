@@ -27,7 +27,10 @@ namespace ControleFluxoEmpresarial.Architectures
 
         public static void UseCorsConfig(this IApplicationBuilder app)
         {
-            app.UseCors();
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
         }
     }
 }

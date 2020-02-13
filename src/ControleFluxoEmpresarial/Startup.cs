@@ -81,20 +81,21 @@ namespace ControleFluxoEmpresarial
                 app.UseDeveloperExceptionPage();
             }
 
-            
+
+            app.UseRouting();
 
             //app.UseHttpsRedirection();
-            app.UseAuthorizationConfig();
-            app.UseRouting();
             app.UseCorsConfig();
+            app.UseAuthorizationConfig();
             app.UseErrorHandlingMiddleware();
 
             app.UseSwaggerUIConfig();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireAuthorization();
             });
+
 
             new ExecuteSeed(app).Execute();
         }

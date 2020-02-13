@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.DataBase
 
             IServiceScopeFactory serviceScopeFactory = serviceProvider.ApplicationServices.GetService(typeof(IServiceScopeFactory)) as IServiceScopeFactory;
 
-             IServiceScope scope = serviceScopeFactory.CreateScope();
+            IServiceScope scope = serviceScopeFactory.CreateScope();
             var services = scope.ServiceProvider;
 
             this.Context = services.GetRequiredService<ApplicationContext>();
@@ -37,7 +37,15 @@ namespace ControleFluxoEmpresarial.DataBase
 
         public void SeedUsuario()
         {
-            var aa = this.UserManager.Users.Any();
+            if (!this.UserManager.Users.Any())
+            {
+                this.UserManager.CreateAsync(new ApplicationUser()
+                {
+                    UserName = "string",
+                    Email = "string@string.com",
+                    PhoneNumber = "45988293328"
+                }, "string");
+            }
         }
 
         public void SeedPais()

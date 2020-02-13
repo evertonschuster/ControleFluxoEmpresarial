@@ -21,7 +21,6 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
         }
 
         [HttpPost("list")]
-        [AllowAnonymous]
         public new IActionResult GetListPagined(PaginationQuery filter)
         {
             return Ok(this.DAO.GetPagined(filter));

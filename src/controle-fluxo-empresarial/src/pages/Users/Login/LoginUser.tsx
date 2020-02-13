@@ -3,26 +3,30 @@ import { Form, Icon, Button, Card, Row, Col } from 'antd';
 import { Input, FormItem } from "formik-antd"
 import "./LoginUserStyle.css"
 import { Formik, FormikHelpers } from 'formik';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams, useLocation, useRouteMatch, withRouter, RouteComponentProps } from 'react-router-dom';
 import { LoginUserSchema } from './LoginUserSchema';
 import { tryLoginUser } from '../../../apis/Users/UserApi';
 import { message } from 'antd';
 import { login, getUserName } from '../../../services/Authenticate';
 import { errorBack } from '../../../utils/MessageApi';
 
-const LoginUser: React.FC = () => {
+const LoginUser: React.FC<RouteComponentProps> = (props) => {
 
-    const history = useHistory();
+    const history = props.history;
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let redirectUrl = params.get('redirectUrl');
 
     async function handleSubmit(values: any, formikHelpers: FormikHelpers<any>) {
 
         try {
+
             let response = await tryLoginUser(values);
             login(response.data);
             message.success(`Bem vindo ${getUserName()}!!!`);
-            history.push("/");
+            history.push(redirectUrl || "/");
 
-        } catch (e) {            
+        } catch (e) {
             errorBack(formikHelpers, e);
         }
     }
@@ -84,4 +88,4 @@ const LoginUser: React.FC = () => {
     );
 }
 
-export default LoginUser;
+export default withRouter(LoginUser);
