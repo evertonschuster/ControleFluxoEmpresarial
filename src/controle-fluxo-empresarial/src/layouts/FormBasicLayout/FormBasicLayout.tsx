@@ -15,8 +15,9 @@ const FormBasicLayout: React.FC<Props> = (props) => {
 
     useEffect(() => {
 
-        setBreadcrumb(props.breadcrumbList)
+        setBreadcrumb(props.breadcrumbList);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state])
 
     return (

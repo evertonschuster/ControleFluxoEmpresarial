@@ -1,5 +1,4 @@
-import { MessageType, ConfigOnClose } from "antd/lib/message";
-import { message, notification } from "antd";
+import { notification } from "antd";
 import { FormikHelpers } from "formik";
 
 export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage?: string[]) {
@@ -7,7 +6,7 @@ export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage
     try {
         console.info("Cabaciou", response.errors);
 
-        if (response?.response?.status == 405) {
+        if (response?.response?.status === 405) {
             notification.error({
                 message: "405 (Method Not Allowed)",
                 duration: 10
@@ -28,7 +27,7 @@ export function errorBack(formik: FormikHelpers<any>, response: any, prosMessage
         const errors = response.errors;
 
         prosMessage && Object.keys(errors).forEach(element => {
-            let result = prosMessage!.find(e => e == element);
+            let result = prosMessage!.find(e => e === element);
             result && notification.error({
                 message: errors[element],
                 duration: 10

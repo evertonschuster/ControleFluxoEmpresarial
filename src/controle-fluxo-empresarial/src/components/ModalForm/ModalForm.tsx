@@ -50,7 +50,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
             return;
         }
 
-        if (formMode == FormMode.SelectMultiple) {
+        if (formMode === FormMode.SelectMultiple) {
             props.setState(state);
         } else {
             if (state != null && state.length > 0) {

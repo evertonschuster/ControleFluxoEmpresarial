@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { TableProps } from '../components/ListForm/ListForm';
-import { AxiosResponse } from 'axios'
 import api from './../apis/Api';
 
 
@@ -55,23 +54,10 @@ export function UseListPagined(props: Props): RequestResult {
 
     useEffect(() => {
         getDataBack();
-        console.error("Fui por back")
+        console.error("Fui pro back")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.URL, filterRequest, props.valuesFilter])
 
-
-
-
-
-    //   useEffect(() => {
-    //     function handleStatusChange(status) {
-    //       setIsOnline(status.isOnline);
-    //     }
-
-    //     ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
-    //     return () => {
-    //       ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
-    //     };
-    //   });
 
     let result = {
         requestResult: responseBack,

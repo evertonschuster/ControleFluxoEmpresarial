@@ -34,7 +34,7 @@ const ListForm: React.FC<Props<any>> = (props) => {
 
     useEffect(() => {
 
-        if (formMode == FormMode.SelectMultiple || formMode == FormMode.SelectOne) {
+        if (formMode === FormMode.SelectMultiple || formMode === FormMode.SelectOne) {
             setSharedState({ ...sharedState, savedFormMode: formMode })
             return;
         }
@@ -45,6 +45,7 @@ const ListForm: React.FC<Props<any>> = (props) => {
         }
 
         setFormMode(FormMode.List);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

@@ -22,11 +22,11 @@ export const UserSchema = (formMode: FormMode) => Yup.object().shape<UserModel>(
 
     password: Yup
         .string()
-        .required(() => formMode == FormMode.New ? "Informe uma senha." : undefined),
+        .required(() => formMode === FormMode.New ? "Informe uma senha." : undefined),
 
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], "Senha e Confirmar senha não coincidem.")
-        .required((e) => formMode == FormMode.New ? "Informe uma senha." : undefined)
+        .required((e) => formMode === FormMode.New ? "Informe uma senha." : undefined)
 });
 
 export const UserChangePasswor = Yup.object().shape<UserChangePasswordModel>({

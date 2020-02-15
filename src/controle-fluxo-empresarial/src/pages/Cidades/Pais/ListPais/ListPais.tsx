@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {  } from 'react';
 import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { Button } from 'antd';
 import { ExcluirPais } from '../../../../apis/Cidades/PaisApi';
-import BasicLayoutContext from '../../../../layouts/BasicLayout/BasicLayoutContext';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
 

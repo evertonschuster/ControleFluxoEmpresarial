@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import SelectModel from '../../../../components/SelectModel/SelectModelOne';
@@ -8,7 +8,6 @@ import { Estado } from '../../../../models/Cidades/Estado';
 import { EstadoSchema } from './EstadoSchema';
 import { UpdateEstado, SaveEstado, GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
 import { GetPaisById } from '../../../../apis/Cidades/PaisApi';
-import BasicLayoutContext from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 
@@ -20,7 +19,7 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
     useEffect(() => {
         getEstado(props.match.params.id);
-    }, [])
+    }, [props.match.params.id])
 
 
     async function onSubmit(values: Estado, formikHelpers: FormikHelpers<any>) {

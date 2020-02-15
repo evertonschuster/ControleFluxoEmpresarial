@@ -11,7 +11,7 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
     const basicLayoutContext = useContext(BasicLayoutContext);
 
-    const isViewMode = basicLayoutContext != null && basicLayoutContext.formMode == FormMode.View;
+    const isViewMode = basicLayoutContext != null && basicLayoutContext.formMode === FormMode.View;
     const isDisabled = props.disabled || isViewMode;
 
     return (

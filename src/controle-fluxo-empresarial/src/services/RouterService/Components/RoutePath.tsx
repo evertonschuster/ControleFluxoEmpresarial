@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import RegisterPais from '../../../pages/Cidades/Pais/RegisterPais/RegisterPais';
 import ListPais from '../../../pages/Cidades/Pais/ListPais/ListPais';
@@ -8,6 +8,8 @@ import ListCidade from '../../../pages/Cidades/Cidade/ListCidade/ListCidade';
 import RegisterCidade from '../../../pages/Cidades/Cidade/RegisterCidade/RegisterCidade';
 import ListUser from '../../../pages/Users/ListUser/ListUser';
 import RegisterUser from '../../../pages/Users/RegisterUser/RegisterUser';
+import CreateTitular from '../../../pages/Associados/CreateTitular/CreateTitular';
+import ListTitular from '../../../pages/Associados/ListTitular/ListTitular';
 
 const RoutePath: React.FC = () => {
 
@@ -29,6 +31,10 @@ const RoutePath: React.FC = () => {
             <Route exact path="/user/new" component={RegisterUser} />
             <Route exact path="/user/edit/:id" component={RegisterUser} />
             <Route exact path="/user" component={ListUser} />
+
+            <Route exact path="/titular/new" component={CreateTitular} />
+            <Route exact path="/titular/edit/:id" component={CreateTitular} />
+            <Route exact path="/titular" component={ListTitular} />
 
         </>
     );

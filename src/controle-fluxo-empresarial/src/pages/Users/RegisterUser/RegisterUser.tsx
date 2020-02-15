@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Menu, Icon, Tabs } from 'antd';
+import { Icon, Tabs } from 'antd';
 import "./RegisterUserStyle.css"
 import RegisterUserGeneral from './Components/RegisterUserGeneral';
 import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
@@ -22,7 +22,7 @@ const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
                 <RegisterUserGeneral />
             </TabPane>
 
-            <TabPane disabled={formMode == FormMode.New}
+            <TabPane disabled={formMode === FormMode.New}
                 tab={<><Icon type="key" />Trocar de senha</>}
                 key={Menus.changePassword}>
                 <ChangePassword />

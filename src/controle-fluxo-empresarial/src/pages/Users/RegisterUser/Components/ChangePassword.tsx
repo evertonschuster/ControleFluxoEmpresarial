@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col, notification } from 'antd';
+import { Row, Col } from 'antd';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { ChangePasswordUser } from '../../../../apis/Users/UserApi';
 import { FormikHelpers } from 'formik';

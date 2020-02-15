@@ -72,7 +72,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
     function hidenExluir() {
         setShowModal(false);
 
-        if (sharedState.savedFormMode) {
+        if (sharedState && sharedState.savedFormMode) {
             setFormMode(sharedState.savedFormMode);
         }
     }
