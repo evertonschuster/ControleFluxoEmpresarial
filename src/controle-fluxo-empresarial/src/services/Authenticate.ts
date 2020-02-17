@@ -1,4 +1,5 @@
 import AuthenticatedUser from "../models/Users/AuthenticatedUser";
+import {history} from './../services/RouterService/routing'
 
 export const TOKEN_KEY = "GestaoPessoalToken";
 
@@ -19,7 +20,7 @@ export function login(user: AuthenticatedUser) {
 
 export function logout() {
     localStorage.removeItem(TOKEN_KEY);
-    window.location.href = "/login?redirectUrl=" + window.location.pathname;
+    history.push("/login?redirectUrl=" + window.location.pathname)
 };
 
 export function removeToken() {
@@ -36,6 +37,6 @@ export function getUserName() {
 
 export function verefiIsLogedAndLogaut() {
     if (!isAuthenticated()) {
-        window.location.href = "/login?redirectUrl=" + window.location.pathname;
+        // history.push("/login?redirectUrl=" + window.location.pathname)
     }
 }
