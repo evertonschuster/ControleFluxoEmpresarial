@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 
 const ContentApp: React.FC = (props) => {
 
     const { Content } = Layout;
-    const [] = useState<boolean>(false)
 
     return (
         <Content

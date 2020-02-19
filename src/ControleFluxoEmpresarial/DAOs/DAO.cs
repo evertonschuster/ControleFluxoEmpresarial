@@ -225,6 +225,46 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
+        protected virtual List<TEntity> ExecuteGetAll(string sql, bool closeConnection = true)
+        {
+            if (string.IsNullOrEmpty(sql))
+            {
+                throw new Exception("Sql não informado ");
+            }
+            if (!sql.Contains("order", StringComparison.OrdinalIgnoreCase))
+            {
+                sql += " ORDER BY Id  ";
+            }
+
+            this.CreateTransaction(this.Transaction);
+            var command = CreateCommand();
+
+            try
+            {
+                command.CommandText = sql;
+                command.CommandType = CommandType.Text;
+                var reader = command.ExecuteReader();
+
+                var list = new List<TEntity>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(MapEntity(reader));
+                    }
+                }
+
+                return list.Count == 0 ? null : list;
+            }
+            finally
+            {
+                if (closeConnection)
+                {
+                    command.Connection.Close();
+                }
+            }
+        }
+
         protected virtual int ExecuteScriptInsert(string sql, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))

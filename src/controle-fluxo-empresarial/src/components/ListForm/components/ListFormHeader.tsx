@@ -14,7 +14,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
     //#region Constantes
 
     const [filterValues, setFilterValues] = useState<string>()
-    const { formMode, setFormMode } = useContext(BasicLayoutContext);
+    const { setFormMode } = useContext(BasicLayoutContext);
     //#endregion
 
 

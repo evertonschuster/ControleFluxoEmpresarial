@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Button } from 'antd';
-import { Input, InputNumber } from "../WithFormItem/withFormItem"
+import { InputNumber } from "../WithFormItem/withFormItem"
 import { Input as InputAntd } from "antd"
 import { ItemFormRender } from '../../hoc/WithFormItem';
 import ModelForm, { ErrorMessage, Label } from '../ModalForm/ModalForm';
-import { connect, FormikContextType, ErrorMessage as ErrorMessageFormik } from 'formik';
+import { connect, FormikContextType } from 'formik';
 import { useDebouncedCallback } from '../../hoc/useDebouncedCallback';
 import { AxiosResponse } from 'axios';
 
@@ -20,9 +20,6 @@ export interface Props {
 }
 
 
-
-
-
 const SelectModelOne: React.FC<Props & { formik: FormikContextType<any> }> = (props) => {
 
     const [visible, setVisible] = useState(false);
@@ -35,6 +32,7 @@ const SelectModelOne: React.FC<Props & { formik: FormikContextType<any> }> = (pr
     useEffect(() => {
         let id = props.formik.values[props.name];
         handleClick(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.formik.values[props.name]])
 
     async function getDesciptionValues(id: number) {
@@ -58,11 +56,11 @@ const SelectModelOne: React.FC<Props & { formik: FormikContextType<any> }> = (pr
     }
 
     const handleClick = useDebouncedCallback(async (id) => {
-        try{
+        try {
             props.formik.setSubmitting(true)
             await getDesciptionValues(id);
-        
-        }finally{
+
+        } finally {
             props.formik.setSubmitting(false)
         }
     }, 500);

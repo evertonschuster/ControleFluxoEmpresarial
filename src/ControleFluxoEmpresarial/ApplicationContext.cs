@@ -14,14 +14,8 @@ namespace ControleFluxoEmpresarial
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
-        public DbSet<Pais> Paises { get; set; }
-        public DbSet<Estado> Estados { get; set; }
-        public DbSet<Cidade> Cidades { get; set; }
-        public DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

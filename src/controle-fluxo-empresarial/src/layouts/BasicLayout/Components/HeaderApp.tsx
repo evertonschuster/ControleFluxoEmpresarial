@@ -23,7 +23,7 @@ const HeaderApp: React.FC<Props> = (props) => {
     }
 
     return (
-        <Header style={{ background: '#fff', padding: 0 }}>
+        <Header style={{ background: '#fff', padding: 0, userSelect: "none" }}>
 
             <Row type="flex" align="middle" gutter={20} >
                 <Col span={18} className="gutter-row">
@@ -34,7 +34,7 @@ const HeaderApp: React.FC<Props> = (props) => {
                         {
                             (props.breadcrumbList || []).map((e, index) =>
                                 <Breadcrumb.Item key={index}>
-                                    {e.URL == undefined ? e.displayName : <Link to={e.URL}>{e.displayName}</Link>}
+                                    {e.URL === undefined ? e.displayName : <Link to={e.URL}>{e.displayName}</Link>}
                                 </Breadcrumb.Item>)
                         }
 

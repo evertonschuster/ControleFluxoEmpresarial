@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col, Menu, Icon } from 'antd';
+import { Row, Col } from 'antd';
 import UserModel from '../../../../models/Users/UserModel';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { GetUserById, UpdateUser, SaveUser } from '../../../../apis/Users/UserApi';
@@ -18,7 +18,7 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
 
     useEffect(() => {
         getUser(props.match.params.id);
-    }, [])
+    }, [props.match.params.id])
 
     async function getUser(id: number) {
         if (!id) {
@@ -83,7 +83,7 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
                     </Col>
                 </Row>
 
-                <Row hidden={!(formMode == FormMode.New)}>
+                <Row hidden={!(formMode === FormMode.New)}>
                     <Col span={12}>
                         <Input name="password" label="Senha" required type="password" />
                     </Col>

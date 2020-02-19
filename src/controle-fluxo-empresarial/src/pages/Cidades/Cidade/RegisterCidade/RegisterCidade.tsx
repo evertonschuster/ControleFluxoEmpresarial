@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import SelectModel from '../../../../components/SelectModel/SelectModelOne';
@@ -20,7 +20,7 @@ const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
     useEffect(() => {
         getCidade(props.match.params.id);
-    }, [])
+    }, [props.match.params.id])
 
 
     async function onSubmit(values: Cidade, formikHelpers: FormikHelpers<any>) {

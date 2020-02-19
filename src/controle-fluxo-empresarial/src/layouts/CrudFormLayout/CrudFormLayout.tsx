@@ -1,16 +1,17 @@
-import React, { useState, ReactNode, useEffect, KeyboardEventHandler } from 'react';
-import { Row, Col, Button, message, Icon } from 'antd';
-import { Formik, FormikConfig, FormikErrors, FormikHelpers } from 'formik';
+import React, {  } from 'react';
+import { Row, Col, Button, Icon } from 'antd';
+import { Formik, FormikConfig, FormikHelpers, FormikProps, isFunction } from 'formik';
 import { Form } from 'formik-antd';
 import FormBasicLayout from '../FormBasicLayout/FormBasicLayout';
 import { BreadcrumbProp } from '../BasicLayout/BasicLayout';
 import { errorBack } from '../../utils/MessageApi';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 export interface Props extends FormikConfig<any> {
     breadcrumbList?: BreadcrumbProp[];
     isLoading?: boolean;
     backPath: string;
+    children?: ((props: FormikProps<any>) => React.ReactNode) | React.ReactNode;
 }
 
 
@@ -64,16 +65,18 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
                 {...props}
                 onSubmit={onSubmit}
                 enableReinitialize={true}  >
-                {({ isSubmitting, values, submitForm, errors }) => (
+                {(formik) => (
                     <Form onKeyDown={onKeyDown} >
-                        {renderLoading(isSubmitting)}
+                        {renderLoading(formik.isSubmitting)}
 
-                        {props.children}
+                        {isFunction(props.children)
+                            ? props.children(formik)
+                            : props.children}
 
                         < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
                             <Col>
                                 <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
-                                <Button type="primary" onClick={() => submitForm()}>Salvar</Button>
+                                <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
                             </Col>
                         </Row>
                     </Form>

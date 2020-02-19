@@ -5,26 +5,28 @@ import { Link } from 'react-router-dom';
 
 const SideMenuApp: React.FC = () => {
     const { Sider } = Layout;
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
 
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed} style={{
-            overflow: 'auto',
-            height: '100vh',
-            left: 0,
-        }}>
-            <Menu theme="dark" mode="inline" inlineCollapsed={true}>
+        <Sider trigger={null}
+            collapsible
+            collapsed={collapsed}
+            onDoubleClick={(event) => {
+                setCollapsed(!collapsed);
+                event.preventDefault();
+            }}
+            style={{
+                overflow: 'auto',
+                height: '100vh',
+                left: 0,
+                userSelect: "none",
+            }}>
+            <Menu theme="dark" mode="inline" inlineCollapsed={true} >
                 <Menu.Item key="Menu">
                     <Link to="/">
                         <Icon type="home" />
                         <span>Tela inicial</span>
                     </Link>
-                </Menu.Item>
-
-                <Menu.Item key="MenuAction" onClick={() => setCollapsed(!collapsed)}>
-                    {collapsed ? <Icon type="menu-unfold" /> : <Icon type="menu-fold" />}
-                    {collapsed ? <span>Expandir menu</span> : <span>Recolher menu</span>}
-
                 </Menu.Item>
 
                 <SubMenu
@@ -60,6 +62,10 @@ const SideMenuApp: React.FC = () => {
 
                     <Menu.Item key="UserCrud">
                         <Link to="/user">Usuário</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="TitularCrud">
+                        <Link to="/Titular">Titulares</Link>
                     </Menu.Item>
 
                 </SubMenu>

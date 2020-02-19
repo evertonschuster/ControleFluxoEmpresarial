@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.DAOs.Cidades;
+﻿using ControleFluxoEmpresarial.DAOs.Associados;
+using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.DAOs.Clients;
 using ControleFluxoEmpresarial.DAOs.Users;
 using ControleFluxoEmpresarial.Models.Cidades;
@@ -21,6 +22,8 @@ namespace ControleFluxoEmpresarial.Architectures
             services.AddScoped<EstadoDAO>();
             services.AddScoped<CidadeDAO>();
             services.AddScoped<ClientDAO>();
+            services.AddScoped<TitularDAO>();
+            services.AddScoped<AssociadoDAO>();
 
 
             services.AddTransient<IValidator<Pais>, PaisValidator>();

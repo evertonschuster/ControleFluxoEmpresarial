@@ -1,9 +1,10 @@
 import axios from "axios";
-import { getToken, removeToken } from "../services/Authenticate";
+import { getToken } from "../services/Authenticate";
 import { message } from "antd";
+import { history } from "./../services/RouterService/routing"
 
-let baseUri = "https://gestao-da-casa.herokuapp.com/";
-if (process.env.NODE_ENV == "development") {
+let baseUri = "https://controle-fluxo-empresarial.herokuapp.com/";
+if (process.env.NODE_ENV === "development") {
     baseUri = "http://localhost:5000"
 }
 
@@ -25,7 +26,7 @@ api.interceptors.response.use((response) => {
 },
     function (error) {
 
-        if (error.response == undefined) {
+        if (error.response === undefined) {
 
             console.error("Erros da requisição", error.response);
             message.error("O sistema está temporariamente fora do ar!");
@@ -35,7 +36,7 @@ api.interceptors.response.use((response) => {
 
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
-            window.location.href = "/login?redirectUrl=" + window.location.pathname;
+            history.push("/login?redirectUrl=" + window.location.pathname)
         }
 
         if (error.response!.data!.code === 422 || error.response.status === 422) {
