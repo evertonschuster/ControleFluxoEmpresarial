@@ -1,9 +1,9 @@
 import React, { memo, useState } from 'react';
-import { Table } from 'antd';
+import { Table, Tooltip, Tag } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
 import EditableCell from './Components/EditableCell';
-import { useFormikContext } from 'formik';
+import { FormikHelpers } from 'formik';
 
 export enum RowMode {
     edit = "edit",
@@ -19,6 +19,7 @@ export interface ColumnEditableProps<T> extends ColumnProps<T> {
 export interface Props<T> {
     columns: ColumnEditableProps<T>[];
     rowKey?: string;
+    initiallValues: T
 }
 
 export interface Record {
@@ -27,11 +28,12 @@ export interface Record {
 
 const EditableTable: React.FC<Props<any>> = (props) => {
 
-
-    const dataSource: any = [
+    const dataSourceS: any = [
         { id: 2, nome: "Teste", idade: "45" },
-        { id: 3, nome: "Teste", idade: "45" },
+        { id: 3, nome: "Teste", idade: "45", rowMode: RowMode.edit },
     ]
+
+    const [dataSource, setDataSource] = useState<any[]>(dataSourceS);
 
     const rowKey = props.rowKey ?? "id";
 
@@ -42,7 +44,22 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         },
     };
 
-    const columns: ColumnProps<any>[] = props.columns.map(col => {
+    const columnsAction = props.columns.concat({
+        key: "Action",
+        title: "Ações",
+        width: "180px",
+        render: (text: any, record: Record, index: number) => (
+            <>
+                <Tooltip placement="top" title="Editar Registro Selecionado."  >
+                    <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
+                </Tooltip>
+                <Tooltip placement="top" title="Editar Registro Selecionado."  >
+                    <Tag color="red" key={index + "13"} className="custom-cursor-pointer" >Remover</Tag>
+                </Tooltip>
+            </>)
+    });
+
+    const columns: ColumnProps<any>[] = columnsAction.map((col: ColumnEditableProps<any>) => {
         if (!col.editable) {
             return col;
         }
@@ -53,13 +70,16 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                 editable: col.editable ?? false,
                 dataIndex: col.dataIndex,
                 title: col.title,
-                handleSave: handleSave,
             }),
         };
     });
 
-    function handleSave(save: any) {
+    function handleSave(values: Record, formikHelpers: FormikHelpers<Record>) {
 
+    }
+
+    function handleRowMode(record: Record, rowMode: RowMode) {
+        dataSource.filter(e )
     }
 
     function mapRecord(dataSource: Record[]): Record[] {
@@ -73,6 +93,12 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             dataSource={mapRecord(dataSource)}
             columns={columns}
             rowKey={rowKey}
+            onRow={(record: any, index: any) => ({
+                index,
+                record,
+                initiallValues: props.initiallValues,
+                handleSave: handleSave,
+            })}
         />
     );
 

@@ -1,25 +1,31 @@
 import React, { memo } from 'react';
-import { connect, useFormik, useFormikContext } from 'formik';
+import { Record, RowMode } from './../EditableTable'
+import { Input } from 'formik-antd';
 
 
-export interface Props<T> {
-    record: T,
-    editable: boolean,
-    dataIndex: string,
-    title: string,
-    handleSave: (value: T) => void,
+export interface Props {
+    record: Record;
+    editable: boolean;
+    dataIndex: string;
+    title: string;
 }
 
-const EditableCell: React.FC<Props<any>> = (props) => {
+const EditableCell: React.FC<Props> = (props) => {
 
-    const formik = useFormikContext();
-    
-    console.log("adsda", formik)
+    console.log("props", props)
+
+    if (props.record === undefined || props.record.rowMode === RowMode.view) {
+        return (
+            <td> {props.children} </td>
+        );
+    }
 
     return (
-        <td> {props.children} </td>
-    );
+        <td>
+            <Input name={props.dataIndex}></Input>
+        </td>
+    )
 
 }
 
-export default EditableCell;
+export default memo(EditableCell);

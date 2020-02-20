@@ -82,8 +82,10 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
                     <EditableTable columns={[
                         { dataIndex: "id", title: "id" },
                         { dataIndex: "nome", title: "nome", editable: true },
-                        { dataIndex: "idade", title: "idade" }
-                    ]} />
+                        { dataIndex: "idade", title: "idade", editable: true }
+                    ]}
+                        initiallValues={{}}
+                    />
                 </Col>
             </Row>
 

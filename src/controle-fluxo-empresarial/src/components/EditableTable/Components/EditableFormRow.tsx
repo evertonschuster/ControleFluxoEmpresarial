@@ -1,16 +1,14 @@
-import React, { memo, createRef } from 'react';
+import React, { memo } from 'react';
 import { Record, RowMode } from './../EditableTable'
-import { useFormik, Formik, FormikContextType, useFormikContext, Form, FormikProvider, withFormik } from 'formik';
-import { promises } from 'dns';
+import { Formik, FormikHelpers } from 'formik';
 
-export interface Props<T> {
-    children: any[]
+export interface Props {
+    record: Record
+    initiallValues: Record,
+    handleSave: (values: Record, formikHelpers: FormikHelpers<Record>) => void,
 }
 
-const EditableFormRow: React.FC<any> = (props) => {
-
-    const record: Record = props.children[0].props.record;
-
+const EditableFormRow: React.FC<Props> = (props) => {
 
     // if (record.rowMode === RowMode.view) {
     //     return (
@@ -18,11 +16,11 @@ const EditableFormRow: React.FC<any> = (props) => {
     //     );
     // }
 
-    return (<tr {...props} />)
+    return (
+        <Formik initialValues={props.record.rowMode === RowMode.new ? props.initiallValues : props.record} onSubmit={props.handleSave}>
+            <tr {...props} />
+        </Formik>
+    )
 }
 
-export default withFormik({
-    mapPropsToValues: () => ({ name: "" }),
-    handleSubmit: () => { },
-    displayName: "asd"
-})(EditableFormRow);
+export default memo(EditableFormRow);
