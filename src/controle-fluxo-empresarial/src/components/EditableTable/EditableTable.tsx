@@ -1,9 +1,10 @@
-import React, { memo, useState } from 'react';
-import { Table, Tooltip, Tag } from 'antd';
+import React, { memo } from 'react';
+import { Table } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
 import EditableCell from './Components/EditableCell';
-import { FormikHelpers } from 'formik';
+import { useField } from 'formik';
+import EditableCellAction from './Components/EditableCellAction';
 
 export enum RowMode {
     edit = "edit",
@@ -13,13 +14,16 @@ export enum RowMode {
 }
 
 export interface ColumnEditableProps<T> extends ColumnProps<T> {
-    editable?: boolean
+    editable?: boolean;
+    renderEditable?: (text: any, record: T, index: number) => React.ReactNode;
 }
 
 export interface Props<T> {
     columns: ColumnEditableProps<T>[];
     rowKey?: string;
-    initiallValues: T
+    initiallValues: T;
+    name: string;
+    validationSchema?: any | (() => any);
 }
 
 export interface Record {
@@ -28,14 +32,9 @@ export interface Record {
 
 const EditableTable: React.FC<Props<any>> = (props) => {
 
-    const dataSourceS: any = [
-        { id: 2, nome: "Teste", idade: "45" },
-        { id: 3, nome: "Teste", idade: "45", rowMode: RowMode.edit },
-    ]
-
-    const [dataSource, setDataSource] = useState<any[]>(dataSourceS);
-
+    const [field, , helpers] = useField(props.name);
     const rowKey = props.rowKey ?? "id";
+    const dataSource = field.value as any[];
 
     const components: TableComponents = {
         body: {
@@ -48,15 +47,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         key: "Action",
         title: "Ações",
         width: "180px",
-        render: (text: any, record: Record, index: number) => (
-            <>
-                <Tooltip placement="top" title="Editar Registro Selecionado."  >
-                    <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
-                </Tooltip>
-                <Tooltip placement="top" title="Editar Registro Selecionado."  >
-                    <Tag color="red" key={index + "13"} className="custom-cursor-pointer" >Remover</Tag>
-                </Tooltip>
-            </>)
+        render: (text: any, record: Record, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
     });
 
     const columns: ColumnProps<any>[] = columnsAction.map((col: ColumnEditableProps<any>) => {
@@ -65,21 +56,32 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         }
         return {
             ...col,
-            onCell: (record: Record) => ({
+            onCell: (record: Record, rowIndex: number) => ({
                 record,
                 editable: col.editable ?? false,
                 dataIndex: col.dataIndex,
                 title: col.title,
+                renderEditable: col.renderEditable,
+                rowIndex: rowIndex
             }),
         };
     });
 
-    function handleSave(values: Record, formikHelpers: FormikHelpers<Record>) {
+    function handleSave(values: Record & any) {
 
+        const dataSourceNew = dataSource.map(e => e[rowKey] !== values[rowKey] ? e : { ...values, rowMode: RowMode.view });
+        helpers.setValue(dataSourceNew);
     }
 
-    function handleRowMode(record: Record, rowMode: RowMode) {
-        dataSource.filter(e )
+    function handleRemove(values: Record & any) {
+
+        const dataSourceNew = dataSource.filter(e => e[rowKey] !== values[rowKey]);
+        helpers.setValue(dataSourceNew);
+    }
+
+    function handleRowMode(record: Record & any, rowMode: RowMode) {
+        const dataSourceNew = dataSource.map(e => e[rowKey] !== record[rowKey] ? e : { ...record, rowMode });
+        helpers.setValue(dataSourceNew);
     }
 
     function mapRecord(dataSource: Record[]): Record[] {
@@ -93,11 +95,13 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             dataSource={mapRecord(dataSource)}
             columns={columns}
             rowKey={rowKey}
+            size="small"
             onRow={(record: any, index: any) => ({
                 index,
                 record,
                 initiallValues: props.initiallValues,
                 handleSave: handleSave,
+                validationSchema: props.validationSchema
             })}
         />
     );

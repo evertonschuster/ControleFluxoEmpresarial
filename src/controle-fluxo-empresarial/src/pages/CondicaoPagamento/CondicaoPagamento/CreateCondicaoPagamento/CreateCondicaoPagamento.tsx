@@ -1,19 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamento';
-import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
+import { CondicaoPagamentoSchema, CondicaoPagamentoParcelaSchema } from './CondicaoPagamentoSchema';
 import EditableTable from '../../../../components/EditableTable/EditableTable';
 
 const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
-    const [condicaopagamento, setCondicaoPagamento] = useState<CondicaoPagamento>({ nome: "", juro: 0, multa: 0, desconto: 0, parcela: [] })
+    const [condicaopagamento, setCondicaoPagamento] = useState<CondicaoPagamento>({
+        nome: "",
+        juro: 0,
+        multa: 0,
+        desconto: 0,
+        parcela: [
+            {
+                id: 1,
+                numeroDias: 10,
+                porcentual: 10,
+                formaPagamento: null
+            },
+            {
+                id: 2,
+                numeroDias: 20,
+                porcentual: 20,
+                formaPagamento: null
+            },
+            {
+                id: 3,
+                numeroDias: 30,
+                porcentual: 30,
+                formaPagamento: null
+            },
+            {
+                id: 4,
+                numeroDias: 40,
+                porcentual: 40,
+                formaPagamento: null
+            },
+        ]
+    })
     const [loading, setLoading] = useState(false);
 
 
@@ -79,12 +110,16 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
 
             <Row>
                 <Col span={24}>
+                    <Divider>Parcelas</Divider>
                     <EditableTable columns={[
                         { dataIndex: "id", title: "id" },
-                        { dataIndex: "nome", title: "nome", editable: true },
-                        { dataIndex: "idade", title: "idade", editable: true }
+                        { dataIndex: "numeroDias", title: "numeroDias", editable: true },
+                        { dataIndex: "porcentual", title: "porcentual", editable: true },
+                        { dataIndex: "formaPagamento", title: "formaPagamento", editable: true, renderEditable: () => <div>Me chupa</div> }
                     ]}
                         initiallValues={{}}
+                        name="parcela"
+                        validationSchema={CondicaoPagamentoParcelaSchema}
                     />
                 </Col>
             </Row>
@@ -93,6 +128,5 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
     );
 
 }
-
 
 export default CreateCondicaoPagamento;

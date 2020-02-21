@@ -11,7 +11,6 @@ export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamen
         .required("Informe o percentual.")
         .min(0, "O percentual deve ser maior que 0.")
         .max(100, "O percentual não pode ser maior que 100."),
-    formaPagamento: Yup.object(),
 });
 
 

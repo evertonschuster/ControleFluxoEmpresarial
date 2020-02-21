@@ -1,18 +1,19 @@
 import React, { memo } from 'react';
 import { Record, RowMode } from './../EditableTable'
-import { Input } from 'formik-antd';
+import { Input } from '../../WithFormItem/withFormItem';
+import { isFunction } from 'formik';
 
 
 export interface Props {
-    record: Record;
+    record: Record & any;
     editable: boolean;
     dataIndex: string;
     title: string;
+    renderEditable?: (text: any, record: any, index: number) => React.ReactNode;
+    rowIndex: number
 }
 
 const EditableCell: React.FC<Props> = (props) => {
-
-    console.log("props", props)
 
     if (props.record === undefined || props.record.rowMode === RowMode.view) {
         return (
@@ -20,12 +21,19 @@ const EditableCell: React.FC<Props> = (props) => {
         );
     }
 
+    if (isFunction(props.renderEditable)) {
+        return (
+            <td>
+                {props.renderEditable(props.record[props.dataIndex], props.record, props.rowIndex)}
+            </td>
+        );
+    }
+
     return (
         <td>
-            <Input name={props.dataIndex}></Input>
+            <Input label="" name={props.dataIndex}></Input>
         </td>
-    )
-
+    );
 }
 
 export default memo(EditableCell);

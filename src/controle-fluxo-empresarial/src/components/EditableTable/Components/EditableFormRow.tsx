@@ -6,19 +6,25 @@ export interface Props {
     record: Record
     initiallValues: Record,
     handleSave: (values: Record, formikHelpers: FormikHelpers<Record>) => void,
+    validationSchema?: any | (() => any);
 }
 
 const EditableFormRow: React.FC<Props> = (props) => {
 
-    // if (record.rowMode === RowMode.view) {
-    //     return (
-    //         <tr {...props} />
-    //     );
-    // }
+    const { record, initiallValues, handleSave, validationSchema, ...restProps } = props
+
+    if (record.rowMode === RowMode.view) {
+        return (
+            <tr {...restProps} />
+        );
+    }
 
     return (
-        <Formik initialValues={props.record.rowMode === RowMode.new ? props.initiallValues : props.record} onSubmit={props.handleSave}>
-            <tr {...props} />
+        <Formik
+            validationSchema={validationSchema}
+            initialValues={record.rowMode === RowMode.new ? initiallValues : record}
+            onSubmit={handleSave}>
+            <tr {...restProps} />
         </Formik>
     )
 }
