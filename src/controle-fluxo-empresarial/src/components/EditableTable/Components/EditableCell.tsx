@@ -15,20 +15,21 @@ export interface Props {
 
 const EditableCell: React.FC<Props> = (props) => {
 
+    
     if (props.record === undefined || props.record.rowMode === RowMode.view) {
         return (
             <td> {props.children} </td>
-        );
-    }
-
-    if (isFunction(props.renderEditable)) {
-        return (
-            <td>
+            );
+        }
+        
+        if (isFunction(props.renderEditable)) {
+            return (
+                <td>
                 {props.renderEditable(props.record[props.dataIndex], props.record, props.rowIndex)}
             </td>
         );
     }
-
+    
     return (
         <td>
             <Input label="" name={props.dataIndex}></Input>

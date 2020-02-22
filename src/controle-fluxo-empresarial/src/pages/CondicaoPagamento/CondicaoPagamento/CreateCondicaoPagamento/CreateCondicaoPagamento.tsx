@@ -9,6 +9,8 @@ import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/Condicao
 import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamento';
 import { CondicaoPagamentoSchema, CondicaoPagamentoParcelaSchema } from './CondicaoPagamentoSchema';
 import EditableTable from '../../../../components/EditableTable/EditableTable';
+import SelectModel from '../../../../components/SelectModel/SelectModelOne';
+import { GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
 
 const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -115,9 +117,25 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
                         { dataIndex: "id", title: "id" },
                         { dataIndex: "numeroDias", title: "numeroDias", editable: true },
                         { dataIndex: "porcentual", title: "porcentual", editable: true },
-                        { dataIndex: "formaPagamento", title: "formaPagamento", editable: true, renderEditable: () => <div>Me chupa</div> }
+                        {
+                            dataIndex: "formaPagamento", title: "formaPagamento", editable: true, renderEditable: () =>
+                                <SelectModel
+                                    fetchMethod={GetEstadoById}
+                                    name="estadoId"
+                                    keyDescription="nome"
+                                    required={true}
+                                    label={{ title: "Seleção de Estado", label: "Estado" }}
+                                    errorMessage={{ noSelection: "Selecione ao menos um Estado!" }}
+                                    path="estado" />
+                        }
                     ]}
-                        initiallValues={{}}
+                        initiallValues={{
+                            id: null,
+                            estadoId: 0,
+                            numeroDias: undefined,
+                            porcentual: undefined,
+                            formaPagamento: null
+                        }}
                         name="parcela"
                         validationSchema={CondicaoPagamentoParcelaSchema}
                     />

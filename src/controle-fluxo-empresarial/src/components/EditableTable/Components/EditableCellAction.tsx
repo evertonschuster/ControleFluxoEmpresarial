@@ -15,6 +15,15 @@ const EditableCellAction: React.FC<Props> = (props) => {
 
     const { submitForm } = useFormikContext();
 
+    function handleCancel(record: Record) {
+        if(record.rowMode === RowMode.new){
+            props.handleRemove(record);
+            return;
+        }
+        
+        props.handleRowMode(record, RowMode.view)
+    }
+
     if (props.record.rowMode === RowMode.view) {
         return (
             <>
@@ -31,7 +40,7 @@ const EditableCellAction: React.FC<Props> = (props) => {
     return (
         <>
             <Tooltip placement="top" title="Cancela Edição do Registro Selecionado."  >
-                <Tag color="red" key={props.index + "13"} className="custom-cursor-pointer" onClick={() => props.handleRowMode(props.record, RowMode.view)}>Cancelar</Tag>
+                <Tag color="red" key={props.index + "13"} className="custom-cursor-pointer" onClick={() => handleCancel(props.record)}>Cancelar</Tag>
             </Tooltip>
             <Tooltip placement="top" title="Salva Registro Selecionado."  >
                 <Tag color="green" key={props.index + "12"} className="custom-cursor-pointer" onClick={() => submitForm()} >Salvar</Tag>
@@ -41,4 +50,4 @@ const EditableCellAction: React.FC<Props> = (props) => {
 
 }
 
-export default memo(EditableCellAction);
+export default (EditableCellAction);

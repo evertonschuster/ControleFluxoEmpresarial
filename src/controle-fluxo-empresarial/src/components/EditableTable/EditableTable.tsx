@@ -5,6 +5,8 @@ import EditableFormRow from './Components/EditableFormRow';
 import EditableCell from './Components/EditableCell';
 import { useField } from 'formik';
 import EditableCellAction from './Components/EditableCellAction';
+import "./editable-table-style.css"
+import EditableRowFooter from './Components/EditableRowFooter';
 
 export enum RowMode {
     edit = "edit",
@@ -28,13 +30,14 @@ export interface Props<T> {
 
 export interface Record {
     rowMode: RowMode
+    tableKey: string;
 }
 
 const EditableTable: React.FC<Props<any>> = (props) => {
 
     const [field, , helpers] = useField(props.name);
     const rowKey = props.rowKey ?? "id";
-    const dataSource = field.value as any[];
+    const dataSource = mapRecord(field.value as any[]);
 
     const components: TableComponents = {
         body: {
@@ -69,32 +72,40 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
     function handleSave(values: Record & any) {
 
-        const dataSourceNew = dataSource.map(e => e[rowKey] !== values[rowKey] ? e : { ...values, rowMode: RowMode.view });
+        const dataSourceNew = dataSource.map(e => e.tableKey !== values.tableKey ? e : { ...values, rowMode: RowMode.view });
         helpers.setValue(dataSourceNew);
     }
 
     function handleRemove(values: Record & any) {
 
-        const dataSourceNew = dataSource.filter(e => e[rowKey] !== values[rowKey]);
+        const dataSourceNew = dataSource.filter(e => e.tableKey !== values.tableKey);
         helpers.setValue(dataSourceNew);
     }
 
     function handleRowMode(record: Record & any, rowMode: RowMode) {
-        const dataSourceNew = dataSource.map(e => e[rowKey] !== record[rowKey] ? e : { ...record, rowMode });
+
+        const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
         helpers.setValue(dataSourceNew);
     }
 
+    function handleRowNew() {
+
+        helpers.setValue(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
+    }
+
     function mapRecord(dataSource: Record[]): Record[] {
-        return dataSource.map(e => { return { ...e, rowMode: e.rowMode ?? RowMode.view } });
+        return dataSource.map((e) => {
+            return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now()}
+        });
     }
 
     return (
         <Table
             components={components}
             bordered
-            dataSource={mapRecord(dataSource)}
+            dataSource={dataSource}
             columns={columns}
-            rowKey={rowKey}
+            rowKey="tableKey"
             size="small"
             onRow={(record: any, index: any) => ({
                 index,
@@ -103,6 +114,8 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                 handleSave: handleSave,
                 validationSchema: props.validationSchema
             })}
+            pagination={{}}
+            footer={() => <EditableRowFooter onNewRow={handleRowNew} />}
         />
     );
 
