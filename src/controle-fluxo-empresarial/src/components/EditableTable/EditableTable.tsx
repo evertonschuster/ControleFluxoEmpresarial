@@ -90,12 +90,13 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
     function handleRowNew() {
 
-        helpers.setValue(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
+        let mapedDataSource = mapRecord(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
+        helpers.setValue(mapedDataSource);
     }
 
     function mapRecord(dataSource: Record[]): Record[] {
         return dataSource.map((e) => {
-            return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now()}
+            return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now() }
         });
     }
 

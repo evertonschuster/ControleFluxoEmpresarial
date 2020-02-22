@@ -23,6 +23,7 @@ const EditableFormRow: React.FC<Props> = (props) => {
         <Formik
             validationSchema={validationSchema}
             initialValues={record}
+            enableReinitialize={true}
             onSubmit={handleSave}>
             <tr {...restProps} />
         </Formik>

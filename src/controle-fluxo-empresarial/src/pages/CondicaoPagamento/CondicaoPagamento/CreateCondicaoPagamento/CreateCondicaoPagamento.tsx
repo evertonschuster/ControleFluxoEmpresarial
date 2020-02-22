@@ -47,6 +47,27 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
             },
         ]
     })
+
+    const columns = [
+        { dataIndex: "id", title: "id" },
+        { dataIndex: "numeroDias", title: "numeroDias", editable: true },
+        { dataIndex: "porcentual", title: "porcentual", editable: true },
+        {
+            dataIndex: "formaPagamento", title: "formaPagamento", editable: true, renderEditable:
+                (text: any, record: any, index: number) => {
+                    console.log("Renderizei", text, record)
+
+                    return <SelectModel
+                        fetchMethod={GetEstadoById}
+                        name="formaPagamento"
+                        keyDescription="nome"
+                        required={true}
+                        label={{ title: "Seleção de Estado", label: "Estado" }}
+                        errorMessage={{ noSelection: "Selecione ao menos um Estado!" }}
+                        path="estado" />
+                }
+        }
+    ];
     const [loading, setLoading] = useState(false);
 
 
@@ -113,28 +134,11 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
             <Row>
                 <Col span={24}>
                     <Divider>Parcelas</Divider>
-                    <EditableTable columns={[
-                        { dataIndex: "id", title: "id" },
-                        { dataIndex: "numeroDias", title: "numeroDias", editable: true },
-                        { dataIndex: "porcentual", title: "porcentual", editable: true },
-                        {
-                            dataIndex: "formaPagamento", title: "formaPagamento", editable: true, renderEditable: () =>
-                                <SelectModel
-                                    fetchMethod={GetEstadoById}
-                                    name="estadoId"
-                                    keyDescription="nome"
-                                    required={true}
-                                    label={{ title: "Seleção de Estado", label: "Estado" }}
-                                    errorMessage={{ noSelection: "Selecione ao menos um Estado!" }}
-                                    path="estado" />
-                        }
-                    ]}
+                    <EditableTable columns={columns}
                         initiallValues={{
-                            id: null,
-                            estadoId: 0,
-                            numeroDias: undefined,
-                            porcentual: undefined,
-                            formaPagamento: null
+                            numeroDias: 20,
+                            porcentual: 20,
+                            formaPagamento: 0
                         }}
                         name="parcela"
                         validationSchema={CondicaoPagamentoParcelaSchema}
