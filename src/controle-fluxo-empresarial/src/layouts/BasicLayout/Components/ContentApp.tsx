@@ -12,7 +12,8 @@ const ContentApp: React.FC = (props) => {
                 padding: 24,
                 background: '#fff',
                 minHeight: 280,
-                overflow: "hidden"
+                overflow: "hidden",
+                height: "100vh"
             }}>
 
 

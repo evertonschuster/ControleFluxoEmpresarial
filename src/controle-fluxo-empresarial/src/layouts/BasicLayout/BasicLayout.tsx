@@ -4,6 +4,7 @@ import SideMenuApp from './Components/SideMenuApp';
 import ContentApp from './Components/ContentApp';
 import HeaderApp from './Components/HeaderApp';
 import BasicLayoutContext from './BasicLayoutContext';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 import "./basic-layout.css";
 
 
@@ -26,11 +27,11 @@ const BasicLayout: React.FC<Props> = (props) => {
 
                 <SideMenuApp />
 
-                <Layout  >
-
-                    <HeaderApp breadcrumbList={breadcrumb} />
-                    <ContentApp > {props.children} </ContentApp>
-
+                <Layout  style={{ height: "100vh" }}>
+                    <PerfectScrollbar style={{ height: "100vh" }}>
+                        <HeaderApp breadcrumbList={breadcrumb} />
+                        <ContentApp > {props.children} </ContentApp>
+                    </PerfectScrollbar>
                 </Layout>
             </Layout>
         </div>

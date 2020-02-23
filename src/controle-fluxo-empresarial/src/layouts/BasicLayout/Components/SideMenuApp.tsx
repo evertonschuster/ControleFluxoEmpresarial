@@ -15,12 +15,7 @@ const SideMenuApp: React.FC = () => {
                 setCollapsed(!collapsed);
                 event.preventDefault();
             }}
-            style={{
-                overflow: 'auto',
-                height: '100vh',
-                left: 0,
-                userSelect: "none",
-            }}>
+            >
             <Menu theme="dark" mode="inline" inlineCollapsed={true} >
                 <Menu.Item key="Menu">
                     <Link to="/">
@@ -41,7 +36,7 @@ const SideMenuApp: React.FC = () => {
                     <Menu.Item key="cidadesCrud">
                         <Link to="/cidade">Cidades</Link>
                     </Menu.Item>
-                    <Menu.Item key="estadoCrud">
+                    <Menu.Item key="estadoCrud"> 
                         <Link to="/estado">Estados</Link>
                     </Menu.Item>
                     <Menu.Item key="paisCrud">
