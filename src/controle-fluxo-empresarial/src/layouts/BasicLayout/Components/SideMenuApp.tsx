@@ -71,7 +71,7 @@ const SideMenuApp: React.FC = () => {
                     <SubMenu
                         key="CondicaoPagamento"
                         title={
-                            <span>Condição de Pag.</span>
+                            <Link to="/condicao-pagamento">Condição de Pag.</Link>
                         }>
 
                         <Menu.Item key="CondicaoPagamentoCrud">

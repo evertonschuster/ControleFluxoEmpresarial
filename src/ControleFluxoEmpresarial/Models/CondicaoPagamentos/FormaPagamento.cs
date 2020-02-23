@@ -1,11 +1,11 @@
-﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamento;
+﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Models.CondicaoPagamento
+namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
 {
     public class FormaPagamento : BaseEntity
     {
@@ -28,7 +28,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamento
 
             RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Forma de Pagamento já cadastrado.");
 
-            RuleFor(e => e.Id).Must(ExistsCidade).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
+            RuleFor(e => e.Id).Must(ExistsFormaPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
         }
 
         private bool NameIsAllow(FormaPagamento formaPagamento, string nome)
@@ -37,7 +37,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamento
             return findCidade == null || findCidade?.Id == formaPagamento.Id;
         }
 
-        private bool ExistsCidade(int id)
+        private bool ExistsFormaPagamento(int id)
         {
             return this.FormaPagamentoDAO.GetByID(id) != null;
         }

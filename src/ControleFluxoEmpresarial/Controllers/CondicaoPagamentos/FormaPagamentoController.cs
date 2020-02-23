@@ -1,14 +1,14 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
-using ControleFluxoEmpresarial.DAOs.CondicaoPagamento;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
 using ControleFluxoEmpresarial.Filters.ModelView;
-using ControleFluxoEmpresarial.Models.CondicaoPagamento;
+using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamento
+namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 {
     [Route("api/forma-pagamento")]
     [ApiController]

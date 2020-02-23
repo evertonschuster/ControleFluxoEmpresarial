@@ -21,8 +21,8 @@ export const CondicaoPagamentoSchema = Yup.object().shape<CondicaoPagamento>({
     nome: Yup.string()
         .max(50, "O campo Nome não deve possuir mais de 50 caracteres.")
         .required('O campo Condição de Pagamento não pode ser vazio.'),
-    juro: Yup.number().typeError("Informe um número válido.").min(0, "O valor não pode ser menor que 0."),
-    multa: Yup.number().typeError("Informe um número válido.").min(0, "O valor não pode ser menor que 0."),
-    desconto: Yup.number().typeError("Informe um número válido.").min(0, "O valor não pode ser menor que 0."),
+    juro: Yup.number().required("Informe um número válido.").typeError("Informe um número válido.").min(0, "O valor não pode ser menor que 0."),
+    multa: Yup.number().required("Informe um número válido.").typeError("Informe um número válido.").min(0, "O valor não pode ser menor que 0."),
+    desconto: Yup.number().required("Informe um número válido.").typeError("Informe um número válido.").min(0, "O valor não pode ser menor que 0."),
     parcela: Yup.array().of(CondicaoPagamentoParcelaSchema).min(1, "Informe ao menos uma parcela.")
 });

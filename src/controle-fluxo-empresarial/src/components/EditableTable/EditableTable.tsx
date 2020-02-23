@@ -3,7 +3,7 @@ import { Table, Form } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
 import EditableCell from './Components/EditableCell';
-import { useField, ErrorMessage } from 'formik';
+import { useField } from 'formik';
 import EditableCellAction from './Components/EditableCellAction';
 import "./editable-table-style.css"
 import EditableRowFooter from './Components/EditableRowFooter';
@@ -15,9 +15,15 @@ export enum RowMode {
     view = 'view'
 }
 
+export enum TypeAttribute {
+    number = "number",
+    text = "text"
+}
+
 export interface ColumnEditableProps<T> extends ColumnProps<T> {
     editable?: boolean;
     renderEditable?: (text: any, record: T, index: number) => React.ReactNode;
+    type?: TypeAttribute;
 }
 
 export interface Props<T> {
@@ -74,6 +80,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                 dataIndex: col.dataIndex,
                 title: col.title,
                 renderEditable: col.renderEditable,
+                type: col.type ?? TypeAttribute.text,
                 rowIndex: rowIndex
             }),
         };
@@ -104,7 +111,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
     }
 
     function mapRecord(dataSource: Record[]): Record[] {
-        return dataSource.map((e) => {
+        return (dataSource || []).map((e) => {
             return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now() }
         });
     }

@@ -51,7 +51,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     helpersObject.setValue(respose.data)
                 }
             } else {
-                setDescription("")
+                setDescription("");
             }
         } else {
             setDescription("")
