@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Button } from 'antd';
-import { InputNumber } from "../WithFormItem/withFormItem"
-import { Input as InputAntd } from "antd"
+import React, { useState, useEffect, memo } from 'react';
+import { Row, Col, Button, Form } from 'antd';
+import { Input as InputAntd, InputNumber } from "antd"
 import { ItemFormRender } from '../../hoc/WithFormItem';
 import ModelForm, { ErrorMessage, Label } from '../ModalForm/ModalForm';
-import { connect, FormikContextType } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { useDebouncedCallback } from '../../hoc/useDebouncedCallback';
 import { AxiosResponse } from 'axios';
+import "./select-model-one-style.css";
 
 export interface Props {
     path: string;
@@ -17,89 +17,100 @@ export interface Props {
     keyDescription: string;
     required?: boolean;
     fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
+    showLabel?: boolean;
+    ObjectName?: string;
 }
 
 
-const SelectModelOne: React.FC<Props & { formik: FormikContextType<any> }> = (props) => {
+const SelectModelOne: React.FC<Props> = (props) => {
 
     const [visible, setVisible] = useState(false);
     const [description, setDescription] = useState("")
     const keyId = props.keyId || "id";
     const keyDescription = props.keyDescription || "nome";
     const required = props.required || true;
-
+    const showLabel = props.showLabel ?? true;
+    const [field, meta, helpers] = useField(props.name);
+    const [, , helpersObject] = useField(props.ObjectName ?? props.name); //Todo
+    const { setSubmitting } = useFormikContext();
 
     useEffect(() => {
-        let id = props.formik.values[props.name];
+        let id = field.value;
         handleClick(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.formik.values[props.name]])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [field.value])
 
     async function getDesciptionValues(id: number) {
 
         if (id) {
             let respose = await props.fetchMethod(id);
             if (respose.data) {
-                setDescription(respose.data[keyDescription])
+                setDescription(respose.data[keyDescription]);
+
+                if (props.ObjectName) {
+                    helpersObject.setValue(respose.data)
+                }
             } else {
                 setDescription("")
             }
         } else {
             setDescription("")
         }
-
     }
 
     function setState(params: any) {
         let id = params[keyId];
-        props.formik.setFieldValue(props.name, id);
+        helpers.setValue(id);
     }
 
     const handleClick = useDebouncedCallback(async (id) => {
         try {
-            props.formik.setSubmitting(true)
+            setSubmitting(true)
             await getDesciptionValues(id);
 
         } finally {
-            props.formik.setSubmitting(false)
+            setSubmitting(false)
         }
     }, 500);
 
 
     return (
         <>
-            <Row>
-                <Col span={3}>
-                    <InputNumber
-                        name={props.name}
-                        required={required}
-                        min={0}
-                        label={props.label.label} />
-                </Col>
-                <Col span={19}>
-                    <ItemFormRender>
-                        <InputAntd value={description} />
-                    </ItemFormRender>
-                </Col>
-                <Col span={2} style={{ textAlign: "right" }} >
-                    <ItemFormRender>
-                        <Button type="primary" shape="circle" icon="search" onClick={() => setVisible(true)} ></Button>
-                    </ItemFormRender>
-                </Col>
-            </Row>
+            <Form.Item
+                className="select-model-one-style-item"
+                validateStatus={meta.error ? "error" : "validating"}
+                help={meta.error ?? ""}>
+                <Row>
+                    <Col span={3}>
+                        <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
+                            <InputNumber value={meta.value} onChange={helpers.setValue} style={{ width: "inherit" }} />
+                        </ItemFormRender>
+                    </Col>
+                    <Col span={19}>
+                        <ItemFormRender showLabel={showLabel}>
+                            <InputAntd value={description} />
+                        </ItemFormRender>
+                    </Col>
+                    <Col span={2} style={{ textAlign: "right" }} >
+                        <ItemFormRender showLabel={showLabel}>
+                            <Button type="primary" shape="circle" icon="search" onClick={() => setVisible(true)} ></Button>
+                        </ItemFormRender>
+                    </Col>
+                </Row>
 
-            <ModelForm
-                required={props.required}
-                visible={visible}
-                setVisible={setVisible}
-                setState={setState}
-                state={isNaN(props.formik.values[props.name]) ? [] : { [keyId]: Number(props.formik.values[props.name]) }}
-                label={props.label}
-                errorMessage={props.errorMessage}
-                path={props.path} />
+                <ModelForm
+                    required={props.required}
+                    visible={visible}
+                    setVisible={setVisible}
+                    setState={setState}
+                    state={isNaN(field.value) ? [] : { [keyId]: Number(field.value) }}
+                    label={props.label}
+                    errorMessage={props.errorMessage}
+                    path={props.path} />
+            </Form.Item>
         </>
     );
 
 }
 
-export default connect<Props, {}>(SelectModelOne);
+export default memo(SelectModelOne);

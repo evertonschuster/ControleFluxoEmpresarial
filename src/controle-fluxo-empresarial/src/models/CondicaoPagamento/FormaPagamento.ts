@@ -1,4 +1,4 @@
 export interface FormaPagamento {
     id?: number;
-    nome: string;
+    nome?: string;
 }

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Divider } from 'antd';
-import { Input } from '../../../../components/WithFormItem/withFormItem';
+import { Input, InputNumber } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { FormikHelpers } from 'formik';
+import { FormikHelpers, ErrorMessage } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamento';
 import { CondicaoPagamentoSchema, CondicaoPagamentoParcelaSchema } from './CondicaoPagamentoSchema';
-import EditableTable from '../../../../components/EditableTable/EditableTable';
+import EditableTable, { ColumnEditableProps } from '../../../../components/EditableTable/EditableTable';
 import SelectModel from '../../../../components/SelectModel/SelectModelOne';
-import { GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
+import { GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamento';
+import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
 
 const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -21,51 +22,32 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
         multa: 0,
         desconto: 0,
         parcela: [
-            {
-                id: 1,
-                numeroDias: 10,
-                porcentual: 10,
-                formaPagamento: null
-            },
-            {
-                id: 2,
-                numeroDias: 20,
-                porcentual: 20,
-                formaPagamento: null
-            },
-            {
-                id: 3,
-                numeroDias: 30,
-                porcentual: 30,
-                formaPagamento: null
-            },
-            {
-                id: 4,
-                numeroDias: 40,
-                porcentual: 40,
-                formaPagamento: null
-            },
+           
         ]
     })
 
-    const columns = [
+    const columns: ColumnEditableProps<CondicaoPagamento>[] = [
         { dataIndex: "id", title: "id" },
-        { dataIndex: "numeroDias", title: "numeroDias", editable: true },
-        { dataIndex: "porcentual", title: "porcentual", editable: true },
+        { dataIndex: "numeroDias", title: "Número de Dias", editable: true },
+        { dataIndex: "percentual", title: "Percentual", editable: true },
         {
-            dataIndex: "formaPagamento", title: "formaPagamento", editable: true, renderEditable:
-                (text: any, record: any, index: number) => {
-                    console.log("Renderizei", text, record)
-
+            dataIndex: "formaPagamento", title: "Forma de Pagamento", editable: true,
+            render: (text: FormaPagamento) => {
+                return text?.nome;
+            },
+            renderEditable:
+                () => {
                     return <SelectModel
-                        fetchMethod={GetEstadoById}
-                        name="formaPagamento"
+                        fetchMethod={GetFormaPagamentoById}
+                        name="formaPagamento.id"
+                        ObjectName="formaPagamento"
                         keyDescription="nome"
                         required={true}
-                        label={{ title: "Seleção de Estado", label: "Estado" }}
-                        errorMessage={{ noSelection: "Selecione ao menos um Estado!" }}
-                        path="estado" />
-                }
+                        showLabel={false}
+                        label={{ title: "Seleção de Forma de Pagamento", label: "" }}
+                        errorMessage={{ noSelection: "Selecione uma Forma de Pagamento!" }}
+                        path="forma-pagamento" />
+                },
         }
     ];
     const [loading, setLoading] = useState(false);
@@ -86,7 +68,7 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
                 await SaveCondicaoPagamento(values);
             }
 
-            props.history.push("/forma-pagamento")
+            props.history.push("/condicao-pagamento")
         } catch (e) {
             errorBack(formikHelpers, e, ["nome"]);
         }
@@ -106,8 +88,8 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
     return (
         <CrudFormLayout
             isLoading={loading}
-            backPath="/forma-pagamento"
-            breadcrumbList={[{ displayName: "Forma de Pagamento", URL: "/forma-pagamento" }, { displayName: "Nova Forma de Pagamento", URL: undefined }]}
+            backPath="/condicao-pagamento"
+            breadcrumbList={[{ displayName: "Forma de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Nova Condição de Pagamento", URL: undefined }]}
             initialValues={condicaopagamento}
             validationSchema={CondicaoPagamentoSchema}
             onSubmit={onSubmit}
@@ -118,16 +100,16 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
                     <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={13}>
-                    <Input name="nome" label="Forma de Pagamento" placeholder="Dinheiro" required />
+                    <Input name="nome" label="Condição de Pagamento" placeholder="30/60/90" required />
                 </Col>
                 <Col span={3}>
-                    <Input name="nome" label="Multa" placeholder="Dinheiro" required />
+                    <InputNumber name="multa" label="Multa" placeholder="0" required />
                 </Col>
                 <Col span={3}>
-                    <Input name="nome" label="Juro" placeholder="Dinheiro" required />
+                    <InputNumber name="juro" label="Juro" placeholder="0" required />
                 </Col>
                 <Col span={3}>
-                    <Input name="nome" label="Desconto" placeholder="Dinheiro" required />
+                    <InputNumber name="desconto" label="Desconto" placeholder="0" required />
                 </Col>
             </Row>
 
@@ -136,9 +118,9 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
                     <Divider>Parcelas</Divider>
                     <EditableTable columns={columns}
                         initiallValues={{
-                            numeroDias: 20,
-                            porcentual: 20,
-                            formaPagamento: 0
+                            numeroDias: undefined,
+                            percentual: undefined,
+                            formaPagamento: undefined
                         }}
                         name="parcela"
                         validationSchema={CondicaoPagamentoParcelaSchema}

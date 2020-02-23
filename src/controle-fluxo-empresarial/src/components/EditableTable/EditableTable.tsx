@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import { Table } from 'antd';
+import { Table, Form } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
 import EditableCell from './Components/EditableCell';
-import { useField } from 'formik';
+import { useField, ErrorMessage } from 'formik';
 import EditableCellAction from './Components/EditableCellAction';
 import "./editable-table-style.css"
 import EditableRowFooter from './Components/EditableRowFooter';
@@ -35,7 +35,7 @@ export interface Record {
 
 const EditableTable: React.FC<Props<any>> = (props) => {
 
-    const [field, , helpers] = useField(props.name);
+    const [field, meta, helpers] = useField(props.name);
     const rowKey = props.rowKey ?? "id";
     const dataSource = mapRecord(field.value as any[]);
 
@@ -45,6 +45,15 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             cell: EditableCell,
         },
     };
+
+    const errorStyle: React.CSSProperties = {
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: "red",
+        borderRadius: "5px",
+    }
+
+    const hasListError = !Array.isArray(meta.error) && (meta.error?.length ?? "") > 2;
 
     const columnsAction = props.columns.concat({
         key: "Action",
@@ -100,24 +109,35 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         });
     }
 
+
+
     return (
-        <Table
-            components={components}
-            bordered
-            dataSource={dataSource}
-            columns={columns}
-            rowKey="tableKey"
-            size="small"
-            onRow={(record: any, index: any) => ({
-                index,
-                record,
-                initiallValues: props.initiallValues,
-                handleSave: handleSave,
-                validationSchema: props.validationSchema
-            })}
-            pagination={{}}
-            footer={() => <EditableRowFooter onNewRow={handleRowNew} />}
-        />
+        <>
+            <Table
+                style={hasListError ? errorStyle : {}}
+                components={components}
+                bordered
+                dataSource={dataSource}
+                columns={columns}
+                rowKey="tableKey"
+                size="small"
+                onRow={(record: any, index: any) => ({
+                    index,
+                    record,
+                    initiallValues: props.initiallValues,
+                    handleSave: handleSave,
+                    validationSchema: props.validationSchema
+                })}
+                pagination={{}}
+                footer={() => <EditableRowFooter onNewRow={handleRowNew} />}
+            />
+
+            <Form.Item
+                validateStatus="error"
+                help={hasListError ? meta.error : ""}
+            >
+            </Form.Item>
+        </>
     );
 
 }

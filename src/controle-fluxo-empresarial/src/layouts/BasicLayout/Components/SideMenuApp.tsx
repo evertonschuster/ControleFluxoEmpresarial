@@ -71,18 +71,15 @@ const SideMenuApp: React.FC = () => {
                     <SubMenu
                         key="CondicaoPagamento"
                         title={
-                            <span>
-                                <Icon type="folder-open" />
-                                <span>Condição de Pagamento</span>
-                            </span>
+                            <span>Condição de Pag.</span>
                         }>
 
                         <Menu.Item key="CondicaoPagamentoCrud">
-                            <Link to="/condicao-pagamento">Condição de Pagamento</Link>
+                            <Link to="/condicao-pagamento">Condição de Pag.</Link>
                         </Menu.Item>
 
                         <Menu.Item key="FormaPagamentoCrud">
-                            <Link to="/forma-pagamento">Forma de Pagamento</Link>
+                            <Link to="/forma-pagamento">Forma de Pag.</Link>
                         </Menu.Item>
 
                     </SubMenu>

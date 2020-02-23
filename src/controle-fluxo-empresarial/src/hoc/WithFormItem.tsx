@@ -7,6 +7,12 @@ interface WithFormITemProps {
     required?: boolean;
 }
 
+interface PropsItemForm {
+    showLabel?: boolean;
+    label?: string;
+    required?: boolean;
+}
+
 export const withFormItem = <P extends object>(Field: React.ComponentType<P>): React.FC<P & WithFormITemProps> => (props: any) => {
 
     const basicLayoutContext = useContext(BasicLayoutContext);
@@ -41,12 +47,17 @@ export const withItemNone = <P extends object>(Field: React.ComponentType<P>): R
         </div>
     )
 
-export const ItemFormRender: React.FC<any> = (props) => {
+export const ItemFormRender: React.FC<PropsItemForm> = (props) => {
+    const showLabel = props.showLabel ?? true;
+
     return (
         <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
-            <div className="ant-col ant-form-item-label">
-                <span>&nbsp;</span>
-            </div>
+            {showLabel ?
+                <div className="ant-col ant-form-item-label">
+                    <label className={props.required ? "ant-form-item-required" : ""}>{props.label ?? <>&nbsp;</>}</label>
+                </div>
+                : ""
+            }
 
             <div className="ant-col ant-form-item-control-wrapper">
                 <div className="ant-form-item-control ">
