@@ -24,7 +24,12 @@ export interface Props<T> {
     label: Label;
     required?: boolean;
 }
-
+/**
+ *
+ *
+ * @param {*} props
+ * @returns
+ */
 const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
 
@@ -44,7 +49,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     function handleOk() {
 
-        
+
         if (props.required && (state === undefined || (Array.isArray(state) && state.length === 0))) {
             message.error(props.errorMessage.noSelection);
             return;
@@ -74,8 +79,8 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 visible={props.visible}
                 destroyOnClose={true}
                 onOk={handleOk}
-                onCancel={handleCancel}
-                okText="Selecionar">
+                okText="Selecionar"
+                onCancel={handleCancel}>
                 <RouterServiceModel path={props.path} setState={props.setState} />
 
             </Modal>

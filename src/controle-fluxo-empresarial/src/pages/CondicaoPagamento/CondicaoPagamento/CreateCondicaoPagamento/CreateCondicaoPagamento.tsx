@@ -56,6 +56,7 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
 
     useEffect(() => {
         getCondicaoPagamento(props.match.params.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.match.params.id])
 
 

@@ -22,13 +22,13 @@ const BasicLayout: React.FC<Props> = (props) => {
     const { breadcrumb } = useContext(BasicLayoutContext);
 
     return (
-        <div style={{ animationName: "openSystem", animationDuration: "2s" }}>
-            <Layout style={{ minHeight: "100vh" }} >
+        <div style={{ animationName: "openSystem", animationDuration: "2s", display: "flex", flex: 1 }}>
+            <Layout  >
 
                 <SideMenuApp />
 
-                <Layout  style={{ height: "100vh" }}>
-                    <PerfectScrollbar style={{ height: "100vh" }}>
+                <Layout  >
+                    <PerfectScrollbar >
                         <HeaderApp breadcrumbList={breadcrumb} />
                         <ContentApp > {props.children} </ContentApp>
                     </PerfectScrollbar>

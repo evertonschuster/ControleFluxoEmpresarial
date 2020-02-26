@@ -8,7 +8,6 @@ import { UpdateTitular, SaveTitular, GetTitularById } from '../../../apis/Associ
 import { TitularSchema } from './TitularSchema';
 import { Input, DatePicker } from '../../../components/WithFormItem/withFormItem';
 import { Titular } from '../../../models/Associados/Titular';
-import PerfectScrollbar from 'react-perfect-scrollbar'
 import Dependente from './Components/Dependente';
 
 const CreateTitular: React.FC<RouteComponentProps<any>> = (props) => {

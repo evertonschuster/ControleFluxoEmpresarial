@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useContext, useEffect } from 'react';
 import { Table, Form } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
@@ -7,6 +7,7 @@ import { useField } from 'formik';
 import EditableCellAction from './Components/EditableCellAction';
 import "./editable-table-style.css"
 import EditableRowFooter from './Components/EditableRowFooter';
+import BasicLayoutContext from '../../layouts/BasicLayout/BasicLayoutContext';
 
 export enum RowMode {
     edit = "edit",
@@ -108,6 +109,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
         let mapedDataSource = mapRecord(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
         helpers.setValue(mapedDataSource);
+
     }
 
     function mapRecord(dataSource: Record[]): Record[] {

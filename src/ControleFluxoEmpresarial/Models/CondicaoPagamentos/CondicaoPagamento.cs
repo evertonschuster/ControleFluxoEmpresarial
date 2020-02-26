@@ -51,13 +51,17 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 .Must(e => e >= 0).WithMessage("Valor do desconto não pode ser negativo")
                 .Must(e => e <= 100).WithMessage("Valor do desconto não pode ser maior que 100%");
 
+            RuleFor(e => e.Parcela)
+                .Must(e => e.All(a => a.Percentual > 0 && a.Percentual <= 100))
+                .WithMessage("Valor percentual da parcela é inválido.");
+
             RuleFor(e => e.Id).Must(ExistsCondicaoPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
 
             RuleFor(e => e.Parcela)
                 .Must(e =>
                 {
                     var total = e.Sum(a => a.Percentual);
-                    return total >= 99.99m && total <= 100.1m;
+                    return total >= 99.99m && total <= 100.01m;
                 })
                 .WithMessage((e) => $"Percentual total de parcelas não corresponde a 100% ({e.Parcela.Sum(a => a.Percentual)}).");
 

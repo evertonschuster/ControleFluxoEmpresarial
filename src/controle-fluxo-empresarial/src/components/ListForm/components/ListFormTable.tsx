@@ -33,7 +33,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
         width: "150px",
         render: (text: any, record: any, index: number) => (
             <>
-                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => setFormMode(FormMode.Edit)}>
+                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => {setFormMode(FormMode.Edit); setState(undefined)}}>
                     <Tooltip placement="top" title="Editar Registro Selecionado."  >
                         <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
                     </Tooltip>
@@ -71,6 +71,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     function hidenExluir() {
         setShowModal(false);
+        setState(undefined)
 
         if (sharedState && sharedState.savedFormMode) {
             setFormMode(sharedState.savedFormMode);

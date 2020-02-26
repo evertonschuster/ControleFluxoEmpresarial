@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { useContext } from 'react';
 import { Row, Col, Button, Icon } from 'antd';
 import { Formik, FormikConfig, FormikHelpers, FormikProps, isFunction } from 'formik';
 import { Form } from 'formik-antd';
@@ -6,6 +6,7 @@ import FormBasicLayout from '../FormBasicLayout/FormBasicLayout';
 import { BreadcrumbProp } from '../BasicLayout/BasicLayout';
 import { errorBack } from '../../utils/MessageApi';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import BasicLayoutContext from '../BasicLayout/BasicLayoutContext';
 
 export interface Props extends FormikConfig<any> {
     breadcrumbList?: BreadcrumbProp[];
@@ -16,6 +17,9 @@ export interface Props extends FormikConfig<any> {
 
 
 const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
+
+    const { formMode } = useContext(BasicLayoutContext);
+
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
         try {
@@ -76,7 +80,7 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
                         < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
                             <Col>
                                 <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
-                                <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
+                                <Button type="primary" disabled={!formik.isValid} onClick={() => formik.submitForm()}>Salvar</Button>
                             </Col>
                         </Row>
                     </Form>

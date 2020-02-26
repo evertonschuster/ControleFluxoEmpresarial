@@ -1,0 +1,7 @@
+﻿dotnet publish -c Release
+heroku login
+heroku container:login
+docker build -t controle-fluxo-empresarial bin\\Release\\netcoreapp3.1\\publish
+docker tag controle-fluxo-empresarial registry.heroku.com/controle-fluxo-empresarial/web
+docker push registry.heroku.com/controle-fluxo-empresarial/web
+heroku container:release web --app controle-fluxo-empresarial
