@@ -32,7 +32,10 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
         { dataIndex: "numeroDias", title: "Número de Dias", editable: true, type: TypeAttribute.number },
         { dataIndex: "percentual", title: "Percentual", editable: true, type: TypeAttribute.number },
         {
-            dataIndex: "formaPagamento", title: "Forma de Pagamento", editable: true,
+            dataIndex: "formaPagamento", 
+            title: "Forma de Pagamento", 
+            editable: true,
+            width:"700px",
             render: (text: FormaPagamento) => {
                 return text?.nome;
             },

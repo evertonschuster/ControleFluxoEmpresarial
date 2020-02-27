@@ -58,11 +58,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
             RuleFor(e => e.Id).Must(ExistsCondicaoPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
 
             RuleFor(e => e.Parcela)
-                .Must(e =>
-                {
-                    var total = e.Sum(a => a.Percentual);
-                    return total >= 99.99m && total <= 100.01m;
-                })
+                .Must(e => e.Sum(a => a.Percentual) == 100)
                 .WithMessage((e) => $"Percentual total de parcelas não corresponde a 100% ({e.Parcela.Sum(a => a.Percentual)}).");
 
             RuleFor(e => e.Parcela)

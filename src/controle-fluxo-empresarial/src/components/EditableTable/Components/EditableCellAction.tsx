@@ -52,4 +52,4 @@ const EditableCellAction: React.FC<Props> = (props) => {
 
 }
 
-export default memo(EditableCellAction);
+export default (EditableCellAction);
