@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import { Form, Icon, Button, Card, Row, Col } from 'antd';
 import { Input, FormItem } from "formik-antd"
-import "./LoginUserStyle.css"
+import "./LoginUserStyle.less"
 import { Formik, FormikHelpers } from 'formik';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { LoginUserSchema } from './LoginUserSchema';

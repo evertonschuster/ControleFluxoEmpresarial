@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Row, Col, Button, Icon } from 'antd';
 import { Formik, FormikConfig, FormikHelpers, FormikProps, isFunction } from 'formik';
 import { Form } from 'formik-antd';
@@ -6,7 +6,6 @@ import FormBasicLayout from '../FormBasicLayout/FormBasicLayout';
 import { BreadcrumbProp } from '../BasicLayout/BasicLayout';
 import { errorBack } from '../../utils/MessageApi';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import BasicLayoutContext from '../BasicLayout/BasicLayoutContext';
 
 export interface Props extends FormikConfig<any> {
     breadcrumbList?: BreadcrumbProp[];
@@ -17,8 +16,6 @@ export interface Props extends FormikConfig<any> {
 
 
 const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
-
-    const { formMode } = useContext(BasicLayoutContext);
 
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {

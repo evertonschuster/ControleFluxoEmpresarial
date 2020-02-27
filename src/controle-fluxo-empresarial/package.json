@@ -95,7 +95,9 @@
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.2.3",
-    "@types/yup": "^0.26.32"
+    "@types/yup": "^0.26.32",
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0"
   },
   "jest": {
     "roots": [

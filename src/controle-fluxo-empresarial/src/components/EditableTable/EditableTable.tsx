@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect } from 'react';
+import React, { memo } from 'react';
 import { Table, Form } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
@@ -7,7 +7,6 @@ import { useField } from 'formik';
 import EditableCellAction from './Components/EditableCellAction';
 import "./editable-table-style.css"
 import EditableRowFooter from './Components/EditableRowFooter';
-import BasicLayoutContext from '../../layouts/BasicLayout/BasicLayoutContext';
 
 export enum RowMode {
     edit = "edit",
