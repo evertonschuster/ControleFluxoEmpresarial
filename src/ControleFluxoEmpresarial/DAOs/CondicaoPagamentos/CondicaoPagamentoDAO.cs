@@ -59,7 +59,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             try
             {
                 var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto)
-                         VALUES ('{entity.Nome}', {entity.Juro}, {entity.Multa}, {entity.Desconto})";
+                         VALUES ('{entity.Nome}', {entity.Juro}, {entity.Multa.ToString()}, {entity.Desconto})";
 
                 var id = base.ExecuteScriptInsert(sql, false);
 
@@ -96,7 +96,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             var sql = $@"UPDATE CondicaoPagamentos 
                         SET Nome = '{entity.Nome}',
                         Juro = {entity.Juro},
-                        Multa = {entity.Multa},
+                        Multa = {entity.Multa.ToString()},
                         Desconto = {entity.Desconto}
                         WHERE Id = {entity.Id.ToString()}";
 

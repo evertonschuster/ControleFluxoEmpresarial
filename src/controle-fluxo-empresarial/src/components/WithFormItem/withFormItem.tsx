@@ -3,6 +3,6 @@ import { withFormItem } from "../../hoc/WithFormItem"
 
 
 export const Input = withFormItem(InputAntd)
-export const InputNumber = withFormItem(InputNumberAntd)
+export const InputNumber = withFormItem(InputNumberAntd, { decimalSeparator:"," })
 
 export const DatePicker = withFormItem(DatePickerAntd)

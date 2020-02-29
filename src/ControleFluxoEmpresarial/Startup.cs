@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.Architectures;
 using ControleFluxoEmpresarial.DataBase;
@@ -37,6 +39,10 @@ namespace ControleFluxoEmpresarial
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
+
             services.AddDataBase(this.Configuration, this.Environment);
             services.AddIdentityConfig();
             services.ResolveInjection();

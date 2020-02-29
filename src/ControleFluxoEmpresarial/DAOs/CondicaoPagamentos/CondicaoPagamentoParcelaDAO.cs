@@ -55,7 +55,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             try
             {
                 var sql = $@"INSERT INTO CondicaoPagamentoParcelas ( NumeroDias, Percentual, CondicaoPagamentosId, FormaPagamentoId)
-                         VALUES ({entity.NumeroDias}, {entity.Percentual.ToString(CultureInfo.CreateSpecificCulture("en-US"))}, {condicaoPagamentoId}, {entity.FormaPagamento.Id})";
+                         VALUES ({entity.NumeroDias}, {entity.Percentual}, {condicaoPagamentoId}, {entity.FormaPagamento.Id})";
 
                 return base.ExecuteScriptInsert(sql, commit);
             }
@@ -82,7 +82,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
         {
             var sql = $@"UPDATE CondicaoPagamentoParcelas 
                         SET NumeroDias = {entity.NumeroDias},
-                        Percentual = {entity.Percentual.ToString(CultureInfo.CreateSpecificCulture("en-US"))},
+                        Percentual = {entity.Percentual},
                         FormaPagamentoId = {entity.FormaPagamento.Id}
                         WHERE Id = {entity.Id.ToString()}";
 

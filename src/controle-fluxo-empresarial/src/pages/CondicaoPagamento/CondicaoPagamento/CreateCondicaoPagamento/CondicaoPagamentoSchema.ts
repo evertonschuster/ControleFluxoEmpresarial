@@ -8,6 +8,7 @@ import { RecordTable } from '../../../../components/EditableTable/EditableTable'
 export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamentoParcela>({
     numeroDias: Yup.number()
         .typeError("Informe um número válido.")
+        .integer("Informe um número válido.")
         .required("Informe o número de dias.")
         .min(0, "O número de dias deve ser maior que 0."),
     percentual: Yup.number()
@@ -18,6 +19,7 @@ export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamen
     formaPagamento: Yup.object()
         .shape<FormaPagamento>({
             id: Yup.number()
+                .integer("Informe um número válido.")
                 .typeError("Informe um número válido.")
                 .required("Informe uma Dondição de Pagamento.")
         })

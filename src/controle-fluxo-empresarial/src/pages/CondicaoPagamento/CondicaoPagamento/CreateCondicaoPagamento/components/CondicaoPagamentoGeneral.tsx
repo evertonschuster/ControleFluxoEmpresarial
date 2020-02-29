@@ -25,6 +25,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
         },
         {
             dataIndex: "percentual", title: "Percentual", editable: true,
+            render:(text: any, record: any, index: number) => text.toLocaleString(),
             renderEditable: (text: any, record: any, index: number) => <Percentual text={text} record={record} index={index} percelasSource={field.value} />
         },
         {

@@ -13,7 +13,7 @@ interface PropsItemForm {
     required?: boolean;
 }
 
-export const withFormItem = <P extends object>(Field: React.ComponentType<P>): React.FC<P & WithFormITemProps> => (props: any) => {
+export const withFormItem = <P extends object>(Field: React.ComponentType<P>, propsConf?: any): React.FC<P & WithFormITemProps> => (props: any) => {
 
     const basicLayoutContext = useContext(BasicLayoutContext);
 
@@ -22,7 +22,7 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
     return (
         <FormItem name={props.name} label={props.label || ""} required={props.required} className="form-custom-item" >
-            <Field autoComplete="off" disabled={isDisabled} {...props} required={false} style={{ width: "100%" }} />
+            <Field autoComplete="off" disabled={isDisabled} {...propsConf} {...props} required={false} style={{ width: "100%" }} />
         </FormItem >
     )
 }

@@ -23,7 +23,7 @@ const Percentual: React.FC<Props> = (props) => {
 
 
     return (
-        <InputNumber name="percentual" label="" placeholder="0" required
+        <InputNumber name="percentual" label="" placeholder="0" required 
         validate={(value) => validatePercentual(value, props.record, props.percelasSource)} 
         />
     )
