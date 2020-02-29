@@ -1,14 +1,14 @@
 import React, { memo } from 'react';
-import { Record, RowMode } from './../EditableTable'
+import { RecordTable, RowMode } from './../EditableTable'
 import { Tooltip, Tag } from 'antd';
 import { useFormikContext } from 'formik';
 
 
 export interface Props {
-    record: Record;
+    record: RecordTable;
     index: number;
-    handleRowMode: (record: Record, rowMode: RowMode) => void;
-    handleRemove: (record: Record) => void;
+    handleRowMode: (record: RecordTable, rowMode: RowMode) => void;
+    handleRemove: (record: RecordTable) => void;
 }
 
 const EditableCellAction: React.FC<Props> = (props) => {
@@ -17,7 +17,7 @@ const EditableCellAction: React.FC<Props> = (props) => {
 
     console.log("errors", errors)
 
-    function handleCancel(record: Record) {
+    function handleCancel(record: RecordTable) {
         if (record.rowMode === RowMode.new) {
             props.handleRemove(record);
             return;
@@ -52,4 +52,4 @@ const EditableCellAction: React.FC<Props> = (props) => {
 
 }
 
-export default (EditableCellAction);
+export default memo(EditableCellAction, () => false);

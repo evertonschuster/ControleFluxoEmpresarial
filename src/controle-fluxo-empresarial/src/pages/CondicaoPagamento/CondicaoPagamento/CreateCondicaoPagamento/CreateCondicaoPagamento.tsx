@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col, Divider } from 'antd';
-import { Input, InputNumber } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamento';
-import { CondicaoPagamentoSchema, CondicaoPagamentoParcelaSchema } from './CondicaoPagamentoSchema';
-import EditableTable, { ColumnEditableProps, TypeAttribute } from '../../../../components/EditableTable/EditableTable';
-import SelectModel from '../../../../components/SelectModel/SelectModelOne';
-import { GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamento';
-import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
-import { CondicaoPagamentoParcela } from '../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
+import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
+import CondicaoPagamentoGeneral from './components/CondicaoPagamentoGeneral';
 
 const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -27,39 +21,12 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
         ]
     })
 
-    const columns: ColumnEditableProps<CondicaoPagamento>[] = [
-        { dataIndex: "id", title: "id" },
-        { dataIndex: "numeroDias", title: "Número de Dias", editable: true, type: TypeAttribute.number },
-        { dataIndex: "percentual", title: "Percentual", editable: true, type: TypeAttribute.number },
-        {
-            dataIndex: "formaPagamento", 
-            title: "Forma de Pagamento", 
-            editable: true,
-            width:"700px",
-            render: (text: FormaPagamento) => {
-                return text?.nome;
-            },
-            renderEditable:
-                () => {
-                    return <SelectModel
-                        fetchMethod={GetFormaPagamentoById}
-                        name="formaPagamento.id"
-                        ObjectName="formaPagamento"
-                        keyDescription="nome"
-                        required={true}
-                        showLabel={false}
-                        label={{ title: "Seleção de Forma de Pagamento", label: "" }}
-                        errorMessage={{ noSelection: "Selecione uma Forma de Pagamento!" }}
-                        path="forma-pagamento" />
-                },
-        }
-    ];
     const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
         getCondicaoPagamento(props.match.params.id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.match.params.id])
 
 
@@ -75,7 +42,7 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
 
             props.history.push("/condicao-pagamento")
         } catch (e) {
-            errorBack(formikHelpers, e, ["nome", "parcela"]);
+            errorBack(formikHelpers, e);
         }
     }
 
@@ -104,42 +71,7 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
             validationSchema={CondicaoPagamentoSchema}
             onSubmit={onSubmit}
         >
-            {(formik) => (
-                <>
-                    <Row>
-                        <Col span={2}>
-                            <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
-                        </Col>
-                        <Col span={13}>
-                            <Input name="nome" label="Condição de Pagamento" placeholder="30/60/90" required />
-                        </Col>
-                        <Col span={3}>
-                            <InputNumber name="multa" label="Multa" placeholder="0" required />
-                        </Col>
-                        <Col span={3}>
-                            <InputNumber name="juro" label="Juro" placeholder="0" required />
-                        </Col>
-                        <Col span={3}>
-                            <InputNumber name="desconto" label="Desconto" placeholder="0" required />
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col span={24}>
-                            <Divider>Parcelas</Divider>
-                            <EditableTable columns={columns}
-                                initiallValues={{
-                                    numeroDias: undefined,
-                                    percentual: Math.round((100 - ((formik.values.parcela as CondicaoPagamentoParcela[]) ?? []).reduce((e, a) => e + a.percentual, 0)) * 100) / 100,
-                                    formaPagamento: undefined
-                                }}
-                                name="parcela"
-                                validationSchema={CondicaoPagamentoParcelaSchema}
-                            />
-                        </Col>
-                    </Row>
-                </>
-            )}
+            <CondicaoPagamentoGeneral />
         </CrudFormLayout>
     );
 

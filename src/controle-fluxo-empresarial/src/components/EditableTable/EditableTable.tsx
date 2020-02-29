@@ -34,7 +34,7 @@ export interface Props<T> {
     validationSchema?: any | (() => any);
 }
 
-export interface Record {
+export interface RecordTable {
     rowMode: RowMode
     tableKey: string;
 }
@@ -65,7 +65,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         key: "Action",
         title: "Ações",
         width: "180px",
-        render: (text: any, record: Record, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
+        render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
     });
 
     const columns: ColumnProps<any>[] = columnsAction.map((col: ColumnEditableProps<any>) => {
@@ -74,7 +74,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         }
         return {
             ...col,
-            onCell: (record: Record, rowIndex: number) => ({
+            onCell: (record: RecordTable, rowIndex: number) => ({
                 record,
                 editable: col.editable ?? false,
                 dataIndex: col.dataIndex,
@@ -86,19 +86,19 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         };
     });
 
-    function handleSave(values: Record & any) {
+    function handleSave(values: RecordTable & any) {
 
         const dataSourceNew = dataSource.map(e => e.tableKey !== values.tableKey ? e : { ...values, rowMode: RowMode.view });
         helpers.setValue(dataSourceNew);
     }
 
-    function handleRemove(values: Record & any) {
+    function handleRemove(values: RecordTable & any) {
 
         const dataSourceNew = dataSource.filter(e => e.tableKey !== values.tableKey);
         helpers.setValue(dataSourceNew);
     }
 
-    function handleRowMode(record: Record & any, rowMode: RowMode) {
+    function handleRowMode(record: RecordTable & any, rowMode: RowMode) {
 
         const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
         helpers.setValue(dataSourceNew);
@@ -111,7 +111,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
     }
 
-    function mapRecord(dataSource: Record[]): Record[] {
+    function mapRecord(dataSource: RecordTable[]): RecordTable[] {
         return (dataSource || []).map((e) => {
             return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now() }
         });
@@ -150,4 +150,4 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
 }
 
-export default memo(EditableTable);
+export default memo(EditableTable, () => false);

@@ -51,17 +51,13 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 .Must(e => e >= 0).WithMessage("Valor do desconto não pode ser negativo")
                 .Must(e => e <= 100).WithMessage("Valor do desconto não pode ser maior que 100%");
 
-            RuleFor(e => e.Parcela)
-                .Must(e => e.All(a => a.Percentual > 0 && a.Percentual <= 100))
-                .WithMessage("Valor percentual da parcela é inválido.");
-
             RuleFor(e => e.Id).Must(ExistsCondicaoPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
 
             RuleFor(e => e.Parcela)
+                .Must(e => e.All(a => a.Percentual > 0 && a.Percentual <= 100))
+                .WithMessage("Valor percentual da parcela é inválido.")
                 .Must(e => e.Sum(a => a.Percentual) == 100)
-                .WithMessage((e) => $"Percentual total de parcelas não corresponde a 100% ({e.Parcela.Sum(a => a.Percentual)}).");
-
-            RuleFor(e => e.Parcela)
+                .WithMessage((e) => $"Percentual total de parcelas não corresponde a 100% ({e.Parcela.Sum(a => a.Percentual)}).")
                 .Must(e =>
                 {
                     var dia = 0;
@@ -71,17 +67,15 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                         dia = e.NumeroDias;
                         return valid;
                     });
-                }).WithMessage("Os dias devem ser sequênciais.");
-
-            RuleFor(e => e.Parcela).Must(ee =>
-            {
-                return ee.Where(a => a.Id > 0).All(a => ExistsParcela(a.Id));
-            }).WithMessage("Parcela não cadastrado.");
-
-            RuleFor(e => e.Parcela).Must(ee =>
-            {
-                return ee.All(a => ExistsFormaPagamento(a.FormaPagamento.Id));
-            }).WithMessage("Forma de Pagamento não cadastrado.");
+                }).WithMessage("Os dias devem ser sequênciais.")
+                .Must(ee =>
+                {
+                    return ee.Where(a => a.Id > 0).All(a => ExistsParcela(a.Id));
+                }).WithMessage("Parcela não cadastrado.")
+                .Must(ee =>
+                {
+                    return ee.All(a => ExistsFormaPagamento(a.FormaPagamento.Id));
+                }).WithMessage("Forma de Pagamento não cadastrado.");
 
         }
 

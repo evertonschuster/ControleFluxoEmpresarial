@@ -14,4 +14,4 @@ const EditableRowFooter: React.FC<Props> = (props) => {
     )
 }
 
-export default memo(EditableRowFooter);
+export default memo(EditableRowFooter, () => false);

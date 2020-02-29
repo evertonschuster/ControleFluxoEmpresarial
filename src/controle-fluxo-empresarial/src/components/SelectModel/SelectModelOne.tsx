@@ -81,17 +81,17 @@ const SelectModelOne: React.FC<Props> = (props) => {
                 validateStatus={meta.error ? "error" : "validating"}
                 help={meta.error ?? ""}>
                 <Row>
-                    <Col span={3}>
+                    <Col sm={4} xs={15} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
-                            <InputNumber value={meta.value} onChange={helpers.setValue} style={{ width: "inherit" }} />
+                            <InputNumber min={1} value={meta.value} onChange={helpers.setValue} style={{ width: "inherit" }} />
                         </ItemFormRender>
                     </Col>
-                    <Col span={19}>
+                    <Col sm={18} xs={12}>
                         <ItemFormRender showLabel={showLabel}>
                             <InputAntd value={description} />
                         </ItemFormRender>
                     </Col>
-                    <Col span={2} style={{ textAlign: "right" }} >
+                    <Col sm={2} xs={3} style={{ textAlign: "right" }} >
                         <ItemFormRender showLabel={showLabel}>
                             <Button type="primary" shape="circle" icon="search" onClick={() => setVisible(true)} ></Button>
                         </ItemFormRender>

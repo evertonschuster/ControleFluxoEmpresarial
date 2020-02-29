@@ -77,7 +77,7 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
                         < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
                             <Col>
                                 <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
-                                <Button type="primary" disabled={!formik.isValid} onClick={() => formik.submitForm()}>Salvar</Button>
+                                <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
                             </Col>
                         </Row>
                     </Form>
