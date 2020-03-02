@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo } from 'react';
 import { Row, Col, Button, Form } from 'antd';
 import { Input as InputAntd, InputNumber } from "antd"
-import { ItemFormRender } from '../../hoc/WithFormItem';
+import { ItemFormRender, WithItemNone } from '../../hoc/WithFormItem';
 import ModelForm, { ErrorMessage, Label } from '../ModalForm/ModalForm';
 import { useField, useFormikContext } from 'formik';
 import { useDebouncedCallback } from '../../hoc/useDebouncedCallback';
@@ -81,20 +81,20 @@ const SelectModelOne: React.FC<Props> = (props) => {
                 validateStatus={meta.error ? "error" : "validating"}
                 help={meta.error ?? ""}>
                 <Row>
-                    <Col sm={4} xs={15} >
+                    <Col sm={4}  >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
                             <InputNumber min={1} value={meta.value} onChange={helpers.setValue} style={{ width: "inherit" }} />
                         </ItemFormRender>
                     </Col>
-                    <Col sm={18} xs={12}>
-                        <ItemFormRender showLabel={showLabel}>
-                            <InputAntd value={description} />
-                        </ItemFormRender>
+                    <Col sm={2} style={{ textAlign: "center" }} >
+                        <WithItemNone showLabel={showLabel} >
+                            <Button type="primary" icon="search" onClick={() => setVisible(true)} ></Button>
+                        </WithItemNone>
                     </Col>
-                    <Col sm={2} xs={3} style={{ textAlign: "right" }} >
-                        <ItemFormRender showLabel={showLabel}>
-                            <Button type="primary" shape="circle" icon="search" onClick={() => setVisible(true)} ></Button>
-                        </ItemFormRender>
+                    <Col sm={18} >
+                        <WithItemNone showLabel={showLabel}>
+                            <InputAntd value={description} />
+                        </WithItemNone>
                     </Col>
                 </Row>
 

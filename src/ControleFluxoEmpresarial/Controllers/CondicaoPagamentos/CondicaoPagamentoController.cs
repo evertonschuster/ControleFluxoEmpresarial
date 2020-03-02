@@ -12,7 +12,6 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 {
     [Route("api/condicao-pagamento")]
     [ApiController]
-    [AllowAnonymous]
     public class CondicaoPagamentoController : ControllerBase<CondicaoPagamento>
     {
         public CondicaoPagamentoController(CondicaoPagamentoDAO dAO) : base(dAO)

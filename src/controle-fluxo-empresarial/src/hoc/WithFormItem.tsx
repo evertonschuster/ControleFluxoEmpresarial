@@ -27,18 +27,21 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>, pr
     )
 }
 
-export const withItemNone = <P extends object>(Field: React.ComponentType<P>): React.FC<P> => (props: any) =>
-    (
+export const WithItemNone: React.FC<PropsItemForm> = (props: any) => {
+    const showLabel = props.showLabel ?? true;
+
+    return (
         <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
-            <div className="ant-col ant-form-item-label">
+            {showLabel ? <div className="ant-col ant-form-item-label">
                 <span>&nbsp;</span>
-            </div>
+            </div> : ""
+            }
 
             <div className="ant-col ant-form-item-control-wrapper">
                 <div className="ant-form-item-control ">
                     <span className="ant-form-item-children">
 
-                        <Field {...props} />
+                        {props.children}
 
                     </span>
 
@@ -46,6 +49,7 @@ export const withItemNone = <P extends object>(Field: React.ComponentType<P>): R
             </div>
         </div>
     )
+}
 
 export const ItemFormRender: React.FC<PropsItemForm> = (props) => {
     const showLabel = props.showLabel ?? true;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Divider } from 'antd';
+import { Row, Col, Divider, Tooltip } from 'antd';
 import EditableTable, { ColumnEditableProps } from '../../../../../components/EditableTable/EditableTable';
 import NumeroDias from './NumeroDias';
 import Percentual from './Percentual';
@@ -24,8 +24,8 @@ const CondicaoPagamentoGeneral: React.FC = () => {
             renderEditable: (text: any, record: any, index: number) => <NumeroDias text={text} record={record} index={index} percelasSource={field.value} />
         },
         {
-            dataIndex: "percentual", title: "Percentual", editable: true,
-            render:(text: any, record: any, index: number) => text.toLocaleString(),
+            dataIndex: "percentual", title: "Percentual (%)", editable: true,
+            render: (text: any, record: any, index: number) => text.toLocaleString(),
             renderEditable: (text: any, record: any, index: number) => <Percentual text={text} record={record} index={index} percelasSource={field.value} />
         },
         {
@@ -61,23 +61,23 @@ const CondicaoPagamentoGeneral: React.FC = () => {
                     <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={13}>
-                    <Input name="nome" label="Condição de Pagamento" placeholder="30/60/90" required />
+                    <Input name="nome" label="Nome da Condição de Pagamento" placeholder="Pagamento em 30/60/90" required />
                 </Col>
                 <Col span={3}>
-                    <InputNumber name="multa" label="Multa" placeholder="0" required />
+                    <InputNumber name="multa" label="Multa (%)" placeholder="0" required />
                 </Col>
                 <Col span={3}>
-                    <InputNumber name="juro" label="Juro" placeholder="0" required />
+                    <InputNumber name="juro" label="Juro (%)" placeholder="0" required />
                 </Col>
                 <Col span={3}>
-                    <InputNumber name="desconto" label="Desconto" placeholder="0" required />
+                    <InputNumber name="desconto" label="Desconto (%)" placeholder="0" required />
                 </Col>
             </Row>
 
-
+            <br></br>
+            <Divider>Parcelas</Divider>
             <Row>
                 <Col span={24}>
-                    <Divider>Parcelas</Divider>
                     <EditableTable columns={columns}
                         initiallValues={{
                             numeroDias: undefined,
