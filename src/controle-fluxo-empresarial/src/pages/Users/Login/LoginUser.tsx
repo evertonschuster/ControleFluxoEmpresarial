@@ -1,7 +1,7 @@
-import React, { } from 'react';
+import React, { useState } from 'react';
 import { Form, Icon, Button, Card, Row, Col } from 'antd';
 import { Input, FormItem } from "formik-antd"
-import "./LoginUserStyle.css"
+import "./LoginUserStyle.less"
 import { Formik, FormikHelpers } from 'formik';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { LoginUserSchema } from './LoginUserSchema';
@@ -16,11 +16,12 @@ const LoginUser: React.FC<RouteComponentProps> = (props) => {
     let search = window.location.search;
     let params = new URLSearchParams(search);
     let redirectUrl = params.get('redirectUrl');
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit(values: any, formikHelpers: FormikHelpers<any>) {
 
         try {
-
+            setLoading(true);
             let response = await tryLoginUser(values);
             login(response.data);
             message.success(`Bem vindo ${getUserName()}!!!`);
@@ -28,6 +29,9 @@ const LoginUser: React.FC<RouteComponentProps> = (props) => {
 
         } catch (e) {
             errorBack(formikHelpers, e);
+        }
+        finally{
+            setLoading(false);
         }
     }
 
@@ -38,7 +42,7 @@ const LoginUser: React.FC<RouteComponentProps> = (props) => {
             validationSchema={LoginUserSchema}
             enableReinitialize={true}>
             {({ submitForm }) => (
-                <Row type="flex" justify="space-around" align="middle" style={{ height: "100%" }}>
+                <Row type="flex" justify="space-around" align="middle" style={{ height: "100%", width: "100%" }}>
                     <Col xs={24} sm={20} md={15} lg={12} xl={6} xxl={6}>
                         <Card title="Credenciais do sistema" className="ant-card-ant-card-bordered">
                             <Form className="login-form">
@@ -74,6 +78,7 @@ const LoginUser: React.FC<RouteComponentProps> = (props) => {
                                         onClick={() => submitForm()}
                                         style={{ width: "100%" }}
                                         tabIndex={2}
+                                        loading={loading}
                                     >
                                         Logar
                                         </Button>

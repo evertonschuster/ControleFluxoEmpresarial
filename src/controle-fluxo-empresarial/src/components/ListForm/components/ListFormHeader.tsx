@@ -28,7 +28,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     }} />
             </Col>
             <Col span={1} style={{ textAlign: "center" }}>
-                <Button type="primary" shape="circle" icon="search"
+                <Button type="primary" icon="search"
                     onClick={() => {
                         props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: 1, filter: filterValues })
                     }} />

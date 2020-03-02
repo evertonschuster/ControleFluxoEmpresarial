@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Table } from 'antd';
+import { Button, Table, Tooltip, Tag } from 'antd';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { Associado } from '../../../../models/Associados/Associado';
 import CreateAssociado from './CreateAssociado';
@@ -35,7 +35,14 @@ const Dependente: React.FC<Porps> = () => {
         {
             title: "Ação",
             width: "90px",
-            render: (text: any, record: Associado, index: number) => <Button onClick={() => onRemoveAssocido(index)} type="danger">Remover</Button>
+            render: (text: any, record: Associado, index: number) => {
+
+                return (
+                    <Tooltip placement="top" title="Remove Registro Selecionado."  >
+                        <Tag color="red" key={index + "13"} className="custom-cursor-pointer" onClick={() => onRemoveAssocido(index)} >Remover</Tag>
+                    </Tooltip>)
+                    ;
+            }
         }
     ];
 
@@ -51,7 +58,7 @@ const Dependente: React.FC<Porps> = () => {
     function onRemoveAssocido(indexEvent: number) {
         let dependentes = formik.values.dependentes?.filter((record, indexRow) => indexRow !== indexEvent);
 
-        formik.setFieldValue("dependentes",dependentes)
+        formik.setFieldValue("dependentes", dependentes)
     }
 
     function closeModalAssociado() {
@@ -68,7 +75,12 @@ const Dependente: React.FC<Porps> = () => {
                 <Button type="primary" onClick={() => setShowModal(true)} >Adicionar dependente</Button>
             </div>
 
-            <Table columns={columns} dataSource={formik.values.dependentes || []} rowKey={(record: any, index: number) => index.toString()} />
+            <Table
+                columns={columns}
+                bordered
+                size="small"
+                dataSource={formik.values.dependentes || []}
+                rowKey={(record: any, index: number) => index.toString()} />
 
             <FieldArray
                 name="dependentes"

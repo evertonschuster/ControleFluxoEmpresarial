@@ -1,9 +1,12 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Associados;
 using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.DAOs.Clients;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
 using ControleFluxoEmpresarial.DAOs.Users;
 using ControleFluxoEmpresarial.Models.Cidades;
 using ControleFluxoEmpresarial.Models.Clients;
+using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -24,13 +27,17 @@ namespace ControleFluxoEmpresarial.Architectures
             services.AddScoped<ClientDAO>();
             services.AddScoped<TitularDAO>();
             services.AddScoped<AssociadoDAO>();
+            services.AddScoped<FormaPagamentoDAO>();
+            services.AddScoped<CondicaoPagamentoDAO>();
+            services.AddScoped<CondicaoPagamentoParcelaDAO>();
 
 
             services.AddTransient<IValidator<Pais>, PaisValidator>();
             services.AddTransient<IValidator<Estado>, EstadoValidator>();
             services.AddTransient<IValidator<Cidade>, CidadeValidator>();
             services.AddTransient<IValidator<Client>, ClientValidator>();
-
+            services.AddTransient<IValidator<FormaPagamento>, FormaPagamentoValidator>();
+            services.AddTransient<IValidator<CondicaoPagamento>, CondicaoPagamentoValidator>();
 
         }
     }

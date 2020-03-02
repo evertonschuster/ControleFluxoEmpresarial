@@ -11,7 +11,7 @@ import { CidadeSchema } from './CidadeSchema';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 
-const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
     const [cidade, setCidade] = useState<Cidade>({ nome: "", ddd: "", estadoId: undefined })
@@ -90,4 +90,4 @@ const RegisterCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
 }
 
-export default RegisterCidade;
+export default CreateCidade;

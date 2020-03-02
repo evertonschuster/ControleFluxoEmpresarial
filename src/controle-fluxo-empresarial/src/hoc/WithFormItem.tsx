@@ -7,7 +7,13 @@ interface WithFormITemProps {
     required?: boolean;
 }
 
-export const withFormItem = <P extends object>(Field: React.ComponentType<P>): React.FC<P & WithFormITemProps> => (props: any) => {
+interface PropsItemForm {
+    showLabel?: boolean;
+    label?: string;
+    required?: boolean;
+}
+
+export const withFormItem = <P extends object>(Field: React.ComponentType<P>, propsConf?: any): React.FC<P & WithFormITemProps> => (props: any) => {
 
     const basicLayoutContext = useContext(BasicLayoutContext);
 
@@ -16,23 +22,26 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>): R
 
     return (
         <FormItem name={props.name} label={props.label || ""} required={props.required} className="form-custom-item" >
-            <Field autoComplete="off" disabled={isDisabled} {...props} required={false} style={{ width: "100%" }} />
+            <Field autoComplete="off" disabled={isDisabled} {...propsConf} {...props} required={false} style={{ width: "100%" }} />
         </FormItem >
     )
 }
 
-export const withItemNone = <P extends object>(Field: React.ComponentType<P>): React.FC<P> => (props: any) =>
-    (
+export const WithItemNone: React.FC<PropsItemForm> = (props: any) => {
+    const showLabel = props.showLabel ?? true;
+
+    return (
         <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
-            <div className="ant-col ant-form-item-label">
+            {showLabel ? <div className="ant-col ant-form-item-label">
                 <span>&nbsp;</span>
-            </div>
+            </div> : ""
+            }
 
             <div className="ant-col ant-form-item-control-wrapper">
                 <div className="ant-form-item-control ">
                     <span className="ant-form-item-children">
 
-                        <Field {...props} />
+                        {props.children}
 
                     </span>
 
@@ -40,13 +49,19 @@ export const withItemNone = <P extends object>(Field: React.ComponentType<P>): R
             </div>
         </div>
     )
+}
 
-export const ItemFormRender: React.FC<any> = (props) => {
+export const ItemFormRender: React.FC<PropsItemForm> = (props) => {
+    const showLabel = props.showLabel ?? true;
+
     return (
         <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
-            <div className="ant-col ant-form-item-label">
-                <span>&nbsp;</span>
-            </div>
+            {showLabel ?
+                <div className="ant-col ant-form-item-label">
+                    <label className={props.required ? "ant-form-item-required" : ""}>{props.label ?? <>&nbsp;</>}</label>
+                </div>
+                : ""
+            }
 
             <div className="ant-col ant-form-item-control-wrapper">
                 <div className="ant-form-item-control ">

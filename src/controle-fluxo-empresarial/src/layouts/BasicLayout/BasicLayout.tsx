@@ -4,6 +4,7 @@ import SideMenuApp from './Components/SideMenuApp';
 import ContentApp from './Components/ContentApp';
 import HeaderApp from './Components/HeaderApp';
 import BasicLayoutContext from './BasicLayoutContext';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 import "./basic-layout.css";
 
 
@@ -21,16 +22,16 @@ const BasicLayout: React.FC<Props> = (props) => {
     const { breadcrumb } = useContext(BasicLayoutContext);
 
     return (
-        <div style={{ animationName: "openSystem", animationDuration: "2s" }}>
-            <Layout style={{ minHeight: "100vh" }} >
+        <div style={{ animationName: "openSystem", animationDuration: "2s", display: "flex", flex: 1 }}>
+            <Layout  >
 
                 <SideMenuApp />
 
                 <Layout  >
-
-                    <HeaderApp breadcrumbList={breadcrumb} />
-                    <ContentApp > {props.children} </ContentApp>
-
+                    <PerfectScrollbar >
+                        <HeaderApp breadcrumbList={breadcrumb} />
+                        <ContentApp > {props.children} </ContentApp>
+                    </PerfectScrollbar>
                 </Layout>
             </Layout>
         </div>

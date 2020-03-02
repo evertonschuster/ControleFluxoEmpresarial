@@ -113,6 +113,7 @@ namespace ControleFluxoEmpresarial.DAOs
             {
                 command.CommandText = sql;
                 command.CommandType = CommandType.Text;
+                Console.WriteLine("SQL => " + command.CommandText);
 
                 command.ExecuteNonQuery();
 
@@ -149,6 +150,8 @@ namespace ControleFluxoEmpresarial.DAOs
             {
                 command.CommandText = sql += " limit 1";
                 command.CommandType = CommandType.Text;
+
+                Console.WriteLine("SQL => " + command.CommandText);
 
                 var reader = command.ExecuteReader();
 
@@ -194,6 +197,8 @@ namespace ControleFluxoEmpresarial.DAOs
                                       + $@" LIMIT {filter.PageSize}  ";
 
                 command.CommandType = CommandType.Text;
+                Console.WriteLine("SQL => " + command.CommandText);
+
                 var reader = command.ExecuteReader();
 
                 var list = new List<TEntity>();
@@ -236,6 +241,7 @@ namespace ControleFluxoEmpresarial.DAOs
                 sql += " ORDER BY Id  ";
             }
 
+
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
 
@@ -243,6 +249,8 @@ namespace ControleFluxoEmpresarial.DAOs
             {
                 command.CommandText = sql;
                 command.CommandType = CommandType.Text;
+                Console.WriteLine("SQL => " + command.CommandText);
+
                 var reader = command.ExecuteReader();
 
                 var list = new List<TEntity>();
@@ -279,6 +287,8 @@ namespace ControleFluxoEmpresarial.DAOs
             {
                 command.CommandText = sql += "RETURNING id;";
                 command.CommandType = CommandType.Text;
+
+                Console.WriteLine("SQL => " + command.CommandText);
 
                 int id = Convert.ToInt32(command.ExecuteScalar());
 
