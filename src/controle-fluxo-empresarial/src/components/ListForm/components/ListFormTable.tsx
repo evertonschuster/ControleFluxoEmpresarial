@@ -22,7 +22,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
     const key = props.keyProp || "id";
     const ListSelectedItem: any[] = state ? [].concat(state) : [];
     const [showModal, setShowModal] = useState(false)
-    const [record, setRecord] = useState()
+    const [record, setRecord] = useState<any>()
     const [loading, setLoading] = useState(false)
 
     const keyDescription = props.keyDescription || "nome";

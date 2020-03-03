@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Switch, withRouter, RouteComponentProps, Redirect } from 'react-router-dom';
 import { BasicLayoutContextProvider, FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import RoutePath from './Components/RoutePath';
+import { BreadcrumbProp } from '../../layouts/BasicLayout/BasicLayout';
 
 export interface Props {
     path?: string;
@@ -10,7 +11,7 @@ export interface Props {
 
 const RouterServiceModel: React.FC<RouteComponentProps & Props> = (props) => {
 
-    const [breadcrumb, setBreadcrumb] = useState();
+    const [breadcrumb, setBreadcrumb] = useState<BreadcrumbProp[]>();
     const [sharedState, setSharedState] = useState();
     const [formMode, setFormMode] = useState<FormMode>(FormMode.SelectOne)
 
