@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { RecordTable, RowMode, TypeAttribute } from './../EditableTable'
 import { Input, InputNumber } from '../../WithFormItem/withFormItem';
 import { isFunction } from 'formik';
@@ -45,5 +45,6 @@ const EditableCell: React.FC<Props> = (props) => {
         </td>
     );
 }
+
 
 export default memo(EditableCell, () => false);

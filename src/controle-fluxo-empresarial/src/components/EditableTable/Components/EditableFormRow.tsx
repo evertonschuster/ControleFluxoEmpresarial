@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { RecordTable, RowMode } from './../EditableTable'
 import { Formik, FormikHelpers } from 'formik';
 
@@ -11,6 +11,8 @@ export interface Props {
 
 const EditableFormRow: React.FC<Props> = (props) => {
 
+
+    
     const { record, initiallValues, handleSave, validationSchema, ...restProps } = props
 
     if (record.rowMode === RowMode.view) {

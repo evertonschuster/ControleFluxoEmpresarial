@@ -19,9 +19,6 @@ const NumeroDias: React.FC<Props> = (props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const submitForm = useFormikContext();
-    console.log(submitForm.errors);
-
-
 
     return (
         <InputNumber

@@ -4,13 +4,12 @@ import EditableTable, { ColumnEditableProps } from '../../../../../components/Ed
 import NumeroDias from './NumeroDias';
 import Percentual from './Percentual';
 import { FormaPagamento } from '../../../../../models/CondicaoPagamento/FormaPagamento';
-import { GetFormaPagamentoById } from '../../../../../apis/CondicaoPagamento/FormaPagamento';
 import { Input, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
 import { CondicaoPagamentoParcelaSchema } from '../CondicaoPagamentoSchema';
 import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
-import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { useField } from 'formik';
 import { CondicaoPagamento } from '../../../../../models/CondicaoPagamento/CondicaoPagamento';
+import RenderSelectionMode from './RenderSelectionFormaPagamento'
 
 
 const CondicaoPagamentoGeneral: React.FC = () => {
@@ -38,16 +37,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
             },
             renderEditable:
                 () => {
-                    return <SelectModelOne
-                        fetchMethod={GetFormaPagamentoById}
-                        name="formaPagamento.id"
-                        ObjectName="formaPagamento"
-                        keyDescription="nome"
-                        required={true}
-                        showLabel={false}
-                        label={{ title: "Seleção de Forma de Pagamento", label: "" }}
-                        errorMessage={{ noSelection: "Selecione uma Forma de Pagamento!" }}
-                        path="forma-pagamento" />
+                    return <RenderSelectionMode/>
                 },
         }
     ];

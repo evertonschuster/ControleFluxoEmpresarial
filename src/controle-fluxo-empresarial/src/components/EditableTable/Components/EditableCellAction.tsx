@@ -15,8 +15,6 @@ const EditableCellAction: React.FC<Props> = (props) => {
 
     const { submitForm, errors } = useFormikContext();
 
-    console.log("errors", errors)
-
     function handleCancel(record: RecordTable) {
         if (record.rowMode === RowMode.new) {
             props.handleRemove(record);
