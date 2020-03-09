@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { Table, Form } from 'antd';
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import EditableFormRow from './Components/EditableFormRow';
@@ -42,33 +42,36 @@ export interface RecordTable {
 const EditableTable: React.FC<Props<any>> = (props) => {
 
     const [field, meta, helpers] = useField(props.name);
-    const rowKey = props.rowKey ?? "id";
-    const dataSource = mapRecord(field.value as any[]);
+    const rowKey = useMemo(() => props.rowKey ?? "id", [props.rowKey]);
+    const dataSource = useMemo(() => mapRecord(field.value as any[]), [field.value]);
+    const components: TableComponents = useMemo(() => {
+        return {
+            body: {
+                row: (props) => <EditableFormRow {...props} />,
+                cell: (props) => <EditableCell {...props} />,
+            }
+        }
+    }, []);
 
-    const components: TableComponents = {
-        body: {
-            row: EditableFormRow,
-            cell: EditableCell,
-        },
-    };
+    const errorStyle: React.CSSProperties = useMemo(() => {
+        return {
+            borderWidth: "1px",
+            borderStyle: "solid",
+            borderColor: "red",
+            borderRadius: "5px",
+        }
+    }, []);
 
-    const errorStyle: React.CSSProperties = {
-        borderWidth: "1px",
-        borderStyle: "solid",
-        borderColor: "red",
-        borderRadius: "5px",
-    }
+    const hasListError = useMemo(() => !Array.isArray(meta.error) && (meta.error?.length ?? "") > 2, [meta.error]);
 
-    const hasListError = !Array.isArray(meta.error) && (meta.error?.length ?? "") > 2;
-
-    const columnsAction = props.columns.concat({
+    const columnsAction = useMemo(() => props.columns.concat({
         key: "Action",
         title: "Ações",
         width: "180px",
         render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
-    });
+    }), [props.columns]);
 
-    const columns: ColumnProps<any>[] = columnsAction.map((col: ColumnEditableProps<any>) => {
+    const columns: ColumnProps<any>[] = useMemo(() => columnsAction.map((col: ColumnEditableProps<any>) => {
         if (!col.editable) {
             return col;
         }
@@ -84,34 +87,37 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                 rowIndex: rowIndex
             }),
         };
-    });
+    }), [columnsAction])
 
-    function handleSave(values: RecordTable & any) {
+    const handleSave = useCallback(
+        (values: RecordTable & any) => {
+            const dataSourceNew = dataSource.map(e => e.tableKey !== values.tableKey ? e : { ...values, rowMode: RowMode.view });
+            helpers.setValue(dataSourceNew);
+        }, [dataSource]);
 
-        const dataSourceNew = dataSource.map(e => e.tableKey !== values.tableKey ? e : { ...values, rowMode: RowMode.view });
-        helpers.setValue(dataSourceNew);
-    }
+    const handleRemove = useCallback(
+        (values: RecordTable & any) => {
+            const dataSourceNew = dataSource.filter(e => e.tableKey !== values.tableKey);
+            helpers.setValue(dataSourceNew);
+        }, [dataSource])
 
-    function handleRemove(values: RecordTable & any) {
+    const handleRowMode = useCallback(
+        (record: RecordTable & any, rowMode: RowMode) => {
+            const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
+            helpers.setValue(dataSourceNew);
+        }, [dataSource])
 
-        const dataSourceNew = dataSource.filter(e => e.tableKey !== values.tableKey);
-        helpers.setValue(dataSourceNew);
-    }
+    const handleRowNew = useCallback(
+        () => {
 
-    function handleRowMode(record: RecordTable & any, rowMode: RowMode) {
+            let mapedDataSource = mapRecord(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
+            helpers.setValue(mapedDataSource);
+        }, [dataSource])
 
-        const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
-        helpers.setValue(dataSourceNew);
-    }
-
-    function handleRowNew() {
-
-        let mapedDataSource = mapRecord(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
-        helpers.setValue(mapedDataSource);
-
-    }
 
     function mapRecord(dataSource: RecordTable[]): RecordTable[] {
+        console.log("MAPEEEEE")
+
         return (dataSource || []).map((e) => {
             return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now() }
         });
