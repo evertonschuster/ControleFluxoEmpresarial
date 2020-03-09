@@ -5,7 +5,7 @@ import { history } from "./../services/RouterService/routing"
 
 let baseUri = "https://controle-fluxo-empresarial.herokuapp.com/";
 if (process.env.NODE_ENV === "development") {
-    baseUri = "https://controle-fluxo-empresarial.herokuapp.com/"
+    baseUri = "http://localhost:5000"
 }
 
 const api = axios.create({
