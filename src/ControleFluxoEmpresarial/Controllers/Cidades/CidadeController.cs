@@ -14,6 +14,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class CidadeController : ControllerBase<Cidade>
     {
         public CidadeController(CidadeDAO dAO) : base(dAO)

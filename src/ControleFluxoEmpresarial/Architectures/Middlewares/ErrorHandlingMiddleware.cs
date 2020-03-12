@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Architectures
+namespace ControleFluxoEmpresarial.Architectures.Middlewares
 {
     public class ErrorHandlingMiddleware
     {
