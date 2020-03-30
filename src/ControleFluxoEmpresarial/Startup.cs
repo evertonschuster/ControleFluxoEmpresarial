@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.Architectures;
+using ControleFluxoEmpresarial.Architectures.Middlewares;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Users;
 using FluentValidation.AspNetCore;
@@ -54,6 +55,7 @@ namespace ControleFluxoEmpresarial
                 var policy = new AuthorizationPolicyBuilder()
                  .RequireAuthenticatedUser()
                  .Build();
+                opts.Filters.Add<SqlInjectionFilter>(0);
                 opts.Filters.Add(new AuthorizeFilter(policy));
                 //opts.Filters.Add(typeof(ModelStateFeatureFilter));
             }).AddApiExplorer()
