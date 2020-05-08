@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.Architectures.Middlewares
             var string2 = JsonConvert.SerializeObject(context.ActionArguments);
 
 
-            throw new Exception("Seu baca");
+            //throw new Exception("Seu baca");
         }
     }
 }

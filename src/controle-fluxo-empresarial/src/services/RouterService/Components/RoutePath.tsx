@@ -14,6 +14,7 @@ import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormaPagamento/
 import CreateFormaPagamento from '../../../pages/CondicaoPagamento/FormaPagamento/CreateFormaPagamento/CreateFormaPagamento';
 import ListCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/ListCondicaoPagamento/ListCondicaoPagamento';
 import CreateCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/CreateCondicaoPagamento/CreateCondicaoPagamento';
+import FromCliente from '../../../pages/Clientes/FormCliente/FormCliente';
 
 const RoutePath: React.FC = () => {
 
@@ -30,6 +31,10 @@ const RoutePath: React.FC = () => {
             <Route path="/cidade/new" component={CreateCidade} />
             <Route path="/cidade/edit/:id" component={CreateCidade} />
             <Route exact path="/cidade" component={ListCidade} />
+
+            <Route path="/cliente/new" component={FromCliente} />
+            <Route path="/cliente/edit/:id" component={FromCliente} />
+            <Route exact path="/cliente" component={ListCidade} />
 
 
             <Route exact path="/user/new" component={RegisterUser} />
