@@ -3,11 +3,10 @@ import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout
 import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirEstado } from '../../../../apis/Cidades/EstadoApi';
 
-const ListEstado: React.FC<RouteComponentProps> = () => {
+const ListUser: React.FC<RouteComponentProps> = () => {
 
-    const response = UseListPagined({ URL: "/api/Estado/list" });
+    const response = UseListPagined({ URL: "/api/User/list" });
 
     const columns = [
         {
@@ -16,22 +15,30 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
             key: 'id',
         },
         {
-            title: 'Estado',
-            dataIndex: 'nome',
+            title: 'Usuário',
+            dataIndex: 'userName',
+            key: 'userName',
         },
         {
-            title: 'UF',
-            dataIndex: 'uf',
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
         },
+        {
+            title: 'Telefone',
+            dataIndex: 'phoneNumber',
+            key: 'phoneNumber',
+        },
+
     ];
 
+
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Estado", URL: "/Estado" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Usuários", URL: "/User" }, { displayName: "Listagem", URL: undefined }]} >
 
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirEstado}
                 columns={columns} />
 
 
@@ -40,4 +47,4 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
 
 }
 
-export default ListEstado;
+export default ListUser;

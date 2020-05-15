@@ -6,52 +6,65 @@ import RegisterEstado from '../../../pages/Cidades/Estado/RegisterEstado/Registe
 import ListEstado from '../../../pages/Cidades/Estado/ListEstado/ListEstado';
 import ListCidade from '../../../pages/Cidades/Cidade/ListCidade/ListCidade';
 import CreateCidade from '../../../pages/Cidades/Cidade/CreateCidade/CreateCidade';
-import ListUser from '../../../pages/Users/ListUser/ListUser';
-import RegisterUser from '../../../pages/Users/RegisterUser/RegisterUser';
-import CreateTitular from '../../../pages/Associados/CreateTitular/CreateTitular';
-import ListTitular from '../../../pages/Associados/ListTitular/ListTitular';
+import ListUser from '../../../pages/Pessoas/Users/ListUser/ListUser';
+import RegisterUser from '../../../pages/Pessoas/Users/RegisterUser/RegisterUser';
+import FormTitular from '../../../pages/Pessoas/Associados/CreateTitular/CreateTitular';
+import ListTitular from '../../../pages/Pessoas/Associados/ListTitular/ListTitular';
 import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormaPagamento/ListFormaPagamento/ListFormaPagamento';
 import CreateFormaPagamento from '../../../pages/CondicaoPagamento/FormaPagamento/CreateFormaPagamento/CreateFormaPagamento';
 import ListCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/ListCondicaoPagamento/ListCondicaoPagamento';
 import CreateCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/CreateCondicaoPagamento/CreateCondicaoPagamento';
-import FromCliente from '../../../pages/Clientes/FormCliente/FormCliente';
+import FormCliente from '../../../pages/Pessoas/Clientes/FormCliente/FormCliente';
+import ListCliente from '../../../pages/Pessoas/Clientes/ListCliente/ListCliente';
+import { ListFuncionario } from '../../../pages/Pessoas/Funcionarios/ListFuncionario/ListFuncionario';
+import FormFuncionario from '../../../pages/Pessoas/Funcionarios/FormFuncionario/FormFuncionario';
+import { ListFornecedor } from '../../../pages/Pessoas/Fornecedores/ListFornecedor/ListFornecedor';
+import FormFornecedor from '../../../pages/Pessoas/Fornecedores/FormFornecedor/FormFornecedor';
 
 const RoutePath: React.FC = () => {
 
     return (
         <>
-            <Route path="/pais/new" component={RegisterPais} />
-            <Route path="/pais/edit/:id" component={RegisterPais} />
-            <Route exact path="/pais" component={ListPais} />
 
-            <Route path="/estado/new" component={RegisterEstado} />
-            <Route path="/estado/edit/:id" component={RegisterEstado} />
-            <Route exact path="/estado" component={ListEstado} />
-
-            <Route path="/cidade/new" component={CreateCidade} />
+            <Route path="/cidade" component={ListCidade} exact />
             <Route path="/cidade/edit/:id" component={CreateCidade} />
-            <Route exact path="/cidade" component={ListCidade} />
+            <Route path="/cidade/new" component={CreateCidade} />
 
-            <Route path="/cliente/new" component={FromCliente} />
-            <Route path="/cliente/edit/:id" component={FromCliente} />
-            <Route exact path="/cliente" component={ListCidade} />
+            <Route path="/cliente" component={ListCliente} exact />
+            <Route path="/cliente/edit/:id" component={FormCliente} />
+            <Route path="/cliente/new" component={FormCliente} />
 
+            <Route path="/condicao-pagamento" component={ListCondicaoPagamento} exact />
+            <Route path="/condicao-pagamento/edit/:id" component={CreateCondicaoPagamento} />
+            <Route path="/condicao-pagamento/new" component={CreateCondicaoPagamento} />
 
-            <Route exact path="/user/new" component={RegisterUser} />
-            <Route exact path="/user/edit/:id" component={RegisterUser} />
-            <Route exact path="/user" component={ListUser} />
+            <Route path="/estado" component={ListEstado} exact />
+            <Route path="/estado/edit/:id" component={RegisterEstado} />
+            <Route path="/estado/new" component={RegisterEstado} />
 
-            <Route exact path="/titular/new" component={CreateTitular} />
-            <Route exact path="/titular/edit/:id" component={CreateTitular} />
-            <Route exact path="/titular" component={ListTitular} />
-            
-            <Route exact path="/forma-pagamento/new" component={CreateFormaPagamento} />
-            <Route exact path="/forma-pagamento/edit/:id" component={CreateFormaPagamento} />
-            <Route exact path="/forma-pagamento" component={ListFormaPagamento} />
+            <Route path="/forma-pagamento" component={ListFormaPagamento} exact />
+            <Route path="/forma-pagamento/edit/:id" component={CreateFormaPagamento} />
+            <Route path="/forma-pagamento/new" component={CreateFormaPagamento} />
 
-            <Route exact path="/condicao-pagamento/new" component={CreateCondicaoPagamento} />
-            <Route exact path="/condicao-pagamento/edit/:id" component={CreateCondicaoPagamento} />
-            <Route exact path="/condicao-pagamento" component={ListCondicaoPagamento} />
+            <Route path="/funcionario" component={ListFuncionario} exact />
+            <Route path="/funcionario/edit/:id" component={FormFuncionario} />
+            <Route path="/funcionario/new" component={FormFuncionario} />
+
+            <Route path="/fornecedor" component={ListFornecedor} exact />
+            <Route path="/fornecedor/edit/:id" component={FormFornecedor} />
+            <Route path="/fornecedor/new" component={FormFornecedor} />
+
+            <Route path="/pais" component={ListPais} exact />
+            <Route path="/pais/edit/:id" component={RegisterPais} />
+            <Route path="/pais/new" component={RegisterPais} />
+
+            <Route path="/titular" component={ListTitular} exact />
+            <Route path="/titular/edit/:id" component={FormTitular} />
+            <Route path="/titular/new" component={FormTitular} />
+
+            <Route path="/user" component={ListUser} exact />
+            <Route path="/user/edit/:id" component={RegisterUser} />
+            <Route path="/user/new" component={RegisterUser} />
 
         </>
     );

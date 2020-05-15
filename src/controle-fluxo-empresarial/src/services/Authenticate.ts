@@ -1,4 +1,4 @@
-import AuthenticatedUser from "../models/Users/AuthenticatedUser";
+import AuthenticatedUser from "../models/Pessoas/AuthenticatedUser";
 import {history} from './../services/RouterService/routing'
 
 export const TOKEN_KEY = "GestaoPessoalToken";

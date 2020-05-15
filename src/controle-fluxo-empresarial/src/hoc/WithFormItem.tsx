@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { FormItem } from 'formik-antd';
 import BasicLayoutContext, { FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
+import { useField } from 'formik';
 
 interface WithFormITemProps {
     label: string;
@@ -23,6 +24,28 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>, pr
     return (
         <FormItem name={props.name} label={props.label || ""} required={props.required} className="form-custom-item" >
             <Field autoComplete="off" disabled={isDisabled} {...propsConf} {...props} required={false} style={{ width: "100%" }} />
+        </FormItem >
+    )
+}
+
+export const withFormItemCustom = <P extends object>(Field: React.ComponentType<P>, propsConf?: any): React.FC<P & WithFormITemProps> => (props: any) => {
+
+    const basicLayoutContext = useContext(BasicLayoutContext);
+    const [field, meta, helpers] = useField({ name: props.name });
+
+    const isViewMode = basicLayoutContext != null && basicLayoutContext.formMode === FormMode.View;
+    const isDisabled = props.disabled || isViewMode;
+
+    return (
+        <FormItem name={props.name} label={props.label || ""} required={props.required} className="form-custom-item" >
+            <Field
+                autoComplete="off"
+                disabled={isDisabled}
+                {...field}
+                {...propsConf}
+                {...props}
+                required={false}
+                style={{ width: "100%" }} />
         </FormItem >
     )
 }

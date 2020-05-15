@@ -15,7 +15,7 @@ export interface Props extends FormikConfig<any> {
 }
 
 
-const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
+const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
@@ -88,4 +88,4 @@ const CrudFormLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
 }
 
-export default withRouter(CrudFormLayout);
+export default withRouter(CrudFormBasicLayout);

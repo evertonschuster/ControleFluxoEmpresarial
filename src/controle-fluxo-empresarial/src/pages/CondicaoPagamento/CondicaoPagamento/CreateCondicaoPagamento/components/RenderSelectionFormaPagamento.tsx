@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from 'react'
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import { GetFormaPagamentoById } from '../../../../../apis/CondicaoPagamento/FormaPagamento';
+import { GetFormaPagamentoById } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
 const RenderSelectionFormaPagamento: React.FC = () => {
 

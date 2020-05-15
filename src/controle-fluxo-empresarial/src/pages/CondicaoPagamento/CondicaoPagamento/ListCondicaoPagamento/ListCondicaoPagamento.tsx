@@ -1,10 +1,10 @@
 import React, { } from 'react';
-import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { CondicaoPagamento } from './../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { ColumnProps } from 'antd/lib/table';
-import { ExcluirCondicaoPagamento } from '../../../../apis/CondicaoPagamento/CondicaoPagamento';
+import { ExcluirCondicaoPagamento } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 
 const ListCondicaoPagamento: React.FC = () => {
 
@@ -26,14 +26,14 @@ const ListCondicaoPagamento: React.FC = () => {
 
 
     return (
-        <FormLayout breadcrumbList={[{ displayName: "Condição de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Condição de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}
                 deleteFunction={ExcluirCondicaoPagamento}
                 columns={columns} />
 
-        </FormLayout>
+        </FormBasicLayout>
     );
 
 }

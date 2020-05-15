@@ -6,7 +6,7 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
-import { UpdateFormaPagamento, SaveFormaPagamento, GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamento';
+import { UpdateFormaPagamento, SaveFormaPagamento, GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import { FormaPagamentoSchema } from './FormaPagamentoSchema';
 
 const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
