@@ -12,6 +12,7 @@ interface PropsItemForm {
     showLabel?: boolean;
     label?: string;
     required?: boolean;
+    padding?: boolean;
 }
 
 export const withFormItem = <P extends object>(Field: React.ComponentType<P>, propsConf?: any): React.FC<P & WithFormITemProps> => (props: any) => {
@@ -50,14 +51,14 @@ export const withFormItemCustom = <P extends object>(Field: React.ComponentType<
     )
 }
 
-export const WithItemNone: React.FC<PropsItemForm> = (props: any) => {
+export const WithItemNone: React.FC<PropsItemForm> = (props) => {
     const showLabel = props.showLabel ?? true;
 
     return (
-        <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
+        <div className={`ant-row ant-form-item ant-form-item-with-help ${props.padding === true || props.padding === undefined ? "form-custom-item" : ""}`}>
             {showLabel ? <div className="ant-col ant-form-item-label">
-                <span>&nbsp;</span>
-            </div> : ""
+                <span>&nbsp;</span >
+            </div > : ""
             }
 
             <div className="ant-col ant-form-item-control-wrapper">
@@ -70,7 +71,7 @@ export const WithItemNone: React.FC<PropsItemForm> = (props: any) => {
 
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -4,7 +4,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { ExcluirFornecedor } from '../../../../apis/Pessoas/Fornecedor.Api';
 
-export const ListFornecedor: React.FC = () => {
+ const ListFornecedor: React.FC = () => {
     
     const response = UseListPagined({ URL: "/api/fornecedors/list" });
 
@@ -39,3 +39,5 @@ export const ListFornecedor: React.FC = () => {
     </FormBasicLayout>
     )
 }
+
+export default ListFornecedor;

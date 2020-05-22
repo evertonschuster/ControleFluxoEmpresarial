@@ -4,8 +4,8 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { ExcluirFuncionario } from '../../../../apis/Pessoas/FuncionarioApi';
 
-export const ListFuncionario: React.FC = () => {
-    
+const ListFuncionario: React.FC = () => {
+
     const response = UseListPagined({ URL: "/api/funcionarios/list" });
 
     const columns = [
@@ -31,11 +31,13 @@ export const ListFuncionario: React.FC = () => {
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Funcionarios", URL: "/funcionario" }, { displayName: "Listagem", URL: undefined }]} >
 
-        <ListForm
-            tableProps={response}
-            deleteFunction={ExcluirFuncionario}
-            columns={columns} />
+            <ListForm
+                tableProps={response}
+                deleteFunction={ExcluirFuncionario}
+                columns={columns} />
 
-    </FormBasicLayout>
+        </FormBasicLayout>
     )
 }
+
+export default ListFuncionario;

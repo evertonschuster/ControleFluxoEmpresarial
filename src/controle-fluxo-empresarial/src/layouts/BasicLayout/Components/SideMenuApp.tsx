@@ -15,7 +15,7 @@ const SideMenuApp: React.FC = () => {
                 setCollapsed(!collapsed);
                 event.preventDefault();
             }}
-            >
+        >
             <Menu theme="dark" mode="inline" inlineCollapsed={true} >
                 <Menu.Item key="Menu">
                     <Link to="/">
@@ -36,7 +36,7 @@ const SideMenuApp: React.FC = () => {
                     <Menu.Item key="cidadesCrud">
                         <Link to="/cidade">Cidades</Link>
                     </Menu.Item>
-                    <Menu.Item key="estadoCrud"> 
+                    <Menu.Item key="estadoCrud">
                         <Link to="/estado">Estados</Link>
                     </Menu.Item>
                     <Menu.Item key="paisCrud">
@@ -55,12 +55,12 @@ const SideMenuApp: React.FC = () => {
                         </span>
                     }>
 
-                    <Menu.Item key="UserCrud">
-                        <Link to="/user">Usuário</Link>
+                    <Menu.Item key="Categoria">
+                        <Link to="/categoria">Categoria</Link>
                     </Menu.Item>
 
-                    <Menu.Item key="TitularCrud">
-                        <Link to="/Titular">Titulares</Link>
+                    <Menu.Item key="Cliente">
+                        <Link to="/cliente">Clientes</Link>
                     </Menu.Item>
 
                     <SubMenu
@@ -79,10 +79,65 @@ const SideMenuApp: React.FC = () => {
 
                     </SubMenu>
 
+                    <Menu.Item key="Fornecedor">
+                        <Link to="/fornecedor">Fornecedores</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="FuncaoFuncionario">
+                        <Link to="/funcao-funcionario">Função Funcionários</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="Funcionario">
+                        <Link to="/funcionario">Funcionários</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="TitularCrud">
+                        <Link to="/Titular">Titulares</Link>
+                    </Menu.Item>
+                    
+                    <Menu.Item key="unidadeMedidaCrud">
+                        <Link to="/unidade-medida">Unidade de medidas</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="Produto">
+                        <Link to="/produto">Produtos</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="Servico">
+                        <Link to="/servico">Serviços</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="Marca">
+                        <Link to="/marca">Marcas</Link>
+                    </Menu.Item>
+
+                    <Menu.Item key="UserCrud">
+                        <Link to="/user">Usuários</Link>
+                    </Menu.Item>
+
                 </SubMenu>
 
-                {/* <Icon type="shop" />
-                <Icon type="contacts" /> */}
+
+                <SubMenu
+                    key="Movimento"
+                    disabled={true}
+                    title={
+                        <span>
+                            <Icon type="shop" />
+                            <span>Movimento</span>
+                        </span>
+                    }>
+
+                    <Menu.Item key="venda">
+                        <Link to="/venda">Vendas</Link>
+                    </Menu.Item>
+                    <Menu.Item key="compra">
+                        <Link to="/compra">Compras</Link>
+                    </Menu.Item>
+
+
+                </SubMenu>
+
             </Menu>
         </Sider>
     );

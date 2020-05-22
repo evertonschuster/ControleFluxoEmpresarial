@@ -78,20 +78,20 @@ const SelectModelOne: React.FC<Props> = (props) => {
         <>
             <Form.Item
                 className="select-model-one-style-item"
-                validateStatus={meta.error ? "error" : "validating"}
-                help={meta.error ?? ""}>
+                validateStatus={meta.error && meta.touched ? "error" : "validating"}
+                help={meta.error && meta.touched ? meta.error : ""}>
                 <Row>
-                    <Col sm={4}  >
+                    <Col sm={8} md={8} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
-                            <InputNumber min={1} value={meta.value} onChange={helpers.setValue} style={{ width: "inherit" }} />
+                            <InputNumber min={0} value={meta.value} onChange={(value) => { helpers.setValue(value); helpers.setTouched(true) }} style={{ width: "inherit" }} />
                         </ItemFormRender>
                     </Col>
-                    <Col sm={2} style={{ textAlign: "center" }} >
-                        <WithItemNone showLabel={showLabel} >
+                    <Col sm={4} md={3} style={{ textAlign: "center" }} >
+                        <WithItemNone showLabel={showLabel} padding={false} >
                             <Button type="primary" icon="search" onClick={() => setVisible(true)} ></Button>
                         </WithItemNone>
                     </Col>
-                    <Col sm={18} >
+                    <Col sm={12} md={12} >
                         <WithItemNone showLabel={showLabel}>
                             <InputAntd value={description} />
                         </WithItemNone>

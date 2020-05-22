@@ -66,7 +66,7 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
             >
 
                 <Row>
-                    <Col span={12}>
+                    <Col span={2}>
                         <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
                     </Col>
                     <Col span={12}>
