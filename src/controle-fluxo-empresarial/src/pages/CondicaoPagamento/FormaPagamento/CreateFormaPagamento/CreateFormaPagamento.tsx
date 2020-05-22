@@ -60,7 +60,7 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
 
             <Row>
                 <Col span={4}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={12}>
                     <Input name="nome" label="Forma de Pagamento" placeholder="Dinheiro" required />

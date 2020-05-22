@@ -9,7 +9,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 
     const columns = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
         },

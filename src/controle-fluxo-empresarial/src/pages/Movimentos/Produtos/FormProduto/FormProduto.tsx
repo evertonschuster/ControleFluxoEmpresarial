@@ -51,19 +51,20 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
 
                 <Col span={10}>
                     <Input name="nome" label="Produto" placeholder="Produto" required />
                 </Col>
 
-                <Col span={6}>
+                <Col span={3}>
                     <SelectModelOne
                         fetchMethod={GetCategoriaById}
                         name="unidadeMedidaId"
                         keyDescription="Unidade de Medida"
                         required={true}
+                        showDescription={false}
                         label={{ title: "Seleção de Unidade de Medida", label: "Unidade de Medida" }}
                         errorMessage={{ noSelection: "Selecione uma Unidade de Medida!" }}
                         path="unidade-medida" />
@@ -128,7 +129,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 <Col span={3}>
                     <InputNumber name="valorVenda" label="Valor Venda" placeholder="15,50" required />
                 </Col>
-                
+
                 <Col span={3}>
                     <InputNumber name="quantidade" label="Quantidade" placeholder="10" required />
                 </Col>

@@ -1,4 +1,4 @@
 export interface UnidadeMedida {
-    id?: number,
-    nome: string,
+    id?: string | null,
+    nome?: string | null,
 }

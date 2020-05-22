@@ -9,7 +9,7 @@ const ListFuncaoFuncionario: React.FC = () => {
 
     const columns = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
         },

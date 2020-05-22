@@ -67,7 +67,7 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
 
                 <Row>
                     <Col span={2}>
-                        <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                        <Input name="id" label="Código" placeholder="Codigo" readOnly />
                     </Col>
                     <Col span={12}>
                         <Input name="userName" label="Nome" placeholder="Nome" required />

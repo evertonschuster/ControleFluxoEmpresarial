@@ -43,7 +43,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
 
                 <Col span={6}>

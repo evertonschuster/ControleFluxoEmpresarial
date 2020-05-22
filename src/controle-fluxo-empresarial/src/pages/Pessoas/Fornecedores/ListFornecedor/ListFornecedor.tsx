@@ -10,7 +10,7 @@ import { ExcluirFornecedor } from '../../../../apis/Pessoas/Fornecedor.Api';
 
     const columns = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
         },

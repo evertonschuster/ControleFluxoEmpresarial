@@ -12,7 +12,7 @@ const ListCondicaoPagamento: React.FC = () => {
 
     const columns: ColumnProps<CondicaoPagamento>[] = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
             width: "100px"

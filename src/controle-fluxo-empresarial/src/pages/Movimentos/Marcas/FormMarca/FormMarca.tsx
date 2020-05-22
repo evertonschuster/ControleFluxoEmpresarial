@@ -41,7 +41,7 @@ const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pro
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={6}>
                     <Input name="nome" label="Marca" placeholder="Manutenção" required />

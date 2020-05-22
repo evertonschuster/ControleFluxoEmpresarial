@@ -12,7 +12,7 @@ const ListCategoria: React.FC = () => {
 
     const columns: ColumnProps<Categoria>[] = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
             width: "100px"

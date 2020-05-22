@@ -41,7 +41,7 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
 
                 <Col span={9}>

@@ -41,7 +41,7 @@ const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = 
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={9}>
                     <Input name="nome" label="Categoria" placeholder="Manutenção" required />

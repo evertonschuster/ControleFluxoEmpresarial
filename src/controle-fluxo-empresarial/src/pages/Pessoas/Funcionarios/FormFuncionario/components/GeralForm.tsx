@@ -12,7 +12,7 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
 
                 <Col span={7}>

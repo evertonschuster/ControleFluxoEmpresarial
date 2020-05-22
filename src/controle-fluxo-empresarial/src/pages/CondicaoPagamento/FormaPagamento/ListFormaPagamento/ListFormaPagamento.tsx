@@ -12,7 +12,7 @@ const ListFormaPagamento: React.FC = () => {
 
     const columns: ColumnProps<FormaPagamento>[] = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
             width: "100px"

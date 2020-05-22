@@ -18,6 +18,7 @@ export interface Props {
     required?: boolean;
     fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
     showLabel?: boolean;
+    showDescription?: boolean;
     ObjectName?: string;
 }
 
@@ -33,6 +34,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
     const [field, meta, helpers] = useField(props.name);
     const [, , helpersObject] = useField(props.ObjectName ?? props.name); //Todo
     const { setSubmitting } = useFormikContext();
+    const showDescription = props.showDescription !== false;
 
     useEffect(() => {
         let id = field.value;
@@ -81,21 +83,21 @@ const SelectModelOne: React.FC<Props> = (props) => {
                 validateStatus={meta.error && meta.touched ? "error" : "validating"}
                 help={meta.error && meta.touched ? meta.error : ""}>
                 <Row>
-                    <Col sm={8} md={8} >
+                    <Col md={showDescription ? 8 : 19} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
                             <InputNumber min={0} value={meta.value} onChange={(value) => { helpers.setValue(value); helpers.setTouched(true) }} style={{ width: "inherit" }} />
                         </ItemFormRender>
                     </Col>
-                    <Col sm={4} md={3} style={{ textAlign: "center" }} >
+                    <Col md={showDescription ? 3 : 5} style={{ textAlign: "center" }} >
                         <WithItemNone showLabel={showLabel} padding={false} >
                             <Button type="primary" icon="search" onClick={() => setVisible(true)} ></Button>
                         </WithItemNone>
                     </Col>
-                    <Col sm={12} md={12} >
+                    {showDescription && <Col md={12} >
                         <WithItemNone showLabel={showLabel}>
                             <InputAntd value={description} />
                         </WithItemNone>
-                    </Col>
+                    </Col>}
                 </Row>
 
                 <ModelForm

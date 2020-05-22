@@ -11,7 +11,7 @@ import { UnidadeMedidaSchema } from './UnidadeMedidaSchema';
 const FormUnidadeMedida: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
-    const [unidademedida, setUnidadeMedida] = useState<UnidadeMedida>({ nome: "" })
+    const [unidademedida, setUnidadeMedida] = useState<UnidadeMedida>({ nome: "", id: "" })
     const [loading, setLoading] = useState(false);
 
 
@@ -22,17 +22,17 @@ const FormUnidadeMedida: React.FC<RouteComponentProps & RouteComponentProps<any>
 
     async function onSubmit(values: UnidadeMedida, formikHelpers: FormikHelpers<any>) {
 
-       
+
     }
 
     async function getUnidadeMedida(id: number) {
-      
+
     }
 
     return (
         <CrudFormLayout
             isLoading={loading}
-            backPath="/unidademedida"
+            backPath="/unidade-medida"
             breadcrumbList={[{ displayName: "Unidade Medidas", URL: "/unidade-medida" }, { displayName: "Nova Unida de Medida", URL: undefined }]}
             initialValues={unidademedida}
             validationSchema={UnidadeMedidaSchema}
@@ -41,7 +41,7 @@ const FormUnidadeMedida: React.FC<RouteComponentProps & RouteComponentProps<any>
 
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" />
                 </Col>
                 <Col span={6}>
                     <Input name="nome" label="Unidade Medida" placeholder="Unidade" required />
