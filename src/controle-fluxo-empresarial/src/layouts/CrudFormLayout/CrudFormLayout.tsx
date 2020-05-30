@@ -75,6 +75,15 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                             : props.children}
 
                         < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
+                            <Col
+                                span={5}
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column"
+                                }}>
+                                <span>Data Criação: __/__/____</span>
+                                <span>Data Atualização: __/__/____</span>
+                            </Col>
                             <Col>
                                 <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
                                 <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>

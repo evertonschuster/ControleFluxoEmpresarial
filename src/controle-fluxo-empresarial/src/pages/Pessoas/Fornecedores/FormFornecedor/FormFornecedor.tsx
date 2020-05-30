@@ -24,7 +24,7 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         observacoes: "",
         rgInscricaoEstadual: "",
         telefone: "",
-        tipo: TIPO_PESSOA.Fisica
+        tipo: TIPO_PESSOA.Juridica
     })
     const [loading] = useState(false);
 
@@ -46,7 +46,7 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         <CrudFormLayout
             isLoading={loading}
             backPath="/fornecedor"
-            breadcrumbList={[{ displayName: "Fornecedor", URL: "/fornecedor" }, { displayName: "Novo Fornecedor", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName: "Novo Fornecedor", URL: undefined }]}
             initialValues={fornecedor}
             validationSchema={FornecedorSchema}
             onSubmit={onSubmit}

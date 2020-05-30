@@ -26,7 +26,7 @@ const ListMarca: React.FC = () => {
 
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Marca", URL: "/marca" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Marcas", URL: "/marca" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}

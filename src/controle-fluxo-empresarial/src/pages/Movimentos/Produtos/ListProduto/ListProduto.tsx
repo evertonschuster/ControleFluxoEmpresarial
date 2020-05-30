@@ -24,7 +24,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
     ];
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Produto", URL: "/produto" }, { displayName: "Listagem" }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Produtos", URL: "/produto" }, { displayName: "Listagem" }]} >
 
             <ListForm
                 tableProps={response}

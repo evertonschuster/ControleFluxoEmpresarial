@@ -26,7 +26,7 @@ const ListCondicaoPagamento: React.FC = () => {
 
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Condição de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Condições de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}

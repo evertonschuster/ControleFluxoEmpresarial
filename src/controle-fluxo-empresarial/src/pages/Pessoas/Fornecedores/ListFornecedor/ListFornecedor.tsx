@@ -29,7 +29,7 @@ import { ExcluirFornecedor } from '../../../../apis/Pessoas/Fornecedor.Api';
     ];
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Fornecedors", URL: "/fornecedor" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName: "Listagem", URL: undefined }]} >
 
         <ListForm
             tableProps={response}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Row, Col } from 'antd';
-import { Input, TextArea, Switch } from '../../../../components/WithFormItem/withFormItem';
+import { Input, TextArea, Switch, InputNumber } from '../../../../components/WithFormItem/withFormItem';
 import { FuncaoFuncionarioSchema } from './FuncaoFuncionarioSchema';
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -33,7 +33,7 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
         <CrudFormLayout
             isLoading={loading}
             backPath="/funcao-funcionario"
-            breadcrumbList={[{ displayName: "Função Funcionario", URL: "/funcao-funcionario" }, { displayName: "Nova Função Funcionario", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Funções Funcionário", URL: "/funcao-funcionario" }, { displayName: "Nova Função Funcionário", URL: undefined }]}
             initialValues={funcaofuncionario}
             validationSchema={FuncaoFuncionarioSchema}
             onSubmit={onSubmit}
@@ -44,8 +44,11 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
 
-                <Col span={9}>
+                <Col span={7}>
                     <Input name="nome" label="Função Funcionário" placeholder="técnico" required />
+                </Col>
+                <Col span={2}>
+                    <InputNumber name="cargaHoraria" label="Carga Horária" placeholder="8" required />
                 </Col>
 
                 <Col span={2}>
@@ -56,6 +59,12 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
             <Row>
                 <Col span={13}>
                     <TextArea name="descricao" label="Descrição" rows={4} />
+                </Col>
+            </Row>
+
+            <Row>
+                <Col span={13}>
+                    <TextArea name="observacao" label="Observação" rows={4} />
                 </Col>
             </Row>
 

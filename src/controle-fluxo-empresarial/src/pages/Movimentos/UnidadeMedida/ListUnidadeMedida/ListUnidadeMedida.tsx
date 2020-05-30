@@ -21,7 +21,7 @@ const ListUnidadeMedida: React.FC = () => {
     ];
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Unidade de Medida", URL: "/unidade-medida" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Unidades de Medida", URL: "/unidade-medida" }, { displayName: "Listagem", URL: undefined }]} >
 
         <ListForm
             tableProps={response}

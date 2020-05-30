@@ -91,12 +91,8 @@ const SideMenuApp: React.FC = () => {
                         <Link to="/funcionario">Funcionários</Link>
                     </Menu.Item>
 
-                    <Menu.Item key="TitularCrud">
-                        <Link to="/Titular">Titulares</Link>
-                    </Menu.Item>
-                    
-                    <Menu.Item key="unidadeMedidaCrud">
-                        <Link to="/unidade-medida">Unidade de medidas</Link>
+                    <Menu.Item key="Marca">
+                        <Link to="/marca">Marcas</Link>
                     </Menu.Item>
 
                     <Menu.Item key="Produto">
@@ -107,8 +103,8 @@ const SideMenuApp: React.FC = () => {
                         <Link to="/servico">Serviços</Link>
                     </Menu.Item>
 
-                    <Menu.Item key="Marca">
-                        <Link to="/marca">Marcas</Link>
+                    <Menu.Item key="unidadeMedidaCrud">
+                        <Link to="/unidade-medida">Unidade de medidas</Link>
                     </Menu.Item>
 
                     <Menu.Item key="UserCrud">

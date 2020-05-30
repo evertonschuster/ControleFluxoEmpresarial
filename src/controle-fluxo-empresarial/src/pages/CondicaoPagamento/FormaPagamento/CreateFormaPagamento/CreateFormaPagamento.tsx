@@ -52,7 +52,7 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
         <CrudFormLayout
             isLoading={loading}
             backPath="/forma-pagamento"
-            breadcrumbList={[{ displayName: "Forma de Pagamento", URL: "/forma-pagamento" }, { displayName: "Nova Forma de Pagamento", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Formas de Pagamento", URL: "/forma-pagamento" }, { displayName: "Nova Forma de Pagamento", URL: undefined }]}
             initialValues={formapagamento}
             validationSchema={FormaPagamentoSchema}
             onSubmit={onSubmit}

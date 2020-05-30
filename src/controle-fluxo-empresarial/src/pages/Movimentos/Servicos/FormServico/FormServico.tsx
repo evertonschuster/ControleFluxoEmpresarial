@@ -8,6 +8,8 @@ import { ServicoSchema } from './ServicoSchema';
 import { TextArea } from './../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
 import { GetCategoriaById } from '../../../../apis/Movimentos/CategoriaApi';
+import SelectModelMoreWithTable from '../../../../components/SelectModel/SelectModelMoreWithTable';
+import { ColumnProps } from 'antd/lib/table';
 
 const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [servico] = useState<Servico>({
@@ -16,6 +18,20 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         categoriaId: undefined,
     });
     const [loading] = useState(false);
+    const columns: ColumnProps<any>[] = [
+        {
+            title: 'Funcionário',
+            dataIndex: 'nome',
+        },
+        {
+            title: 'Idade',
+            dataIndex: 'idade',
+        },
+        {
+            title: 'Função',
+            dataIndex: 'funcaoFuncionario.nome',
+        },
+    ];
 
 
     useEffect(() => {
@@ -35,7 +51,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         <CrudFormLayout
             isLoading={loading}
             backPath="/servico"
-            breadcrumbList={[{ displayName: "Servico", URL: "/servico" }, { displayName: "Novo Serviço", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Serviços", URL: "/servico" }, { displayName: "Novo Serviço", URL: undefined }]}
             initialValues={servico}
             validationSchema={ServicoSchema}
             onSubmit={onSubmit}
@@ -47,7 +63,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 </Col>
 
                 <Col span={6}>
-                    <Input name="nome" label="Servico" placeholder="Servico" required />
+                    <Input name="nome" label="Serviço" placeholder="Serviço" required />
                 </Col>
 
                 <Col span={4}>
@@ -66,17 +82,29 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 </Col>
             </Row>
 
+
             <Row>
                 <Col span={12}>
                     <TextArea name="descricao" label="Descrição" rows={3} />
                 </Col>
-            </Row>
 
-            <Row>
                 <Col span={12}>
                     <TextArea name="oservacao" label="Observação" rows={3} />
                 </Col>
             </Row>
+
+            <Row>
+                <Col span={24}>
+                    <SelectModelMoreWithTable
+                        label={{ label: "Funcionários", title: "Selecione um Funcionário" }}
+                        name="funcionarioIds"
+                        columns={columns}
+                        errorMessage={{ noSelection: "Selecione ao menos um funcionário" }}
+                        path="funcionario"
+                    />
+                </Col>
+            </Row>
+
 
         </CrudFormLayout>)
 }

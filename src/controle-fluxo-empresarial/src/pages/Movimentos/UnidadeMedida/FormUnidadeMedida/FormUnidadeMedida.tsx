@@ -33,7 +33,7 @@ const FormUnidadeMedida: React.FC<RouteComponentProps & RouteComponentProps<any>
         <CrudFormLayout
             isLoading={loading}
             backPath="/unidade-medida"
-            breadcrumbList={[{ displayName: "Unidade Medidas", URL: "/unidade-medida" }, { displayName: "Nova Unida de Medida", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Unidades Medida", URL: "/unidade-medida" }, { displayName: "Nova Unida de Medida", URL: undefined }]}
             initialValues={unidademedida}
             validationSchema={UnidadeMedidaSchema}
             onSubmit={onSubmit}

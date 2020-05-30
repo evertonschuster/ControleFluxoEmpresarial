@@ -48,7 +48,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         <CrudFormLayout
             isLoading={loading}
             backPath="/funcionario"
-            breadcrumbList={[{ displayName: "Funcionario", URL: "/funcionario" }, { displayName: "Novo Funcionario", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Funcionários", URL: "/funcionario" }, { displayName: "Novo Funcionário", URL: undefined }]}
             initialValues={funcionario}
             validationSchema={FuncionarioSchema}
             onSubmit={onSubmit}

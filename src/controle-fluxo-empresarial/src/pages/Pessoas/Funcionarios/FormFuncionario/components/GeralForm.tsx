@@ -1,11 +1,27 @@
 import React from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
-import { Input, Select, DatePicker, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
+import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { GetFuncaoFuncionarioById } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
+import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
+import { GetCidadeById } from '../../../../../apis/Cidades/CidadeApi';
+import { ColumnProps } from 'antd/lib/table';
 
 const GeralForm: React.FC = () => {
-
+    const columns: ColumnProps<any>[] = [
+        {
+            title: 'Serviço',
+            dataIndex: 'nome',
+        },
+        {
+            title: 'Valor',
+            dataIndex: 'valor',
+        },
+        {
+            title: 'Categoria',
+            dataIndex: 'categoria.nome',
+        },
+    ];
 
     return (
         <>
@@ -16,7 +32,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={7}>
-                    <Input name="nome" label="Nome" placeholder="João da silva" required />
+                    <Input name="nome" label="Funcionário" placeholder="João da silva" required />
                 </Col>
 
                 <Col span={7}>
@@ -41,7 +57,7 @@ const GeralForm: React.FC = () => {
                     <Input name="endereco" label="Endereço" placeholder="Av das americas." required />
                 </Col>
 
-                <Col span={3}>
+                <Col span={2}>
                     <InputNumber name="numero" label="Número" placeholder="549" required />
                 </Col>
 
@@ -49,12 +65,23 @@ const GeralForm: React.FC = () => {
                     <Input name="complemento" label="Complemento" placeholder="" />
                 </Col>
 
-                <Col span={5}>
+                <Col span={4}>
                     <Input name="bairro" label="Bairro" placeholder="Jardim Horizonte." required />
                 </Col>
 
                 <Col span={3}>
                     <Input name="cep" label="CEP" placeholder="85890-000" required />
+                </Col>
+
+                <Col span={5}>
+                    <SelectModelOne
+                        fetchMethod={GetCidadeById}
+                        name="cidadeId"
+                        keyDescription="nome"
+                        required={true}
+                        label={{ title: "Seleção de Cidade", label: "Cidade" }}
+                        errorMessage={{ noSelection: "Selecione uma Cidade!" }}
+                        path="cidade" />
                 </Col>
             </Row>
 
@@ -93,10 +120,6 @@ const GeralForm: React.FC = () => {
                     <Input name="cPFCPNJ" label="CPF" placeholder="000.000.000-00" />
                 </Col>
 
-                <Col span={3}>
-                    <Input name="cnh" label="CNH" placeholder="999999999" />
-                </Col>
-
                 <Col span={6}>
                     <SelectModelOne
                         fetchMethod={GetFuncaoFuncionarioById}
@@ -106,6 +129,32 @@ const GeralForm: React.FC = () => {
                         label={{ title: "Seleção da Função Funcionário", label: "Função Funcionário" }}
                         errorMessage={{ noSelection: "Selecione uma Função Funcionário!" }}
                         path="funcao-funcionario" />
+                </Col>
+
+                <Col span={3}>
+                    <Input name="cnh" label="CNH" placeholder="999999999" />
+                </Col>
+
+                <Col span={3} >
+                    <DatePicker name="dataValidadeCNH" label="Data de Validade" placeholder="01/01/2001" required format="DD/MM/yyyy" />
+                </Col>
+            </Row>
+
+            <Row>
+                <Col span={24}>
+                    <SelectModelMoreWithTable
+                        label={{ label: "Serviços", title: "Selecione um Serviço" }}
+                        name="servicoIds"
+                        columns={columns}
+                        errorMessage={{ noSelection: "Selecione ao menos um Serviço" }}
+                        path="servico"
+                    />
+                </Col>
+            </Row>
+
+            <Row>
+                <Col span={13}>
+                    <TextArea name="observacao" label="Observação" rows={4} />
                 </Col>
             </Row>
         </>

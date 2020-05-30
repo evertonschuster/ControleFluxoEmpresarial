@@ -43,7 +43,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         <CrudFormLayout
             isLoading={loading}
             backPath="/produto"
-            breadcrumbList={[{ displayName: "Produto", URL: "/produto" }, { displayName: "Novo Produto", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Produtos", URL: "/produto" }, { displayName: "Novo Produto", URL: undefined }]}
             initialValues={produto}
             validationSchema={ProdutoSchema}
             onSubmit={onSubmit}
@@ -84,6 +84,12 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 <Col span={12}>
                     <TextArea name="descricao" label="Descrição" rows={4} />
                 </Col>
+            
+                <Row>
+                <Col span={12}>
+                    <TextArea name="observacao" label="Observação" rows={4} />
+                </Col>
+            </Row>
             </Row>
 
             <Row>
@@ -135,6 +141,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 </Col>
 
             </Row>
+            
 
 
 

@@ -24,7 +24,7 @@ const ListFuncaoFuncionario: React.FC = () => {
     ];
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Função Funcionarios", URL: "/funcao-funcionario" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Funções Funcionário", URL: "/funcao-funcionario" }, { displayName: "Listagem", URL: undefined }]} >
 
         <ListForm
             tableProps={response}

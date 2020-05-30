@@ -36,12 +36,3 @@ body {
 .ant-form-item-label{
   user-select: none;
 }
-
-.ant-col {
-  transition: opacity .4s, visibility .4s;
-}
-
-.ant-col[hidden]{
-  opacity: 0;
-  display: inline-block !important;
-}

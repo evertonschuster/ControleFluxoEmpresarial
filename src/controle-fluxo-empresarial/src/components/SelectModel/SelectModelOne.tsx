@@ -7,6 +7,7 @@ import { useField, useFormikContext } from 'formik';
 import { useDebouncedCallback } from '../../hoc/useDebouncedCallback';
 import { AxiosResponse } from 'axios';
 import "./select-model-one-style.css";
+import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 
 export interface Props {
     path: string;
@@ -93,7 +94,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                             <Button type="primary" icon="search" onClick={() => setVisible(true)} ></Button>
                         </WithItemNone>
                     </Col>
-                    {showDescription && <Col md={12} >
+                    {showDescription && <Col md={13} >
                         <WithItemNone showLabel={showLabel}>
                             <InputAntd value={description} />
                         </WithItemNone>
@@ -103,6 +104,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                 <ModelForm
                     required={props.required}
                     visible={visible}
+                    formMode={FormMode.SelectOne}
                     setVisible={setVisible}
                     setState={setState}
                     state={isNaN(field.value) ? [] : { [keyId]: Number(field.value) }}

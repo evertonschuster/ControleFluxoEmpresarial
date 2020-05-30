@@ -1,0 +1,19 @@
+cliente
+    Data de nascimento ( Data fundação  pj)
+    Data validade
+    Forma de pagamento e Condição de pagamento (Apenas Uma),
+    Cidade
+
+Fornecedor
+    (Nome Fornecedor, nao troca quando troca o tipo da pessoa)
+    Responsavel (Contato)
+    Cidade
+    Condição de pagamento
+
+
+
+
+
+Observação
+Data criação e 
+data edicaov

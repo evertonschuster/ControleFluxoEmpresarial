@@ -54,7 +54,7 @@ export function UseListPagined(props: Props): RequestResult {
 
     useEffect(() => {
         getDataBack();
-        console.error("Fui pro back")
+        // console.error("Fui pro back")
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.URL, filterRequest, props.valuesFilter])
 
