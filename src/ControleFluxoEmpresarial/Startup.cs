@@ -55,7 +55,6 @@ namespace ControleFluxoEmpresarial
                 var policy = new AuthorizationPolicyBuilder()
                  .RequireAuthenticatedUser()
                  .Build();
-                opts.Filters.Add<SqlInjectionFilter>(0);
                 opts.Filters.Add(new AuthorizeFilter(policy));
                 //opts.Filters.Add(typeof(ModelStateFeatureFilter));
             }).AddApiExplorer()

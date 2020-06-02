@@ -35,18 +35,18 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE FROM paises 
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            base.ExecuteScript(sql);
+            base.ExecuteScript(sql, new { id });
         }
 
         public override Pais GetByID(int id)
         {
             var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            return base.ExecuteGetFirstOrDefault(sql);
+            return base.ExecuteGetFirstOrDefault(sql, parameters: new { id });
         }
 
 
@@ -55,9 +55,9 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             try
             {
                 var sql = $@"INSERT INTO Paises (Nome, Sigla, DDI)
-                         VALUES ('{entity.Nome}','{entity.Sigla}','{entity.DDI}')";
+                         VALUES (@Nome, @Sigla, @DDI)";
 
-                return base.ExecuteScriptInsert(sql);
+                return base.ExecuteScriptInsert(sql, new { entity.Nome, entity.Sigla, entity.DDI });
             }
             finally
             {
@@ -67,22 +67,23 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public Pais GetByNome(string nome)
         {
+
             var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises
-                        WHERE Nome = '{nome}' ";
+                        WHERE Nome = @nome ";
 
-            return base.ExecuteGetFirstOrDefault(sql);
+            return base.ExecuteGetFirstOrDefault(sql, new { nome });
         }
 
         public override void Update(Pais entity, bool commit = true)
         {
             var sql = $@"UPDATE paises 
-                        SET Nome = '{entity.Nome}',
-                            Sigla = '{entity.Sigla}',
-                            DDI = '{entity.DDI}'
-                        WHERE Id = {entity.Id.ToString()}";
+                        SET Nome = @Nome ,
+                            Sigla = @Sigla ,
+                            DDI = @DDI
+                        WHERE Id = @Id";
 
-            base.ExecuteScript(sql);
+            base.ExecuteScript(sql, new { entity.Nome, entity.Sigla, entity.DDI, entity.Id });
         }
 
         public override PaginationResult<Pais> GetPagined(PaginationQuery filter)
@@ -90,18 +91,19 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var sql = $@"SELECT Id, Nome, Sigla, DDI
                           FROM Paises";
 
+            int paisId = 0;
             if (!string.IsNullOrEmpty(filter.Filter))
             {
                 var sqlId = "";
-                int paisId;
                 if (Int32.TryParse(filter.Filter, out paisId))
                 {
-                    sqlId += $" OR id = {paisId} ";
+                    sqlId += $" OR id = @id ";
                 }
-                sql += $" WHERE nome like '%{filter.Filter}%' {sqlId} ";
+                filter.Filter = $"%{filter.Filter}%";
+                sql += $" WHERE nome like @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, filter);
+            return base.ExecuteGetPaginated(sql, new { id = paisId, filter.Filter }, filter);
         }
     }
 }

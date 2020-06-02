@@ -6,6 +6,7 @@ using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Cidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class PaisController : ControllerBase<Pais>
     {
         public PaisController(PaisDAO dAO) : base(dAO)

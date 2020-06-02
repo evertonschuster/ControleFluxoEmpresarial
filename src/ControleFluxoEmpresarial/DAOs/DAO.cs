@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
@@ -67,6 +69,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         #region PRIVATE METHOD
 
+
         public void CreateTransaction(DbTransaction transaction = null)
         {
             var connection = this.Context.Database.GetDbConnection();
@@ -99,7 +102,7 @@ namespace ControleFluxoEmpresarial.DAOs
             return entity;
         }
 
-        protected virtual void ExecuteScript(string sql, bool commit = true)
+        protected virtual void ExecuteScript(string sql, object parameters = null, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -108,6 +111,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
+            command.AddParameterValues(parameters);
 
             try
             {
@@ -136,7 +140,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual TEntity ExecuteGetFirstOrDefault(string sql, bool closeConnection = true)
+        protected virtual TEntity ExecuteGetFirstOrDefault(string sql, object parameters = null, bool closeConnection = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -145,6 +149,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
+            command.AddParameterValues(parameters);
 
             try
             {
@@ -175,6 +180,102 @@ namespace ControleFluxoEmpresarial.DAOs
                 }
             }
         }
+
+        //protected virtual TEntity ExecuteGetFirstOrDefault(string sql, bool closeConnection = true)
+        //{
+        //    if (string.IsNullOrEmpty(sql))
+        //    {
+        //        throw new Exception("Sql não informado ");
+        //    }
+
+        //    this.CreateTransaction(this.Transaction);
+        //    var command = CreateCommand();
+
+        //    try
+        //    {
+        //        command.CommandText = sql += " limit 1";
+        //        command.CommandType = CommandType.Text;
+
+        //        Console.WriteLine("SQL => " + command.CommandText);
+
+        //        var reader = command.ExecuteReader();
+
+        //        if (reader.HasRows)
+        //        {
+        //            reader.Read();
+        //            var entity = MapEntity(reader);
+        //            reader.Close();
+        //            return entity;
+        //        }
+
+
+        //        return null;
+
+        //    }
+        //    finally
+        //    {
+        //        if (closeConnection)
+        //        {
+        //            command.Connection.Close();
+        //        }
+        //    }
+        //}
+
+        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, object @params = null, PaginationQuery filter = default, bool closeConnection = true)
+        {
+            if (string.IsNullOrEmpty(sql))
+            {
+                throw new Exception("Sql não informado ");
+            }
+            if (!sql.Contains("order", StringComparison.OrdinalIgnoreCase))
+            {
+                sql += " ORDER BY Id  ";
+            }
+
+            this.CreateTransaction(this.Transaction);
+            var command = CreateCommand();
+            command.AddParameterValues(@params);
+
+            try
+            {
+                command.CommandText = sql.Insert(6, "   COUNT(*) OVER() AS TotalItem,   ")
+                                      + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) }  "
+                                      + $@" LIMIT {filter.PageSize}  ";
+
+                command.CommandType = CommandType.Text;
+                Console.WriteLine("SQL => " + command.CommandText);
+
+                var reader = command.ExecuteReader();
+
+                var list = new List<TEntity>();
+                var totalItem = 0;
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        totalItem = reader.GetInt32("TotalItem");
+                        list.Add(MapEntity(reader));
+                    }
+                }
+
+                return new PaginationResult<TEntity>()
+                {
+                    CurrentPage = filter.CurrentPage,
+                    PageSize = filter.PageSize,
+                    Result = list,
+                    TotalItem = totalItem
+                };
+            }
+            finally
+            {
+                if (closeConnection)
+                {
+                    command.Connection.Close();
+                }
+            }
+        }
+
 
         protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, PaginationQuery filter, bool closeConnection = true)
         {
@@ -273,7 +374,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual int ExecuteScriptInsert(string sql, bool commit = true)
+        protected virtual int ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -282,6 +383,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
+            command.AddParameterValues(parameters);
 
             try
             {
