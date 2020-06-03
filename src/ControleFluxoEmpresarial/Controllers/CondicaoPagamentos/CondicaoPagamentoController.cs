@@ -12,16 +12,11 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 {
     [Route("api/condicao-pagamento")]
     [ApiController]
-    public class CondicaoPagamentoController : ControllerBase<CondicaoPagamento>
+    public class CondicaoPagamentoController : ControllerBase<CondicaoPagamento, PaginationQuery>
     {
         public CondicaoPagamentoController(CondicaoPagamentoDAO dAO) : base(dAO)
         {
         }
 
-        [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
-        {
-            return Ok(this.DAO.GetPagined(filter));
-        }
     }
 }

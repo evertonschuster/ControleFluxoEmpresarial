@@ -12,16 +12,11 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 {
     [Route("api/forma-pagamento")]
     [ApiController]
-    public class FormaPagamentoController : ControllerBase<FormaPagamento>
+    public class FormaPagamentoController : ControllerBase<FormaPagamento, PaginationQuery>
     {
         public FormaPagamentoController(FormaPagamentoDAOReflection dAO) : base(dAO)
         {
         }
 
-        [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
-        {
-            return Ok(this.DAO.GetPagined(filter));
-        }
     }
 }

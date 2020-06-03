@@ -137,7 +137,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                     sqlId += $" OR id = @id ";
                 }
                 filter.Filter = "%" + filter.Filter + "%";
-                sql += $" WHERE nome like %Filter {sqlId} ";
+                sql += $" WHERE nome like @Filter {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);

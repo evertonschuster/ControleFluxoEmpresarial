@@ -13,16 +13,11 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EstadoController : ControllerBase<Estado>
+    public class EstadoController : ControllerBase<Estado, PaginationQuery>
     {
         public EstadoController(EstadoDAOReflection dAO) : base(dAO)
         {
         }
 
-        [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
-        {
-            return Ok(this.DAO.GetPagined(filter));
-        }
     }
 }

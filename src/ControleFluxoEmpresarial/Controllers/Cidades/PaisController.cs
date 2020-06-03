@@ -16,17 +16,11 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    public class PaisController : ControllerBase<Pais>
+    public class PaisController : ControllerBase<Pais, PaginationQuery>
     {
 
         public PaisController(PaisDAOReflection dAO) : base(dAO)
         {
-        }
-
-        [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
-        {
-            return Ok(this.DAO.GetPagined(filter));
         }
     }
 }

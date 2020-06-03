@@ -11,16 +11,11 @@ namespace ControleFluxoEmpresarial.Controllers.Clients
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase<Client>
+    public class ClientController : ControllerBase<Client, PaginationQuery>
     {
         public ClientController(ClientDAO dAO) : base(dAO)
         {
         }
 
-        [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
-        {
-            return Ok(this.DAO.GetPagined(filter));
-        }
     }
 }
