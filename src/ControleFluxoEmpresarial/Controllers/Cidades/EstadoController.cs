@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     [ApiController]
     public class EstadoController : ControllerBase<Estado>
     {
-        public EstadoController(EstadoDAO dAO) : base(dAO)
+        public EstadoController(EstadoDAOReflection dAO) : base(dAO)
         {
         }
 

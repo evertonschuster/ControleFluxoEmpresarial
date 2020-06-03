@@ -17,7 +17,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     [AllowAnonymous]
     public class CidadeController : ControllerBase<Cidade>
     {
-        public CidadeController(CidadeDAO dAO) : base(dAO)
+        public CidadeController(CidadeDAOReflection dAO) : base(dAO)
         {
         }
 
