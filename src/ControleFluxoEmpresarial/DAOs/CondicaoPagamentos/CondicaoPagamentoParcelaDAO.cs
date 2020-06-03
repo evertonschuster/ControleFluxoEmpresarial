@@ -34,9 +34,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
         public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE FROM CondicaoPagamentoParcelas 
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            base.ExecuteScript(sql);
+            base.ExecuteScript(sql, new { id });
         }
 
         public override CondicaoPagamentoParcela GetByID(int id)
@@ -44,9 +44,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             var sql = $@"SELECT CondicaoPagamentoParcelas.*,  formapagamentos.nome as ""formapagamentos.nome""
                         FROM CondicaoPagamentoParcelas
                             INNER JOIN formapagamentos ON formapagamentos.id = CondicaoPagamentoParcelas.formapagamentoid
-                        WHERE CondicaoPagamentoParcelas.Id = {id.ToString()}";
+                        WHERE CondicaoPagamentoParcelas.Id = @id";
 
-            return base.ExecuteGetFirstOrDefault(sql);
+            return base.ExecuteGetFirstOrDefault(sql, new { id });
         }
 
 
@@ -55,9 +55,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             try
             {
                 var sql = $@"INSERT INTO CondicaoPagamentoParcelas ( NumeroDias, Percentual, CondicaoPagamentosId, FormaPagamentoId)
-                         VALUES ({entity.NumeroDias}, {entity.Percentual}, {condicaoPagamentoId}, {entity.FormaPagamento.Id})";
+                         VALUES (@NumeroDias, @Percentual, @condicaoPagamentoId, @formaPagamentoId)";
 
-                return base.ExecuteScriptInsert(sql, commit);
+                return base.ExecuteScriptInsert(sql, new { entity.NumeroDias, entity.Percentual, condicaoPagamentoId, formaPagamentoId = entity.FormaPagamento.Id }, commit);
             }
             finally
             {
@@ -73,20 +73,20 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             var sql = @$"SELECT CondicaoPagamentoParcelas.*,  formapagamentos.nome as ""formapagamentos.nome""
                         FROM CondicaoPagamentoParcelas
                             INNER JOIN formapagamentos ON formapagamentos.id = CondicaoPagamentoParcelas.formapagamentoid
-                        WHERE condicaopagamentosid = {id}";
+                        WHERE condicaopagamentosid = @id";
 
-            return base.ExecuteGetAll(sql, closeConnection);
+            return base.ExecuteGetAll(sql, new { id }, closeConnection);
         }
 
         public override void Update(CondicaoPagamentoParcela entity, bool commit = true)
         {
             var sql = $@"UPDATE CondicaoPagamentoParcelas 
-                        SET NumeroDias = {entity.NumeroDias},
-                        Percentual = {entity.Percentual},
-                        FormaPagamentoId = {entity.FormaPagamento.Id}
-                        WHERE Id = {entity.Id.ToString()}";
+                        SET NumeroDias = @NumeroDias,
+                        Percentual = @Percentual,
+                        FormaPagamentoId = @formaPagamentoId
+                        WHERE Id = @Id";
 
-            base.ExecuteScript(sql, commit);
+            base.ExecuteScript(sql, new { entity.NumeroDias, entity.Percentual, formaPagamentoId = entity.FormaPagamento.Id, entity.Id }, commit);
         }
 
         public override PaginationResult<CondicaoPagamentoParcela> GetPagined(PaginationQuery filter)
@@ -95,18 +95,19 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
                         FROM CondicaoPagamentoParcelas
                             INNER JOIN formapagamentos ON formapagamentos.id = CondicaoPagamentoParcelas.formapagamentoid ";
 
+            int id = 0;
             if (!string.IsNullOrEmpty(filter.Filter))
             {
                 var sqlId = "";
-                int formaPagamentoId;
-                if (Int32.TryParse(filter.Filter, out formaPagamentoId))
+                if (Int32.TryParse(filter.Filter, out id))
                 {
-                    sqlId += $" OR CondicaoPagamentoParcelas.id = {formaPagamentoId} ";
+                    sqlId += $" OR CondicaoPagamentoParcelas.id = @id ";
                 }
-                sql += $" WHERE CondicaoPagamentoParcelas.nome like '%{filter.Filter}%' {sqlId} ";
+                filter.Filter = "%" + filter.Filter + "%";
+                sql += $" WHERE CondicaoPagamentoParcelas.nome like @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, filter);
+            return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
 
     public class FormaPagamentoValidator : AbstractValidator<FormaPagamento>
     {
-        public FormaPagamentoDAO FormaPagamentoDAO { get; }
+        public FormaPagamentoDAOReflection FormaPagamentoDAO { get; }
 
-        public FormaPagamentoValidator(FormaPagamentoDAO formaPagamentoDAO)
+        public FormaPagamentoValidator(FormaPagamentoDAOReflection formaPagamentoDAO)
         {
             this.FormaPagamentoDAO = formaPagamentoDAO;
 
@@ -26,9 +26,9 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 .MaximumLength(50).WithMessage("O campo Nome não deve possuir mais de 50 caracteres.");
 
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Forma de Pagamento já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Forma de Pagamento já cadastrada.");
 
-            RuleFor(e => e.Id).Must(ExistsFormaPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
+            RuleFor(e => e.Id).Must(ExistsFormaPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrada.");
         }
 
         private bool NameIsAllow(FormaPagamento formaPagamento, string nome)

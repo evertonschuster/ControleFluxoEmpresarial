@@ -14,7 +14,7 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
     [ApiController]
     public class FormaPagamentoController : ControllerBase<FormaPagamento>
     {
-        public FormaPagamentoController(FormaPagamentoDAO dAO) : base(dAO)
+        public FormaPagamentoController(FormaPagamentoDAOReflection dAO) : base(dAO)
         {
         }
 

@@ -21,9 +21,9 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         {
             var sql = $@"SELECT Id, Nome, UF, PaisId
                             FROM Estados
-                         WHERE Nome = '{nome}'";
+                         WHERE Nome = @nome";
 
-            var entity = base.ExecuteGetFirstOrDefault(sql);
+            var entity = base.ExecuteGetFirstOrDefault(sql, new { nome });
             if (entity != null)
             {
                 this.PaisDAO.CreateTransaction(this.Transaction);

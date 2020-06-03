@@ -331,7 +331,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual List<TEntity> ExecuteGetAll(string sql, bool closeConnection = true)
+        protected virtual List<TEntity> ExecuteGetAll(string sql, object @params = null, bool closeConnection = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -345,6 +345,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
+            command.AddParameterValues(@params);
 
             try
             {

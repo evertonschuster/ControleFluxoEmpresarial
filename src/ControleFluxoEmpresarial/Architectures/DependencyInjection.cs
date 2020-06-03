@@ -24,7 +24,8 @@ namespace ControleFluxoEmpresarial.Architectures
             services.AddScoped<EstadoDAOReflection>();
             services.AddScoped<CidadeDAOReflection>();
 
-            services.AddScoped<FormaPagamentoDAO>();
+            //services.AddScoped<FormaPagamentoDAO>();
+            services.AddScoped<FormaPagamentoDAOReflection>();
             services.AddScoped<CondicaoPagamentoDAO>();
             services.AddScoped<CondicaoPagamentoParcelaDAO>();
 

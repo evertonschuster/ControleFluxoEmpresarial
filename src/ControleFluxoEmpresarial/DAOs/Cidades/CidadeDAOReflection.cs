@@ -21,9 +21,9 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         {
             var sql = $@"SELECT *
                             FROM Cidades
-                         WHERE nome = '{nome}'";
+                         WHERE nome = @nome";
 
-            var entity = base.ExecuteGetFirstOrDefault(sql);
+            var entity = base.ExecuteGetFirstOrDefault(sql, new { nome });
             if (entity != null)
             {
                 this.EstadoDAO.CreateTransaction(this.Transaction);
