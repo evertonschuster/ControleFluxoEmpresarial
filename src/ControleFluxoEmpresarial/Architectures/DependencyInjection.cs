@@ -3,6 +3,7 @@ using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.DAOs.Clients;
 using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
 using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
+using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.Users;
 using ControleFluxoEmpresarial.Models.Cidades;
 using ControleFluxoEmpresarial.Models.Clients;
@@ -33,6 +34,15 @@ namespace ControleFluxoEmpresarial.Architectures
             services.AddScoped<ClientDAO>();
             services.AddScoped<TitularDAO>();
             services.AddScoped<AssociadoDAO>();
+
+
+            services.AddScoped<CategoriaDAO>();
+
+
+            //services.RegisterAssemblyTypes(AppDomain.CurrentDomain)
+            //.Where(x => x.IsAssignableTo())
+            //.AsImplementedInterfaces()
+            //.InstancePerLifetimeScope();
 
 
             services.AddTransient<IValidator<Pais>, PaisValidator>();

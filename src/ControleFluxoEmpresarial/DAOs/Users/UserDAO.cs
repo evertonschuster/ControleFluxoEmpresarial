@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Users
 {
-    public class UserDAO : IDAO<ApplicationUser>
+    public class UserDAO //: IDAO<ApplicationUser>
     {
         public UserDAO(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {

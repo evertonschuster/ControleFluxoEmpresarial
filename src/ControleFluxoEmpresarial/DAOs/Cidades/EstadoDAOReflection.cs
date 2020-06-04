@@ -1,7 +1,9 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Cidades;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +13,12 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
     {
 
         public PaisDAOReflection PaisDAO { get; set; }
+
+        protected override string SqlListPagined { get; set; } = @"SELECT Estados.Id, Estados.Nome, Estados.UF, Estados.PaisId, 
+                                                                    Paises.Id as ""Pais.Id"", Paises.Nome as ""Pais.Nome"", Paises.Sigla as ""Pais.Sigla"", Paises.DDI as ""Pais.DDI""
+                                                                        FROM Estados 
+                                                                        INNER JOIN Paises ON Paises.id = Estados.paisId";
+
 
         public EstadoDAOReflection(ApplicationContext context, PaisDAOReflection paisDAO) : base(context, "Estados")
         {

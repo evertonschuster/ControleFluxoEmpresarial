@@ -19,6 +19,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class UserController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         public UserController(UserDAO userDAO)

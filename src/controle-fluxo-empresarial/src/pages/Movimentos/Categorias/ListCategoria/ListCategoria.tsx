@@ -8,7 +8,7 @@ import { ExcluirCategoria } from '../../../../apis/Movimentos/CategoriaApi';
 
 const ListCategoria: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/categorias/list" });
+    const response = UseListPagined({ URL: "/api/categoria/list" });
 
     const columns: ColumnProps<Categoria>[] = [
         {

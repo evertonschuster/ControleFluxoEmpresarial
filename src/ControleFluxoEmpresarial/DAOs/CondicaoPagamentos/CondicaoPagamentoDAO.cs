@@ -28,6 +28,8 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             entity.Multa = reader.GetDecimal("Multa");
             entity.Juro = reader.GetDecimal("Juro");
             entity.Desconto = reader.GetDecimal("Desconto");
+            entity.DataAtualizacao = reader.GetDateTime("DataAtualizacao");
+            entity.DataCriacao = reader.GetDateTime("DataCriacao");
 
             return entity;
         }
@@ -42,7 +44,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public override CondicaoPagamento GetByID(int id)
         {
-            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto
+            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto,DataAtualizacao, DataCriacao
                           FROM CondicaoPagamentos
                         WHERE Id = @id";
 
@@ -58,10 +60,10 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
         {
             try
             {
-                var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto)
-                         VALUES (@Nome, @Juro, @Multa, @Desconto)";
+                var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao)
+                         VALUES (@Nome, @Juro, @Multa, @Desconto, @DataAtualizacao, @DataCriacao)";
 
-                var id = base.ExecuteScriptInsert(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto }, false);
+                var id = base.ExecuteScriptInsert(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto, DataAtualizacao = DateTime.Now, DataCriacao = DateTime.Now }, false);
 
                 this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
                 foreach (var parcela in entity.Parcela)
@@ -81,7 +83,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public CondicaoPagamento GetByNome(string nome)
         {
-            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto
+            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao
                           FROM CondicaoPagamentos
                         WHERE Nome = @nome ";
 
@@ -97,7 +99,8 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                         SET Nome = @Nome,
                         Juro = @Juro,
                         Multa = @Multa,
-                        Desconto = @Desconto
+                        Desconto = @Desconto,
+                        DataAtualizacao= @DataAtualizacao
                         WHERE Id = @Id";
 
 
@@ -119,13 +122,13 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
 
             this.Transaction = this.CondicaoPagamentoParcelaDAO.Transaction;
-            base.ExecuteScript(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto, entity.Id });
+            base.ExecuteScript(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto, entity.Id, DataAtualizacao = DateTime.Now });
 
         }
 
         public override PaginationResult<CondicaoPagamento> GetPagined(PaginationQuery filter)
         {
-            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto
+            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao
                           FROM CondicaoPagamentos ";
 
             int id = 0;
@@ -137,7 +140,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                     sqlId += $" OR id = @id ";
                 }
                 filter.Filter = "%" + filter.Filter + "%";
-                sql += $" WHERE nome like @Filter {sqlId} ";
+                sql += $" WHERE nome ilike @Filter {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);

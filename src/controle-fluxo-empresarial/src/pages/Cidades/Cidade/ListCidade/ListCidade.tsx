@@ -23,6 +23,10 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
             title: 'DDD',
             dataIndex: 'ddd',
         },
+        {
+            title: 'Estado',
+            dataIndex: 'estado.nome',
+        },
     ];
 
 

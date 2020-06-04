@@ -23,6 +23,10 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
             title: 'UF',
             dataIndex: 'uf',
         },
+        {
+            title: 'Pais',
+            dataIndex: 'pais.nome',
+        },
     ];
 
     return (

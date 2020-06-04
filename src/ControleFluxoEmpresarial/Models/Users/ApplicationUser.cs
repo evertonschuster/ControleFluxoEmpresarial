@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Users
 {
-    public class ApplicationUser : IdentityUser, IBaseEntity
+    public class ApplicationUser : IdentityUser
     {
-        int IBaseEntity.Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //int IBaseEntity.Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //public DateTime DataCriacao { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //public DateTime DataAtualizacao { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }
