@@ -2,10 +2,11 @@ import React from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
 import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import { GetFuncaoFuncionarioById } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
-import { GetCidadeById } from '../../../../../apis/Cidades/CidadeApi';
 import { ColumnProps } from 'antd/lib/table';
+import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
+import { ServicoApi } from '../../../../../apis/Movimentos/ServicoApi';
+import { FuncaoFuncionarioApi } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
@@ -75,7 +76,7 @@ const GeralForm: React.FC = () => {
 
                 <Col span={5}>
                     <SelectModelOne
-                        fetchMethod={GetCidadeById}
+                        fetchMethod={CidadeApi.GetById.bind(CidadeApi)}
                         name="cidadeId"
                         keyDescription="nome"
                         required={true}
@@ -122,7 +123,7 @@ const GeralForm: React.FC = () => {
 
                 <Col span={6}>
                     <SelectModelOne
-                        fetchMethod={GetFuncaoFuncionarioById}
+                        fetchMethod={FuncaoFuncionarioApi.GetById.bind(FuncaoFuncionarioApi)}
                         name="funcaoFuncionarioId"
                         keyDescription="FuncaoFuncionario"
                         required={true}
@@ -143,6 +144,7 @@ const GeralForm: React.FC = () => {
             <Row>
                 <Col span={24}>
                     <SelectModelMoreWithTable
+                        fetchMethod={ServicoApi.GetById.bind(ServicoApi)}
                         label={{ label: "Serviços", title: "Selecione um Serviço" }}
                         name="servicoIds"
                         columns={columns}

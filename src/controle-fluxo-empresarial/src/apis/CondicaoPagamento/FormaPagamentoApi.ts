@@ -1,22 +1,12 @@
-import api from '../Api';
-import { AxiosResponse } from 'axios';
 import { FormaPagamento } from '../../models/CondicaoPagamento/FormaPagamento';
-
+import { ApiBase } from '../Api';
 
 export const endPoint: string = 'api/forma-pagamento';
 
-export function SaveFormaPagamento(formapagamento: FormaPagamento): Promise<AxiosResponse<any>> {
-    return api.post(endPoint, formapagamento);
-}
+class Api extends ApiBase<FormaPagamento>{
 
-export function UpdateFormaPagamento(formapagamento: FormaPagamento): Promise<AxiosResponse<any>> {
-    return api.put(endPoint, formapagamento);
+    constructor() {
+        super(endPoint);
+    }
 }
-
-export function GetFormaPagamentoById(id: number): Promise<AxiosResponse<FormaPagamento>> {
-    return api.get(`${endPoint}/${id.toString()}`);
-}
-
-export function ExcluirFormaPagamento(id: number): Promise<AxiosResponse<any>> {
-    return api.delete(`${endPoint}/${id.toString()}`);
-}
+export const FormaPagamentoApi = new Api();

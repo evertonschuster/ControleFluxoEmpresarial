@@ -7,8 +7,7 @@ import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
 import { CategoriaSchema } from './CategoriaSchema';
-import { UpdateCategoria, SaveCategoria, GetCategoriaById } from './../../../../apis/Movimentos/CategoriaApi';
-
+import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
 const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
@@ -24,9 +23,9 @@ const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = 
     async function onSubmit(values: Categoria, formikHelpers: FormikHelpers<any>) {
         try {
             if (props.match.params.id) {
-                await UpdateCategoria(values);
+                await CategoriaApi.Update(values);
             } else {
-                await SaveCategoria(values);
+                await CategoriaApi.Save(values);
             }
             props.history.push("/categoria")
         }
@@ -41,7 +40,7 @@ const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = 
         }
 
         setLoading(true);
-        let bdCategoria = await GetCategoriaById(id);
+        let bdCategoria = await CategoriaApi.GetById(id);
         setCategoria(bdCategoria.data);
         setLoading(false);
     }

@@ -1,12 +1,12 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import { GetFormaPagamentoById } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import { FormaPagamentoApi } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
 const RenderSelectionFormaPagamento: React.FC = () => {
 
     return (
         <SelectModelOne
-            fetchMethod={GetFormaPagamentoById}
+            fetchMethod={FormaPagamentoApi.GetById.bind(FormaPagamentoApi)}
             name="formaPagamento.id"
             ObjectName="formaPagamento"
             keyDescription="nome"

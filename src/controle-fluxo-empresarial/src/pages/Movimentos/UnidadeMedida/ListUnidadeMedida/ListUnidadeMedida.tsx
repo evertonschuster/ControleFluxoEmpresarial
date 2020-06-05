@@ -2,7 +2,7 @@ import React from 'react'
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
-import { ExcluirUnidadeMedida } from '../../../../apis/Movimentos/UnidadeMedida';
+import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
 
 const ListUnidadeMedida: React.FC = () => {
     const response = UseListPagined({ URL: "/api/funcao-funcionarios/list" });
@@ -25,7 +25,7 @@ const ListUnidadeMedida: React.FC = () => {
 
         <ListForm
             tableProps={response}
-            deleteFunction={ExcluirUnidadeMedida}
+            deleteFunction={UnidadeMedidaApi.Excluir.bind(UnidadeMedidaApi)}
             columns={columns} />
 
     </FormBasicLayout>

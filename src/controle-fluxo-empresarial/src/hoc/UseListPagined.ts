@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TableProps } from '../components/ListForm/ListForm';
-import api from './../apis/Api';
+import api from '../apis/Api.configure';
 
 
 export interface Props {

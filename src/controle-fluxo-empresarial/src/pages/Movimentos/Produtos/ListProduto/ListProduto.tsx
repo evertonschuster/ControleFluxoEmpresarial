@@ -1,8 +1,8 @@
 import React from 'react'
-import { ExcluirProduto } from '../../../../apis/Movimentos/ProdutoApi';
 import ListForm from '../../../../components/ListForm/ListForm';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
+import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
 
  const ListProduto: React.FC = () => {
     const response = UseListPagined({ URL: "/api/produtos/list" });
@@ -28,7 +28,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirProduto}
+                deleteFunction={ProdutoApi.Excluir.bind(ProdutoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

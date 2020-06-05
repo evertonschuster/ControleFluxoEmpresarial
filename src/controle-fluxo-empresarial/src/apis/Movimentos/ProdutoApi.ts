@@ -1,22 +1,12 @@
-import api from '../Api';
-import { AxiosResponse } from 'axios';
 import { Produto } from '../../models/Movimentos/Produto';
-
+import { ApiBase } from '../Api';
 
 export const endPoint: string = 'api/produtos';
 
-export function SaveProduto(produto: Produto): Promise<AxiosResponse<any>> {
-    return api.post(endPoint, produto);
-}
+class Api extends ApiBase<Produto>{
 
-export function UpdateProduto(produto: Produto): Promise<AxiosResponse<any>> {
-    return api.put(endPoint, produto);
+    constructor() {
+        super(endPoint);
+    }
 }
-
-export function GetProdutoById(id: number): Promise<AxiosResponse<Produto>> {
-    return api.get(`${endPoint}/${id.toString()}`);
-}
-
-export function ExcluirProduto(id: number): Promise<AxiosResponse<any>> {
-    return api.delete(`${endPoint}/${id.toString()}`);
-}
+export const ProdutoApi = new Api();

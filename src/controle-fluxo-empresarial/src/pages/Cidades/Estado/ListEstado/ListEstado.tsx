@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirEstado } from '../../../../apis/Cidades/EstadoApi';
+import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 
 const ListEstado: React.FC<RouteComponentProps> = () => {
 
     const response = UseListPagined({ URL: "/api/Estado/list" });
 
-    const columns = [
+    const columns = useMemo(() => [
         {
             title: 'Código',
             dataIndex: 'id',
@@ -27,7 +27,7 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
             title: 'Pais',
             dataIndex: 'pais.nome',
         },
-    ];
+    ], []);
 
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Estado", URL: "/Estado" }, { displayName: "Listagem", URL: undefined }]} >
@@ -35,7 +35,7 @@ const ListEstado: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirEstado}
+                deleteFunction={EstadoApi.Excluir.bind(EstadoApi)}
                 columns={columns} />
 
 

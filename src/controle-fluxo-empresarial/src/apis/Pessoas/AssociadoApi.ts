@@ -1,22 +1,12 @@
-import api from '../Api';
-import { AxiosResponse } from 'axios';
 import { Titular } from '../../models/Pessoas/Titular';
+import { ApiBase } from '../Api';
 
 export const endPoint: string = 'api/associados';
 
+class Api extends ApiBase<Titular>{
 
-export function SaveTitular(titular: Titular): Promise<AxiosResponse<any>> {
-    return api.post(endPoint, titular);
+    constructor() {
+        super(endPoint);
+    }
 }
-
-export function UpdateTitular(titular: Titular): Promise<AxiosResponse<any>> {
-    return api.put(endPoint, titular);
-}
-
-export function GetTitularById(id: number): Promise<AxiosResponse<Titular>> {
-    return api.get(`${endPoint}/${id.toString()}`);
-}
-
-export function ExcluirTitular(id: number): Promise<AxiosResponse<any>> {
-    return api.delete(`${endPoint}/${id.toString()}`);
-}
+export const TitularApi = new Api();

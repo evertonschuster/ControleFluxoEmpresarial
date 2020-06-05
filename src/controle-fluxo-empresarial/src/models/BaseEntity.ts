@@ -1,5 +1,8 @@
-export interface BaseEntity {
-    id?: number;
+export interface BaseEntity extends IBaseEntity<number> {
+}
+
+export interface IBaseEntity<TId> {
+    id?: TId;
     DataCriacao?: Date;
     DataAtualizacao?: Date;
 }

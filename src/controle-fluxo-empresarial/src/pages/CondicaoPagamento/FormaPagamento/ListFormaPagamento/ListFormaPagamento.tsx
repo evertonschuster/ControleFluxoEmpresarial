@@ -2,9 +2,9 @@ import React, { } from 'react';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirFormaPagamento } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import { FormaPagamento } from './../../../../models/CondicaoPagamento/FormaPagamento';
 import { ColumnProps } from 'antd/lib/table';
+import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
 const ListFormaPagamento: React.FC = () => {
 
@@ -30,7 +30,7 @@ const ListFormaPagamento: React.FC = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirFormaPagamento}
+                deleteFunction={FormaPagamentoApi.Excluir.bind(FormaPagamentoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

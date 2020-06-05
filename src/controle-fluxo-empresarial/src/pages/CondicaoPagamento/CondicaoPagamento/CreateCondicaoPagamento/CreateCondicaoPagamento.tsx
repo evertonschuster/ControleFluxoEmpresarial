@@ -4,9 +4,9 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
-import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
 import CondicaoPagamentoGeneral from './components/CondicaoPagamentoGeneral';
+import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 
 const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -35,9 +35,9 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
         try {
 
             if (props.match.params.id) {
-                await UpdateCondicaoPagamento(values);
+                await CondicaoPagamentoApi.Update(values);
             } else {
-                await SaveCondicaoPagamento(values);
+                await CondicaoPagamentoApi.Save(values);
             }
 
             props.history.push("/condicao-pagamento")
@@ -53,7 +53,7 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
 
         try {
             setLoading(true);
-            let bdestado = await GetCondicaoPagamentoById(id);
+            let bdestado = await CondicaoPagamentoApi.GetById(id);
             setCondicaoPagamento({ ...condicaopagamento, ...bdestado.data });
 
         } finally {

@@ -3,11 +3,11 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import CrudFormLayout from '../../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Row, Col } from 'antd';
 import { Input } from '../../../../../components/WithFormItem/withFormItem';
-import { ChangePasswordUser } from '../../../../../apis/Pessoas/UserApi';
 import { FormikHelpers } from 'formik';
 import UserChangePasswordModel from '../../../../../models/Pessoas/UserChangePasswordModel';
 import { errorBack } from '../../../../../utils/MessageApi';
 import { UserChangePasswor } from '../UserSchema';
+import { UserApi } from '../../../../../apis/Pessoas/UserApi';
 
 const ChangePassword: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -18,7 +18,7 @@ const ChangePassword: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
         try {
             setLoading(true);
-            await ChangePasswordUser(values);
+            await UserApi.ChangePasswordUser(values);
             props.history.push("/user")
         }
         catch (e) {

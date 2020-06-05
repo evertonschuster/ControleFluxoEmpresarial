@@ -4,10 +4,10 @@ import { Row, Col } from 'antd';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { PaisSchema } from './PaisSchema';
-import { SavePais, GetPaisById, UpdatePais } from '../../../../apis/Cidades/PaisApi';
 import { Pais } from '../../../../models/Cidades/Pais';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
+import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 
 const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -22,9 +22,9 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
         try {
             if (props.match.params.id) {
-                await UpdatePais(values);
+                await PaisApi.Update(values);
             } else {
-                await SavePais(values);
+                await PaisApi.Save(values);
             }
             props.history.push("/Pais")
         }
@@ -39,7 +39,7 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         }
 
         setLoading(true);
-        let bdpais = await GetPaisById(id);
+        let bdpais = await PaisApi.GetById(id);
         setPais(bdpais.data);
         setLoading(false);
     }

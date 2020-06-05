@@ -4,7 +4,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { CondicaoPagamento } from './../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { ColumnProps } from 'antd/lib/table';
-import { ExcluirCondicaoPagamento } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 
 const ListCondicaoPagamento: React.FC = () => {
 
@@ -30,7 +30,7 @@ const ListCondicaoPagamento: React.FC = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirCondicaoPagamento}
+                deleteFunction={CondicaoPagamentoApi.Excluir.bind(CondicaoPagamentoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

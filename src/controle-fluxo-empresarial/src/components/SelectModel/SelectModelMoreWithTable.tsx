@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Row, Col, Button, Tooltip, Tag } from 'antd';
-import { GetCategoriaById } from '../../apis/Movimentos/CategoriaApi';
 import SelectModelMore from './SelectModelMore';
 import { WithItemNone } from '../../hoc/WithFormItem';
 import { useField } from 'formik';
 import { ColumnProps } from 'antd/lib/table';
 import { Label, ErrorMessage } from '../ModalForm/ModalForm';
+import { AxiosResponse } from 'axios';
 
 export interface Props {
     keyId?: string;
@@ -16,6 +16,7 @@ export interface Props {
     columns: ColumnProps<any>[];
     errorMessage: ErrorMessage;
     path: string;
+    fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
 }
 
 const SelectModelMoreWithTable: React.FC<Props> = (props) => {
@@ -75,7 +76,7 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
                 <Col span={10}>
                     <WithItemNone>
                         <SelectModelMore
-                            fetchMethod={GetCategoriaById}
+                            fetchMethod={props.fetchMethod}
                             name={props.name + "SelectionIds"}
                             keyDescription={keyDescription}
                             keyId={keyId}

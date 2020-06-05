@@ -1,8 +1,8 @@
 import React from 'react'
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
 import ListForm from '../../../../components/ListForm/ListForm'
-import { ExcluirCliente } from '../../../../apis/Pessoas/ClienteApi';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
+import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 
 const ListCliente:React.FC = () => {
 
@@ -33,7 +33,7 @@ const ListCliente:React.FC = () => {
 
         <ListForm
             tableProps={response}
-            deleteFunction={ExcluirCliente}
+            deleteFunction={ClienteApi.Excluir.bind(ClienteApi)}
             columns={columns} />
 
     </FormBasicLayout>

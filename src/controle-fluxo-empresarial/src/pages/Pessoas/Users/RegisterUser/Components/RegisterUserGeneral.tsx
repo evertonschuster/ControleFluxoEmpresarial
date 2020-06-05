@@ -4,11 +4,11 @@ import CrudFormLayout from '../../../../../layouts/CrudFormLayout/CrudFormLayout
 import { Row, Col } from 'antd';
 import UserModel from '../../../../../models/Pessoas/UserModel';
 import { Input } from '../../../../../components/WithFormItem/withFormItem';
-import { GetUserById, UpdateUser, SaveUser } from '../../../../../apis/Pessoas/UserApi';
 import BasicLayoutContext, { FormMode } from '../../../../../layouts/BasicLayout/BasicLayoutContext';
 import { UserSchema } from '../UserSchema';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../../utils/MessageApi';
+import { UserApi } from '../../../../../apis/Pessoas/UserApi';
 
 const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -27,7 +27,7 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
 
         try {
             setLoading(true);
-            let bdestado = await GetUserById(id);
+            let bdestado = await UserApi.GetById(id);
             setUserModel(bdestado.data);
         }
         finally {
@@ -40,9 +40,9 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
         try {
 
             if (props.match.params.id) {
-                await UpdateUser(values);
+                await UserApi.Update(values);
             } else {
-                await SaveUser(values);
+                await UserApi.Save(values);
             }
             props.history.push("/user")
         }

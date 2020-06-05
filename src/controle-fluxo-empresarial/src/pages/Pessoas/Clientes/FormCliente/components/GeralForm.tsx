@@ -5,8 +5,8 @@ import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
 import { useField, useFormikContext } from 'formik';
 import { Cliente } from '../../../../../models/Pessoas/Cliente';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import { GetCidadeById } from '../../../../../apis/Cidades/CidadeApi';
-import { GetCondicaoPagamentoById } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
+import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 
 const GeralForm: React.FC = () => {
 
@@ -81,7 +81,7 @@ const GeralForm: React.FC = () => {
 
                 <Col span={5}>
                     <SelectModelOne
-                        fetchMethod={GetCidadeById}
+                        fetchMethod={CidadeApi.GetById.bind(CidadeApi)}
                         name="cidadeId"
                         keyDescription="nome"
                         required={true}
@@ -132,7 +132,7 @@ const GeralForm: React.FC = () => {
 
                 <Col span={7}>
                     <SelectModelOne
-                        fetchMethod={GetCondicaoPagamentoById}
+                        fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
                         keyDescription="nome"
                         required={true}

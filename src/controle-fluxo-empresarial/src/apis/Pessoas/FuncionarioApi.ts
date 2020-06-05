@@ -1,22 +1,12 @@
-import api from '../Api';
-import { AxiosResponse } from 'axios';
 import { Funcionario } from '../../models/Pessoas/Funcionario';
-
+import { ApiBase } from '../Api';
 
 export const endPoint: string = 'api/condicao-pagamento';
 
-export function SaveFuncionario(funcionario: Funcionario): Promise<AxiosResponse<any>> {
-    return api.post(endPoint, funcionario);
-}
+class Api extends ApiBase<Funcionario>{
 
-export function UpdateFuncionario(funcionario: Funcionario): Promise<AxiosResponse<any>> {
-    return api.put(endPoint, funcionario);
+    constructor() {
+        super(endPoint);
+    }
 }
-
-export function GetFuncionarioById(id: number): Promise<AxiosResponse<Funcionario>> {
-    return api.get(`${endPoint}/${id.toString()}`);
-}
-
-export function ExcluirFuncionario(id: number): Promise<AxiosResponse<any>> {
-    return api.delete(`${endPoint}/${id.toString()}`);
-}
+export const FuncionarioApi = new Api();

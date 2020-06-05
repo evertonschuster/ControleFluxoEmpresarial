@@ -45,9 +45,10 @@ namespace ControleFluxoEmpresarial.Controllers
         }
 
         // PUT: api/Default/5
-        [HttpPut]
-        public virtual IActionResult Put([FromBody] TEntity entity)
+        [HttpPut("{id}")]
+        public virtual IActionResult Put([FromBody] TEntity entity, int id)
         {
+            entity.Id = id;
             this.DAO.Update(entity);
             return Ok();
         }

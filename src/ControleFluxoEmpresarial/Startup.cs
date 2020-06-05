@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
 using ControleFluxoEmpresarial.Architectures;
 using ControleFluxoEmpresarial.Architectures.Middlewares;
 using ControleFluxoEmpresarial.DataBase;
@@ -26,7 +27,7 @@ using Microsoft.OpenApi.Models;
 
 namespace ControleFluxoEmpresarial
 {
-    public class Startup
+    public class Startup 
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
@@ -46,7 +47,6 @@ namespace ControleFluxoEmpresarial
 
             services.AddDataBase(this.Configuration, this.Environment);
             services.AddIdentityConfig();
-            services.ResolveInjection();
             services.AddControllers();
             services.AddCorsConfig();
 
@@ -107,6 +107,14 @@ namespace ControleFluxoEmpresarial
 
 
             new ExecuteSeed(app).Execute();
+        }
+
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // You must have the call to AddAutofac in the Program.Main
+            // method or this won't be called.
+            builder.RegisterModule(new DependencyInjection());
         }
     }
 }

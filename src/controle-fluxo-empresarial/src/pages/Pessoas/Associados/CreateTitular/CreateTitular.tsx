@@ -4,11 +4,11 @@ import { Row, Col, Divider } from 'antd';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { UpdateTitular, SaveTitular, GetTitularById } from '../../../../apis/Pessoas/AssociadoApi';
 import { TitularSchema } from './TitularSchema';
 import { Input, DatePicker } from '../../../../components/WithFormItem/withFormItem';
 import { Titular } from '../../../../models/Pessoas/Titular';
 import Dependente from './Components/Dependente';
+import { TitularApi } from '../../../../apis/Pessoas/AssociadoApi';
 
 const FormTitular: React.FC<RouteComponentProps<any>> = (props) => {
 
@@ -39,9 +39,9 @@ const FormTitular: React.FC<RouteComponentProps<any>> = (props) => {
         try {
 
             if (props.match.params.id) {
-                await UpdateTitular(values);
+                await TitularApi.Update(values);
             } else {
-                await SaveTitular(values);
+                await TitularApi.Save(values);
             }
 
             props.history.push("/Titular")
@@ -57,7 +57,7 @@ const FormTitular: React.FC<RouteComponentProps<any>> = (props) => {
 
         try {
             setLoading(true);
-            let bdestado = await GetTitularById(id);
+            let bdestado = await TitularApi.GetById(id);
             setTitular(bdestado.data);
         }
         finally {
