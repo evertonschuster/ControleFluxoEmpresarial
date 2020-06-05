@@ -1,6 +1,9 @@
-export interface FuncaoFuncionario {
-    id?: number;
+import { BaseEntity } from "../BaseEntity";
+
+export interface FuncaoFuncionario extends BaseEntity {
     nome: String;
-    requerCNH: boolean;
+    cargaHoraria?: number;
+    requerCNH?: boolean;
     descricao?: String;
+    observacao?: String;
 }

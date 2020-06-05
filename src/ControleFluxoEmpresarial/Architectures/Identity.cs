@@ -1,4 +1,4 @@
-﻿using ControleFluxoEmpresarial.Models.Users;
+﻿using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;

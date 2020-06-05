@@ -18,7 +18,7 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         getPais(props.match.params.id);
     }, [props.match.params.id])
 
-    async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
+    async function onSubmit(values: Pais, formikHelpers: FormikHelpers<Pais>) {
 
         try {
             if (props.match.params.id) {

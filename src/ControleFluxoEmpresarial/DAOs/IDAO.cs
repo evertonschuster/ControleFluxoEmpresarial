@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public interface IDAO<TEntity> : IDAO where TEntity : IBaseEntity
+    public interface IDAO<TEntity> : IDAO where TEntity : IBaseEntity<Object>
     {
         PaginationResult<TEntity> GetPagined(PaginationQuery filter);
 

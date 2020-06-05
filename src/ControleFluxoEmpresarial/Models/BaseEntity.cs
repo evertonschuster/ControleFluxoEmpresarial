@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models
 {
-    public abstract class BaseEntity : IBaseEntity
+    public abstract class BaseEntity : IBaseEntity<int>
     {
         public int Id { get; set; }
 
@@ -15,10 +15,10 @@ namespace ControleFluxoEmpresarial.Models
         public DateTime DataAtualizacao { get; set; }
     }
 
-    public interface IBaseEntity
+    public interface IBaseEntity<TId>
     {
         [JsonProperty(Order = 1)]
-        int Id { get; set; }
+        TId Id { get; set; }
 
         DateTime DataCriacao { get; set; }
 

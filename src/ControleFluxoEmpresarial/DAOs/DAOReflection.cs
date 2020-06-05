@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public class DAOReflection<TEntity> : DAO<TEntity>, IDAO<TEntity> where TEntity : BaseEntity, new()
+    public class DAOReflection<TEntity> : DAO<TEntity>, IDAO<TEntity> where TEntity : IBaseEntity<Object>, new()
     {
         private string TableName { get; }
         private string IdProperty { get; }

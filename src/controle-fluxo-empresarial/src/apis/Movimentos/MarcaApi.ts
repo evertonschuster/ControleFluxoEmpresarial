@@ -1,7 +1,7 @@
 import { Marca } from '../../models/Movimentos/Marca';
 import { ApiBase } from '../Api';
 
-export const endPoint: string = 'api/marca';
+export const endPoint: string = 'api/marcas';
 
 class Api extends ApiBase<Marca>{
 

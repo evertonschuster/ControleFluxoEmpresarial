@@ -76,7 +76,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
         {
             var properties = type.GetProperties();
 
-            return properties.Where(e => typeof(IBaseEntity).IsAssignableFrom(e.PropertyType)).ToList();
+            return properties.Where(e => typeof(IBaseEntity<Object>).IsAssignableFrom(e.PropertyType)).ToList();
         }
 
         public static List<string> Property(this Type type, string idProperty = "Id")
@@ -87,18 +87,21 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
             (
                 e.PropertyType.IsPrimitive ||
                 e.PropertyType == typeof(string) ||
+                e.PropertyType == typeof(decimal) ||
+                e.PropertyType == typeof(float) ||
+                e.PropertyType == typeof(double) ||
                 e.PropertyType == typeof(DateTime) ||
                 e.PropertyType == typeof(DateTimeOffset)
             )).Select(e => e.Name).ToList();
         }
 
-        public static TEntity MapEntity<TEntity>(this DbDataReader reader, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity, new()
+        public static TEntity MapEntity<TEntity>(this DbDataReader reader, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity<Object>, new()
         {
             var entity = new TEntity();
             return reader.MapEntity(entity, properties, idProperty, prefixProperty);
         }
 
-        public static TEntity MapEntity<TEntity>(this DbDataReader reader, TEntity entity, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity
+        public static TEntity MapEntity<TEntity>(this DbDataReader reader, TEntity entity, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity<Object>
         {
             if (reader.HasColumn(prefixProperty + idProperty))
             {
@@ -116,6 +119,9 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 if (property.PropertyType == typeof(int))
                 {
                     property.SetValue(entity, reader.GetInt32(propertyNameWithPrefix));
+                }if (property.PropertyType == typeof(bool))
+                {
+                    property.SetValue(entity, reader.GetBoolean(propertyNameWithPrefix));
                 }
                 else if (property.PropertyType == typeof(decimal))
                 {

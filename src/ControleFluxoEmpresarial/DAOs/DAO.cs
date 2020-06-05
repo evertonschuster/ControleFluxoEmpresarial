@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.DAOs
     //Insert into Paises(Nome) Output Inserted.Id Values ('example')
 
 
-    public class DAO<TEntity> : IDAO<TEntity> where TEntity : BaseEntity, new()
+    public class DAO<TEntity> : IDAO<TEntity> where TEntity : IBaseEntity<Object>, new()
     {
         private ApplicationContext Context { get; set; }
         public DbTransaction Transaction { get; set; }
