@@ -96,7 +96,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
             <Row>
                 <Col span={6}>
                     <SelectModelOne
-                        fetchMethod={MarcaApi.GetById}
+                        fetchMethod={MarcaApi.GetById.bind(MarcaApi)}
                         name="marcaId"
                         keyDescription="nome"
                         required={true}
@@ -107,7 +107,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
                 <Col span={6}>
                     <SelectModelOne
-                        fetchMethod={CategoriaApi.GetById}
+                        fetchMethod={CategoriaApi.GetById.bind(CategoriaApi)}
                         name="categoriaId"
                         keyDescription="nome"
                         required={true}
