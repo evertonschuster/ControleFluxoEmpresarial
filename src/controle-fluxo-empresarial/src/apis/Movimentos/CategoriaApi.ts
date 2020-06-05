@@ -1,22 +1,12 @@
-import api from '../Api';
-import { AxiosResponse } from 'axios';
 import { Categoria } from '../../models/Movimentos/Categoria';
-
+import { ApiBase } from '../Api';
 
 export const endPoint: string = 'api/categoria';
 
-export function SaveCategoria(categoria: Categoria): Promise<AxiosResponse<any>> {
-    return api.post(endPoint, categoria);
-}
+class Api extends ApiBase<Categoria>{
 
-export function UpdateCategoria(categoria: Categoria): Promise<AxiosResponse<any>> {
-    return api.put(endPoint, categoria);
+    constructor() {
+        super(endPoint);
+    }
 }
-
-export function GetCategoriaById(id: number): Promise<AxiosResponse<Categoria>> {
-    return api.get(`${endPoint}/${id.toString()}`);
-}
-
-export function ExcluirCategoria(id: number): Promise<AxiosResponse<any>> {
-    return api.delete(`${endPoint}/${id.toString()}`);
-}
+export const CategoriaApi = new Api();

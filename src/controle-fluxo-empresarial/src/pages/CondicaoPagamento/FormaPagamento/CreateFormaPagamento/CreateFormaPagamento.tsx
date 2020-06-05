@@ -6,8 +6,8 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
-import { UpdateFormaPagamento, SaveFormaPagamento, GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import { FormaPagamentoSchema } from './FormaPagamentoSchema';
+import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
 const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -26,9 +26,9 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
         try {
 
             if (props.match.params.id) {
-                await UpdateFormaPagamento(values);
+                await FormaPagamentoApi.Update(values);
             } else {
-                await SaveFormaPagamento(values);
+                await FormaPagamentoApi.Save(values);
             }
 
             props.history.push("/forma-pagamento")
@@ -43,7 +43,7 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
         }
 
         setLoading(true);
-        let bdestado = await GetFormaPagamentoById(id);
+        let bdestado = await FormaPagamentoApi.GetById(id);
         setFormaPagamento(bdestado.data);
         setLoading(false);
     }

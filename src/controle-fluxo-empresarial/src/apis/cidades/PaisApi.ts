@@ -1,22 +1,12 @@
-import api from '../Api';
 import { Pais } from '../../models/Cidades/Pais';
-import { AxiosResponse } from 'axios';
+import { ApiBase } from './../Api';
 
 export const endPoint: string = 'api/pais';
 
+class Api extends ApiBase<Pais>{
 
-export function SavePais(pais: Pais): Promise<AxiosResponse<any>> {
-    return api.post(endPoint, pais);
+    constructor() {
+        super(endPoint);
+    }
 }
-
-export function UpdatePais(pais: Pais): Promise<AxiosResponse<any>> {
-    return api.put(endPoint, pais);
-}
-
-export function GetPaisById(id: number): Promise<AxiosResponse<Pais>> {
-    return api.get(`${endPoint}/${id.toString()}`);
-}
-
-export function ExcluirPais(id: number): Promise<AxiosResponse<any>> {
-    return api.delete(`${endPoint}/${id.toString()}`);
-}
+export const PaisApi = new Api();

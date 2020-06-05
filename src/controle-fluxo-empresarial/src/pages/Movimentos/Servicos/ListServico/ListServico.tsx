@@ -1,8 +1,8 @@
 import React from 'react'
-import { ExcluirServico } from '../../../../apis/Movimentos/ServicoApi';
 import ListForm from '../../../../components/ListForm/ListForm';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
+import { ServicoApi } from '../../../../apis/Movimentos/ServicoApi';
 
 const ListServico: React.FC = () => {
     const response = UseListPagined({ URL: "/api/servicos/list" });
@@ -28,7 +28,7 @@ const ListServico: React.FC = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirServico}
+                deleteFunction={ServicoApi.Excluir.bind(ServicoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

@@ -2,7 +2,7 @@ import React from 'react'
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
-import { ExcluirFornecedor } from '../../../../apis/Pessoas/Fornecedor.Api';
+import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
 
  const ListFornecedor: React.FC = () => {
     
@@ -33,7 +33,7 @@ import { ExcluirFornecedor } from '../../../../apis/Pessoas/Fornecedor.Api';
 
         <ListForm
             tableProps={response}
-            deleteFunction={ExcluirFornecedor}
+            deleteFunction={FornecedorApi.Excluir.bind(FornecedorApi)}
             columns={columns} />
 
     </FormBasicLayout>

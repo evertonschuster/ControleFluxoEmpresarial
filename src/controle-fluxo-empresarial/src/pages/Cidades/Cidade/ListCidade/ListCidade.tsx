@@ -1,15 +1,15 @@
-import React, { } from 'react';
+import React, { useMemo } from 'react';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirCidade } from '../../../../apis/Cidades/CidadeApi';
+import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
 
 const ListCidade: React.FC<RouteComponentProps> = () => {
 
     const response = UseListPagined({ URL: "/api/Cidade/list" });
 
-    const columns = [
+    const columns = useMemo(() => [
         {
             title: 'Código',
             dataIndex: 'id',
@@ -23,7 +23,11 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
             title: 'DDD',
             dataIndex: 'ddd',
         },
-    ];
+        {
+            title: 'Estado',
+            dataIndex: 'estado.nome',
+        },
+    ], []);
 
 
 
@@ -32,7 +36,7 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirCidade}
+                deleteFunction={CidadeApi.Excluir.bind(CidadeApi)}
                 columns={columns} />
 
         </FormBasicLayout>

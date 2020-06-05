@@ -7,9 +7,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { ServicoSchema } from './ServicoSchema';
 import { TextArea } from './../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
-import { GetCategoriaById } from '../../../../apis/Movimentos/CategoriaApi';
 import SelectModelMoreWithTable from '../../../../components/SelectModel/SelectModelMoreWithTable';
 import { ColumnProps } from 'antd/lib/table';
+import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
+import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
 
 const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [servico] = useState<Servico>({
@@ -72,7 +73,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
                 <Col span={8}>
                     <SelectModelOne
-                        fetchMethod={GetCategoriaById}
+                        fetchMethod={CategoriaApi.GetById.bind(CategoriaApi)}
                         name="categoriaId"
                         keyDescription="nome"
                         required={true}
@@ -96,6 +97,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
             <Row>
                 <Col span={24}>
                     <SelectModelMoreWithTable
+                        fetchMethod={FuncaoFuncionarioApi.GetById.bind(FuncaoFuncionarioApi)}
                         label={{ label: "Funcionários", title: "Selecione um Funcionário" }}
                         name="funcionarioIds"
                         columns={columns}

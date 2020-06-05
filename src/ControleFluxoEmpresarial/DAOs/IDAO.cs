@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public interface IDAO<TEntity> where TEntity : IBaseEntity
+    public interface IDAO<TEntity> : IDAO where TEntity : IBaseEntity
     {
         PaginationResult<TEntity> GetPagined(PaginationQuery filter);
 
@@ -21,6 +21,11 @@ namespace ControleFluxoEmpresarial.DAOs
         void Delete(int id, bool commit = true);
 
         void Delete(TEntity entity, bool commit = true);
+
+    }
+
+    public interface IDAO
+    {
 
     }
 }

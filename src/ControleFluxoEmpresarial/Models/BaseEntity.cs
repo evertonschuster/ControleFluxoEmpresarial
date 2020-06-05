@@ -9,6 +9,10 @@ namespace ControleFluxoEmpresarial.Models
     public abstract class BaseEntity : IBaseEntity
     {
         public int Id { get; set; }
+
+        public DateTime DataCriacao { get; set; }
+
+        public DateTime DataAtualizacao { get; set; }
     }
 
     public interface IBaseEntity
@@ -16,6 +20,9 @@ namespace ControleFluxoEmpresarial.Models
         [JsonProperty(Order = 1)]
         int Id { get; set; }
 
+        DateTime DataCriacao { get; set; }
+
+        DateTime DataAtualizacao { get; set; }
     }
 
 }

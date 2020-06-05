@@ -1,14 +1,8 @@
-﻿using ControleFluxoEmpresarial.DAOs.Associados;
-using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.DAOs.Clients;
-using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
-using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
-using ControleFluxoEmpresarial.DAOs.Users;
+﻿using Autofac;
+using ControleFluxoEmpresarial.DAOs;
+using ControleFluxoEmpresarial.Models;
 using ControleFluxoEmpresarial.Models.Cidades;
-using ControleFluxoEmpresarial.Models.Clients;
-using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,32 +10,18 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Architectures
 {
-    public static class DependencyInjection
+    public class DependencyInjection : Module
     {
-        public static void ResolveInjection(this IServiceCollection services)
+        protected override void Load(ContainerBuilder builder)
         {
-            services.AddScoped<PaisDAOReflection>();
-            services.AddScoped<EstadoDAOReflection>();
-            services.AddScoped<CidadeDAOReflection>();
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.Load("ControleFluxoEmpresarial"))
+                .Where(x => x.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(IDAO))))
+                .InstancePerLifetimeScope();
 
-            //services.AddScoped<FormaPagamentoDAO>();
-            services.AddScoped<FormaPagamentoDAOReflection>();
-            services.AddScoped<CondicaoPagamentoDAO>();
-            services.AddScoped<CondicaoPagamentoParcelaDAO>();
-
-            services.AddScoped<UserDAO>();
-            services.AddScoped<ClientDAO>();
-            services.AddScoped<TitularDAO>();
-            services.AddScoped<AssociadoDAO>();
-
-
-            services.AddTransient<IValidator<Pais>, PaisValidator>();
-            services.AddTransient<IValidator<Estado>, EstadoValidator>();
-            services.AddTransient<IValidator<Cidade>, CidadeValidator>();
-            services.AddTransient<IValidator<Client>, ClientValidator>();
-            services.AddTransient<IValidator<FormaPagamento>, FormaPagamentoValidator>();
-            services.AddTransient<IValidator<CondicaoPagamento>, CondicaoPagamentoValidator>();
-
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.Load("ControleFluxoEmpresarial"))
+                 .Where(x => x.IsAssignableTo<IValidator>())
+                 .AsImplementedInterfaces()
+                 .InstancePerLifetimeScope();
         }
     }
 }

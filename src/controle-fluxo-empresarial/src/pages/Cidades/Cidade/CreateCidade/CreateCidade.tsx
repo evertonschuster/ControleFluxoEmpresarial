@@ -5,11 +5,11 @@ import SelectModel from '../../../../components/SelectModel/SelectModelOne';
 import { Input } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Cidade } from '../../../../models/Cidades/Cidade';
-import { UpdateCidade, SaveCidade, GetCidadeById } from '../../../../apis/Cidades/CidadeApi';
-import { GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
 import { CidadeSchema } from './CidadeSchema';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
+import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
+import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
 
 const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -28,9 +28,9 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         try {
 
             if (props.match.params.id) {
-                await UpdateCidade(values);
+                await CidadeApi.Update(values);
             } else {
-                await SaveCidade(values);
+                await CidadeApi.Save(values);
             }
 
             props.history.push("/Cidade")
@@ -45,7 +45,7 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         }
 
         setLoading(true);
-        let bdestado = await GetCidadeById(id);
+        let bdestado = await CidadeApi.GetById(id);
         setCidade(bdestado.data);
         setLoading(false);
     }
@@ -75,7 +75,7 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
                 </Col>
                 <Col span={12}>
                     <SelectModel
-                        fetchMethod={GetEstadoById}
+                        fetchMethod={EstadoApi.GetById.bind(EstadoApi)}
                         name="estadoId"
                         keyDescription="nome"
                         required={true}

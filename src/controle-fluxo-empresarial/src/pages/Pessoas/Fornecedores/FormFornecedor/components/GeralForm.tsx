@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
-import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
+import { Input, Select, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
 import { useField, useFormikContext } from 'formik';
 import { Fornecedor } from './../../../../../models/Pessoas/Fornecedor';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import { GetCondicaoPagamentoById } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
-import { GetCidadeById } from '../../../../../apis/Cidades/CidadeApi';
+import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
+import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 
 const GeralForm: React.FC = () => {
 
@@ -71,7 +71,7 @@ const GeralForm: React.FC = () => {
 
                 <Col span={5}>
                     <SelectModelOne
-                        fetchMethod={GetCidadeById}
+                        fetchMethod={CidadeApi.GetById.bind(CidadeApi)}
                         name="cidadeId"
                         keyDescription="nome"
                         required={true}
@@ -110,7 +110,7 @@ const GeralForm: React.FC = () => {
 
                 <Col span={7}>
                     <SelectModelOne
-                        fetchMethod={GetCondicaoPagamentoById}
+                        fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
                         keyDescription="nome"
                         required={true}

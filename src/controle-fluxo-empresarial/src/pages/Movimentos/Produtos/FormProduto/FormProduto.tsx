@@ -6,8 +6,9 @@ import { Input, TextArea, InputNumber } from '../../../../components/WithFormIte
 import { RouteComponentProps } from 'react-router-dom';
 import { ProdutoSchema } from './ProdutoSchema';
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
-import { GetMarcaById } from '../../../../apis/Movimentos/MarcaApi';
-import { GetCategoriaById } from '../../../../apis/Movimentos/CategoriaApi';
+import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
+import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
+import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
 
 const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [produto] = useState<Produto>({
@@ -60,7 +61,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
                 <Col span={3}>
                     <SelectModelOne
-                        fetchMethod={GetCategoriaById}
+                        fetchMethod={UnidadeMedidaApi.GetById.bind(UnidadeMedidaApi)}
                         name="unidadeMedidaId"
                         keyDescription="Unidade de Medida"
                         required={true}
@@ -95,7 +96,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
             <Row>
                 <Col span={6}>
                     <SelectModelOne
-                        fetchMethod={GetMarcaById}
+                        fetchMethod={MarcaApi.GetById.bind(MarcaApi)}
                         name="marcaId"
                         keyDescription="nome"
                         required={true}
@@ -106,7 +107,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
                 <Col span={6}>
                     <SelectModelOne
-                        fetchMethod={GetCategoriaById}
+                        fetchMethod={CategoriaApi.GetById.bind(CategoriaApi)}
                         name="categoriaId"
                         keyDescription="nome"
                         required={true}

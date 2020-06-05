@@ -1,9 +1,9 @@
 import React, { } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirTitular } from '../../../../apis/Pessoas/AssociadoApi';
 import ListForm from '../../../../components/ListForm/ListForm';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import { TitularApi } from '../../../../apis/Pessoas/AssociadoApi';
 
 const ListTitular: React.FC<RouteComponentProps> = () => {
 
@@ -47,7 +47,7 @@ const ListTitular: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirTitular}
+                deleteFunction={TitularApi.Excluir}
                 columns={columns} />
 
         </FormBasicLayout>

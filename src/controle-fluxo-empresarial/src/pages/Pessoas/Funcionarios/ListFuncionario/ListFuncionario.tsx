@@ -2,7 +2,7 @@ import React from 'react'
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
-import { ExcluirFuncionario } from '../../../../apis/Pessoas/FuncionarioApi';
+import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
 
 const ListFuncionario: React.FC = () => {
 
@@ -33,7 +33,7 @@ const ListFuncionario: React.FC = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirFuncionario}
+                deleteFunction={FuncionarioApi.Excluir.bind(FuncionarioApi)}
                 columns={columns} />
 
         </FormBasicLayout>

@@ -6,13 +6,12 @@ import { Input } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Estado } from '../../../../models/Cidades/Estado';
 import { EstadoSchema } from './EstadoSchema';
-import { UpdateEstado, SaveEstado, GetEstadoById } from '../../../../apis/Cidades/EstadoApi';
-import { GetPaisById } from '../../../../apis/Cidades/PaisApi';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
+import { PaisApi } from '../../../../apis/Cidades/PaisApi';
+import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 
 const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
-
 
     const [estado, setEstado] = useState<Estado>({ nome: "", uf: "", paisId: undefined })
     const [loading, setLoading] = useState(false);
@@ -26,9 +25,9 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         try {
 
             if (props.match.params.id) {
-                await UpdateEstado(values);
+                await EstadoApi.Update(values);
             } else {
-                await SaveEstado(values);
+                await EstadoApi.Save(values);
             }
 
             props.history.push("/Estado")
@@ -43,7 +42,7 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         }
 
         setLoading(true);
-        let bdpais = await GetEstadoById(id);
+        let bdpais = await EstadoApi.GetById(id);
         setEstado(bdpais.data);
         setLoading(false);
     }
@@ -73,7 +72,7 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
                 </Col>
                 <Col span={12}>
                     <SelectModel
-                        fetchMethod={GetPaisById}
+                        fetchMethod={PaisApi.GetById.bind(PaisApi)}
                         name="paisId"
                         keyDescription="nome"
                         required={true}

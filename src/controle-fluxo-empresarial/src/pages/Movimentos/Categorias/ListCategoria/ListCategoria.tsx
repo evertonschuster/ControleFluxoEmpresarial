@@ -4,11 +4,11 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
-import { ExcluirCategoria } from '../../../../apis/Movimentos/CategoriaApi';
+import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
 
 const ListCategoria: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/categorias/list" });
+    const response = UseListPagined({ URL: "/api/categoria/list" });
 
     const columns: ColumnProps<Categoria>[] = [
         {
@@ -30,7 +30,7 @@ const ListCategoria: React.FC = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirCategoria}
+                deleteFunction={CategoriaApi.Excluir.bind(CategoriaApi)}
                 columns={columns} />
 
         </FormBasicLayout>

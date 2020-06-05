@@ -104,7 +104,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
                     sqlId += $" OR CondicaoPagamentoParcelas.id = @id ";
                 }
                 filter.Filter = "%" + filter.Filter + "%";
-                sql += $" WHERE CondicaoPagamentoParcelas.nome like @Filter {sqlId} ";
+                sql += $" WHERE CondicaoPagamentoParcelas.nome ilike @Filter {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);

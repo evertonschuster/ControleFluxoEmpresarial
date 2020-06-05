@@ -5,10 +5,10 @@ import "./LoginUserStyle.less"
 import { Formik, FormikHelpers } from 'formik';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { LoginUserSchema } from './LoginUserSchema';
-import { tryLoginUser } from '../../../../apis/Pessoas/UserApi';
 import { message } from 'antd';
 import { login, getUserName } from '../../../../services/Authenticate';
 import { errorBack } from '../../../../utils/MessageApi';
+import { UserApi } from '../../../../apis/Pessoas/UserApi';
 
 const LoginUser: React.FC<RouteComponentProps> = (props) => {
 
@@ -22,7 +22,7 @@ const LoginUser: React.FC<RouteComponentProps> = (props) => {
 
         try {
             setLoading(true);
-            let response = await tryLoginUser(values);
+            let response = await UserApi.TryLoginUser(values);
             login(response.data);
             message.success(`Bem vindo ${getUserName()}!!!`);
             history.push(redirectUrl || "/");

@@ -2,6 +2,7 @@
 using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models;
+using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,18 +22,11 @@ namespace ControleFluxoEmpresarial.DAOs
         {
             get
             {
-                var properties = typeof(TEntity).GetProperties();
-
-
-                return properties.Where(e => e.Name != this.IdProperty &&
-                (
-                    e.PropertyType.IsPrimitive ||
-                    e.PropertyType == typeof(string) ||
-                    e.PropertyType == typeof(DateTime)
-                )).Select(e => e.Name).ToList();
+                return typeof(TEntity).Property(IdProperty);
             }
         }
 
+        protected virtual string SqlListPagined { set; get; } = null;
 
 
         public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id") : base(context)
@@ -43,38 +37,17 @@ namespace ControleFluxoEmpresarial.DAOs
 
         protected override TEntity MapEntity(DbDataReader reader)
         {
-            var entity = base.MapEntity(reader);
-            entity.Id = reader.GetInt32(IdProperty);
-            foreach (var propertyName in this.Property)
+            var entity = reader.MapEntity<TEntity>(this.Property, this.IdProperty);
+
+            foreach (var property in typeof(TEntity).PropertyIBaseEntity())
             {
-                var property = typeof(TEntity).GetProperty(propertyName);
+                var instance = Activator.CreateInstance(property.PropertyType) as IBaseEntity;
 
-                if (property.PropertyType == typeof(int))
-                {
-                    property.SetValue(entity, reader.GetInt32(property.Name));
-                }
-                else if (property.PropertyType == typeof(decimal))
-                {
-                    property.SetValue(entity, reader.GetDecimal(property.Name));
-                }
-                else if (property.PropertyType == typeof(double))
-                {
-                    property.SetValue(entity, reader.GetDouble(property.Name));
-                }
-                else if (property.PropertyType == typeof(string))
-                {
-                    property.SetValue(entity, reader.GetString(property.Name));
-                }
-                else if (property.PropertyType == typeof(DateTime))
-                {
-                    property.SetValue(entity, reader.GetDateTime(property.Name));
-                }
-                else
-                {
-                    throw new BusinessException("Deu Muito RUIM");
-                }
+                var properties = property.PropertyType.Property("Id");
+                var propertyEntity = reader.MapEntity(instance, properties, "Id", $"{property.Name}.");
+
+                property.SetValue(entity, propertyEntity);
             }
-
 
             return entity;
         }
@@ -94,7 +67,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         public override TEntity GetByID(int id)
         {
-            var sql = $@"SELECT {this.IdProperty}, {this.Property.Aggregate((i, j) => i + ", " + j)}
+            var sql = $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
                           FROM {this.TableName} 
                         WHERE {this.IdProperty} = @id";
 
@@ -104,7 +77,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         public override PaginationResult<TEntity> GetPagined(PaginationQuery filter)
         {
-            var sql = $@"SELECT {this.IdProperty}, {this.Property.Aggregate((i, j) => i + ", " + j)}
+            var sql = this.SqlListPagined ?? $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
                           FROM {this.TableName} ";
 
             int byId = 0;
@@ -116,7 +89,7 @@ namespace ControleFluxoEmpresarial.DAOs
                     sqlId += $" OR id = @id ";
                 }
                 filter.Filter = $"%{filter.Filter}%";
-                sql += $" WHERE nome like @Filter {sqlId} ";
+                sql += $" WHERE nome ilike @Filter {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, new { id = byId, filter.Filter }, filter);
@@ -124,18 +97,21 @@ namespace ControleFluxoEmpresarial.DAOs
 
         public override int Insert(TEntity entity, bool commit = true)
         {
-            var sql = $@"INSERT INTO {this.TableName} ({this.Property.Aggregate((i, j) => i + ", " + j)})
-                         VALUES (@{this.Property.Aggregate((i, j) => i + ", @" + j)})";
+            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()})
+                         VALUES ({this.Property.FormatProperty(e => $"@{e}")})";
 
+            entity.DataCriacao = DateTime.Now;
+            entity.DataAtualizacao = DateTime.Now;
             return base.ExecuteScriptInsert(sql, entity);
         }
 
         public override void Update(TEntity entity, bool commit = true)
         {
             var sql = $@"UPDATE {this.TableName} 
-                        SET {this.Property.FirstOrDefault() }=@{this.Property.Aggregate((i, j) => $"{i},\t\t\t\n {j}=@{j}")}
+                        SET {this.Property.Where(e => e != nameof(IBaseEntity.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
                         WHERE Id = @Id";
 
+            entity.DataAtualizacao = DateTime.Now;
             base.ExecuteScript(sql, entity);
         }
     }

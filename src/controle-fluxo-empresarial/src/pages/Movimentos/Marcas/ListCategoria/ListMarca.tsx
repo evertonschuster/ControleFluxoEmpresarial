@@ -4,7 +4,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Marca } from '../../../../models/Movimentos/Marca';
-import { ExcluirMarca } from '../../../../apis/Movimentos/MarcaApi';
+import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
 
 const ListMarca: React.FC = () => {
 
@@ -30,7 +30,7 @@ const ListMarca: React.FC = () => {
 
             <ListForm
                 tableProps={response}
-                deleteFunction={ExcluirMarca}
+                deleteFunction={MarcaApi.Excluir.bind(MarcaApi)}
                 columns={columns} />
 
         </FormBasicLayout>

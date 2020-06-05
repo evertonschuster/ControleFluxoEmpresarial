@@ -81,8 +81,22 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                                     display: "flex",
                                     flexDirection: "column"
                                 }}>
-                                <span>Data Criação: __/__/____</span>
-                                <span>Data Atualização: __/__/____</span>
+                                <span>Data Criação: {formik.values?.dataCriacao ? new Date(formik.values?.dataCriacao).toLocaleString(undefined, {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric",
+
+                                    hour: "numeric" ,
+                                    minute: "numeric" 
+                                }) : "  /  /"}</span>
+                                <span>Data Atualização: {formik.values?.dataAtualizacao ? new Date(formik.values.dataAtualizacao)?.toLocaleString(undefined, {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric",
+
+                                    hour: "numeric" ,
+                                    minute: "numeric" 
+                                }) : "  /  /"}</span>
                             </Col>
                             <Col>
                                 <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
