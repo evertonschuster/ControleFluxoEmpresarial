@@ -6,7 +6,7 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
-import { UpdateFormaPagamento, SaveFormaPagamento, GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamento';
+import { UpdateFormaPagamento, SaveFormaPagamento, GetFormaPagamentoById } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import { FormaPagamentoSchema } from './FormaPagamentoSchema';
 
 const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
@@ -52,7 +52,7 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
         <CrudFormLayout
             isLoading={loading}
             backPath="/forma-pagamento"
-            breadcrumbList={[{ displayName: "Forma de Pagamento", URL: "/forma-pagamento" }, { displayName: "Nova Forma de Pagamento", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Formas de Pagamento", URL: "/forma-pagamento" }, { displayName: "Nova Forma de Pagamento", URL: undefined }]}
             initialValues={formapagamento}
             validationSchema={FormaPagamentoSchema}
             onSubmit={onSubmit}
@@ -60,7 +60,7 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
 
             <Row>
                 <Col span={4}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={12}>
                     <Input name="nome" label="Forma de Pagamento" placeholder="Dinheiro" required />

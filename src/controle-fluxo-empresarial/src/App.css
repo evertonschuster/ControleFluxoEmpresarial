@@ -41,3 +41,19 @@
 .form-custom-item{
   padding: 0 13px !important;
 }
+
+.ant-input-number-input {
+  text-align : end !important;
+  padding-right: 25px !important;
+}
+
+[hidden] {
+  /* opacity: 0; */
+  display: inline-block !important;
+  /* transition: opacity 6s, visibility 6s; */
+  /* transition-property: display !important;
+  transition-duration: 2s !important;
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1) !important;
+  transition-delay: 1s !important; */
+
+}

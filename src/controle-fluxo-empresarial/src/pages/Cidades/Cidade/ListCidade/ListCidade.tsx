@@ -1,5 +1,5 @@
 import React, { } from 'react';
-import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
@@ -11,7 +11,7 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
 
     const columns = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
         },
@@ -28,14 +28,14 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
 
 
     return (
-        <FormLayout breadcrumbList={[{ displayName: "Cidade", URL: "/cidade" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Cidade", URL: "/cidade" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}
                 deleteFunction={ExcluirCidade}
                 columns={columns} />
 
-        </FormLayout>
+        </FormBasicLayout>
     );
 
 }

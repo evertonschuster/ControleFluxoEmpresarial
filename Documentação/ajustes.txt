@@ -1,0 +1,33 @@
+Pessoa ()
+    tipo da pessoa (juridica, fisica) antes do campo nome
+
+    tipo
+    nome (razao social)
+    apelido (nome fantasia)
+    estado civil
+    endereco
+    numero
+    complemento
+    bairro
+    cep
+
+    telefon 
+    email
+
+    nacionalidade (arrumar o protugues)
+    Data 
+    RG
+    CPF
+    limite de credito
+
+    quando funncionario pode adicionar os servico que pode realizar
+
+Produto
+    Unidade (Pk pode a sigla, descricao nao precisa)
+    CODIGO BARRA ANTES DA MARCA
+    taxa 
+    referencia (codigo fabricante)
+
+
+Servico
+    quais funcionario pode fazer

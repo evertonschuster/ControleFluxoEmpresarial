@@ -23,6 +23,7 @@ export interface Props<T> {
     errorMessage: ErrorMessage;
     label: Label;
     required?: boolean;
+    formMode: FormMode
 }
 /**
  *
@@ -35,7 +36,6 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
 
     const [state, setState] = useState<any[]>();
-    const { formMode } = useContext(BasicLayoutContext);
 
     function CloseForm() {
         props.setVisible(!props.visible);
@@ -55,7 +55,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
             return;
         }
 
-        if (formMode === FormMode.SelectMultiple) {
+        if (props.formMode === FormMode.SelectMultiple) {
             props.setState(state);
         } else {
             if (state != null && state.length > 0) {
@@ -81,7 +81,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 onOk={handleOk}
                 okText="Selecionar"
                 onCancel={handleCancel}>
-                <RouterServiceModel path={props.path} setState={props.setState} />
+                <RouterServiceModel path={props.path} setState={props.setState} formMode={props.formMode} />
 
             </Modal>
 

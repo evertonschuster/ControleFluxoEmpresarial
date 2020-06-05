@@ -1,8 +1,8 @@
 import React, { } from 'react';
-import FormLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ExcluirFormaPagamento } from '../../../../apis/CondicaoPagamento/FormaPagamento';
+import { ExcluirFormaPagamento } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import { FormaPagamento } from './../../../../models/CondicaoPagamento/FormaPagamento';
 import { ColumnProps } from 'antd/lib/table';
 
@@ -12,7 +12,7 @@ const ListFormaPagamento: React.FC = () => {
 
     const columns: ColumnProps<FormaPagamento>[] = [
         {
-            title: 'Codigo',
+            title: 'Código',
             dataIndex: 'id',
             key: 'id',
             width: "100px"
@@ -26,14 +26,14 @@ const ListFormaPagamento: React.FC = () => {
 
 
     return (
-        <FormLayout breadcrumbList={[{ displayName: "Forma de Pagamento", URL: "/forma-pagamento" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Formas de Pagamento", URL: "/forma-pagamento" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}
                 deleteFunction={ExcluirFormaPagamento}
                 columns={columns} />
 
-        </FormLayout>
+        </FormBasicLayout>
     );
 
 }

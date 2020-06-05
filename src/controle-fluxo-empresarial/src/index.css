@@ -28,3 +28,11 @@ body {
   display: flex;
   float: 1;
 }
+
+.ant-input-number-input {
+  text-align : end;
+}
+
+.ant-form-item-label{
+  user-select: none;
+}

@@ -35,18 +35,18 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
         public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE FROM CondicaoPagamentos 
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            base.ExecuteScript(sql);
+            base.ExecuteScript(sql, new { id });
         }
 
         public override CondicaoPagamento GetByID(int id)
         {
             var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto
                           FROM CondicaoPagamentos
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            var entity = base.ExecuteGetFirstOrDefault(sql, false);
+            var entity = base.ExecuteGetFirstOrDefault(sql, new { id }, false);
             this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
             entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id, true);
 
@@ -59,9 +59,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             try
             {
                 var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto)
-                         VALUES ('{entity.Nome}', {entity.Juro}, {entity.Multa.ToString()}, {entity.Desconto})";
+                         VALUES (@Nome, @Juro, @Multa, @Desconto)";
 
-                var id = base.ExecuteScriptInsert(sql, false);
+                var id = base.ExecuteScriptInsert(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto }, false);
 
                 this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
                 foreach (var parcela in entity.Parcela)
@@ -83,9 +83,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
         {
             var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto
                           FROM CondicaoPagamentos
-                        WHERE Nome = '{nome}' ";
+                        WHERE Nome = @nome ";
 
-            return base.ExecuteGetFirstOrDefault(sql);
+            return base.ExecuteGetFirstOrDefault(sql, new { nome });
         }
 
         public override void Update(CondicaoPagamento entity, bool commit = true)
@@ -94,11 +94,11 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             var parcelaDbIds = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(entity.Id).Select(e => e.Id).ToList();
 
             var sql = $@"UPDATE CondicaoPagamentos 
-                        SET Nome = '{entity.Nome}',
-                        Juro = {entity.Juro},
-                        Multa = {entity.Multa.ToString()},
-                        Desconto = {entity.Desconto}
-                        WHERE Id = {entity.Id.ToString()}";
+                        SET Nome = @Nome,
+                        Juro = @Juro,
+                        Multa = @Multa,
+                        Desconto = @Desconto
+                        WHERE Id = @Id";
 
 
             //update e insert
@@ -119,7 +119,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
 
             this.Transaction = this.CondicaoPagamentoParcelaDAO.Transaction;
-            base.ExecuteScript(sql);
+            base.ExecuteScript(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto, entity.Id });
 
         }
 
@@ -128,18 +128,19 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto
                           FROM CondicaoPagamentos ";
 
+            int id = 0;
             if (!string.IsNullOrEmpty(filter.Filter))
             {
                 var sqlId = "";
-                int formaPagamentoId;
-                if (Int32.TryParse(filter.Filter, out formaPagamentoId))
+                if (Int32.TryParse(filter.Filter, out id))
                 {
-                    sqlId += $" OR id = {formaPagamentoId} ";
+                    sqlId += $" OR id = @id ";
                 }
-                sql += $" WHERE nome like '%{filter.Filter}%' {sqlId} ";
+                filter.Filter = "%" + filter.Filter + "%";
+                sql += $" WHERE nome like @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, filter);
+            return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);
         }
     }
 }

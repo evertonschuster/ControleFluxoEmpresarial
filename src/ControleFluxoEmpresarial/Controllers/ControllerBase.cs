@@ -14,7 +14,7 @@ namespace ControleFluxoEmpresarial.Controllers
 {
     //[AllowAnonymous]
     [Authorize]
-    public abstract class ControllerBase<TEntity> : ControllerBase where TEntity : IBaseEntity
+    public abstract class ControllerBase<TEntity, TPaginationQuery> : ControllerBase where TEntity : IBaseEntity where TPaginationQuery : PaginationQuery
     {
         protected ControllerBase(IDAO<TEntity> dAO)
         {
@@ -60,5 +60,10 @@ namespace ControleFluxoEmpresarial.Controllers
             return Ok();
         }
 
+        [HttpPost("list")]
+        public new IActionResult GetListPagined(TPaginationQuery filter)
+        {
+            return Ok(this.DAO.GetPagined(filter));
+        }
     }
 }

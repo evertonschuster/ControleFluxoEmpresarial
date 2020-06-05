@@ -12,9 +12,9 @@ namespace ControleFluxoEmpresarial.DAOs.Clients
 {
     public class ClientDAO : DAO<Client>
     {
-        public CidadeDAO CidadeDAO { get; set; }
+        public CidadeDAOReflection CidadeDAO { get; set; }
 
-        public ClientDAO(ApplicationContext context,  CidadeDAO cidadeDAO) : base(context)
+        public ClientDAO(ApplicationContext context, CidadeDAOReflection cidadeDAO) : base(context)
         {
             this.CidadeDAO = cidadeDAO;
         }

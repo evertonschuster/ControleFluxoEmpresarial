@@ -48,7 +48,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
         <>
             <Row>
                 <Col span={2}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={13}>
                     <Input name="nome" label="Nome da Condição de Pagamento" placeholder="Pagamento em 30/60/90" required />

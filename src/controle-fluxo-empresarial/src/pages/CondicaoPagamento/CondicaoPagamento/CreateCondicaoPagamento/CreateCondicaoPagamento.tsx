@@ -4,7 +4,7 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
-import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamento';
+import { UpdateCondicaoPagamento, SaveCondicaoPagamento, GetCondicaoPagamentoById } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
 import CondicaoPagamentoGeneral from './components/CondicaoPagamentoGeneral';
 
@@ -66,7 +66,7 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
         <CrudFormLayout
             isLoading={loading}
             backPath="/condicao-pagamento"
-            breadcrumbList={[{ displayName: "Condição de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Nova Condição de Pagamento", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Condições de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Nova Condição de Pagamento", URL: undefined }]}
             initialValues={condicaopagamento}
             validationSchema={CondicaoPagamentoSchema}
             onSubmit={onSubmit}

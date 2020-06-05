@@ -20,16 +20,19 @@ namespace ControleFluxoEmpresarial.Architectures
     {
         public static void ResolveInjection(this IServiceCollection services)
         {
+            services.AddScoped<PaisDAOReflection>();
+            services.AddScoped<EstadoDAOReflection>();
+            services.AddScoped<CidadeDAOReflection>();
+
+            //services.AddScoped<FormaPagamentoDAO>();
+            services.AddScoped<FormaPagamentoDAOReflection>();
+            services.AddScoped<CondicaoPagamentoDAO>();
+            services.AddScoped<CondicaoPagamentoParcelaDAO>();
+
             services.AddScoped<UserDAO>();
-            services.AddScoped<PaisDAO>();
-            services.AddScoped<EstadoDAO>();
-            services.AddScoped<CidadeDAO>();
             services.AddScoped<ClientDAO>();
             services.AddScoped<TitularDAO>();
             services.AddScoped<AssociadoDAO>();
-            services.AddScoped<FormaPagamentoDAO>();
-            services.AddScoped<CondicaoPagamentoDAO>();
-            services.AddScoped<CondicaoPagamentoParcelaDAO>();
 
 
             services.AddTransient<IValidator<Pais>, PaisValidator>();

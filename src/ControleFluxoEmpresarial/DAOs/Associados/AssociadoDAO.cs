@@ -31,27 +31,27 @@ namespace ControleFluxoEmpresarial.DAOs.Associados
         public override void Delete(int id, bool commit = true)
         {
             var sql = $@"DELETE FROM Associados 
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            base.ExecuteScript(sql, commit);
+            base.ExecuteScript(sql, new { id }, commit);
         }
 
         public override Associado GetByID(int id)
         {
             var sql = $@"SELECT Id, Nome, RG, Telefone, DataNascimento
                           FROM Associados
-                        WHERE Id = {id.ToString()}";
+                        WHERE Id = @id";
 
-            return base.ExecuteGetFirstOrDefault(sql);
+            return base.ExecuteGetFirstOrDefault(sql, new { id });
         }
 
         public List<Associado> GetDependentesById(int id, bool closeConnection = true)
         {
             var sql = $@"SELECT Id, Nome, RG, Telefone, DataNascimento
                           FROM Associados
-                        WHERE TitularId = {id.ToString()}";
+                        WHERE TitularId = @id";
 
-            return base.ExecuteGetAll(sql, closeConnection);
+            return base.ExecuteGetAll(sql, new { id }, closeConnection);
         }
 
         public int Insert(Associado entity, bool commit = true, int? titularId = null)
@@ -59,9 +59,9 @@ namespace ControleFluxoEmpresarial.DAOs.Associados
             try
             {
                 var sql = $@"INSERT INTO Associados (Nome, RG, Telefone, DataNascimento, TitularId)
-                         VALUES ('{entity.Nome}','{entity.RG}','{entity.Telefone}','{entity.DataNascimento.ToString()}', {titularId?.ToString() ?? "NULL"})";
+                         VALUES (@Nome, @RG, @Telefone, @DataNascimento, @titularId)";
 
-                return base.ExecuteScriptInsert(sql, commit);
+                return base.ExecuteScriptInsert(sql, new { entity.Nome, entity.RG, entity.Telefone, entity.DataNascimento, titularId }, commit);
             }
             finally
             {
@@ -75,13 +75,13 @@ namespace ControleFluxoEmpresarial.DAOs.Associados
         public override void Update(Associado entity, bool commit = true)
         {
             var sql = $@"UPDATE Associados 
-                        SET Nome = '{entity.Nome}',
-                            RG = '{entity.RG}',
-                            Telefone = '{entity.Telefone}',
-                            DataNascimento = '{entity.DataNascimento}'
-                        WHERE Id = {entity.Id.ToString()}";
+                        SET Nome = @Nome,
+                            RG = @RG,
+                            Telefone = @Telefone,
+                            DataNascimento = @DataNascimento
+                        WHERE Id = @Id";
 
-            base.ExecuteScript(sql, commit);
+            base.ExecuteScript(sql, new { entity.Nome, entity.RG, entity.Telefone, entity.DataNascimento, entity.Id }, commit);
         }
 
         public override PaginationResult<Associado> GetPagined(PaginationQuery filter)

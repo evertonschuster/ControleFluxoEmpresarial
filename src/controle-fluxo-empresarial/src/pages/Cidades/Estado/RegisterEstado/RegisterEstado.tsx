@@ -60,7 +60,7 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
             <Row>
                 <Col span={12}>
-                    <Input name="id" label="Codigo" placeholder="Codigo" readOnly />
+                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
                 <Col span={12}>
                     <Input name="nome" label="Estado" placeholder="Estado" required />
