@@ -7,7 +7,7 @@ import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
 
 const ListCidade: React.FC<RouteComponentProps> = () => {
 
-    const response = UseListPagined({ URL: "/api/Cidade/list" });
+    const response = UseListPagined({ getListPagined: CidadeApi.GetListPagined.bind(CidadeApi) });
 
     const columns = useMemo(() => [
         {

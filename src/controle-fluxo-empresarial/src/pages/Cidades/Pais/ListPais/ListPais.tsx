@@ -7,7 +7,7 @@ import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
 
-    const response = UseListPagined({ URL: "/api/pais/list" });
+    const response = UseListPagined({ getListPagined: PaisApi.GetListPagined.bind(PaisApi) });
 
     const columns = useMemo(() => [
         {
@@ -26,8 +26,6 @@ const ListPais: React.FC<RouteComponentProps> = () => {
             // key: 'sigla',
         },
     ], []);
-
-    PaisApi.Excluir(1);
 
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Pais", URL: "/pais" }, { displayName: "Listagem", URL: undefined }]} >

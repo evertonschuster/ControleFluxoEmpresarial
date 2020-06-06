@@ -5,7 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ServicoApi } from '../../../../apis/Movimentos/ServicoApi';
 
 const ListServico: React.FC = () => {
-    const response = UseListPagined({ URL: "/api/servicos/list" });
+    const response = UseListPagined({ getListPagined: ServicoApi.GetListPagined.bind(ServicoApi) });
 
     const columns = [
         {

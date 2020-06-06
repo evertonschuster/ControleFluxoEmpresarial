@@ -7,7 +7,7 @@ import { TitularApi } from '../../../../apis/Pessoas/AssociadoApi';
 
 const ListTitular: React.FC<RouteComponentProps> = () => {
 
-    const response = UseListPagined({ URL: "/api/associados/list" });
+    const response = UseListPagined({ getListPagined: TitularApi.GetListPagined.bind(TitularApi) });
 
     const columns = [
         {

@@ -8,7 +8,7 @@ import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/Condica
 
 const ListCondicaoPagamento: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/condicao-pagamento/list" });
+    const response = UseListPagined({ getListPagined: CondicaoPagamentoApi.GetListPagined.bind(CondicaoPagamentoApi) });
 
     const columns: ColumnProps<CondicaoPagamento>[] = [
         {

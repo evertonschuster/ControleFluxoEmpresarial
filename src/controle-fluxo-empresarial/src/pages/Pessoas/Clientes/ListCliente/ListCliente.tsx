@@ -6,7 +6,7 @@ import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 
 const ListCliente:React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/clientes/list" });
+    const response = UseListPagined({ getListPagined: ClienteApi.GetListPagined.bind(ClienteApi)  });
 
     const columns = [
         {

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { TableProps } from '../components/ListForm/ListForm';
-import api from '../apis/Api.configure';
+import { PaginationQuery, PaginationResult } from '../models/BaseEntity';
+import { AxiosResponse } from 'axios';
 
 
-export interface Props {
-    URL: string,
+export interface Props<TEntity> {
+    getListPagined: (filter: PaginationQuery) => Promise<AxiosResponse<PaginationResult<TEntity>>>,
     valuesFilter?: any;
 }
 
@@ -17,13 +18,7 @@ export interface RequestResult {
 
 }
 
-export interface PaginationQuery {
-    pageSize: number;
-    currentPage: number;
-    filter?: string
-}
-
-export function UseListPagined(props: Props): RequestResult {
+export function UseListPagined(props: Props<any>): RequestResult {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [filterRequest, setFilterRequest] = useState<PaginationQuery>({ pageSize: 10, currentPage: 1 })
@@ -36,27 +31,29 @@ export function UseListPagined(props: Props): RequestResult {
         }
     );
 
-    function getDataBack() {
+    async function getDataBack() {
         setIsLoading(true);
-        api.post(props.URL, { ...filterRequest, ...props.valuesFilter })
-            .then(response => {
-                setResponseBack({
-                    current: response.data.currentPage,
-                    pageSize: response.data.pageSize,
-                    total: response.data.totalItem,
-                    dataSource: response.data.result
-                });
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
+
+        try {
+            let response = await props.getListPagined(filterRequest);
+            setResponseBack({
+                current: response.data.currentPage,
+                pageSize: response.data.pageSize,
+                total: response.data.totalItem,
+                dataSource: response.data.result
+            });
+        }
+        finally {
+
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {
         getDataBack();
         // console.error("Fui pro back")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.URL, filterRequest, props.valuesFilter])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filterRequest, props.valuesFilter])
 
 
     let result = {

@@ -8,7 +8,7 @@ import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagam
 
 const ListFormaPagamento: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/forma-pagamento/list" });
+    const response = UseListPagined({ getListPagined: FormaPagamentoApi.GetListPagined.bind(FormaPagamentoApi) });
 
     const columns: ColumnProps<FormaPagamento>[] = [
         {

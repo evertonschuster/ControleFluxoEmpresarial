@@ -4,9 +4,9 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
 
- const ListFornecedor: React.FC = () => {
-    
-    const response = UseListPagined({ URL: "/api/fornecedors/list" });
+const ListFornecedor: React.FC = () => {
+
+    const response = UseListPagined({ getListPagined: FornecedorApi.GetListPagined.bind(FornecedorApi) });
 
     const columns = [
         {
@@ -31,12 +31,12 @@ import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName: "Listagem", URL: undefined }]} >
 
-        <ListForm
-            tableProps={response}
-            deleteFunction={FornecedorApi.Excluir.bind(FornecedorApi)}
-            columns={columns} />
+            <ListForm
+                tableProps={response}
+                deleteFunction={FornecedorApi.Excluir.bind(FornecedorApi)}
+                columns={columns} />
 
-    </FormBasicLayout>
+        </FormBasicLayout>
     )
 }
 
