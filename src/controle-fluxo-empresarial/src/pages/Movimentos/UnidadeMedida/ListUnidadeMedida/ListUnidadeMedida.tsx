@@ -15,7 +15,7 @@ const ListUnidadeMedida: React.FC = () => {
         },
         {
             title: 'Unidade de Medida',
-            dataIndex: 'unidademedida',
+            dataIndex: 'nome',
         },
 
     ];

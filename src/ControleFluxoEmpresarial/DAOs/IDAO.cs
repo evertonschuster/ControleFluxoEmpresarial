@@ -14,7 +14,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         TEntity GetByID(TId id);
 
-        int Insert(TEntity entity, bool commit = true);
+        TId Insert(TEntity entity, bool commit = true);
 
         void Update(TEntity entity, bool commit = true);
 

@@ -1,7 +1,7 @@
 import { UnidadeMedida } from '../../models/Movimentos/UnidadeMedida';
 import { ApiBase } from '../Api';
 
-export const endPoint: string = 'api/unidademedida';
+export const endPoint: string = 'api/unidades-medida';
 
 class Api extends ApiBase<UnidadeMedida>{
 

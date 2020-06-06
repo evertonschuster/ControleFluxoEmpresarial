@@ -219,6 +219,15 @@ CREATE TABLE Marcas (
     CONSTRAINT PK_Marcas PRIMARY KEY (Id)
 );
 
+CREATE TABLE UnidadesMedida (
+    Id text NULL,
+    Nome text NULL,
+    DataCriacao  TIMESTAMP,
+    DataAtualizacao TIMESTAMP,
+
+    CONSTRAINT PK_UnidadesMedida PRIMARY KEY (Id)
+);
+
 CREATE INDEX "IX_AspNetRoleClaims_RoleId" ON "AspNetRoleClaims" ("RoleId");
 
 CREATE UNIQUE INDEX "RoleNameIndex" ON "AspNetRoles" ("NormalizedName");

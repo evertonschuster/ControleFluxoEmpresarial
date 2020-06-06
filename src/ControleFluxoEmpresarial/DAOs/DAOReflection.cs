@@ -13,17 +13,18 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public class DAOReflection<TEntity> : DAOReflection<TEntity, int>, IDAO<TEntity, int> where TEntity : IBaseEntity<int>, new()
+    public class DAOReflection<TEntity> : DAOReflection<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseEntity<int>, new()
     {
         public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
         {
         }
     }
 
-    public class DAOReflection<TEntity, TId> : DAO<TEntity, TId>, IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new()
+    public class DAOReflection<TEntity, TId> : DAO<TEntity, TId>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
     {
         private string TableName { get; }
         private string IdProperty { get; }
+        public bool AutoIncrement { get; set; }
 
         private List<string> Property
         {
@@ -36,22 +37,24 @@ namespace ControleFluxoEmpresarial.DAOs
         protected virtual string SqlListPagined { set; get; } = null;
 
 
-        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id") : base(context)
+        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id", bool autoIncrement = true) : base(context)
         {
             this.TableName = tableName;
             this.IdProperty = idProperty;
+            this.AutoIncrement = autoIncrement;
+
         }
 
         protected override TEntity MapEntity(DbDataReader reader)
         {
             var entity = reader.MapEntity<TEntity, TId>(this.Property, this.IdProperty);
 
-            foreach (var property in typeof(TEntity).PropertyIBaseEntity())
+            foreach (var property in typeof(TEntity).PropertyIBaseEntity<TId>())
             {
-                var instance = Activator.CreateInstance(property.PropertyType) as IBaseEntity<TId>;
+                var instance = Activator.CreateInstance(property.PropertyType);
 
-                var properties = property.PropertyType.Property("Id");
-                var propertyEntity = reader.MapEntity<TEntity, TId>((TEntity)instance, properties, "Id", $"{property.Name}.");
+                var properties = property.PropertyType.Property(this.IdProperty);
+                var propertyEntity = reader.MapEntity(instance,properties, this.IdProperty, $"{property.Name}.");
 
                 property.SetValue(entity, propertyEntity);
             }
@@ -102,10 +105,10 @@ namespace ControleFluxoEmpresarial.DAOs
             return base.ExecuteGetPaginated(sql, new { id = byId, filter.Filter }, filter);
         }
 
-        public override int Insert(TEntity entity, bool commit = true)
+        public override TId Insert(TEntity entity, bool commit = true)
         {
-            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()})
-                         VALUES ({this.Property.FormatProperty(e => $"@{e}")})";
+            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.IdProperty} " : "")})
+                         VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.IdProperty} " : "")})";
 
             entity.DataCriacao = DateTime.Now;
             entity.DataAtualizacao = DateTime.Now;

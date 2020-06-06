@@ -21,11 +21,12 @@ namespace ControleFluxoEmpresarial.DAOs
     //Insert into Paises(Nome) Output Inserted.Id Values ('example')
 
 
-    public class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new()
+    public class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new() 
     {
         private ApplicationContext Context { get; set; }
         public DbTransaction Transaction { get; set; }
         public DbConnection Connection { get { return this.Context.Database.GetDbConnection(); } }
+
 
         public DAO(ApplicationContext context)
         {
@@ -50,7 +51,7 @@ namespace ControleFluxoEmpresarial.DAOs
         }
 
 
-        public virtual int Insert(TEntity entity, bool commit = true)
+        public virtual TId Insert(TEntity entity, bool commit = true)
         {
             throw new Exception();
         }
@@ -375,7 +376,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual int ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
+        protected virtual TId ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -393,7 +394,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
                 Console.WriteLine("SQL => " + command.CommandText);
 
-                int id = Convert.ToInt32(command.ExecuteScalar());
+                TId id = (TId)Convert.ChangeType(command.ExecuteScalar(), typeof(TId));
 
                 if (commit)
                 {
@@ -414,8 +415,6 @@ namespace ControleFluxoEmpresarial.DAOs
                     command.Connection.Close();
                 }
             }
-
-            return -1;
         }
         #endregion
     }
