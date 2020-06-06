@@ -38,7 +38,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
             return str;
         }
 
-        public static void AddParameterValues(this DbCommand command, object @params)
+        public static void AddParameterValues<TId>(this DbCommand command, object @params)
         {
             if (@params == null || command == null)
             {
@@ -49,7 +49,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 
             foreach (var property in properties)
             {
-                if (property.GetValue(@params) == null || property.GetValue(@params) is IBaseEntity)
+                if (property.GetValue(@params) == null || property.GetValue(@params) is IBaseEntity<TId>)
                 {
                     continue;
                 }
@@ -95,17 +95,17 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
             )).Select(e => e.Name).ToList();
         }
 
-        public static TEntity MapEntity<TEntity>(this DbDataReader reader, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity<Object>, new()
+        public static TEntity MapEntity<TEntity, TId>(this DbDataReader reader, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity<TId>, new()
         {
             var entity = new TEntity();
-            return reader.MapEntity(entity, properties, idProperty, prefixProperty);
+            return reader.MapEntity<TEntity, TId>(entity, properties, idProperty, prefixProperty);
         }
 
-        public static TEntity MapEntity<TEntity>(this DbDataReader reader, TEntity entity, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity<Object>
+        public static TEntity MapEntity<TEntity, TId>(this DbDataReader reader, TEntity entity, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : IBaseEntity<TId>
         {
             if (reader.HasColumn(prefixProperty + idProperty))
             {
-                entity.Id = reader.GetInt32(prefixProperty + idProperty);
+                entity.Id = reader.GetFieldValue<TId>(prefixProperty + idProperty);
             }
             foreach (var propertyName in properties)
             {
@@ -119,7 +119,8 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 if (property.PropertyType == typeof(int))
                 {
                     property.SetValue(entity, reader.GetInt32(propertyNameWithPrefix));
-                }if (property.PropertyType == typeof(bool))
+                }
+                else if (property.PropertyType == typeof(bool))
                 {
                     property.SetValue(entity, reader.GetBoolean(propertyNameWithPrefix));
                 }
@@ -138,7 +139,8 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 else if (property.PropertyType == typeof(DateTime))
                 {
                     property.SetValue(entity, reader.GetDateTime(propertyNameWithPrefix));
-                }else if (property.PropertyType == typeof(DateTimeOffset))
+                }
+                else if (property.PropertyType == typeof(DateTimeOffset))
                 {
                     property.SetValue(entity, reader.GetDateTime(propertyNameWithPrefix));
                 }

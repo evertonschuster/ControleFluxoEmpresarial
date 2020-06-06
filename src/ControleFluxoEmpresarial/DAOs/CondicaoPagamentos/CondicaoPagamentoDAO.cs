@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 {
-    public class CondicaoPagamentoDAO : DAO<CondicaoPagamento>
+    public class CondicaoPagamentoDAO : DAO<CondicaoPagamento, int>
     {
         public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, ApplicationContext context) : base(context)
         {

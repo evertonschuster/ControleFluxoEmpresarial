@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class TitularDAO : DAO<Titular>
+    public class TitularDAO : DAO<Titular, int>
     {
         public AssociadoDAO AssociadoDAO { get; set; }
 

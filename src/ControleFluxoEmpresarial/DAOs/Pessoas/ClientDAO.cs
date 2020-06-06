@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class ClientDAO : DAO<Client>
+    public class ClientDAO : DAO<Client, int>
     {
         public CidadeDAOReflection CidadeDAO { get; set; }
 

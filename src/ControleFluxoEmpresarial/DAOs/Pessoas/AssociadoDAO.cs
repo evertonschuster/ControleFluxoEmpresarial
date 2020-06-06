@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class AssociadoDAO : DAO<Associado>
+    public class AssociadoDAO : DAO<Associado, int>
     {
         public AssociadoDAO(ApplicationContext context) : base(context)
         {

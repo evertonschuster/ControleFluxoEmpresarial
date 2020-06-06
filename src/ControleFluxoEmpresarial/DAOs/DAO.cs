@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.DAOs
     //Insert into Paises(Nome) Output Inserted.Id Values ('example')
 
 
-    public class DAO<TEntity> : IDAO<TEntity> where TEntity : IBaseEntity<Object>, new()
+    public class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new()
     {
         private ApplicationContext Context { get; set; }
         public DbTransaction Transaction { get; set; }
@@ -34,7 +34,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         #region PUBLIC CRUD
 
-        public virtual void Delete(int id, bool commit = true)
+        public virtual void Delete(TId id, bool commit = true)
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace ControleFluxoEmpresarial.DAOs
             this.Delete(entity.Id, commit);
         }
 
-        public virtual TEntity GetByID(int id)
+        public virtual TEntity GetByID(TId id)
         {
             throw new NotImplementedException();
         }
@@ -97,7 +97,7 @@ namespace ControleFluxoEmpresarial.DAOs
         protected virtual TEntity MapEntity(DbDataReader reader)
         {
             var entity = new TEntity();
-            entity.Id = reader.GetInt32("Id");
+            entity.Id = reader.GetFieldValue<TId>("Id");
 
             return entity;
         }
@@ -111,7 +111,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(parameters);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
@@ -149,7 +149,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(parameters);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
@@ -169,7 +169,7 @@ namespace ControleFluxoEmpresarial.DAOs
                 }
 
 
-                return null;
+                return default(TEntity);
 
             }
             finally
@@ -234,7 +234,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(@params);
+            command.AddParameterValues<TId>(@params);
 
             try
             {
@@ -345,7 +345,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(@params);
+            command.AddParameterValues<TId>(@params);
 
             try
             {
@@ -384,7 +384,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(parameters);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
