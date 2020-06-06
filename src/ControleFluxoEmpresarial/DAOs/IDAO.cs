@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public interface IDAO<TEntity> : IDAO where TEntity : IBaseEntity
+    public interface IDAO<TEntity, TId> : IDAO where TEntity : IBaseEntity<TId>
     {
         PaginationResult<TEntity> GetPagined(PaginationQuery filter);
 
-        TEntity GetByID(int id);
+        TEntity GetByID(TId id);
 
-        int Insert(TEntity entity, bool commit = true);
+        TId Insert(TEntity entity, bool commit = true);
 
         void Update(TEntity entity, bool commit = true);
 
-        void Delete(int id, bool commit = true);
+        void Delete(TId id, bool commit = true);
 
         void Delete(TEntity entity, bool commit = true);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Models.Users
+namespace ControleFluxoEmpresarial.Models.Pessoas
 {
     public class ApplicationRole : IdentityRole
     {

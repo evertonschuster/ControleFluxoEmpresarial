@@ -5,28 +5,51 @@ import { Row, Col } from 'antd';
 import { Input, TextArea, Switch, InputNumber } from '../../../../components/WithFormItem/withFormItem';
 import { FuncaoFuncionarioSchema } from './FuncaoFuncionarioSchema';
 import { RouteComponentProps } from 'react-router-dom';
+import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
+import { errorBack } from '../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
 
 const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
-    const [funcaofuncionario] = useState<FuncaoFuncionario>({
+    const [funcaofuncionario, setFuncaofuncionario] = useState<FuncaoFuncionario>({
         nome: "",
         requerCNH: false,
         descricao: "",
+        cargaHoraria: undefined,
+        observacao: ""
     });
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
-        getFuncaoFuncionario();
+        getFuncaoFuncionario(props.match.params.id);
     }, [props.match.params.id])
 
 
-    async function onSubmit() {
+    async function onSubmit(values: FuncaoFuncionario, formikHelpers: FormikHelpers<FuncaoFuncionario>) {
 
+        try {
+            if (props.match.params.id) {
+                await FuncaoFuncionarioApi.Update(values);
+            } else {
+                await FuncaoFuncionarioApi.Save(values);
+            }
+            props.history.push("/funcao-funcionario")
+        }
+        catch (e) {
+            errorBack(formikHelpers, e, ["nome"]);
+        }
     }
 
-    async function getFuncaoFuncionario() {
+    async function getFuncaoFuncionario(id: number) {
+        if (!id) {
+            return;
+        }
 
+        setLoading(true);
+        let bdFuncaofuncionario = await FuncaoFuncionarioApi.GetById(id);
+        setFuncaofuncionario(bdFuncaofuncionario.data);
+        setLoading(false);
     }
 
     return (

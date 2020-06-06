@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ControleFluxoEmpresarial.DAOs.Associados;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.Filters.ModelView;
-using ControleFluxoEmpresarial.Models.Associados;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

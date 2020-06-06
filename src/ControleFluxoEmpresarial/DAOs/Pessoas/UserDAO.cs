@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.Filters.ModelView;
-using ControleFluxoEmpresarial.Models.Users;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using ControleFluxoEmpresarial.ModelView.Filters.Queries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.DAOs.Users
+namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
     public class UserDAO : IDAO
     {

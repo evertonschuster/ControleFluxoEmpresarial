@@ -1,7 +1,7 @@
 import { FuncaoFuncionario } from '../../models/Pessoas/FuncaoFuncionario';
 import { ApiBase } from '../Api';
 
-export const endPoint: string = 'api/funcao-funcionario';
+export const endPoint: string = 'api/funcao-funcionarios';
 
 class Api extends ApiBase<FuncaoFuncionario>{
 

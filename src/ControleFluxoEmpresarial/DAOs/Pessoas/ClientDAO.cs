@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.Filters.ModelView;
-using ControleFluxoEmpresarial.Models.Clients;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,9 +8,9 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.DAOs.Clients
+namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class ClientDAO : DAO<Client>
+    public class ClientDAO : DAO<Client, int>
     {
         public CidadeDAOReflection CidadeDAO { get; set; }
 

@@ -21,11 +21,12 @@ namespace ControleFluxoEmpresarial.DAOs
     //Insert into Paises(Nome) Output Inserted.Id Values ('example')
 
 
-    public class DAO<TEntity> : IDAO<TEntity> where TEntity : BaseEntity, new()
+    public class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new() 
     {
         private ApplicationContext Context { get; set; }
         public DbTransaction Transaction { get; set; }
         public DbConnection Connection { get { return this.Context.Database.GetDbConnection(); } }
+
 
         public DAO(ApplicationContext context)
         {
@@ -34,7 +35,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         #region PUBLIC CRUD
 
-        public virtual void Delete(int id, bool commit = true)
+        public virtual void Delete(TId id, bool commit = true)
         {
             throw new NotImplementedException();
         }
@@ -44,13 +45,13 @@ namespace ControleFluxoEmpresarial.DAOs
             this.Delete(entity.Id, commit);
         }
 
-        public virtual TEntity GetByID(int id)
+        public virtual TEntity GetByID(TId id)
         {
             throw new NotImplementedException();
         }
 
 
-        public virtual int Insert(TEntity entity, bool commit = true)
+        public virtual TId Insert(TEntity entity, bool commit = true)
         {
             throw new Exception();
         }
@@ -97,7 +98,7 @@ namespace ControleFluxoEmpresarial.DAOs
         protected virtual TEntity MapEntity(DbDataReader reader)
         {
             var entity = new TEntity();
-            entity.Id = reader.GetInt32("Id");
+            entity.Id = reader.GetFieldValue<TId>("Id");
 
             return entity;
         }
@@ -111,7 +112,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(parameters);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
@@ -149,7 +150,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(parameters);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
@@ -169,7 +170,7 @@ namespace ControleFluxoEmpresarial.DAOs
                 }
 
 
-                return null;
+                return default(TEntity);
 
             }
             finally
@@ -234,7 +235,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(@params);
+            command.AddParameterValues<TId>(@params);
 
             try
             {
@@ -345,7 +346,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(@params);
+            command.AddParameterValues<TId>(@params);
 
             try
             {
@@ -375,7 +376,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual int ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
+        protected virtual TId ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -384,7 +385,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues(parameters);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
@@ -393,7 +394,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
                 Console.WriteLine("SQL => " + command.CommandText);
 
-                int id = Convert.ToInt32(command.ExecuteScalar());
+                TId id = (TId)Convert.ChangeType(command.ExecuteScalar(), typeof(TId));
 
                 if (commit)
                 {
@@ -414,8 +415,6 @@ namespace ControleFluxoEmpresarial.DAOs
                     command.Connection.Close();
                 }
             }
-
-            return -1;
         }
         #endregion
     }

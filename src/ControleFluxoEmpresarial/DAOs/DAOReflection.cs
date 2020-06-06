@@ -13,10 +13,18 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public class DAOReflection<TEntity> : DAO<TEntity>, IDAO<TEntity> where TEntity : BaseEntity, new()
+    public class DAOReflection<TEntity> : DAOReflection<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseEntity<int>, new()
+    {
+        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
+        {
+        }
+    }
+
+    public class DAOReflection<TEntity, TId> : DAO<TEntity, TId>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
     {
         private string TableName { get; }
         private string IdProperty { get; }
+        public bool AutoIncrement { get; set; }
 
         private List<string> Property
         {
@@ -29,22 +37,24 @@ namespace ControleFluxoEmpresarial.DAOs
         protected virtual string SqlListPagined { set; get; } = null;
 
 
-        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id") : base(context)
+        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id", bool autoIncrement = true) : base(context)
         {
             this.TableName = tableName;
             this.IdProperty = idProperty;
+            this.AutoIncrement = autoIncrement;
+
         }
 
         protected override TEntity MapEntity(DbDataReader reader)
         {
-            var entity = reader.MapEntity<TEntity>(this.Property, this.IdProperty);
+            var entity = reader.MapEntity<TEntity, TId>(this.Property, this.IdProperty);
 
-            foreach (var property in typeof(TEntity).PropertyIBaseEntity())
+            foreach (var property in typeof(TEntity).PropertyIBaseEntity<TId>())
             {
-                var instance = Activator.CreateInstance(property.PropertyType) as IBaseEntity;
+                var instance = Activator.CreateInstance(property.PropertyType);
 
-                var properties = property.PropertyType.Property("Id");
-                var propertyEntity = reader.MapEntity(instance, properties, "Id", $"{property.Name}.");
+                var properties = property.PropertyType.Property(this.IdProperty);
+                var propertyEntity = reader.MapEntity(instance,properties, this.IdProperty, $"{property.Name}.");
 
                 property.SetValue(entity, propertyEntity);
             }
@@ -52,7 +62,7 @@ namespace ControleFluxoEmpresarial.DAOs
             return entity;
         }
 
-        public override void Delete(int id, bool commit = true)
+        public override void Delete(TId id, bool commit = true)
         {
             var sql = $@"DELETE FROM {this.TableName} 
                         WHERE {this.IdProperty} = @id";
@@ -65,7 +75,7 @@ namespace ControleFluxoEmpresarial.DAOs
             this.Delete(entity.Id, commit);
         }
 
-        public override TEntity GetByID(int id)
+        public override TEntity GetByID(TId id)
         {
             var sql = $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
                           FROM {this.TableName} 
@@ -95,10 +105,10 @@ namespace ControleFluxoEmpresarial.DAOs
             return base.ExecuteGetPaginated(sql, new { id = byId, filter.Filter }, filter);
         }
 
-        public override int Insert(TEntity entity, bool commit = true)
+        public override TId Insert(TEntity entity, bool commit = true)
         {
-            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()})
-                         VALUES ({this.Property.FormatProperty(e => $"@{e}")})";
+            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.IdProperty} " : "")})
+                         VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.IdProperty} " : "")})";
 
             entity.DataCriacao = DateTime.Now;
             entity.DataAtualizacao = DateTime.Now;
@@ -108,7 +118,7 @@ namespace ControleFluxoEmpresarial.DAOs
         public override void Update(TEntity entity, bool commit = true)
         {
             var sql = $@"UPDATE {this.TableName} 
-                        SET {this.Property.Where(e => e != nameof(IBaseEntity.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
+                        SET {this.Property.Where(e => e != nameof(IBaseEntity<TId>.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
                         WHERE Id = @Id";
 
             entity.DataAtualizacao = DateTime.Now;

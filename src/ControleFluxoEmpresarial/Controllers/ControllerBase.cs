@@ -13,19 +13,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace ControleFluxoEmpresarial.Controllers
 {
     //[AllowAnonymous]
-    [Authorize]
-    public abstract class ControllerBase<TEntity, TPaginationQuery> : ControllerBase where TEntity : IBaseEntity where TPaginationQuery : PaginationQuery
+    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseEntity<int> where TPaginationQuery : PaginationQuery
     {
-        protected ControllerBase(IDAO<TEntity> dAO)
+        public ControllerBase(IDAO<TEntity, int> dAO) : base(dAO)
+        {
+        }
+    }
+
+    [Authorize]
+    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseEntity<TId> where TPaginationQuery : PaginationQuery
+    {
+        protected ControllerBase(IDAO<TEntity, TId> dAO)
         {
             DAO = dAO ?? throw new ArgumentNullException(nameof(dAO));
         }
 
-        public IDAO<TEntity> DAO { get; set; }
+        public IDAO<TEntity, TId> DAO { get; set; }
 
         // GET: api/Default/5
         [HttpGet("{id}")]
-        public virtual IActionResult Get(int id)
+        public virtual IActionResult Get(TId id)
         {
             var entity = this.DAO.GetByID(id);
             if (entity == null)
@@ -46,7 +53,7 @@ namespace ControleFluxoEmpresarial.Controllers
 
         // PUT: api/Default/5
         [HttpPut("{id}")]
-        public virtual IActionResult Put([FromBody] TEntity entity, int id)
+        public virtual IActionResult Put([FromBody] TEntity entity, TId id)
         {
             entity.Id = id;
             this.DAO.Update(entity);
@@ -55,7 +62,7 @@ namespace ControleFluxoEmpresarial.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public virtual IActionResult Delete(int id)
+        public virtual IActionResult Delete(TId id)
         {
             this.DAO.Delete(id);
             return Ok();

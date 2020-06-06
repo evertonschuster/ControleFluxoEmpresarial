@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Models.Associados
+namespace ControleFluxoEmpresarial.Models.Pessoas
 {
     public class Associado : BaseEntity
     {

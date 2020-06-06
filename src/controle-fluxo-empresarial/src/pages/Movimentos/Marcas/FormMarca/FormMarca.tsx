@@ -7,6 +7,7 @@ import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { Marca } from '../../../../models/Movimentos/Marca';
 import { MarcaSchema } from './FormMarcaSchema';
+import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
 
 const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -20,13 +21,30 @@ const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pro
     }, [props.match.params.id])
 
 
-    async function onSubmit(values: Marca, formikHelpers: FormikHelpers<any>) {
+    async function onSubmit(values: Marca, formikHelpers: FormikHelpers<Marca>) {
+        try {
 
-       
+            if (props.match.params.id) {
+                await MarcaApi.Update(values);
+            } else {
+                await MarcaApi.Save(values);
+            }
+
+            props.history.push("/marca")
+        } catch (e) {
+            errorBack(formikHelpers, e, ["nome"]);
+        }
     }
 
     async function getMarca(id: number) {
-      
+        if (!id) {
+            return;
+        }
+
+        setLoading(true);
+        let bdMarca = await MarcaApi.GetById(id);
+        setMarca(bdMarca.data);
+        setLoading(false);
     }
 
     return (

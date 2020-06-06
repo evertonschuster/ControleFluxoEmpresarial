@@ -1,5 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Filters.ModelView;
-using ControleFluxoEmpresarial.Models.Associados;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,9 +7,9 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.DAOs.Associados
+namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class TitularDAO : DAO<Titular>
+    public class TitularDAO : DAO<Titular, int>
     {
         public AssociadoDAO AssociadoDAO { get; set; }
 

@@ -7,11 +7,11 @@ namespace ControleFluxoEmpresarial.ModelView.Filters.Queries
 {
     public class CreateResult
     {
-        public CreateResult(int id)
+        public CreateResult(object id)
         {
             Id = id;
         }
 
-        public int Id { get; set; }
+        public object Id { get; set; }
     }
 }

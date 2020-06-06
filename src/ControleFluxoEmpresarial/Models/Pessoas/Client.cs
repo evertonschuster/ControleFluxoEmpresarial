@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Models.Clients
+namespace ControleFluxoEmpresarial.Models.Pessoas
 {
     public class Client : BaseEntity
     {

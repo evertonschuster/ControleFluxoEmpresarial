@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Models.Users
+namespace ControleFluxoEmpresarial.Models.Pessoas
 {
     public class ApplicationUser : IdentityUser
     {

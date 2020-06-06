@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CompraVenda\**" />
+    <Content Remove="Models\CompraVenda\**" />
+    <EmbeddedResource Remove="Models\CompraVenda\**" />
+    <None Remove="Models\CompraVenda\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Architectures\DataBase\20191115230045_initial2.cs" />
     <Compile Remove="Architectures\DataBase\20191115230045_initial2.Designer.cs" />
   </ItemGroup>
@@ -38,7 +45,6 @@
 
   <ItemGroup>
     <Folder Include="Architectures\DataBase\" />
-    <Folder Include="Models\CompraVenda\" />
     <Folder Include="ModelView\Filters\Results\" />
   </ItemGroup>
 

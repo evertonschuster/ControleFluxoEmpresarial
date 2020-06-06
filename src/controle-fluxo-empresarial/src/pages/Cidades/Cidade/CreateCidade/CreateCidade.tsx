@@ -23,7 +23,7 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
     }, [props.match.params.id])
 
 
-    async function onSubmit(values: Cidade, formikHelpers: FormikHelpers<any>) {
+    async function onSubmit(values: Cidade, formikHelpers: FormikHelpers<Cidade>) {
 
         try {
 
@@ -45,8 +45,8 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         }
 
         setLoading(true);
-        let bdestado = await CidadeApi.GetById(id);
-        setCidade(bdestado.data);
+        let bdCidade = await CidadeApi.GetById(id);
+        setCidade(bdCidade.data);
         setLoading(false);
     }
 

@@ -9,7 +9,7 @@ using Autofac;
 using ControleFluxoEmpresarial.Architectures;
 using ControleFluxoEmpresarial.Architectures.Middlewares;
 using ControleFluxoEmpresarial.DataBase;
-using ControleFluxoEmpresarial.Models.Users;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
