@@ -9,7 +9,7 @@ import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagame
 import { FormaPagamentoSchema } from './FormaPagamentoSchema';
 import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
-const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
     const [formapagamento, setFormaPagamento] = useState<FormaPagamento>({ nome: "" })
@@ -73,4 +73,4 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
 
 }
 
-export default CreateFormaPagamento;
+export default FormFormaPagamento;

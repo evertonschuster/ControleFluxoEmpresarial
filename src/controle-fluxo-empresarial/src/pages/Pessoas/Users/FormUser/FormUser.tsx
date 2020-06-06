@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Icon, Tabs } from 'antd';
-import "./RegisterUserStyle.css"
+import "./FormUserStyle.css"
 import RegisterUserGeneral from './Components/RegisterUserGeneral';
 import BasicLayoutContext, { FormMode } from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import ChangePassword from './Components/ChangePassword';
@@ -11,7 +11,7 @@ enum Menus {
     changePassword = "changePassword"
 }
 
-const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = () => {
+const FormUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = () => {
 
     const { TabPane } = Tabs;
     const { formMode } = useContext(BasicLayoutContext)
@@ -32,4 +32,4 @@ const RegisterUser: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
 }
 
-export default RegisterUser;
+export default FormUser;

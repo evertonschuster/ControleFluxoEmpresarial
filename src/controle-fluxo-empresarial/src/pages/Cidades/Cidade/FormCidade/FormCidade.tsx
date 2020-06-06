@@ -11,7 +11,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
 
-const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
     const [cidade, setCidade] = useState<Cidade>({ nome: "", ddd: "", estadoId: undefined })
@@ -90,4 +90,4 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
 }
 
-export default CreateCidade;
+export default FormCidade;

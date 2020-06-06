@@ -9,7 +9,7 @@ import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 
-const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [loading, setLoading] = useState(false);
     const [pais, setPais] = useState<Pais>({ nome: "", ddi: "", sigla: "" })
@@ -76,4 +76,4 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
 }
 
-export default withRouter(RegisterPais);
+export default withRouter(FormPais);

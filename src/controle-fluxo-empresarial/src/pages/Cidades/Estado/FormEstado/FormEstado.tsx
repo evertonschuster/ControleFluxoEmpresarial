@@ -11,7 +11,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 
-const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [estado, setEstado] = useState<Estado>({ nome: "", uf: "", paisId: undefined })
     const [loading, setLoading] = useState(false);
@@ -87,4 +87,4 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
 }
 
-export default RegisterEstado;
+export default FormEstado;
