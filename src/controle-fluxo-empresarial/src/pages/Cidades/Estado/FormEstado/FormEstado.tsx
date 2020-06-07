@@ -37,14 +37,19 @@ const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pr
     }
 
     async function getEstado(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdpais = await EstadoApi.GetById(id);
-        setEstado(bdpais.data);
-        setLoading(false);
+            setLoading(true);
+            let bdpais = await EstadoApi.GetById(id);
+            setEstado(bdpais.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

@@ -9,6 +9,7 @@ import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
 import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
 import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [produto] = useState<Produto>({
@@ -24,7 +25,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         referencia: "",
         marcaId: undefined,
     });
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -37,7 +38,14 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
     }
 
     async function getProduto() {
+        try {
 
+
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -85,12 +93,12 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 <Col span={12}>
                     <TextArea name="descricao" label="Descrição" rows={4} />
                 </Col>
-            
+
                 <Row>
-                <Col span={12}>
-                    <TextArea name="observacao" label="Observação" rows={4} />
-                </Col>
-            </Row>
+                    <Col span={12}>
+                        <TextArea name="observacao" label="Observação" rows={4} />
+                    </Col>
+                </Row>
             </Row>
 
             <Row>
@@ -142,7 +150,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
                 </Col>
 
             </Row>
-            
+
 
 
 

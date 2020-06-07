@@ -5,6 +5,7 @@ import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
 import ModalFormContext from '../../ModalForm/ModalFormContext';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { errorBack } from '../../../utils/MessageApi';
 
 export interface Props<T> {
     keyProp?: string;
@@ -33,7 +34,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
         width: "150px",
         render: (text: any, record: any, index: number) => (
             <>
-                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => {setFormMode(FormMode.Edit); setState(undefined)}}>
+                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => { setFormMode(FormMode.Edit); setState(undefined) }}>
                     <Tooltip placement="top" title="Editar Registro Selecionado."  >
                         <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
                     </Tooltip>
@@ -108,18 +109,27 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 visible={showModal}
                 onOk={async () => {
                     setLoading(true);
-                    props.deleteFunction && await props.deleteFunction((record || {})[key])
-                    setLoading(false);
-                    props.tableProps.reflesh();
-                    setFormMode(FormMode.List)
-                    hidenExluir();
+                    try {
+
+                        props.deleteFunction && await props.deleteFunction((record || {})[key])
+                        setLoading(false);
+                        props.tableProps.reflesh();
+                    }
+                    catch (e) {
+                        errorBack(null, e);
+                    }
+                    finally {
+                        setFormMode(FormMode.List)
+                        hidenExluir();
+                    }
                 }}
                 onCancel={hidenExluir}
                 okText="Excluir"
                 cancelText="Cancelar"
                 okType="danger"
                 okButtonProps={{
-                    loading: loading
+                    loading: loading,
+                    autoFocus: true,
                 }}
                 cancelButtonProps={{
                     loading: loading

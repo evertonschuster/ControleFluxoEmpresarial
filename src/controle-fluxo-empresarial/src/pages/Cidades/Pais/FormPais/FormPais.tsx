@@ -34,14 +34,19 @@ const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (prop
     }
 
     async function getPais(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdpais = await PaisApi.GetById(id);
-        setPais(bdpais.data);
-        setLoading(false);
+            setLoading(true);
+            let bdpais = await PaisApi.GetById(id);
+            setPais(bdpais.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

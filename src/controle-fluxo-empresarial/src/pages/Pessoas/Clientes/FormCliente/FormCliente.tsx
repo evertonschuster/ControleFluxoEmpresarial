@@ -5,6 +5,7 @@ import { ClienteSchema } from './ClienteSchema';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
 import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 import GeralForm from './components/GeralForm';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -29,7 +30,7 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         telefone: "",
         tipo: TIPO_PESSOA.Fisica
     })
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -42,7 +43,14 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
     }
 
     async function getCliente() {
+        try {
 
+
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

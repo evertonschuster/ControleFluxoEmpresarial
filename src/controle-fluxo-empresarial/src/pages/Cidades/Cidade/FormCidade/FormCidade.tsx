@@ -40,14 +40,19 @@ const FormCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pr
     }
 
     async function getCidade(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdCidade = await CidadeApi.GetById(id);
-        setCidade(bdCidade.data);
-        setLoading(false);
+            setLoading(true);
+            let bdCidade = await CidadeApi.GetById(id);
+            setCidade(bdCidade.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

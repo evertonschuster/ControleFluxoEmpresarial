@@ -2,7 +2,7 @@ import React from 'react';
 import { notification } from "antd";
 import { FormikHelpers } from "formik";
 
-export function errorBack(formik: FormikHelpers<any>, response: any, prosRemoveMessage?: string[]) {
+export function errorBack(formik?: FormikHelpers<any> | null, response?: any, prosRemoveMessage?: string[]) {
 
     try {
         console.info("Cabaciou", response.errors);
@@ -19,7 +19,7 @@ export function errorBack(formik: FormikHelpers<any>, response: any, prosRemoveM
             return;
         }
 
-        formik.setErrors(response.errors);
+        formik?.setErrors(response.errors);
         notification.error({
             message: response["message"],
             duration: 10
@@ -34,7 +34,7 @@ export function errorBack(formik: FormikHelpers<any>, response: any, prosRemoveM
                 let errorArray: any[] = errors[element]
 
                 mensagem = errorArray.map(e => <span style={{ textAlign: "justify" }}>- {e} <br /></span>);
-                formik.setFieldError(element, errorArray.reduce((p, c) => p + "\n" + c, ""));
+                formik?.setFieldError(element, errorArray.reduce((p, c) => p + "\n" + c, ""));
             }
 
             if (!prosRemoveMessage?.find(e => e === element)) {

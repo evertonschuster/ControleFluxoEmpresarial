@@ -37,14 +37,19 @@ const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pro
     }
 
     async function getMarca(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdMarca = await MarcaApi.GetById(id);
-        setMarca(bdMarca.data);
-        setLoading(false);
+            setLoading(true);
+            let bdMarca = await MarcaApi.GetById(id);
+            setMarca(bdMarca.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

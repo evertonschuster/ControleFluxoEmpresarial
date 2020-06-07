@@ -42,14 +42,19 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
     }
 
     async function getFuncaoFuncionario(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdFuncaofuncionario = await FuncaoFuncionarioApi.GetById(id);
-        setFuncaofuncionario(bdFuncaofuncionario.data);
-        setLoading(false);
+            setLoading(true);
+            let bdFuncaofuncionario = await FuncaoFuncionarioApi.GetById(id);
+            setFuncaofuncionario(bdFuncaofuncionario.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

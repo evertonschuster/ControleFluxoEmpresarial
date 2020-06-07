@@ -38,14 +38,19 @@ const FormFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any
     }
 
     async function getFormaPagamento(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdestado = await FormaPagamentoApi.GetById(id);
-        setFormaPagamento(bdestado.data);
-        setLoading(false);
+            setLoading(true);
+            let bdestado = await FormaPagamentoApi.GetById(id);
+            setFormaPagamento(bdestado.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
