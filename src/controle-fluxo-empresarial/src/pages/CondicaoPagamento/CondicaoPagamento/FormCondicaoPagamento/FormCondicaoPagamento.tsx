@@ -8,7 +8,7 @@ import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
 import CondicaoPagamentoGeneral from './components/CondicaoPagamentoGeneral';
 import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 
-const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
     const [condicaopagamento, setCondicaoPagamento] = useState<CondicaoPagamento>({
@@ -77,4 +77,4 @@ const CreateCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProp
 
 }
 
-export default CreateCondicaoPagamento;
+export default FormCondicaoPagamento;

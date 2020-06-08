@@ -11,6 +11,7 @@ import SelectModelMoreWithTable from '../../../../components/SelectModel/SelectM
 import { ColumnProps } from 'antd/lib/table';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
 import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [servico] = useState<Servico>({
@@ -18,7 +19,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         valor: undefined,
         categoriaId: undefined,
     });
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const columns: ColumnProps<any>[] = [
         {
             title: 'Funcionário',
@@ -40,12 +41,20 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
     }, [props.match.params.id])
 
 
+    
     async function onSubmit() {
 
     }
 
     async function getServico() {
+        try {
 
+
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

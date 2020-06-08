@@ -1,7 +1,7 @@
 import React, { memo, useContext, useEffect } from 'react';
 import { Row, Col } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { PaginationQuery } from '../../hoc/UseListPagined';
+import { PaginationQuery } from '../../models/BaseEntity';
 import ListFormTable from './components/ListFormTable';
 import ListFormHeader from './components/ListFormHeader';
 import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';

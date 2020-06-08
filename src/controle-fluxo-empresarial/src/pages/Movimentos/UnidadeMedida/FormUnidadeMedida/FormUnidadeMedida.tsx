@@ -38,14 +38,20 @@ const FormUnidadeMedida: React.FC<RouteComponentProps & RouteComponentProps<any>
     }
 
     async function getUnidadeMedida(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdCidade = await UnidadeMedidaApi.GetById(id);
-        setUnidadeMedida(bdCidade.data);
-        setLoading(false);
+            setLoading(true);
+            let bdCidade = await UnidadeMedidaApi.GetById(id);
+            setUnidadeMedida(bdCidade.data);
+
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

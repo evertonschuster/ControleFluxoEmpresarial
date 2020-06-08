@@ -1,9 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import CreateCidade from '../../../pages/Cidades/Cidade/CreateCidade/CreateCidade';
-import CreateCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/CreateCondicaoPagamento/CreateCondicaoPagamento';
-import CreateFormaPagamento from '../../../pages/CondicaoPagamento/FormaPagamento/CreateFormaPagamento/CreateFormaPagamento';
 import FormCategoria from '../../../pages/Movimentos/Categorias/FormCategoria/FormCategoria';
 import FormCliente from '../../../pages/Pessoas/Clientes/FormCliente/FormCliente';
 import FormFornecedor from '../../../pages/Pessoas/Fornecedores/FormFornecedor/FormFornecedor';
@@ -12,13 +9,12 @@ import FormFuncionario from '../../../pages/Pessoas/Funcionarios/FormFuncionario
 import FormMarca from './../../../pages/Movimentos/Marcas/FormMarca/FormMarca';
 import FormProduto from '../../../pages/Movimentos/Produtos/FormProduto/FormProduto';
 import FormServico from '../../../pages/Movimentos/Servicos/FormServico/FormServico';
-import FormTitular from '../../../pages/Pessoas/Associados/CreateTitular/CreateTitular';
+import FormTitular from '../../../pages/Pessoas/Associados/FormTitular/FormTitular';
 import ListCategoria from './../../../pages/Movimentos/Categorias/ListCategoria/ListCategoria';
 import ListCidade from '../../../pages/Cidades/Cidade/ListCidade/ListCidade';
 import ListCliente from '../../../pages/Pessoas/Clientes/ListCliente/ListCliente';
 import ListCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/ListCondicaoPagamento/ListCondicaoPagamento';
 import ListEstado from '../../../pages/Cidades/Estado/ListEstado/ListEstado';
-import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormaPagamento/ListFormaPagamento/ListFormaPagamento';
 import ListFornecedor from '../../../pages/Pessoas/Fornecedores/ListFornecedor/ListFornecedor';
 import ListFuncaoFuncionario from './../../../pages/Pessoas/FuncaoFuncionario/ListFuncaoFuncionario/ListFuncaoFuncionario';
 import ListFuncionario from '../../../pages/Pessoas/Funcionarios/ListFuncionario/ListFuncionario';
@@ -28,11 +24,15 @@ import ListProduto from '../../../pages/Movimentos/Produtos/ListProduto/ListProd
 import ListServico from './../../../pages/Movimentos/Servicos/ListServico/ListServico';
 import ListTitular from '../../../pages/Pessoas/Associados/ListTitular/ListTitular';
 import ListUser from '../../../pages/Pessoas/Users/ListUser/ListUser';
-import RegisterEstado from '../../../pages/Cidades/Estado/RegisterEstado/RegisterEstado';
-import RegisterPais from '../../../pages/Cidades/Pais/RegisterPais/RegisterPais';
-import RegisterUser from '../../../pages/Pessoas/Users/RegisterUser/RegisterUser';
+import FormPais from '../../../pages/Cidades/Pais/FormPais/FormPais';
 import ListUnidadeMedida from './../../../pages/Movimentos/UnidadeMedida/ListUnidadeMedida/ListUnidadeMedida';
 import FormUnidadeMedida from './../../../pages/Movimentos/UnidadeMedida/FormUnidadeMedida/FormUnidadeMedida';
+import FormCidade from '../../../pages/Cidades/Cidade/FormCidade/FormCidade';
+import FormEstado from '../../../pages/Cidades/Estado/FormEstado/FormEstado';
+import FormUser from '../../../pages/Pessoas/Users/FormUser/FormUser';
+import FormCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/FormCondicaoPagamento/FormCondicaoPagamento';
+import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/ListFormaPagamento/ListFormaPagamento';
+import FormFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/FormFormaPagamento/FormFormaPagamento';
 
 const RoutePath: React.FC = () => {
 
@@ -43,24 +43,24 @@ const RoutePath: React.FC = () => {
             <Route path="/categoria/new" component={FormCategoria} />
 
             <Route path="/cidade" component={ListCidade} exact />
-            <Route path="/cidade/edit/:id" component={CreateCidade} />
-            <Route path="/cidade/new" component={CreateCidade} />
+            <Route path="/cidade/edit/:id" component={FormCidade} />
+            <Route path="/cidade/new" component={FormCidade} />
 
             <Route path="/cliente" component={ListCliente} exact />
             <Route path="/cliente/edit/:id" component={FormCliente} />
             <Route path="/cliente/new" component={FormCliente} />
 
             <Route path="/condicao-pagamento" component={ListCondicaoPagamento} exact />
-            <Route path="/condicao-pagamento/edit/:id" component={CreateCondicaoPagamento} />
-            <Route path="/condicao-pagamento/new" component={CreateCondicaoPagamento} />
+            <Route path="/condicao-pagamento/edit/:id" component={FormCondicaoPagamento} />
+            <Route path="/condicao-pagamento/new" component={FormCondicaoPagamento} />
 
             <Route path="/estado" component={ListEstado} exact />
-            <Route path="/estado/edit/:id" component={RegisterEstado} />
-            <Route path="/estado/new" component={RegisterEstado} />
+            <Route path="/estado/edit/:id" component={FormEstado} />
+            <Route path="/estado/new" component={FormEstado} />
 
             <Route path="/forma-pagamento" component={ListFormaPagamento} exact />
-            <Route path="/forma-pagamento/edit/:id" component={CreateFormaPagamento} />
-            <Route path="/forma-pagamento/new" component={CreateFormaPagamento} />
+            <Route path="/forma-pagamento/edit/:id" component={FormFormaPagamento} />
+            <Route path="/forma-pagamento/new" component={FormFormaPagamento} />
 
             <Route path="/fornecedor" component={ListFornecedor} exact />
             <Route path="/fornecedor/edit/:id" component={FormFornecedor} />
@@ -79,8 +79,8 @@ const RoutePath: React.FC = () => {
             <Route path="/marca/new" component={FormMarca} />
 
             <Route path="/pais" component={ListPais} exact />
-            <Route path="/pais/edit/:id" component={RegisterPais} />
-            <Route path="/pais/new" component={RegisterPais} />
+            <Route path="/pais/edit/:id" component={FormPais} />
+            <Route path="/pais/new" component={FormPais} />
 
             <Route path="/produto" component={ListProduto} exact />
             <Route path="/produto/edit/:id" component={FormProduto} />
@@ -95,8 +95,8 @@ const RoutePath: React.FC = () => {
             <Route path="/titular/new" component={FormTitular} />
 
             <Route path="/user" component={ListUser} exact />
-            <Route path="/user/edit/:id" component={RegisterUser} />
-            <Route path="/user/new" component={RegisterUser} />
+            <Route path="/user/edit/:id" component={FormUser} />
+            <Route path="/user/new" component={FormUser} />
 
             <Route path="/unidade-medida" component={ListUnidadeMedida} exact />
             <Route path="/unidade-medida/edit/:id" component={FormUnidadeMedida} />

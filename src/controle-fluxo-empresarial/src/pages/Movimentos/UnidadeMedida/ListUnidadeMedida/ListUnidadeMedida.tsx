@@ -5,7 +5,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
 
 const ListUnidadeMedida: React.FC = () => {
-    const response = UseListPagined({ URL: "/api/unidades-medida/list" });
+    const response = UseListPagined({ getListPagined: UnidadeMedidaApi.GetListPagined.bind(UnidadeMedidaApi)});
 
     const columns = [
         {

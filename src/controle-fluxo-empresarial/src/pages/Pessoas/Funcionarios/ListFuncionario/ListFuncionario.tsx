@@ -6,7 +6,7 @@ import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
 
 const ListFuncionario: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/funcionarios/list" });
+    const response = UseListPagined({ getListPagined: FuncionarioApi.GetListPagined.bind(FuncionarioApi) });
 
     const columns = [
         {

@@ -6,6 +6,7 @@ using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace ControleFluxoEmpresarial.DAOs
                 var instance = Activator.CreateInstance(property.PropertyType);
 
                 var properties = property.PropertyType.Property(this.IdProperty);
-                var propertyEntity = reader.MapEntity(instance,properties, this.IdProperty, $"{property.Name}.");
+                var propertyEntity = reader.MapEntity(instance, properties, this.IdProperty, $"{property.Name}.");
 
                 property.SetValue(entity, propertyEntity);
             }
@@ -90,13 +91,18 @@ namespace ControleFluxoEmpresarial.DAOs
             var sql = this.SqlListPagined ?? $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
                           FROM {this.TableName} ";
 
-            int byId = 0;
+            TId byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
             {
                 var sqlId = "";
-                if (Int32.TryParse(filter.Filter, out byId))
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(TId));
+                try
                 {
+                    byId = (TId)converter.ConvertFrom(filter.Filter);
                     sqlId += $" OR id = @id ";
+                }
+                finally
+                {
                 }
                 filter.Filter = $"%{filter.Filter}%";
                 sql += $" WHERE nome ilike @Filter {sqlId} ";

@@ -11,7 +11,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 
-const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [estado, setEstado] = useState<Estado>({ nome: "", uf: "", paisId: undefined })
     const [loading, setLoading] = useState(false);
@@ -37,14 +37,19 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
     }
 
     async function getEstado(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdpais = await EstadoApi.GetById(id);
-        setEstado(bdpais.data);
-        setLoading(false);
+            setLoading(true);
+            let bdpais = await EstadoApi.GetById(id);
+            setEstado(bdpais.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -58,19 +63,16 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         >
 
             <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={12}>
+                <Col span={10}>
                     <Input name="nome" label="Estado" placeholder="Estado" required />
                 </Col>
-            </Row>
-
-            <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="uf" label="UF" placeholder="UF" required />
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <SelectModel
                         fetchMethod={PaisApi.GetById.bind(PaisApi)}
                         name="paisId"
@@ -87,4 +89,4 @@ const RegisterEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> =
 
 }
 
-export default RegisterEstado;
+export default FormEstado;

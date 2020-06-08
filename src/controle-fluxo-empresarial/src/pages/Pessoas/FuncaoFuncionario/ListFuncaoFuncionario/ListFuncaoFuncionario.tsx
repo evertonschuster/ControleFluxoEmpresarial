@@ -7,7 +7,7 @@ import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario'
 import { ColumnProps } from 'antd/lib/table';
 
 const ListFuncaoFuncionario: React.FC = () => {
-    const response = UseListPagined({ URL: "/api/funcao-funcionarios/list" });
+    const response = UseListPagined({ getListPagined: FuncaoFuncionarioApi.GetListPagined.bind(FuncaoFuncionarioApi) });
 
     const columns: ColumnProps<FuncaoFuncionario>[] = [
         {

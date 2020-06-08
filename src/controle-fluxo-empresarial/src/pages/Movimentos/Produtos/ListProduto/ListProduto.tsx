@@ -5,7 +5,8 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
 
  const ListProduto: React.FC = () => {
-    const response = UseListPagined({ URL: "/api/produtos/list" });
+    const response = UseListPagined({ getListPagined: ProdutoApi.GetListPagined.bind(ProdutoApi) 
+    });
 
     const columns = [
         {

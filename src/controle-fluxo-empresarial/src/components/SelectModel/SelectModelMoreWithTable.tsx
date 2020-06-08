@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Table, Row, Col, Button, Tooltip, Tag } from 'antd';
 import SelectModelMore from './SelectModelMore';
 import { WithItemNone } from '../../hoc/WithFormItem';
@@ -22,7 +22,7 @@ export interface Props {
 const SelectModelMoreWithTable: React.FC<Props> = (props) => {
 
     const [data, setData] = useState<any[]>([])
-    const [field, meta, helper] = useField<any[]>({ name: props.name + "SelectionIds" })
+    const [, meta, helper] = useField<any[]>({ name: props.name + "SelectionIds" })
 
     const keyId = props.keyId || "id";
     const keyDescription = props.keyDescription || "nome";

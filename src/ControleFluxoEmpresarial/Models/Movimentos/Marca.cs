@@ -32,8 +32,8 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
 
         private bool NameIsAllow(Marca cidade, string nome)
         {
-            var findCidade = this.MarcaDAO.GetByNome(nome);
-            return findCidade == null || findCidade?.Id == cidade.Id;
+            var findMarca = this.MarcaDAO.GetByNome(nome);
+            return findMarca == null || findMarca?.Id == cidade.Id;
         }
     }
 }

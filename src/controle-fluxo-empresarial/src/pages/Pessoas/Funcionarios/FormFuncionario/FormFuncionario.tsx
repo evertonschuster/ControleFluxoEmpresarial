@@ -4,6 +4,7 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { FuncionarioSchema } from './FuncionarioSchema';
 import { Funcionario } from '../../../../models/Pessoas/Funcionario';
 import GeralForm from './components/GeralForm';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -28,7 +29,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         cnh: ""
 
     });
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -41,7 +42,14 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
     }
 
     async function getFuncionario() {
+        try {
 
+
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

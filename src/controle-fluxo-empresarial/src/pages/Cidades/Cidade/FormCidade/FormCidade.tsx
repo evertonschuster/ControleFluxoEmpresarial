@@ -11,7 +11,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
 
-const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
     const [cidade, setCidade] = useState<Cidade>({ nome: "", ddd: "", estadoId: undefined })
@@ -40,14 +40,19 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
     }
 
     async function getCidade(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdCidade = await CidadeApi.GetById(id);
-        setCidade(bdCidade.data);
-        setLoading(false);
+            setLoading(true);
+            let bdCidade = await CidadeApi.GetById(id);
+            setCidade(bdCidade.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -61,19 +66,16 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
         >
 
             <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={12}>
+                <Col span={10}>
                     <Input name="nome" label="Cidade" placeholder="Cidade" required />
                 </Col>
-            </Row>
-
-            <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="ddd" label="DDD" placeholder="DDD" required />
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <SelectModel
                         fetchMethod={EstadoApi.GetById.bind(EstadoApi)}
                         name="estadoId"
@@ -90,4 +92,4 @@ const CreateCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
 }
 
-export default CreateCidade;
+export default FormCidade;

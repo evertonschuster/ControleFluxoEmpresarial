@@ -35,14 +35,19 @@ const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = 
     }
 
     async function getCategoria(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdCategoria = await CategoriaApi.GetById(id);
-        setCategoria(bdCategoria.data);
-        setLoading(false);
+            setLoading(true);
+            let bdCategoria = await CategoriaApi.GetById(id);
+            setCategoria(bdCategoria.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

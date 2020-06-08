@@ -7,6 +7,7 @@ import { Form, Row, Col, Button, Select } from 'antd';
 import { ItemFormRender, WithItemNone } from '../../hoc/WithFormItem';
 import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import { UseListPagined } from '../../hoc/UseListPagined';
+import { PaisApi } from '../../apis/Cidades/PaisApi';
 
 export interface Props {
     path: string;
@@ -35,7 +36,7 @@ const SelectModelMore: React.FC<Props> = (props) => {
     const [dataSource, setDataSource] = useState<any[]>([])
     const [visible, setVisible] = useState(false);
     const [, meta, helpers] = useField<any[]>({ name: props.name });
-    const response = UseListPagined({ URL: "/api/pais/list" });
+    const response = UseListPagined({ getListPagined: PaisApi.GetListPagined.bind(PaisApi)  });
 
     function setState(params: any[]) {
         setDataSource(params)

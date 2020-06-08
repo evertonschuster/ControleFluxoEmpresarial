@@ -6,18 +6,16 @@ const ContentApp: React.FC = (props) => {
     const { Content } = Layout;
 
     return (
-        <Content
-            style={{
-                margin: '24px 16px',
-                padding: 24,
-                background: '#fff',
-                minHeight: "90%",
-            }}>
-
+        <div style={{
+            display: "flex",
+            flex: "1",
+            alignItems: "stretch",
+            flexWrap: "wrap",
+        }}>
 
             {props.children}
 
-        </Content>
+        </div>
     );
 }
 

@@ -9,7 +9,7 @@ import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 
-const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [loading, setLoading] = useState(false);
     const [pais, setPais] = useState<Pais>({ nome: "", ddi: "", sigla: "" })
@@ -34,14 +34,19 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
     }
 
     async function getPais(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdpais = await PaisApi.GetById(id);
-        setPais(bdpais.data);
-        setLoading(false);
+            setLoading(true);
+            let bdpais = await PaisApi.GetById(id);
+            setPais(bdpais.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -54,19 +59,16 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
             initialValues={pais}>
 
             <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={12}>
+                <Col span={10}>
                     <Input name="nome" label="Pais" placeholder="Pais" required />
                 </Col>
-            </Row>
-
-            <Row>
-                <Col span={12}>
+                <Col span={4}>
                     <Input name="sigla" label="Sigla" placeholder="Sigla" required />
                 </Col>
-                <Col span={12}>
+                <Col span={4}>
                     <Input name="ddi" label="DDI" placeholder="DDI" required />
                 </Col>
             </Row>
@@ -76,4 +78,4 @@ const RegisterPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (
 
 }
 
-export default withRouter(RegisterPais);
+export default withRouter(FormPais);

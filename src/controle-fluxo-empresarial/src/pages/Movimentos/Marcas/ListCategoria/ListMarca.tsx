@@ -8,7 +8,7 @@ import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
 
 const ListMarca: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/marcas/list" });
+    const response = UseListPagined({ getListPagined: MarcaApi.GetListPagined.bind(MarcaApi) });
 
     const columns: ColumnProps<Marca>[] = [
         {

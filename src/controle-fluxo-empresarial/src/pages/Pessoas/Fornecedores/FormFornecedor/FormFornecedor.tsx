@@ -5,6 +5,7 @@ import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
 import { FornecedorSchema } from './FornecedorSchema';
 import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 import GeralForm from './components/GeralForm';
+import { errorBack } from '../../../../utils/MessageApi';
 
 const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -26,7 +27,7 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         telefone: "",
         tipo: TIPO_PESSOA.Juridica
     })
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -39,7 +40,14 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
     }
 
     async function getFornecedor() {
+        try {
 
+
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

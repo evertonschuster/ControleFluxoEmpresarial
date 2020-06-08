@@ -1,6 +1,11 @@
 
 .form-application-container {
  animation: render 1s;   
+ background-color: #fff;
+ margin: 24px 16px !important;
+ flex:1;
+ padding: 20px
+
 }
 
 

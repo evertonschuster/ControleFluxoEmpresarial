@@ -9,6 +9,12 @@ import { AxiosResponse } from 'axios';
 import "./select-model-one-style.css";
 import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 
+export interface ICol {
+    inputId?: number,
+    btnSearch?: number,
+    inputDescription?: number,
+}
+
 export interface Props {
     path: string;
     errorMessage: ErrorMessage;
@@ -20,7 +26,8 @@ export interface Props {
     fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
     showLabel?: boolean;
     showDescription?: boolean;
-    ObjectName?: string;
+    objectName?: string;
+    col?: ICol
 }
 
 
@@ -33,7 +40,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
     const required = props.required || true;
     const showLabel = props.showLabel ?? true;
     const [field, meta, helpers] = useField(props.name);
-    const [, , helpersObject] = useField(props.ObjectName ?? props.name); //Todo
+    const [, , helpersObject] = useField(props.objectName ?? props.name); //Todo
     const { setSubmitting } = useFormikContext();
     const showDescription = props.showDescription !== false;
 
@@ -50,7 +57,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
             if (respose.data) {
                 setDescription(respose.data[keyDescription]);
 
-                if (props.ObjectName) {
+                if (props.objectName) {
                     helpersObject.setValue(respose.data)
                 }
             } else {
@@ -76,6 +83,14 @@ const SelectModelOne: React.FC<Props> = (props) => {
         }
     }, 500);
 
+    function onChangeId(value: number | undefined) {
+        helpers.setValue(value);
+        helpers.setTouched(true);
+    }
+
+    function onBlurId() {
+        helpers.setTouched(true)
+    }
 
     return (
         <>
@@ -84,17 +99,17 @@ const SelectModelOne: React.FC<Props> = (props) => {
                 validateStatus={meta.error && meta.touched ? "error" : "validating"}
                 help={meta.error && meta.touched ? meta.error : ""}>
                 <Row>
-                    <Col md={showDescription ? 8 : 19} >
+                    <Col span={(props.col?.inputId) ?? (showDescription ? 8 : 19)} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
-                            <InputNumber min={0} value={meta.value} onChange={(value) => { helpers.setValue(value); helpers.setTouched(true) }} style={{ width: "inherit" }} />
+                            <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} />
                         </ItemFormRender>
                     </Col>
-                    <Col md={showDescription ? 3 : 5} style={{ textAlign: "center" }} >
+                    <Col span={(props.col?.btnSearch) ?? (showDescription ? 3 : 5)} style={{ textAlign: "center" }} >
                         <WithItemNone showLabel={showLabel} padding={false} >
                             <Button type="primary" icon="search" onClick={() => setVisible(true)} ></Button>
                         </WithItemNone>
                     </Col>
-                    {showDescription && <Col md={13} >
+                    {showDescription && <Col span={(props.col?.inputDescription) ?? 13} >
                         <WithItemNone showLabel={showLabel}>
                             <InputAntd value={description} />
                         </WithItemNone>

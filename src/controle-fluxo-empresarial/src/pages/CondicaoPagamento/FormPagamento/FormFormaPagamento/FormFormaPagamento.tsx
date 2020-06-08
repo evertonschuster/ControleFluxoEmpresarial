@@ -9,7 +9,7 @@ import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagame
 import { FormaPagamentoSchema } from './FormaPagamentoSchema';
 import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
-const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
+const FormFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
     const [formapagamento, setFormaPagamento] = useState<FormaPagamento>({ nome: "" })
@@ -38,14 +38,19 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
     }
 
     async function getFormaPagamento(id: number) {
-        if (!id) {
-            return;
-        }
+        try {
+            if (!id) {
+                return;
+            }
 
-        setLoading(true);
-        let bdestado = await FormaPagamentoApi.GetById(id);
-        setFormaPagamento(bdestado.data);
-        setLoading(false);
+            setLoading(true);
+            let bdestado = await FormaPagamentoApi.GetById(id);
+            setFormaPagamento(bdestado.data);
+        } catch (e) {
+            errorBack(null, e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -73,4 +78,4 @@ const CreateFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<a
 
 }
 
-export default CreateFormaPagamento;
+export default FormFormaPagamento;

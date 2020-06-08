@@ -8,7 +8,7 @@ import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
 
 const ListCategoria: React.FC = () => {
 
-    const response = UseListPagined({ URL: "/api/categoria/list" });
+    const response = UseListPagined({ getListPagined: CategoriaApi.GetListPagined.bind(CategoriaApi) });
 
     const columns: ColumnProps<Categoria>[] = [
         {
