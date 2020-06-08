@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Divider, Tooltip } from 'antd';
+import { Row, Col, Divider } from 'antd';
 import EditableTable, { ColumnEditableProps } from '../../../../../components/EditableTable/EditableTable';
 import NumeroDias from './NumeroDias';
 import Percentual from './Percentual';
@@ -31,13 +31,13 @@ const CondicaoPagamentoGeneral: React.FC = () => {
             dataIndex: "formaPagamento",
             title: "Forma de Pagamento",
             editable: true,
-            width: "700px",
+            width: "600px",
             render: (text: FormaPagamento) => {
                 return text?.nome;
             },
             renderEditable:
                 () => {
-                    return <RenderSelectionMode/>
+                    return <RenderSelectionMode />
                 },
         }
     ];

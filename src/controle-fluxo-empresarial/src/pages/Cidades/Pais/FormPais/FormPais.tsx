@@ -59,19 +59,16 @@ const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (prop
             initialValues={pais}>
 
             <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={12}>
+                <Col span={10}>
                     <Input name="nome" label="Pais" placeholder="Pais" required />
                 </Col>
-            </Row>
-
-            <Row>
-                <Col span={12}>
+                <Col span={4}>
                     <Input name="sigla" label="Sigla" placeholder="Sigla" required />
                 </Col>
-                <Col span={12}>
+                <Col span={4}>
                     <Input name="ddi" label="DDI" placeholder="DDI" required />
                 </Col>
             </Row>

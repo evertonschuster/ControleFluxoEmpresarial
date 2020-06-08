@@ -1,11 +1,10 @@
-import React from 'react';
-import { Row, Col, Button, Icon } from 'antd';
-import { Formik, FormikConfig, FormikHelpers, FormikProps, isFunction } from 'formik';
-import { Form } from 'formik-antd';
+import React, { useRef } from 'react';
+import { Formik, FormikConfig, FormikHelpers, FormikProps, FormikContextType } from 'formik';
 import FormBasicLayout from '../FormBasicLayout/FormBasicLayout';
 import { BreadcrumbProp } from '../BasicLayout/BasicLayout';
 import { errorBack } from '../../utils/MessageApi';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import FormikForm, { FormikFormRef } from './components/FormikForm';
 
 export interface Props extends FormikConfig<any> {
     breadcrumbList?: BreadcrumbProp[];
@@ -17,44 +16,20 @@ export interface Props extends FormikConfig<any> {
 
 const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
+    const childRef = useRef<FormikFormRef>();
 
+    
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
         try {
-
+            childRef.current?.removeSavedFormLocalStorageForm();
             await props.onSubmit(values, formikHelpers);
-
         } catch (e) {
-
             errorBack(formikHelpers, e)
-
             throw e;
         }
     }
 
-    function renderLoading(isLoading: boolean) {
-
-        if (!isLoading && !props.isLoading) {
-            return null;
-        }
-
-        return (
-            <div style={{
-                zIndex: 100,
-                width: "100%",
-                height: "100%",
-                margin: "0em",
-                left: "0em",
-                top: "0em",
-                position: "fixed"
-            }} >
-                <div style={{ background: "#00000026", height: "100%" }}>
-                    <Icon type="loading" style={{ position: "absolute", top: "50%", left: "50%", fontSize: '72px', color: '#08c' }} theme="outlined" />
-                </div>
-            </div>
-        )
-    }
-
-    function onKeyDown(keyEvent: any) {
+    function onKeyDown(keyEvent: React.KeyboardEvent<HTMLFormElement>) {
         if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
             keyEvent.preventDefault();
         }
@@ -66,45 +41,13 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                 {...props}
                 onSubmit={onSubmit}
                 enableReinitialize={true}  >
-                {(formik) => (
-                    <Form onKeyDown={onKeyDown} >
-                        {renderLoading(formik.isSubmitting)}
-
-                        {isFunction(props.children)
-                            ? props.children(formik)
-                            : props.children}
-
-                        < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
-                            <Col
-                                span={5}
-                                style={{
-                                    display: "flex",
-                                    flexDirection: "column"
-                                }}>
-                                <span>Data Criação: {formik.values?.dataCriacao ? new Date(formik.values?.dataCriacao).toLocaleString(undefined, {
-                                    day: "numeric",
-                                    month: "numeric",
-                                    year: "numeric",
-
-                                    hour: "numeric" ,
-                                    minute: "numeric" 
-                                }) : "  /  /"}</span>
-                                <span>Data Atualização: {formik.values?.dataAtualizacao ? new Date(formik.values.dataAtualizacao)?.toLocaleString(undefined, {
-                                    day: "numeric",
-                                    month: "numeric",
-                                    year: "numeric",
-
-                                    hour: "numeric" ,
-                                    minute: "numeric" 
-                                }) : "  /  /"}</span>
-                            </Col>
-                            <Col>
-                                <Button type="danger" style={{ marginRight: "10px" }} onClick={() => props.history.push(props.backPath)}>Cancelar</Button>
-                                <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
-                            </Col>
-                        </Row>
-                    </Form>
-                )}
+                <FormikForm
+                    ref={childRef}
+                    backPath={props.backPath}
+                    isLoading={props.isLoading}
+                    children={props.children}
+                    onKeyDown={onKeyDown}
+                />
             </Formik>
         </FormBasicLayout >
     );

@@ -15,7 +15,6 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
     public class PaisController : ControllerBase<Pais, PaginationQuery>
     {
 

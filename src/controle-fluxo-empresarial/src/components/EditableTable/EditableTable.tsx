@@ -62,7 +62,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         }
     }, []);
 
-    const hasListError = useMemo(() => !Array.isArray(meta.error) && (meta.error?.length ?? "") > 2, [meta.error]);
+    const hasListError = useMemo(() => !Array.isArray(meta.error) && meta.touched && (meta.error?.length ?? "") > 2, [meta.error, meta.touched]);
 
     const columnsAction = useMemo(() => props.columns.concat({
         key: "Action",
@@ -116,8 +116,6 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
 
     function mapRecord(dataSource: RecordTable[]): RecordTable[] {
-        console.log("MAPEEEEE")
-
         return (dataSource || []).map((e) => {
             return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now() }
         });

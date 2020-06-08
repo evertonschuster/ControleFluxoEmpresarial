@@ -63,19 +63,16 @@ const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pr
         >
 
             <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={12}>
+                <Col span={10}>
                     <Input name="nome" label="Estado" placeholder="Estado" required />
                 </Col>
-            </Row>
-
-            <Row>
-                <Col span={12}>
+                <Col span={3}>
                     <Input name="uf" label="UF" placeholder="UF" required />
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <SelectModel
                         fetchMethod={PaisApi.GetById.bind(PaisApi)}
                         name="paisId"

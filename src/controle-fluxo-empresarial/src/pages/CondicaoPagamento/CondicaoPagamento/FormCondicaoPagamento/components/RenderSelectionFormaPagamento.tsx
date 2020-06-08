@@ -8,12 +8,17 @@ const RenderSelectionFormaPagamento: React.FC = () => {
         <SelectModelOne
             fetchMethod={FormaPagamentoApi.GetById.bind(FormaPagamentoApi)}
             name="formaPagamento.id"
-            ObjectName="formaPagamento"
+            objectName="formaPagamento"
             keyDescription="nome"
             required={true}
             showLabel={false}
             label={{ title: "Seleção de Forma de Pagamento", label: "" }}
             errorMessage={{ noSelection: "Selecione uma Forma de Pagamento!" }}
+            col={{
+                inputId: 4,
+                btnSearch: 2,
+                inputDescription: 18
+            }}
             path="forma-pagamento" />
     )
 }
