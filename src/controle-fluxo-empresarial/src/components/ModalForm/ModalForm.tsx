@@ -1,9 +1,10 @@
-import React, { useState, memo, useContext, useEffect } from 'react';
+import React, { useState, memo, useEffect } from 'react';
 import { Modal, message } from 'antd';
 import RouterServiceModel from '../../services/RouterService/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
 import { withRouter, RouteComponentProps } from 'react-router';
-import BasicLayoutContext, { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
+import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
+import "./modal-form.less"
 
 export interface ErrorMessage {
     noSelection: string;
@@ -74,6 +75,8 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
         <ModalFormContextProvider value={{ setState, state }}>
 
             <Modal
+                wrapClassName="modal-wrap"
+                className="moda-container"
                 width="90%"
                 title={props.label.title}
                 visible={props.visible}
