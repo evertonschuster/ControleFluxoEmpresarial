@@ -54,7 +54,7 @@ const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (prop
             isLoading={loading}
             onSubmit={onSubmit}
             validationSchema={PaisSchema}
-            breadcrumbList={[{ displayName: "Pais", URL: "/Pais" }, { displayName: "Novo Pais", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Pais", URL: "/Pais" }, { displayName: props.match.params.id ? "Edição do Pais" : "Novo Pais", URL: undefined }]}
             backPath="/pais"
             initialValues={pais}>
 

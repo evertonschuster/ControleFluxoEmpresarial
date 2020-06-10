@@ -54,7 +54,7 @@ const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = 
         <CrudFormLayout
             isLoading={loading}
             backPath="/categoria"
-            breadcrumbList={[{ displayName: "Categorias", URL: "/categoria" }, { displayName: "Nova categoria", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Categorias", URL: "/categoria" }, { displayName: props.match.params.id ? "Edição da Categoria" : "Nova Categoria", URL: undefined }]}
             initialValues={categoria}
             validationSchema={CategoriaSchema}
             onSubmit={onSubmit}

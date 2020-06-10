@@ -57,7 +57,7 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         <CrudFormLayout
             isLoading={loading}
             backPath="/cliente"
-            breadcrumbList={[{ displayName: "Clientes", URL: "/cliente" }, { displayName: "Novo Cliente", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Clientes", URL: "/cliente" }, { displayName: props.match.params.id ? "Edição do Cliente" : "Novo Cliente", URL: undefined }]}
             initialValues={cliente}
             validationSchema={ClienteSchema}
             onSubmit={onSubmit}

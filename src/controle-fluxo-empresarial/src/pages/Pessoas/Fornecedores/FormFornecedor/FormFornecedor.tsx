@@ -54,7 +54,7 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         <CrudFormLayout
             isLoading={loading}
             backPath="/fornecedor"
-            breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName: "Novo Fornecedor", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName:props.match.params.id ? "Edição do Fornecedor" : "Novo Fornecedor", URL: undefined }]}
             initialValues={fornecedor}
             validationSchema={FornecedorSchema}
             onSubmit={onSubmit}

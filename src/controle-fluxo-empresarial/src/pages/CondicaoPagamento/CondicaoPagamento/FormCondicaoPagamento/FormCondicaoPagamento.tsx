@@ -66,7 +66,7 @@ const FormCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<
         <CrudFormLayout
             isLoading={loading}
             backPath="/condicao-pagamento"
-            breadcrumbList={[{ displayName: "Condições de Pagamento", URL: "/condicao-pagamento" }, { displayName: "Nova Condição de Pagamento", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Condições de Pagamento", URL: "/condicao-pagamento" }, { displayName: props.match.params.id ? "Edição da Condição de Pagamento" :"Nova Condição de Pagamento", URL: undefined }]}
             initialValues={condicaopagamento}
             validationSchema={CondicaoPagamentoSchema}
             onSubmit={onSubmit}

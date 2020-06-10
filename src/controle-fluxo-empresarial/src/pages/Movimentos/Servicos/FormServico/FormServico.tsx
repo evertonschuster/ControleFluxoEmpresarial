@@ -41,7 +41,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
     }, [props.match.params.id])
 
 
-    
+
     async function onSubmit() {
 
     }
@@ -61,7 +61,7 @@ const FormServico: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         <CrudFormLayout
             isLoading={loading}
             backPath="/servico"
-            breadcrumbList={[{ displayName: "Serviços", URL: "/servico" }, { displayName: "Novo Serviço", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Serviços", URL: "/servico" }, { displayName: props.match.params.id ? "Edição do Serviço" : "Novo Serviço", URL: undefined }]}
             initialValues={servico}
             validationSchema={ServicoSchema}
             onSubmit={onSubmit}

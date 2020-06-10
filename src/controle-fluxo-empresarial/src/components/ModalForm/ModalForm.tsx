@@ -77,7 +77,8 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
             <Modal
                 wrapClassName="modal-wrap"
                 className="moda-container"
-                width="90%"
+                width="80%"
+                style={{ top: 10, }}
                 title={props.label.title}
                 visible={props.visible}
                 destroyOnClose={true}
