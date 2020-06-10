@@ -239,7 +239,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             try
             {
-                command.CommandText = sql.Insert(6, "   COUNT(*) OVER() AS TotalItem,   ")
+                command.CommandText = sql
                                       + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) }  "
                                       + $@" LIMIT {filter.PageSize}  ";
 
@@ -255,7 +255,6 @@ namespace ControleFluxoEmpresarial.DAOs
                 {
                     while (reader.Read())
                     {
-                        totalItem = reader.GetInt32("TotalItem");
                         list.Add(MapEntity(reader));
                     }
                 }
