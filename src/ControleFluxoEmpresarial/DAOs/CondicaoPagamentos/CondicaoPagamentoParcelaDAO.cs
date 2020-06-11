@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
 using System.Collections.Generic;
@@ -107,7 +108,18 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
                 sql += $" WHERE CondicaoPagamentoParcelas.nome ilike @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);
+            return base.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM CondicaoPagamentoParcelas", new { id, filter.Filter }, filter);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            var sql = @"SELECT 1 FROM clientes
+                        WHERE condicaoPagamentoId = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Confição de Pagamento não pode ser excluida!");
+            }
         }
     }
 }

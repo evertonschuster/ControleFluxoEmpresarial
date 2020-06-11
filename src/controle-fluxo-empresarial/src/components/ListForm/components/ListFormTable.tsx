@@ -1,5 +1,5 @@
 import React, { useContext, memo, useState } from 'react';
-import { Table, Tooltip, Tag, Modal } from 'antd';
+import { Table, Tooltip, Tag, Modal, notification } from 'antd';
 import { ListItem } from '../ListForm';
 import { ColumnProps, TableRowSelection } from 'antd/lib/table';
 import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
@@ -112,13 +112,18 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     try {
 
                         props.deleteFunction && await props.deleteFunction((record || {})[key])
-                        setLoading(false);
                         props.tableProps.reflesh();
+
+                        notification.success({
+                            message: "Registro excluido com sucesso!",
+                            duration: 10
+                        });
                     }
                     catch (e) {
                         errorBack(null, e);
                     }
                     finally {
+                        setLoading(false);
                         setFormMode(FormMode.List)
                         hidenExluir();
                     }

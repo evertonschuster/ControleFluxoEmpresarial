@@ -6,6 +6,7 @@ import { Cliente } from '../../../../models/Pessoas/Cliente';
 import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 import GeralForm from './components/GeralForm';
 import { errorBack } from '../../../../utils/MessageApi';
+import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
 
 const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -22,13 +23,16 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         estadoCivil: undefined,
         id: "",
         limiteCredito: undefined,
-        nacionalidade: "",
+        nacionalidade: NATIONALITY_TYPE.BRASILEIRO,
         nome: "",
         observacoes: "",
         rgInscricaoEstadual: "",
         sexo: undefined,
         telefone: "",
-        tipo: TIPO_PESSOA.Fisica
+        tipo: TIPO_PESSOA.Fisica,
+        cidadeId: undefined,
+        condicaoPagamentoId: undefined,
+        numero: ""
     })
     const [loading, setLoading] = useState(false);
 

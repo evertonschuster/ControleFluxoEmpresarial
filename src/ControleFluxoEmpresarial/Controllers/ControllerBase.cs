@@ -64,6 +64,7 @@ namespace ControleFluxoEmpresarial.Controllers
         [HttpDelete("{id}")]
         public virtual IActionResult Delete(TId id)
         {
+            this.DAO.VerifyRelationshipDependence(id);
             this.DAO.Delete(id);
             return Ok();
         }

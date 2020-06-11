@@ -1,18 +1,21 @@
 export interface Pessoa {
     id?: string,
-    nome?: string,
     apelido?: string,
-    rgInscricaoEstadual?: string,
-    cPFCPNJ?: string,
-    endereco?: string,
     bairro?: string,
-    complemento?: string,
     cep?: string,
+    cidadeId?: number;
+    complemento?: string,
+    condicaoPagamentoId?: number
+    cPFCPNJ?: string,
     dataNascimento?: Date,
-    nacionalidade?: string,
-    telefone?: string,
     email?: string,
+    endereco?: string,
+    nacionalidade?: string,
+    nome?: string,
+    numero?: string,
     observacoes?: string,
+    rgInscricaoEstadual?: string,
+    telefone?: string,
 }
 
 export enum SEXO {

@@ -111,7 +111,12 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
                 sql += $" WHERE nome like '%{filter.Filter}%' {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, filter);
+            return base.ExecuteGetPaginated(sql, null, filter);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

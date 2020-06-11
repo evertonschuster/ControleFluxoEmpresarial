@@ -11,5 +11,10 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         public CategoriaDAO(ApplicationContext context) : base(context, "Categorias")
         {
         }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

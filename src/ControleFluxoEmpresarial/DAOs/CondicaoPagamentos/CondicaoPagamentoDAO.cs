@@ -143,7 +143,12 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                 sql += $" WHERE nome ilike @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);
+            return base.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM CondicaoPagamentos", new { id, filter.Filter }, filter);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

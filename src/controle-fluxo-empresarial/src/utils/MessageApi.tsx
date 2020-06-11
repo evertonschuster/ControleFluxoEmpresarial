@@ -15,16 +15,16 @@ export function errorBack(formik?: FormikHelpers<any> | null, response?: any, pr
             return;
         }
 
-        if (!response?.errors) {
-            return;
-        }
-
+        
         formik?.setErrors(response.errors);
         notification.error({
             message: response["message"],
             duration: 10
         });
-
+        
+        if (!response?.errors) {
+            return;
+        }
         const errors = response.errors;
 
         Object.keys(errors).forEach(element => {

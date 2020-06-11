@@ -24,6 +24,11 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             base.Update(entity, commit);
         }
 
+        public override void VerifyRelationshipDependence(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         internal UnidadeMedida GetByNome(string nome)
         {
 

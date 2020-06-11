@@ -5,5 +5,5 @@ export interface Cliente extends Pessoa {
 
     sexo?: SEXO,
     estadoCivil?: ESTADO_CIVIL,
-    tipo: TIPO_PESSOA
+    tipo?: TIPO_PESSOA
 }

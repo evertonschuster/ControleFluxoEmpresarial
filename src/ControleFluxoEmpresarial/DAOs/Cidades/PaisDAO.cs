@@ -103,7 +103,12 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 sql += $" WHERE nome like @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, new { id = paisId, filter.Filter }, filter);
+            return base.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM paises", new { id = paisId, filter.Filter }, filter);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

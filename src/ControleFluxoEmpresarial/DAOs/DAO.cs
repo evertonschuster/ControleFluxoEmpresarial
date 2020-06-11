@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.DAOs
     //Insert into Paises(Nome) Output Inserted.Id Values ('example')
 
 
-    public class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new() 
+    public abstract class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new()
     {
         private ApplicationContext Context { get; set; }
         public DbTransaction Transaction { get; set; }
@@ -64,6 +64,9 @@ namespace ControleFluxoEmpresarial.DAOs
         {
             throw new Exception();
         }
+
+        public abstract void VerifyRelationshipDependence(TId id);
+
 
         #endregion
 
@@ -182,90 +185,34 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        //protected virtual TEntity ExecuteGetFirstOrDefault(string sql, bool closeConnection = true)
-        //{
-        //    if (string.IsNullOrEmpty(sql))
-        //    {
-        //        throw new Exception("Sql não informado ");
-        //    }
-
-        //    this.CreateTransaction(this.Transaction);
-        //    var command = CreateCommand();
-
-        //    try
-        //    {
-        //        command.CommandText = sql += " limit 1";
-        //        command.CommandType = CommandType.Text;
-
-        //        Console.WriteLine("SQL => " + command.CommandText);
-
-        //        var reader = command.ExecuteReader();
-
-        //        if (reader.HasRows)
-        //        {
-        //            reader.Read();
-        //            var entity = MapEntity(reader);
-        //            reader.Close();
-        //            return entity;
-        //        }
-
-
-        //        return null;
-
-        //    }
-        //    finally
-        //    {
-        //        if (closeConnection)
-        //        {
-        //            command.Connection.Close();
-        //        }
-        //    }
-        //}
-
-        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, object @params = null, PaginationQuery filter = default, bool closeConnection = true)
+        protected virtual bool ExecuteExist(string sql, object parameters = null, bool closeConnection = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
                 throw new Exception("Sql não informado ");
             }
-            if (!sql.Contains("order", StringComparison.OrdinalIgnoreCase))
-            {
-                sql += " ORDER BY Id  ";
-            }
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues<TId>(@params);
+            command.AddParameterValues<TId>(parameters);
 
             try
             {
-                command.CommandText = sql
-                                      + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) }  "
-                                      + $@" LIMIT {filter.PageSize}  ";
-
+                command.CommandText = sql += " limit 1";
                 command.CommandType = CommandType.Text;
                 Console.WriteLine("SQL => " + command.CommandText);
 
                 var reader = command.ExecuteReader();
 
-                var list = new List<TEntity>();
-                var totalItem = 0;
-
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
-                    {
-                        list.Add(MapEntity(reader));
-                    }
+                    reader.Close();
+                    return true;
                 }
 
-                return new PaginationResult<TEntity>()
-                {
-                    CurrentPage = filter.CurrentPage,
-                    PageSize = filter.PageSize,
-                    Result = list,
-                    TotalItem = totalItem
-                };
+                reader.Close();
+                return false;
+
             }
             finally
             {
@@ -276,8 +223,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-
-        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, PaginationQuery filter, bool closeConnection = true)
+        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, string sqlTotalItem, object @params = null, PaginationQuery filter = default, bool closeConnection = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -287,40 +233,65 @@ namespace ControleFluxoEmpresarial.DAOs
             {
                 sql += " ORDER BY Id  ";
             }
+            var result = new PaginationResult<TEntity>()
+            {
+                CurrentPage = filter.CurrentPage,
+                PageSize = filter.PageSize,
+            };
 
             this.CreateTransaction(this.Transaction);
+            var commandCount = CreateCommand();
             var command = CreateCommand();
+
 
             try
             {
-                command.CommandText = sql.Insert(6, "   COUNT(*) OVER() AS TotalItem,   ")
+                commandCount.CommandText = sqlTotalItem;
+                commandCount.CommandType = CommandType.Text;
+
+                var readerCount = commandCount.ExecuteReader();
+                if (readerCount.HasRows)
+                {
+                    readerCount.Read();
+                    result.TotalItem = readerCount.GetInt32("TotalItem");
+                    readerCount.Close();
+
+                    var totalPageDb = Math.Ceiling((double)result.TotalItem / filter.PageSize);
+                    if (totalPageDb < filter.CurrentPage && totalPageDb != 0)
+                    {
+                        result.CurrentPage = (int)totalPageDb;
+                        filter.CurrentPage = (int)totalPageDb;
+                    }
+                }
+                else
+                {
+                    result.TotalItem = 0;
+                    readerCount.Close();
+                    return result;
+                }
+
+
+                command.AddParameterValues<TId>(@params);
+                command.CommandText = sql
                                       + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) }  "
                                       + $@" LIMIT {filter.PageSize}  ";
 
                 command.CommandType = CommandType.Text;
                 Console.WriteLine("SQL => " + command.CommandText);
-
                 var reader = command.ExecuteReader();
 
                 var list = new List<TEntity>();
-                var totalItem = 0;
 
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        totalItem = reader.GetInt32("TotalItem");
                         list.Add(MapEntity(reader));
                     }
                 }
-
-                return new PaginationResult<TEntity>()
-                {
-                    CurrentPage = filter.CurrentPage,
-                    PageSize = filter.PageSize,
-                    Result = list,
-                    TotalItem = totalItem
-                };
+                reader.Close();
+                result.Result = list;
+                return result;
             }
             finally
             {
@@ -363,6 +334,7 @@ namespace ControleFluxoEmpresarial.DAOs
                         list.Add(MapEntity(reader));
                     }
                 }
+                reader.Close();
 
                 return list.Count == 0 ? null : list;
             }
@@ -415,6 +387,7 @@ namespace ControleFluxoEmpresarial.DAOs
                 }
             }
         }
+
         #endregion
     }
 }

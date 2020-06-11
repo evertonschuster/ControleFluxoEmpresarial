@@ -12,6 +12,11 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         {
         }
 
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         internal Marca GetByNome(string nome)
         {
 

@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Cidades;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,17 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             }
 
             return entity;
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            var sql = @"SELECT 1 FROM Clientes
+                        WHERE cidadeId = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Cidade não pode ser excluida!");
+            }
         }
     }
 }
