@@ -6,7 +6,7 @@ export interface Pessoa {
     cidadeId?: number;
     complemento?: string,
     condicaoPagamentoId?: number
-    cPFCPNJ?: string,
+    cpfcpnj?: string,
     dataNascimento?: Date,
     email?: string,
     endereco?: string,

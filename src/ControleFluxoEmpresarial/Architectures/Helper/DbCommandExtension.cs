@@ -30,9 +30,10 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 {
                     continue;
                 }
+
                 DbParameter dbParameter = command.CreateParameter();
                 dbParameter.ParameterName = property.Name;
-                dbParameter.Value = property.GetValue(@params);
+                dbParameter.Value = property.PropertyType.IsEnum ? property.GetValue(@params).ToString() : property.GetValue(@params);
                 command.Parameters.Add(dbParameter);
             }
         }

@@ -16,7 +16,6 @@ export interface Props extends FormikConfig<any> {
 const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
     const childRef = useRef<FormikFormRef>();
-    console.log(props.breadcrumbList)
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
         try {

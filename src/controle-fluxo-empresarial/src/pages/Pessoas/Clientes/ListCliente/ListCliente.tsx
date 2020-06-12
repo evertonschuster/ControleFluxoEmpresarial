@@ -20,7 +20,7 @@ const ListCliente:React.FC = () => {
         },
         {
             title: 'CPF/CNPJ',
-            dataIndex: 'cpfcnpj',
+            dataIndex: 'cpfcpnj',
         },
         {
             title: 'Telefone',

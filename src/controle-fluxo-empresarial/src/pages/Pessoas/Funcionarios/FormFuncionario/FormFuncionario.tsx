@@ -14,7 +14,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         bairro: "",
         cep: "",
         complemento: "",
-        cPFCPNJ: "",
+        cpfcpnj: "",
         dataNascimento: undefined,
         email: "",
         endereco: "",

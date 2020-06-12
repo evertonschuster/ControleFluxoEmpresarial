@@ -1,21 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
 import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/NationalitySelect/NationalitySelect';
 
 const GeralForm: React.FC = () => {
+    const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
+    const [fieldNacionalidade, , helperNacionalidade] = useField<NATIONALITY_TYPE>("nacionalidade");
+    const [, , helperEstadoCivil,] = useField("estadoCivil");
+    const [, , helperSexo] = useField("sexo");
 
-    const [fieldTipoPessoa,] = useField<TIPO_PESSOA>({ name: "tipo" });
-    const [fieldNacionalidade,] = useField<NATIONALITY_TYPE>({ name: "nacionalidade" });
+    useEffect(() => {
+        helperEstadoCivil.setValue(undefined);
+        helperSexo.setValue(undefined);
+        helperNacionalidade.setValue(NATIONALITY_TYPE.BRASILEIRO);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fieldTipoPessoa.value])
+
+    console.log(useFormikContext().errors)
 
     return (
         <>
-
             <Row>
                 <Col span={2}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
@@ -55,7 +64,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputNumber name="numero" label="Número" placeholder="549" required />
+                    <Input name="numero" label="Número" placeholder="549" required />
                 </Col>
 
                 <Col span={5}>
@@ -119,7 +128,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cPFCPNJ" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required={fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO} fast={false} />
+                    <Input name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required={fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO} fast={false} />
                 </Col>
 
                 <Col span={3}>

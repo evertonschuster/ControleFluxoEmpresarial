@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Pessoas
 {
-    public enum SexoType
+    public enum EstadoCivilType
     {
-        Masculino,
-        Feminino
+        Casado,
+        Divorciado,
+        Separadoo,
+        Solteiro,
+        Viuvo,
+        Outros,
     }
 }

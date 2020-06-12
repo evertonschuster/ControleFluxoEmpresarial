@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Pessoas
 {
-    public enum SexoType
+    public enum TipoPessoaType
     {
-        Masculino,
-        Feminino
+        Fisica,
+        Juridica
     }
 }

@@ -20,7 +20,7 @@ export enum NATIONALITY_TYPE {
 
 const NationalitySelect: React.FC<Props> = (props) => {
 
-    const [field, meta, helpers] = useField({ name: props.name });
+    const [field, meta, helpers] = useField(props.name);
     const [selectedValue, setSelectedValue] = useState(field.value)
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const NationalitySelect: React.FC<Props> = (props) => {
             helpers.setValue(value);
         }
         else {
-            helpers.setValue(undefined);
+            helpers.setValue("");
         }
     }
 

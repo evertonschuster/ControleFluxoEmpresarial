@@ -7,21 +7,22 @@ import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 import GeralForm from './components/GeralForm';
 import { errorBack } from '../../../../utils/MessageApi';
 import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
+import { FormikHelpers } from 'formik';
+import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 
 const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
-
-    const [cliente] = useState<Cliente>({
+    const [cliente, setCliente] = useState<Cliente>({
         apelido: "",
         bairro: "",
         cep: "",
         complemento: "",
-        cPFCPNJ: "",
+        cpfcpnj: "",
         dataNascimento: undefined,
         email: "",
         endereco: "",
         estadoCivil: undefined,
-        id: "",
+        id: undefined,
         limiteCredito: undefined,
         nacionalidade: NATIONALITY_TYPE.BRASILEIRO,
         nome: "",
@@ -36,20 +37,34 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
     })
     const [loading, setLoading] = useState(false);
 
-
     useEffect(() => {
-        getCliente();
+        getCliente(props.match.params.id);
     }, [props.match.params.id])
 
 
-    async function onSubmit() {
-
+    async function onSubmit(values: Cliente, formikHelpers: FormikHelpers<Cliente>) {
+        try {
+            if (props.match.params.id) {
+                await ClienteApi.Update(values);
+            } else {
+                await ClienteApi.Save(values);
+            }
+            props.history.push("/cliente")
+        }
+        catch (e) {
+            errorBack(formikHelpers, e);
+        }
     }
 
-    async function getCliente() {
+    async function getCliente(id: number) {
         try {
+            if (!id) {
+                return;
+            }
 
-
+            setLoading(true);
+            let bdpais = await ClienteApi.GetById(id);
+            setCliente(bdpais.data);
         } catch (e) {
             errorBack(null, e);
         } finally {

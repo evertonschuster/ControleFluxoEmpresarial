@@ -39,8 +39,16 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 }
 
                 var property = entity.GetType().GetProperty(propertyName);
-                var value = Convert.ChangeType(reader.GetValue(propertyNameWithPrefix), property.PropertyType);
-                property.SetValue(entity, value);
+                if (property.PropertyType.IsEnum)
+                {
+                    var value = Enum.Parse(property.PropertyType,reader.GetValue(propertyNameWithPrefix).ToString(), true);
+                    property.SetValue(entity, value);
+                }
+                else
+                {
+                    var value = Convert.ChangeType(reader.GetValue(propertyNameWithPrefix), property.PropertyType);
+                    property.SetValue(entity, value);
+                }
             }
 
             return entity;

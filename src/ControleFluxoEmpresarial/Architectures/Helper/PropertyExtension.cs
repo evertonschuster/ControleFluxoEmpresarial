@@ -24,6 +24,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
             return properties.Where(e => e.Name.ToLower() != idProperty.ToLower() &&
             (
                 e.PropertyType.IsPrimitive ||
+                e.PropertyType.IsEnum ||
                 e.PropertyType == typeof(string) ||
                 e.PropertyType == typeof(decimal) ||
                 e.PropertyType == typeof(float) ||
