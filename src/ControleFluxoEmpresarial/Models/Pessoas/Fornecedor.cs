@@ -1,4 +1,6 @@
-﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
+﻿using ControleFluxoEmpresarial.DAOs.Cidades;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,8 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 {
     public class Fornecedor : Pessoa
     {
+        public TipoPessoaType Tipo { get; set; }
+
         public string Contato { get; set; }
 
         public decimal LimiteCredito { get; set; }
@@ -18,16 +22,22 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
     public class FornecedorValidator : AbstractValidator<Fornecedor>
     {
         public FornecedorDAO FornecedorDAO { get; }
+        public CidadeDAO CidadeDAO { get; }
+        public CondicaoPagamentoDAO CondicaoPagamentoDAO { get; }
 
-        public FornecedorValidator(FornecedorDAO FornecedorDAO)
+
+        public FornecedorValidator(FornecedorDAO fornecedorDAO, CidadeDAO cidadeDAO, CondicaoPagamentoDAO condicaoPagamentoDAO)
         {
-            this.FornecedorDAO = FornecedorDAO;
+
+            this.CidadeDAO = cidadeDAO;
+            this.FornecedorDAO = fornecedorDAO;
+            this.CondicaoPagamentoDAO = condicaoPagamentoDAO;
 
             RuleFor(e => e.Nome)
                 .NotEmpty().WithMessage("O Fornecedor não pode ser vaziu.")
                 .MaximumLength(60).WithMessage("O Fornecedor não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("O Fornecedor deve possuir mais de 5 caracteres.");
-            
+
             RuleFor(e => e.Contato)
                 .NotEmpty().WithMessage("O Contato não pode ser vaziu.")
                 .MaximumLength(60).WithMessage("O Contato não deve possuir mais de 60 caracteres.")
@@ -87,12 +97,25 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 
             RuleFor(e => e.CPFCPNJ).Must(CPFIsAllow).WithMessage("Fornecedor já cadastrado.");
 
+            RuleFor(e => e.CidadeId).Must(ExistCidade).WithMessage("Cidade não cadastrada.");
+
+            RuleFor(e => e.CondicaoPagamentoId).Must(ExistCondicaoPagamento).WithMessage("Condição de Pagamento não cadastrada.");
         }
 
         private bool CPFIsAllow(Fornecedor Fornecedor, string cpf)
         {
             var findFornecedor = this.FornecedorDAO.GetByCPFCNPJ(cpf);
             return findFornecedor == null || findFornecedor?.Id == Fornecedor.Id;
+        }
+
+        private bool ExistCidade(int id)
+        {
+            return this.CidadeDAO.GetByID(id) != null;
+        }
+
+        private bool ExistCondicaoPagamento(int id)
+        {
+            return this.CondicaoPagamentoDAO.GetByID(id) != null;
         }
     }
 }

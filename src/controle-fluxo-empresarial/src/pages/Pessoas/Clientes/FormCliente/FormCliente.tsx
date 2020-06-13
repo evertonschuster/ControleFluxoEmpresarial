@@ -43,12 +43,12 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
     }, [props.match.params.id])
 
 
-    async function onSubmit(values: Cliente, formikHelpers: FormikHelpers<Cliente>) {
+    async function onSubmit(cliente: Cliente, formikHelpers: FormikHelpers<Cliente>) {
         try {
             if (props.match.params.id) {
-                await ClienteApi.Update(values);
+                await ClienteApi.Update(cliente);
             } else {
-                await ClienteApi.Save(values);
+                await ClienteApi.Save(cliente);
             }
             props.history.push("/cliente")
         }

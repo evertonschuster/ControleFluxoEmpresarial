@@ -42,7 +42,10 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
         public override void VerifyRelationshipDependence(int id)
         {
             var sql = @"SELECT 1 FROM Clientes
-                        WHERE cidadeId = @id ";
+                            WHERE cidadeId = @id 
+                        union
+                        SELECT 1 FROM Fornecedores
+	                        WHERE cidadeId = @id";
 
             if (this.ExecuteExist(sql, new { id }))
             {

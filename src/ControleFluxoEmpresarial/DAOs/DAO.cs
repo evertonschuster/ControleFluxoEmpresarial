@@ -172,7 +172,7 @@ namespace ControleFluxoEmpresarial.DAOs
                     return entity;
                 }
 
-
+                reader.Close();
                 return default(TEntity);
 
             }

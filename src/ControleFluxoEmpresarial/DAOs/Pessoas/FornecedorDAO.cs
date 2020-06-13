@@ -18,7 +18,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
         internal Fornecedor GetByCPFCNPJ(string cpf)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

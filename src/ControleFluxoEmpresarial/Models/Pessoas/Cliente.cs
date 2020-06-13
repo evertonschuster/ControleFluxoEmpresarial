@@ -1,4 +1,6 @@
-﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
+﻿using ControleFluxoEmpresarial.DAOs.Cidades;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -29,10 +31,14 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
     public class ClienteValidator : AbstractValidator<Cliente>
     {
         public ClienteDAO ClienteDAO { get; }
+        public CidadeDAO CidadeDAO { get; }
+        public CondicaoPagamentoDAO CondicaoPagamentoDAO { get; }
 
-        public ClienteValidator(ClienteDAO ClienteDAO)
+        public ClienteValidator(ClienteDAO ClienteDAO, CidadeDAO cidadeDAO, CondicaoPagamentoDAO condicaoPagamentoDAO)
         {
+            this.CidadeDAO = cidadeDAO;
             this.ClienteDAO = ClienteDAO;
+            this.CondicaoPagamentoDAO = condicaoPagamentoDAO;
 
             RuleFor(e => e.Nome)
                 .NotEmpty().WithMessage("O Cliente não pode ser vaziu.")
@@ -108,12 +114,25 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.CPFCPNJ)
                 .Must(CPFIsAllow).OverridePropertyName("cpfcpnj").WithMessage("Cliente já cadastrado.");
 
+            RuleFor(e => e.CidadeId).Must(ExistCidade).WithMessage("Cidade não cadastrada.");
+
+            RuleFor(e => e.CondicaoPagamentoId).Must(ExistCondicaoPagamento).WithMessage("Condição de Pagamento não cadastrada.");
         }
 
         private bool CPFIsAllow(Cliente cliente, string cpf)
         {
             var findCliente = this.ClienteDAO.GetByCPFCNPJ(cpf);
             return findCliente == null || findCliente?.Id == cliente.Id;
+        }
+
+        private bool ExistCidade( int id)
+        {
+            return this.CidadeDAO.GetByID(id) != null;
+        }
+
+        private bool ExistCondicaoPagamento(int id)
+        {
+            return this.CondicaoPagamentoDAO.GetByID(id) != null;
         }
     }
 }

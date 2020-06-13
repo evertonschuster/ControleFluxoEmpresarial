@@ -7,10 +7,8 @@ export interface Pessoa {
     complemento?: string,
     condicaoPagamentoId?: number
     cpfcpnj?: string,
-    dataNascimento?: Date,
     email?: string,
     endereco?: string,
-    nacionalidade?: string,
     nome?: string,
     numero?: string,
     observacao?: string,

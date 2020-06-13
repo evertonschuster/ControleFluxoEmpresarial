@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
@@ -49,8 +50,15 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                         WHERE Id = @id";
 
             var entity = base.ExecuteGetFirstOrDefault(sql, new { id }, false);
-            this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
-            entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id, true);
+            if (entity != null)
+            {
+                this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
+                entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id, true);
+            }
+            else
+            {
+                this.Connection.Close();
+            }
 
             return entity;
         }
@@ -148,7 +156,16 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public override void VerifyRelationshipDependence(int id)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT 1 FROM Clientes
+                            WHERE condicaopagamentoid = @id 
+                        union
+                        SELECT 1 FROM Fornecedores
+	                        WHERE condicaopagamentoid = @id";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Condição de Pagamento não pode ser excluida!");
+            }
         }
     }
 }

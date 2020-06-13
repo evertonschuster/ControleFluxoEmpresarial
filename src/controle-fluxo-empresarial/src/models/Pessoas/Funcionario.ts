@@ -4,4 +4,7 @@ export interface Funcionario extends Pessoa{
     sexo?: SEXO,
     estadoCivil?: ESTADO_CIVIL,
     cnh?:String,
+    nacionalidade?: string,
+    dataNascimento?: Date,
+
 }
