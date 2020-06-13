@@ -12,6 +12,9 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
         .min(5, "O campo deve possuir mais de 5 caracteres.")
         .required('Informe o Cliente.'),
 
+    apelido: Yup.string()
+        .max(60, "O campo não deve possuir mais de 60 caracteres."),
+
     bairro: Yup.string()
         .max(60, "O Bairro não deve possuir mais de 60 caracteres.")
         .required('Informe Bairro.'),
@@ -101,7 +104,7 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
     numero: Yup.string()
         .typeError("Informe o Número.")
         .min(1, "O Número deve possuir mais de 1 caracteres.")
-        .max(10, "O Número não pode ter mais de 6 caracteres.")
+        .max(10, "O Número não pode ter mais de 10 caracteres.")
         .required("Informe o Número."),
 
     condicaoPagamentoId: Yup.number().required("Informe a Condição de pagemento."),

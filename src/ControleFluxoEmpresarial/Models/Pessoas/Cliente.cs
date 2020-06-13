@@ -9,13 +9,20 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 {
     public class Cliente : Pessoa
     {
-        public decimal LimiteCredito { get; set; }
+        public bool IsBrasileiro { get; set; }
 
-        public SexoType? Sexo { get; set; }
+        public DateTime DataNascimento { get; set; }
+
+        public decimal LimiteCredito { get; set; }
 
         public EstadoCivilType? EstadoCivil { get; set; }
 
+        public SexoType? Sexo { get; set; }
+
+        public string Nacionalidade { get; set; }
+
         public TipoPessoaType Tipo { get; set; }
+
     }
 
 
@@ -32,6 +39,10 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
                 .MaximumLength(60).WithMessage("O Cliente não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("O Cliente deve possuir mais de 5 caracteres.");
 
+            RuleFor(e => e.Apelido)
+                .MaximumLength(60).WithMessage("O Cliente não deve possuir mais de 60 caracteres.");
+
+
             RuleFor(e => e.Bairro)
                .NotEmpty().WithMessage("O Bairro não pode ser vaziu.")
                .MaximumLength(60).WithMessage("O Bairro não deve possuir mais de 60 caracteres.");
@@ -47,10 +58,14 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.Observacao)
                 .MaximumLength(255).WithMessage("A Observacoes não deve possuir mais de 255 caracteres.");
 
-            RuleFor(e => e.CPFCPNJ)
-                .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
-                .MaximumLength(16).WithMessage("O CPF/CNPJ não deve possuir mais de 16 caracteres.")
-                .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
+
+            When(e => e.Nacionalidade.ToLower() == "brasileiro", () =>
+            {
+                RuleFor(e => e.CPFCPNJ)
+                    .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
+                    .MaximumLength(16).WithMessage("O CPF/CNPJ não deve possuir mais de 16 caracteres.")
+                    .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
+            });
 
             RuleFor(e => e.Email)
                 .NotEmpty().WithMessage("O Email não pode ser vaziu.")
@@ -90,7 +105,8 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
                 .Must(e => e >= 0).WithMessage("O Limite Credito deve ser maior que 0.")
                 .Must(e => e < 100000000).WithMessage("O Limite Credito deve ser menor que 100000000.");
 
-            RuleFor(e => e.CPFCPNJ).Must(CPFIsAllow).WithMessage("Cliente já cadastrado.");
+            RuleFor(e => e.CPFCPNJ)
+                .Must(CPFIsAllow).OverridePropertyName("cpfcpnj").WithMessage("Cliente já cadastrado.");
 
         }
 

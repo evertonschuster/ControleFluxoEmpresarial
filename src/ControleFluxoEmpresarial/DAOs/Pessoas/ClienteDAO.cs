@@ -20,9 +20,11 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
         {
         }
 
-        internal Cliente GetByCPFCNPJ(string cpf)
+        internal Cliente GetByCPFCNPJ(string cpfcpnj)
         {
-            return null;
+            var sql = "SELECT * FROM clientes WHERE cpfcpnj = @cpfcpnj";
+
+            return this.ExecuteGetFirstOrDefault(sql, new { cpfcpnj});
         }
     }
 }

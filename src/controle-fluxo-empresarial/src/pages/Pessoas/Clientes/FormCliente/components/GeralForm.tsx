@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
 import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
@@ -10,6 +10,7 @@ import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/N
 
 const GeralForm: React.FC = () => {
     const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
+    const [, , helperIsBrasileiro] = useField<boolean>("IsBrasileiro");
     const [fieldNacionalidade, , helperNacionalidade] = useField<NATIONALITY_TYPE>("nacionalidade");
     const [, , helperEstadoCivil,] = useField("estadoCivil");
     const [, , helperSexo] = useField("sexo");
@@ -19,15 +20,15 @@ const GeralForm: React.FC = () => {
         if (fieldTipoPessoa.value === TIPO_PESSOA.Fisica) {
             helperEstadoCivil.setValue("");
             helperSexo.setValue("");
-        }else{
+        } else {
             helperEstadoCivil.setValue(undefined);
             helperSexo.setValue(undefined);
         }
         helperNacionalidade.setValue(NATIONALITY_TYPE.BRASILEIRO);
+        helperIsBrasileiro.setValue(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fieldTipoPessoa.value])
+    }, [fieldTipoPessoa.value]);
 
-    console.log(useFormikContext().errors)
 
     return (
         <>
@@ -119,7 +120,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={6} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
-                    <NationalitySelect name="nacionalidade" label="Nacionalidade" placeholder="Brasileiro." required></NationalitySelect>
+                    <NationalitySelect name="nacionalidade" label="Nacionalidade" nameIsBrasileiro="isBrasileiro" placeholder="Brasileiro." required></NationalitySelect>
                 </Col>
 
             </Row>

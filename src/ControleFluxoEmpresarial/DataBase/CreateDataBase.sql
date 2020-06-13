@@ -246,9 +246,10 @@ CREATE TABLE Clientes (
     RgInscricaoEstadual VARCHAR(14) NOT NULL,
     Telefone VARCHAR(30) NOT NULL,
     LimiteCredito decimal(10,2),
-    Sexo VARCHAR(10) NOT NULL,
-    EstadoCivil VARCHAR(20) NOT NULL,
+    Sexo VARCHAR(10) NULL,
+    EstadoCivil VARCHAR(20) NULL,
     Tipo VARCHAR(10) NOT NULL,
+	IsBrasileiro boolean NOT NULL,
 	Observacao varchar(255) NULL,
 
     DataCriacao  TIMESTAMP with time zone ,
@@ -258,8 +259,6 @@ CREATE TABLE Clientes (
     FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) ON DELETE CASCADE,
 	FOREIGN KEY (CondicaoPagamentoId) REFERENCES CondicaoPagamentos (Id) 
 );
-
-
 
 
 

@@ -8,6 +8,7 @@ import { useField } from 'formik'
 
 export interface Props {
     name: string;
+    nameIsBrasileiro: string;
     label: string;
     placeholder?: string;
     required?: boolean;
@@ -21,6 +22,7 @@ export enum NATIONALITY_TYPE {
 const NationalitySelect: React.FC<Props> = (props) => {
 
     const [field, meta, helpers] = useField(props.name);
+    const [, , brasileiroHelpers] = useField(props.nameIsBrasileiro);
     const [selectedValue, setSelectedValue] = useState(field.value)
 
     useEffect(() => {
@@ -32,9 +34,11 @@ const NationalitySelect: React.FC<Props> = (props) => {
 
         if (value === NATIONALITY_TYPE.BRASILEIRO) {
             helpers.setValue(value);
+            brasileiroHelpers.setValue(true)
         }
         else {
             helpers.setValue("");
+            brasileiroHelpers.setValue(false)
         }
     }
 

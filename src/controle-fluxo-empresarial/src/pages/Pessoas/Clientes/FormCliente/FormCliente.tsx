@@ -14,6 +14,7 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
     const [cliente, setCliente] = useState<Cliente>({
         apelido: "",
+        isBrasileiro: true,
         bairro: "",
         cep: "",
         complemento: "",
