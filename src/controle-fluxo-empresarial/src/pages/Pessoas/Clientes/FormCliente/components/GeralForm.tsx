@@ -15,8 +15,14 @@ const GeralForm: React.FC = () => {
     const [, , helperSexo] = useField("sexo");
 
     useEffect(() => {
-        helperEstadoCivil.setValue(undefined);
-        helperSexo.setValue(undefined);
+
+        if (fieldTipoPessoa.value === TIPO_PESSOA.Fisica) {
+            helperEstadoCivil.setValue("");
+            helperSexo.setValue("");
+        }else{
+            helperEstadoCivil.setValue(undefined);
+            helperSexo.setValue(undefined);
+        }
         helperNacionalidade.setValue(NATIONALITY_TYPE.BRASILEIRO);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fieldTipoPessoa.value])

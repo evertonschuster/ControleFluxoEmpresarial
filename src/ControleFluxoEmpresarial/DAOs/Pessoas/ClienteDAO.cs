@@ -19,5 +19,10 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
         public override void VerifyRelationshipDependence(int id)
         {
         }
+
+        internal Cliente GetByCPFCNPJ(string cpf)
+        {
+            return null;
+        }
     }
 }

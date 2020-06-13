@@ -8,33 +8,47 @@ const regexRG = /((^[A-Z]{2}-?)?([0-9\\.-]{5,}))([A-Z]{3})?([A-Z]{2})?/
 
 export const ClienteSchema = Yup.object().shape<Cliente>({
     nome: Yup.string()
-        .max(50, "O campo [Nome] não deve possuir mais de 50 caracteres.")
+        .max(60, "O campo não deve possuir mais de 60 caracteres.")
+        .min(5, "O campo deve possuir mais de 5 caracteres.")
         .required('Informe o Cliente.'),
 
     bairro: Yup.string()
-        .max(50, "O Bairro não deve possuir mais de 50 caracteres.")
+        .max(60, "O Bairro não deve possuir mais de 60 caracteres.")
         .required('Informe Bairro.'),
 
     cep: Yup.string()
-        .max(10, "O CEP não deve possuir mais de 10 caracteres.")
+        .max(9, "O CEP não deve possuir mais de 9 caracteres.")
+        .min(8, "O CEP deve possuir mais de 8 caracteres.")
         .required('Informe o CEP.'),
+
+    complemento: Yup.string()
+        .max(60, "O Complemento não deve possuir mais de 60 caracteres"),
+
+    observacao: Yup.string()
+        .max(255, "A Descrição não deve possuir mais de 255 caracteres"),
 
     cpfcpnj: Yup.string().when("nacionalidade", (nacionalidade: NATIONALITY_TYPE, schema: any) => {
         if (nacionalidade === NATIONALITY_TYPE.BRASILEIRO) {
             return Yup.string()
                 .required("Informe o CPF/CNPJ.")
+                .max(16, "O CPF/CNPJ não deve possuir mais de 16 caracteres")
+                .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
                 .matches(regexCPF, "CPF/CNPJ não é válido.")
         }
     }),
 
-    dataNascimento: Yup.date().required("Informe a data."),
+    dataNascimento: Yup.date()
+        .required("Informe a data.")
+        .max(new Date(), "Data inválida."),
 
     email: Yup.string()
         .required("Informe o Email.")
+        .max(60, "O Email não deve possuir mais de 60 caracteres")
         .email("Informe um email válido"),
 
     endereco: Yup.string()
-        .max(50, "O Endereço não deve possuir mais de 50 caracteres.")
+        .min(5, "O Endereço deve possuir mais de 5 caracteres.")
+        .max(60, "O Endereço não deve possuir mais de 60 caracteres.")
         .required('Informe o Endereço.'),
 
     estadoCivil: Yup.mixed()
@@ -57,11 +71,15 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
                 return Yup.string();
             }
 
-            return Yup.string().required('Informe a Nacionalidade.')
+            return Yup.string()
+                .required('Informe a Nacionalidade.')
+                .min(5, "A Nacionalidade deve possuir mais de 5 caracteres.")
+                .max(60, "A Nacionalidade não deve possuir mais de 60 caracteres.")
         }),
 
     rgInscricaoEstadual: Yup.string()
         .matches(regexRG, "Documento inválido.")
+        .max(14, "Documento inválido.")
         .required("Informe o Documento."),
 
     sexo: Yup.mixed()
@@ -82,7 +100,8 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
 
     numero: Yup.string()
         .typeError("Informe o Número.")
-        .max(6, "O Número não pode ter mais de 6 caracteres.")
+        .min(1, "O Número deve possuir mais de 1 caracteres.")
+        .max(10, "O Número não pode ter mais de 6 caracteres.")
         .required("Informe o Número."),
 
     condicaoPagamentoId: Yup.number().required("Informe a Condição de pagemento."),

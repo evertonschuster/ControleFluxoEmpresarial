@@ -26,7 +26,7 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         limiteCredito: undefined,
         nacionalidade: NATIONALITY_TYPE.BRASILEIRO,
         nome: "",
-        observacoes: "",
+        observacao: "",
         rgInscricaoEstadual: "",
         sexo: undefined,
         telefone: "",

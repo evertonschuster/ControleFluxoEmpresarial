@@ -102,7 +102,7 @@ namespace ControleFluxoEmpresarial
             //app.UseHttpsRedirection();
             app.UseCorsConfig();
             app.UseAuthorizationConfig();
-            app.UseErrorHandlingMiddleware();
+            //app.UseErrorHandlingMiddleware();
 
             app.UseSwaggerUIConfig();
 

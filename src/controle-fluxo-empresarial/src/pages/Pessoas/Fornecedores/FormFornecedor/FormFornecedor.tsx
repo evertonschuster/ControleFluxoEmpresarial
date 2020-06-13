@@ -22,7 +22,7 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         id: "",
         nacionalidade: "",
         nome: "",
-        observacoes: "",
+        observacao: "",
         rgInscricaoEstadual: "",
         telefone: "",
         tipo: TIPO_PESSOA.Juridica

@@ -13,7 +13,7 @@ export interface Pessoa {
     nacionalidade?: string,
     nome?: string,
     numero?: string,
-    observacoes?: string,
+    observacao?: string,
     rgInscricaoEstadual?: string,
     telefone?: string,
 }

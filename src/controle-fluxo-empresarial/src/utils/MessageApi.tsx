@@ -15,13 +15,13 @@ export function errorBack(formik?: FormikHelpers<any> | null, response?: any, pr
             return;
         }
 
-        
+
         formik?.setErrors(response.errors);
         notification.error({
             message: response["message"],
             duration: 10
         });
-        
+
         if (!response?.errors) {
             return;
         }
@@ -30,14 +30,16 @@ export function errorBack(formik?: FormikHelpers<any> | null, response?: any, pr
         Object.keys(errors).forEach(element => {
             let mensagem = errors[element];
 
-            if (Array.isArray(mensagem)) {
-                let errorArray: any[] = errors[element]
+            if (Array.isArray(mensagem) && mensagem.length > 0) {
+                let errorArray: any[] = errors[element];
 
-                mensagem = errorArray.map(e => <span style={{ textAlign: "justify" }}>- {e} <br /></span>);
-                formik?.setFieldError(element, errorArray.reduce((p, c) => p + "\n" + c, ""));
+                if (errorArray.length > 0) {
+                    mensagem = errorArray.map(e => <span style={{ textAlign: "justify" }}>- {e} <br /></span>);
+                    formik?.setFieldError(element, errorArray.reduce((p, c) => p + "\n" + c, ""));
+                }
             }
 
-            if (!prosRemoveMessage?.find(e => e === element)) {
+            if (!prosRemoveMessage?.find(e => e === element) && mensagem.length > 0) {
                 notification.error({
                     message: <span style={{ textAlign: "justify" }}>{mensagem}</span>,
                     duration: 10

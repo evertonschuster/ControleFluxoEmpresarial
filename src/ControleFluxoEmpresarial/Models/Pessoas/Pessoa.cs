@@ -33,7 +33,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 
         public string Numero { get; set; }
 
-        public string Observacoes { get; set; }
+        public string Observacao { get; set; }
 
         public string RgInscricaoEstadual { get; set; }
 

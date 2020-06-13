@@ -22,7 +22,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         id: "",
         nacionalidade: "",
         nome: "",
-        observacoes: "",
+        observacao: "",
         rgInscricaoEstadual: "",
         sexo: undefined,
         telefone: "",

@@ -25,6 +25,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
             (
                 e.PropertyType.IsPrimitive ||
                 e.PropertyType.IsEnum ||
+                e.PropertyType.IsLayoutSequential ||
                 e.PropertyType == typeof(string) ||
                 e.PropertyType == typeof(decimal) ||
                 e.PropertyType == typeof(float) ||

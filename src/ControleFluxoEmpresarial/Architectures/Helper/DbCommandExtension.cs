@@ -26,14 +26,25 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 
             foreach (var property in properties)
             {
-                if (property.GetValue(@params) == null || property.GetValue(@params) is IBaseEntity<TId>)
+                if (property.GetValue(@params) is IBaseEntity<TId>)
                 {
                     continue;
                 }
 
                 DbParameter dbParameter = command.CreateParameter();
                 dbParameter.ParameterName = property.Name;
-                dbParameter.Value = property.PropertyType.IsEnum ? property.GetValue(@params).ToString() : property.GetValue(@params);
+                if (property.GetValue(@params) == null)
+                {
+                    dbParameter.Value = DBNull.Value;
+                }
+                else if (property.PropertyType.IsEnum || Nullable.GetUnderlyingType(property.PropertyType)?.IsEnum == true)
+                {
+                    dbParameter.Value = property.GetValue(@params).ToString();
+                }
+                else
+                {
+                    dbParameter.Value = property.GetValue(@params);
+                }
                 command.Parameters.Add(dbParameter);
             }
         }
