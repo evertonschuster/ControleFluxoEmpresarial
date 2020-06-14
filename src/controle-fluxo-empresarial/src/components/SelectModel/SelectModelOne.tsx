@@ -21,23 +21,25 @@ export interface Props {
     label: Label;
     name: string;
     keyId?: string;
+    idIsInt?: boolean;
     keyDescription: string;
     required?: boolean;
     fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
     showLabel?: boolean;
     showDescription?: boolean;
     objectName?: string;
-    col?: ICol
+    col?: ICol;
 }
 
 
 const SelectModelOne: React.FC<Props> = (props) => {
 
     const [visible, setVisible] = useState(false);
-    const [description, setDescription] = useState("")
-    const keyId = props.keyId || "id";
-    const keyDescription = props.keyDescription || "nome";
-    const required = props.required || true;
+    const [description, setDescription] = useState("");
+    const keyId = props.keyId ?? "id";
+    const idIsInt = props.idIsInt ?? true;
+    const keyDescription = props.keyDescription ?? "nome";
+    const required = props.required ?? true;
     const showLabel = props.showLabel ?? true;
     const [field, meta, helpers] = useField(props.name);
     const [, , helpersObject] = useField(props.objectName ?? props.name); //Todo
@@ -51,7 +53,6 @@ const SelectModelOne: React.FC<Props> = (props) => {
     }, [field.value])
 
     async function getDesciptionValues(id: number) {
-
         if (id) {
             let respose = await props.fetchMethod(id);
             if (respose.data) {
@@ -83,7 +84,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
         }
     }, 500);
 
-    function onChangeId(value: number | undefined) {
+    function onChangeId(value: any | undefined) {
         helpers.setValue(value);
         helpers.setTouched(true);
     }
@@ -101,7 +102,11 @@ const SelectModelOne: React.FC<Props> = (props) => {
                 <Row>
                     <Col span={(props.col?.inputId) ?? (showDescription ? 8 : 19)} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
-                            <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} />
+                            {idIsInt ?
+                                <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} />
+                                :
+                                <InputAntd value={meta.value} onChange={(e) => onChangeId(e.target.value)} onBlur={onBlurId} ></InputAntd>
+                            }
                         </ItemFormRender>
                     </Col>
                     <Col span={(props.col?.btnSearch) ?? (showDescription ? 3 : 5)} style={{ textAlign: "center" }} >
@@ -122,7 +127,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     formMode={FormMode.SelectOne}
                     setVisible={setVisible}
                     setState={setState}
-                    state={isNaN(field.value) ? [] : { [keyId]: Number(field.value) }}
+                    state={isNaN(field.value) ? { [keyId]: field.value } : { [keyId]: Number(field.value) }}
                     label={props.label}
                     errorMessage={props.errorMessage}
                     path={props.path} />

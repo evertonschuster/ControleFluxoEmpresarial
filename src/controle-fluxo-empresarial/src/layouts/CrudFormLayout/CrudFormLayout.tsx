@@ -41,6 +41,7 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                 enableReinitialize={true}  >
                 <FormikForm
                     ref={childRef}
+                    initialValues={props.initialValues}
                     backPath={props.backPath}
                     isLoading={props.isLoading}
                     children={props.children}

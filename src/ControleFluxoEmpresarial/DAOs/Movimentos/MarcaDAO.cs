@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Models.Movimentos;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Models.Movimentos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,13 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         public override void VerifyRelationshipDependence(int id)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT 1 FROM Produtos
+                            WHERE marcaId = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Marca não pode ser excluida!");
+            }
         }
 
         internal Marca GetByNome(string nome)

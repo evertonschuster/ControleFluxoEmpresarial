@@ -26,7 +26,13 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         public override void VerifyRelationshipDependence(string id)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT 1 FROM Produtos
+                            WHERE UnidadeMedidaId = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Unidade de Medida não pode ser excluida!");
+            }
         }
 
         internal UnidadeMedida GetByNome(string nome)
