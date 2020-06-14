@@ -101,13 +101,13 @@ namespace ControleFluxoEmpresarial.DAOs
                 try
                 {
                     byId = (TId)converter.ConvertFrom(filter.Filter);
-                    sqlId += $" OR id = @id ";
+                    sqlId += $" OR {this.TableName}.id = @id ";
                 }
-                finally
+                catch
                 {
                 }
-                filter.Filter = $"%{filter.Filter}%";
-                sql += $" WHERE nome ilike @Filter {sqlId} ";
+                filter.Filter = $"%{filter.Filter.Replace(" ","%")}%";
+                sql += $" WHERE {this.TableName}.nome ilike @Filter {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", new { id = byId, filter.Filter }, filter);
