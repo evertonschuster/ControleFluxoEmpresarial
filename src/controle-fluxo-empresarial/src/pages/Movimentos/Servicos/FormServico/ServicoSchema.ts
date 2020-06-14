@@ -6,13 +6,22 @@ export const ServicoSchema = Yup.object().shape<Servico>({
     id: Yup.number(),
 
     nome: Yup.string()
-        .max(50, "O campo [Nome] não deve possuir mais de 50 caracteres.")
-        .required('[Nome] do Serviço não pode ser vaziu.'),
+        .max(60, "Serviço não deve possuir mais de 60 caracteres.")
+        .required('Serviço não pode ser vaziu.'),
 
-    valor: Yup.number().required("Informe o valor do serviço."),
+    valor: Yup.number()
+        .min(-0.00001, "O valor não pode ser negativo.")
+        .required("Informe o valor."),
 
     categoriaId: Yup.number()
-        .required("Informe uma Categoria ao serviço.")
-        .min(0, "Informe uma Categoria ao serviço."),
+        .required("Informe a Categoria.")
+        .min(0, "Informe a Categoria."),
 
+    descricao: Yup.string()
+        .nullable()
+        .max(255, "Descrição não deve possuir mais de 255 caracteres."),
+
+    observacao: Yup.string()
+        .nullable()
+        .max(255, "Observação não deve possuir mais de 255 caracteres."),
 });

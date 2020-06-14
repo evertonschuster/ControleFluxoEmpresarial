@@ -31,7 +31,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
             dataIndex: "formaPagamento",
             title: "Forma de Pagamento",
             editable: true,
-            width: "600px",
+            width: "500px",
             render: (text: FormaPagamento) => {
                 return text?.nome;
             },
