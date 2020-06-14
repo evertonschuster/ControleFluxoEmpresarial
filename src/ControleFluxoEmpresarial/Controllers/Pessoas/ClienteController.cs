@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
+﻿using ControleFluxoEmpresarial.DAOs;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Controllers.Clients
 {
-    [Route("api/[controller]")]
+    [Route("api/clientes")]
     [ApiController]
-    public class ClientController : ControllerBase<Client, PaginationQuery>
+    public class ClienteController : ControllerBase<Cliente, PaginationQuery>
     {
-        public ClientController(ClientDAO dAO) : base(dAO)
+        public ClienteController(ClienteDAO dAO) : base(dAO)
         {
         }
-
     }
 }

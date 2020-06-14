@@ -56,7 +56,7 @@ const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pro
         <CrudFormLayout
             isLoading={loading}
             backPath="/marca"
-            breadcrumbList={[{ displayName: "Marcas", URL: "/marca" }, { displayName: "Nova marca", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Marcas", URL: "/marca" }, { displayName: props.match.params.id ? "Edição da marca" :"Nova marca", URL: undefined }]}
             initialValues={marca}
             validationSchema={MarcaSchema}
             onSubmit={onSubmit}

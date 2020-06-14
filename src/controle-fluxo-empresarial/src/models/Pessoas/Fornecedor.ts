@@ -1,6 +1,7 @@
 import { Pessoa, TIPO_PESSOA } from "./Pessoa";
 
 export interface Fornecedor extends Pessoa {
-    responsavel?: string;
-    tipo?: TIPO_PESSOA
+    contato?: string;
+    limiteCredito?: number;
+    tipo?: TIPO_PESSOA;
 }

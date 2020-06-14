@@ -14,7 +14,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         bairro: "",
         cep: "",
         complemento: "",
-        cPFCPNJ: "",
+        cpfcpnj: "",
         dataNascimento: undefined,
         email: "",
         endereco: "",
@@ -22,7 +22,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         id: "",
         nacionalidade: "",
         nome: "",
-        observacoes: "",
+        observacao: "",
         rgInscricaoEstadual: "",
         sexo: undefined,
         telefone: "",
@@ -56,7 +56,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         <CrudFormLayout
             isLoading={loading}
             backPath="/funcionario"
-            breadcrumbList={[{ displayName: "Funcionários", URL: "/funcionario" }, { displayName: "Novo Funcionário", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Funcionários", URL: "/funcionario" }, { displayName: props.match.params.id ? "Edição do Funcionário" : "Novo Funcionário", URL: undefined }]}
             initialValues={funcionario}
             validationSchema={FuncionarioSchema}
             onSubmit={onSubmit}

@@ -8,6 +8,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
     public enum SexoType
     {
         Masculino,
-        Femenino
+        Feminino,
+        Outros
     }
 }

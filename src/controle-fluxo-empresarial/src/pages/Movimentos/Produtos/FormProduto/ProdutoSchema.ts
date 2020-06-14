@@ -6,12 +6,13 @@ export const ProdutoSchema = Yup.object().shape<Produto>({
     id: Yup.number(),
 
     nome: Yup.string()
-        .max(50, "O campo [Nome] não deve possuir mais de 50 caracteres.")
-        .required('[Nome] do produto não pode ser vaziu.'),
+        .max(60, "Produto não deve possuir mais de 60 caracteres.")
+        .min(5, "Produto deve possuir mais de 5 caracteres.")
+        .required('Produto não pode ser vaziu.'),
 
     marcaId: Yup.number()
-        .required("Informe uma Marca ao produto.")
-        .min(0, "Informe uma Marca ao produto."),
+        .required("Informe a Marca.")
+        .min(0, "Informe a Marca."),
 
     quantidade: Yup.number()
         .required("Informe a Quantidade.")
@@ -30,10 +31,23 @@ export const ProdutoSchema = Yup.object().shape<Produto>({
         .min(0, "Informe o Valor de Venda."),
 
     categoriaId: Yup.number()
-        .required("Informe uma Categoria ao produto.")
-        .min(0, "Informe uma Categoria ao produto."),
+        .required("Informe a Categoria.")
+        .min(0, "Informe a Categoria."),
 
-    unidadeMedidaId: Yup.number()
-        .required("Informe uma Unidade Medida ao produto.")
-        .min(0, "Informe uma Unidade de Medida ao produto."),
+    unidadeMedidaId: Yup.string()
+        .required("Informe uma Unidade de Medida."),
+
+    codigoBarras: Yup.string()
+        .max(20, "Codigo de Barras não deve possuir mais de 20 caracteres."),
+
+    referencia: Yup.string()
+        .max(60, "Referência não deve possuir mais de 60 caracteres.")
+        .min(5, "Referência deve possuir mais de 5 caracteres.")
+        .required('Referência não pode ser vazia.'),
+
+    descricao: Yup.string()
+        .max(255, "Descrição não deve possuir mais de 255 caracteres."),
+
+    observacao: Yup.string()
+        .max(255, "Observação não deve possuir mais de 255 caracteres."),
 });

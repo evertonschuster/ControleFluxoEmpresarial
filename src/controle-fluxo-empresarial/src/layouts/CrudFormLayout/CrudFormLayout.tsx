@@ -13,12 +13,10 @@ export interface Props extends FormikConfig<any> {
     children?: ((props: FormikProps<any>) => React.ReactNode) | React.ReactNode;
 }
 
-
 const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
     const childRef = useRef<FormikFormRef>();
 
-    
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
         try {
             childRef.current?.removeSavedFormLocalStorageForm();
@@ -43,6 +41,7 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                 enableReinitialize={true}  >
                 <FormikForm
                     ref={childRef}
+                    initialValues={props.initialValues}
                     backPath={props.backPath}
                     isLoading={props.isLoading}
                     children={props.children}

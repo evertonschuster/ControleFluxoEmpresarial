@@ -14,14 +14,16 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public class DAOReflection<TEntity> : DAOReflection<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseEntity<int>, new()
+    public abstract class DAOReflection<TEntity> : DAOReflection<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseEntity<int>, new()
     {
         public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
         {
         }
+
+        public override abstract void VerifyRelationshipDependence(int id);
     }
 
-    public class DAOReflection<TEntity, TId> : DAO<TEntity, TId>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
+    public abstract class DAOReflection<TEntity, TId> : DAO<TEntity, TId>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
     {
         private string TableName { get; }
         private string IdProperty { get; }
@@ -99,16 +101,16 @@ namespace ControleFluxoEmpresarial.DAOs
                 try
                 {
                     byId = (TId)converter.ConvertFrom(filter.Filter);
-                    sqlId += $" OR id = @id ";
+                    sqlId += $" OR {this.TableName}.id = @id ";
                 }
-                finally
+                catch
                 {
                 }
-                filter.Filter = $"%{filter.Filter}%";
-                sql += $" WHERE nome ilike @Filter {sqlId} ";
+                filter.Filter = $"%{filter.Filter.Replace(" ","%")}%";
+                sql += $" WHERE {this.TableName}.nome ilike @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, new { id = byId, filter.Filter }, filter);
+            return base.ExecuteGetPaginated(sql, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", new { id = byId, filter.Filter }, filter);
         }
 
         public override TId Insert(TEntity entity, bool commit = true)
@@ -130,5 +132,8 @@ namespace ControleFluxoEmpresarial.DAOs
             entity.DataAtualizacao = DateTime.Now;
             base.ExecuteScript(sql, entity);
         }
+
+        public override abstract void VerifyRelationshipDependence(TId id);
+       
     }
 }

@@ -3,46 +3,66 @@ import { RouteComponentProps } from 'react-router-dom';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
 import { FornecedorSchema } from './FornecedorSchema';
-import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 import GeralForm from './components/GeralForm';
 import { errorBack } from '../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
+import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
+import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 
 const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
-
-    const [fornecedor] = useState<Fornecedor>({
+    const [fornecedor, setFornecedor] = useState<Fornecedor>({
         apelido: "",
         bairro: "",
         cep: "",
         complemento: "",
-        cPFCPNJ: "",
-        dataNascimento: undefined,
+        contato: "",
+        cpfcpnj: "",
         email: "",
         endereco: "",
-        id: "",
-        nacionalidade: "",
+        id: undefined,
+        limiteCredito: undefined,
         nome: "",
-        observacoes: "",
+        numero: "",
+        observacao: "",
         rgInscricaoEstadual: "",
         telefone: "",
-        tipo: TIPO_PESSOA.Juridica
+        tipo: TIPO_PESSOA.Juridica,
+        cidadeId: undefined,
+        condicaoPagamentoId: undefined
     })
     const [loading, setLoading] = useState(false);
 
 
+
     useEffect(() => {
-        getFornecedor();
+        getFornecedor(props.match.params.id);
     }, [props.match.params.id])
 
 
-    async function onSubmit() {
-
+    async function onSubmit(fornecedor: Fornecedor, formikHelpers: FormikHelpers<Fornecedor>) {
+        try {
+            if (props.match.params.id) {
+                await FornecedorApi.Update(fornecedor);
+            } else {
+                await FornecedorApi.Save(fornecedor);
+            }
+            props.history.push("/fornecedor")
+        }
+        catch (e) {
+            errorBack(formikHelpers, e);
+        }
     }
 
-    async function getFornecedor() {
+    async function getFornecedor(id: number) {
         try {
+            if (!id) {
+                return;
+            }
 
-
+            setLoading(true);
+            let bdpais = await FornecedorApi.GetById(id);
+            setFornecedor(bdpais.data);
         } catch (e) {
             errorBack(null, e);
         } finally {
@@ -54,7 +74,7 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
         <CrudFormLayout
             isLoading={loading}
             backPath="/fornecedor"
-            breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName: "Novo Fornecedor", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Fornecedores", URL: "/fornecedor" }, { displayName: props.match.params.id ? "Edição do Fornecedor" : "Novo Fornecedor", URL: undefined }]}
             initialValues={fornecedor}
             validationSchema={FornecedorSchema}
             onSubmit={onSubmit}

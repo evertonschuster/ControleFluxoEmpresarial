@@ -9,6 +9,7 @@ export interface Props {
     backPath: string;
     children?: ((props: FormikProps<any>) => React.ReactNode) | React.ReactNode;
     onKeyDown: (event: React.KeyboardEvent<HTMLFormElement>) => void;
+    initialValues: any;
 }
 
 export interface FormikFormRef {
@@ -49,7 +50,7 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
 
     function getFormLocalStorage() {
         var savedForm = JSON.parse(localStorage.getItem(keyLocalStorage) ?? "") as FormData;
-        formik.setValues(savedForm.formData);
+        formik.setValues({ ...props.initialValues, ...savedForm.formData });
     }
 
     function verefiSavedForm() {

@@ -2,29 +2,36 @@ import React, { useEffect } from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
 import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
-import { useField, useFormikContext } from 'formik';
-import { Cliente } from '../../../../../models/Pessoas/Cliente';
+import { useField } from 'formik';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/NationalitySelect/NationalitySelect';
 
 const GeralForm: React.FC = () => {
-
-    const [field,] = useField<TIPO_PESSOA>({ name: "tipo" });
-    const { setFieldValue } = useFormikContext<Cliente>();
+    const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
+    const [, , helperIsBrasileiro] = useField<boolean>("IsBrasileiro");
+    const [fieldNacionalidade, , helperNacionalidade] = useField<NATIONALITY_TYPE>("nacionalidade");
+    const [, , helperEstadoCivil,] = useField("estadoCivil");
+    const [, , helperSexo] = useField("sexo");
 
     useEffect(() => {
 
-        setFieldValue("estadoCivil", undefined);
-        setFieldValue("sexo", undefined);
-        setFieldValue("dataNascimento", undefined);
-        setFieldValue("nacionalidade", undefined);
+        if (fieldTipoPessoa.value === TIPO_PESSOA.Fisica) {
+            helperEstadoCivil.setValue("");
+            helperSexo.setValue("");
+        } else {
+            helperEstadoCivil.setValue(undefined);
+            helperSexo.setValue(undefined);
+        }
+        helperNacionalidade.setValue(NATIONALITY_TYPE.BRASILEIRO);
+        helperIsBrasileiro.setValue(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fieldTipoPessoa.value]);
 
-    }, [field.value])
 
     return (
         <>
-
             <Row>
                 <Col span={2}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
@@ -38,14 +45,14 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={7}>
-                    <Input name="nome" label="Cliente" placeholder={field.value === TIPO_PESSOA.Fisica ? "João da silva" : "Eletrônicos do João"} required fast={false} />
+                    <Input name="nome" label="Cliente" placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "João da silva" : "Eletrônicos do João"} required fast={false} />
                 </Col>
 
                 <Col span={7}>
-                    <Input name="apelido" label={field.value === TIPO_PESSOA.Fisica ? "Apelido" : "Nome Fantasia"} placeholder={field.value === TIPO_PESSOA.Fisica ? "João" : "Eletrôjoão"} fast={false} />
+                    <Input name="apelido" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Apelido" : "Nome Fantasia"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "João" : "Eletrôjoão"} fast={false} />
                 </Col>
 
-                <Col span={4} hidden={field.value === TIPO_PESSOA.Juridica}>
+                <Col span={4} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
                     <Select name="estadoCivil" label="Estado Civíl" placeholder="Solteiro(a)" required >
                         <SelectAntd.Option key="Casado" value="Casado">Casado(a).</SelectAntd.Option>
                         <SelectAntd.Option key="Divorciado" value="Divorciado">Divorciado(a).</SelectAntd.Option>
@@ -64,7 +71,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputNumber name="numero" label="Número" placeholder="549" required />
+                    <Input name="numero" label="Número" placeholder="549" required />
                 </Col>
 
                 <Col span={5}>
@@ -100,7 +107,7 @@ const GeralForm: React.FC = () => {
                     <Input name="email" label="Email" placeholder="joao@gmail.com" required />
                 </Col>
 
-                <Col span={3} hidden={field.value === TIPO_PESSOA.Juridica}>
+                <Col span={3} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
                     <Select name="sexo" label="Sexo" placeholder="Masculino" required >
                         <SelectAntd.Option key="Masculino" value="Masculino">Masculino.</SelectAntd.Option>
                         <SelectAntd.Option key="Feminino" value="Feminino">Feminino.</SelectAntd.Option>
@@ -108,22 +115,27 @@ const GeralForm: React.FC = () => {
                     </Select>
                 </Col>
 
-                <Col span={4} hidden={field.value === TIPO_PESSOA.Juridica}>
-                    <Input name="nacionalidade" label="Nacionalidade" placeholder="Brasileiro." required />
+                <Col span={3}>
+                    <DatePicker name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" required format="DD/MM/yyyy" />
                 </Col>
 
-                <Col span={3}>
-                    <DatePicker name="dataNascimento" label={field.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" required format="DD/MM/yyyy" />
+                <Col span={6} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
+                    <NationalitySelect name="nacionalidade" label="Nacionalidade" nameIsBrasileiro="isBrasileiro" placeholder="Brasileiro." required></NationalitySelect>
                 </Col>
+
             </Row>
 
             <Row>
                 <Col span={4}>
-                    <Input name="rgInscricaoEstadual" label={field.value === TIPO_PESSOA.Fisica ? "RG" : "Inscrição Estadual"} placeholder={field.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"} required fast={false} />
+                    <Input
+                        name="rgInscricaoEstadual"
+                        label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? `RG${fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO ? "" : " (Documento)"}` : `Inscrição Estadual`}
+                        placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"}
+                        required fast={false} />
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cPFCPNJ" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required fast={false} />
+                    <Input name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required={fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO} fast={false} />
                 </Col>
 
                 <Col span={3}>

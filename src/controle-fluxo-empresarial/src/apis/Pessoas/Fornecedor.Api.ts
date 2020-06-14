@@ -1,7 +1,7 @@
 import { Fornecedor } from '../../models/Pessoas/Fornecedor';
 import { ApiBase } from '../Api';
 
-export const endPoint: string = 'api/condicao-pagamento';
+export const endPoint: string = 'api/fornecedores';
 
 class Api extends ApiBase<Fornecedor>{
 

@@ -1,12 +1,13 @@
 {
   "name": "controle-fluxo-empresarial",
   "version": "0.1.0",
+  "homepage": "/knk",
   "private": true,
   "dependencies": {
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",
-    "@types/node": "^12.12.42",
-    "@types/react": "^16.9.35",
+    "@types/node": "^12.12.47",
+    "@types/react": "^16.9.36",
     "@types/react-dom": "^16.9.8",
     "@types/react-input-mask": "^2.0.5",
     "@types/react-router-dom": "^5.1.5",
@@ -58,7 +59,7 @@
     "react-dev-utils": "^9.1.0",
     "react-dom": "^16.13.1",
     "react-input-mask": "^2.0.4",
-    "react-location": "^2.0.7",
+    "react-location": "^2.0.8",
     "react-number-format": "^4.4.1",
     "react-perfect-scrollbar": "^1.5.8",
     "react-router-dom": "^5.2.0",
@@ -69,12 +70,12 @@
     "sass-loader": "7.2.0",
     "semver": "6.3.0",
     "style-loader": "1.0.0",
-    "terser-webpack-plugin": "^2.3.6",
+    "terser-webpack-plugin": "^2.3.7",
     "ts-pnp": "1.1.4",
-    "typescript": "^3.9.3",
+    "typescript": "^3.9.5",
     "url-loader": "2.1.0",
     "webpack": "4.41.0",
-    "webpack-dev-server": "3.2.1",
+    "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "2.1.1",
     "workbox-webpack-plugin": "4.3.1",
     "yup": "^0.27.0"
@@ -102,7 +103,7 @@
   "devDependencies": {
     "@types/react-transition-group": "^4.4.0",
     "@types/yup": "^0.26.37",
-    "less": "^3.11.1",
+    "less": "^3.11.3",
     "less-loader": "^5.0.0"
   },
   "jest": {

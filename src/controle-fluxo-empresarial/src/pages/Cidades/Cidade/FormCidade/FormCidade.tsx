@@ -59,7 +59,7 @@ const FormCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pr
         <CrudFormLayout
             isLoading={loading}
             backPath="/cidade"
-            breadcrumbList={[{ displayName: "Cidade", URL: "/Cidade" }, { displayName: "Novo Cidade", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Cidade", URL: "/Cidade" }, { displayName: props.match.params.id ? "Edição da Cidade" : "Novo Cidade", URL: undefined }]}
             initialValues={cidade}
             validationSchema={CidadeSchema}
             onSubmit={onSubmit}

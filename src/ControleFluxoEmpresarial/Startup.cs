@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -27,7 +28,7 @@ using Microsoft.OpenApi.Models;
 
 namespace ControleFluxoEmpresarial
 {
-    public class Startup 
+    public class Startup
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
@@ -57,8 +58,13 @@ namespace ControleFluxoEmpresarial
                  .Build();
                 opts.Filters.Add(new AuthorizeFilter(policy));
                 //opts.Filters.Add(typeof(ModelStateFeatureFilter));
-            }).AddApiExplorer()
-            .AddFluentValidation();
+            })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                })
+                .AddApiExplorer()
+                .AddFluentValidation();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {

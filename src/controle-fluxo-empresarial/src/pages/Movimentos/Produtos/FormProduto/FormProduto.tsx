@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Produto } from '../../../../models/Movimentos/Produto';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col } from 'antd';
-import { Input, TextArea, InputNumber } from '../../../../components/WithFormItem/withFormItem';
 import { RouteComponentProps } from 'react-router-dom';
 import { ProdutoSchema } from './ProdutoSchema';
-import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
-import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
-import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
-import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
 import { errorBack } from '../../../../utils/MessageApi';
+import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
+import { FormikHelpers } from 'formik';
+import FormGeneral from './components/FormGeneral';
+import { Modal } from 'antd';
 
 const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
-    const [produto] = useState<Produto>({
+    const [produto, setProduto] = useState<Produto>({
         nome: "",
         categoriaId: undefined,
         quantidade: undefined,
@@ -21,26 +19,61 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         valorVenda: undefined,
         taxa: undefined,
         unidadeMedidaId: undefined,
-        codigoBarra: "",
+        codigoBarras: "",
         referencia: "",
         marcaId: undefined,
+        descricao: "",
+        observacao: ""
     });
     const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
-        getProduto();
+        getProduto(props.match.params.id);
     }, [props.match.params.id])
 
+    async function onSubmitConfirm(produto: Produto, formikHelpers: FormikHelpers<Produto>) {
 
-    async function onSubmit() {
+        if (produto.valorCompra && produto.valorVenda && (produto.valorCompra <= produto.valorVenda)) {
+            await onSubmit(produto, formikHelpers);
 
+            return;
+        }
+
+        Modal.confirm({
+            title: "Valor de Venda inconsistente",
+            content: "O Valor de Venda é inferior ao valor de compra",
+            onOk: () => onSubmit(produto, formikHelpers)
+        })
     }
 
-    async function getProduto() {
+    async function onSubmit(produto: Produto, formikHelpers: FormikHelpers<Produto>) {
         try {
 
+            if (props.match.params.id) {
+                await ProdutoApi.Update(produto);
+            } else {
+                await ProdutoApi.Save(produto);
+            }
 
+            props.history.push("/produto")
+        } catch (e) {
+            errorBack(formikHelpers, e, ["nome"]);
+        }
+    }
+
+    async function getProduto(id: number) {
+        try {
+            if (!id) {
+                return;
+            }
+
+            setLoading(true);
+            let bdProduto = await ProdutoApi.GetById(id);
+
+            let valorVenda = bdProduto.data.valorVenda ?? 0;
+            let valorCompra = bdProduto.data.valorCompra ?? 0;
+            setProduto({ ...bdProduto.data, taxa: (valorVenda - valorCompra) / (valorCompra) * 100 });
         } catch (e) {
             errorBack(null, e);
         } finally {
@@ -52,107 +85,13 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         <CrudFormLayout
             isLoading={loading}
             backPath="/produto"
-            breadcrumbList={[{ displayName: "Produtos", URL: "/produto" }, { displayName: "Novo Produto", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Produtos", URL: "/produto" }, { displayName: props.match.params.id ? "Edição do Produto" : "Novo Produto", URL: undefined }]}
             initialValues={produto}
             validationSchema={ProdutoSchema}
-            onSubmit={onSubmit}
+            onSubmit={onSubmitConfirm}
         >
 
-            <Row>
-                <Col span={2}>
-                    <Input name="id" label="Código" placeholder="Codigo" readOnly />
-                </Col>
-
-                <Col span={10}>
-                    <Input name="nome" label="Produto" placeholder="Produto" required />
-                </Col>
-
-                <Col span={3}>
-                    <SelectModelOne
-                        fetchMethod={UnidadeMedidaApi.GetById.bind(UnidadeMedidaApi)}
-                        name="unidadeMedidaId"
-                        keyDescription="Unidade de Medida"
-                        required={true}
-                        showDescription={false}
-                        label={{ title: "Seleção de Unidade de Medida", label: "Unidade de Medida" }}
-                        errorMessage={{ noSelection: "Selecione uma Unidade de Medida!" }}
-                        path="unidade-medida" />
-                </Col>
-
-                <Col span={3}>
-                    <Input name="codigoBarra" label="Codigo Barras" placeholder="Codigo Barras" />
-                </Col>
-
-                <Col span={3}>
-                    <Input name="referencia" label="Referência" placeholder="Codigo" />
-                </Col>
-
-            </Row>
-
-            <Row>
-                <Col span={12}>
-                    <TextArea name="descricao" label="Descrição" rows={4} />
-                </Col>
-
-                <Row>
-                    <Col span={12}>
-                        <TextArea name="observacao" label="Observação" rows={4} />
-                    </Col>
-                </Row>
-            </Row>
-
-            <Row>
-                <Col span={6}>
-                    <SelectModelOne
-                        fetchMethod={MarcaApi.GetById.bind(MarcaApi)}
-                        name="marcaId"
-                        keyDescription="nome"
-                        required={true}
-                        label={{ title: "Seleção de Marca", label: "Marca" }}
-                        errorMessage={{ noSelection: "Selecione uma Marca!" }}
-                        path="marca" />
-                </Col>
-
-                <Col span={6}>
-                    <SelectModelOne
-                        fetchMethod={CategoriaApi.GetById.bind(CategoriaApi)}
-                        name="categoriaId"
-                        keyDescription="nome"
-                        required={true}
-                        label={{ title: "Seleção de Categoria", label: "Categoria" }}
-                        errorMessage={{ noSelection: "Selecione ao menos uma Categoria!" }}
-                        path="categoria" />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col span={3}>
-                    <InputNumber name="quantidadeMinima" label="Quantidade Mínima" placeholder="2" required />
-                </Col>
-
-                <Col span={3}>
-                    <InputNumber
-                        name="valorCompra" label="Valor Compra" placeholder="10,20" required
-                        parser={(value) => value?.replace(/\$\s?|(,*)/g, '') || ""}
-                    />
-                </Col>
-
-                <Col span={3}>
-                    <InputNumber name="taxa" label="Margem de lucro (%)" min={0} max={100} placeholder="15,50" />
-                </Col>
-
-                <Col span={3}>
-                    <InputNumber name="valorVenda" label="Valor Venda" placeholder="15,50" required />
-                </Col>
-
-                <Col span={3}>
-                    <InputNumber name="quantidade" label="Quantidade" placeholder="10" required />
-                </Col>
-
-            </Row>
-
-
-
+            <FormGeneral />
 
         </CrudFormLayout>)
 }

@@ -19,8 +19,12 @@ const ListCliente:React.FC = () => {
             dataIndex: 'nome',
         },
         {
+            title: 'Apelido/Nome Fantasia',
+            dataIndex: 'apelido',
+        },
+        {
             title: 'CPF/CNPJ',
-            dataIndex: 'cpfcnpj',
+            dataIndex: 'cpfcpnj',
         },
         {
             title: 'Telefone',

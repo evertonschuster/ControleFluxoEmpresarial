@@ -12,6 +12,11 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
         {
         }
 
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         internal FuncaoFuncionario GetByNome(string nome)
         {
 

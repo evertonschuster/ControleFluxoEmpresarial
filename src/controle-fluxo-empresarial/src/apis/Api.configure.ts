@@ -39,7 +39,8 @@ api.interceptors.response.use((response) => {
             history.push("/login?redirectUrl=" + window.location.pathname)
         }
 
-        if (error.response!.data!.code === 422 || error.response.status === 422) {
+        if ((error.response!.data!.code === 422 || error.response.status === 422) ||
+            (error.response!.data!.code === 400 || error.response.status === 400)) {
             console.log("Cambioooo")
             return Promise.reject(new ValidationError(error.response.data));
         }

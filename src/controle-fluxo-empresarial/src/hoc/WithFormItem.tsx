@@ -2,10 +2,13 @@ import React, { useContext } from 'react'
 import { FormItem } from 'formik-antd';
 import BasicLayoutContext, { FormMode } from '../layouts/BasicLayout/BasicLayoutContext';
 import { useField } from 'formik';
+export declare const ValidateStatuses: ["success", "warning", "error", "validating", ""];
 
 interface WithFormITemProps {
     label: string;
     required?: boolean;
+    validateStatus?: typeof ValidateStatuses[number];
+    help?: string;
 }
 
 interface PropsItemForm {
@@ -22,8 +25,21 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>, pr
     const isViewMode = basicLayoutContext != null && basicLayoutContext.formMode === FormMode.View;
     const isDisabled = props.disabled || isViewMode;
 
+    var anotherProps: any = {} as any;
+    if (props.validateStatus) {
+        anotherProps.validateStatus = props.validateStatus;
+        anotherProps.help = props.help;
+    }
+
+
     return (
-        <FormItem name={props.name} label={props.label || ""} required={props.required} className="form-custom-item" >
+        <FormItem
+            name={props.name}
+            label={props.label || ""}
+            required={props.required}
+            className="form-custom-item"
+            {...anotherProps}
+        >
             <Field autoComplete="off" disabled={isDisabled} {...propsConf} {...props} required={false} style={{ width: "100%" }} />
         </FormItem >
     )
@@ -32,7 +48,7 @@ export const withFormItem = <P extends object>(Field: React.ComponentType<P>, pr
 export const withFormItemCustom = <P extends object>(Field: React.ComponentType<P>, propsConf?: any): React.FC<P & WithFormITemProps> => (props: any) => {
 
     const basicLayoutContext = useContext(BasicLayoutContext);
-    const [field, meta, helpers] = useField({ name: props.name });
+    const [field,] = useField({ name: props.name });
 
     const isViewMode = basicLayoutContext != null && basicLayoutContext.formMode === FormMode.View;
     const isDisabled = props.disabled || isViewMode;

@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Cidades;
 using System;
 using System.Collections.Generic;
@@ -88,7 +89,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 sql += $" WHERE (nome LIKE '%{filter.Filter}%' {sqlId})";
             }
 
-            return base.ExecuteGetPaginated(sql, filter);
+            return base.ExecuteGetPaginated(sql, null, filter);
         }
 
         public override int Insert(Estado entity, bool commit = true)
@@ -108,6 +109,11 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                         WHERE ID = {entity.Id} ";
 
             base.ExecuteScript(sql);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+           
         }
     }
 }

@@ -22,6 +22,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         void Delete(TEntity entity, bool commit = true);
 
+        void VerifyRelationshipDependence(TId id);
     }
 
     public interface IDAO

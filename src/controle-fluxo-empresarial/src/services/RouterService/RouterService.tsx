@@ -19,7 +19,7 @@ const RouterService: React.FC = () => {
     return (
         <Router history={history} >
             <Switch  >
-                <Route exact path="/login" component={LoginUser} />
+                <Route exact path="/login"  component={LoginUser} />
 
                 <BasicLayoutContextProvider value={{
                     breadcrumb, setBreadcrumb,

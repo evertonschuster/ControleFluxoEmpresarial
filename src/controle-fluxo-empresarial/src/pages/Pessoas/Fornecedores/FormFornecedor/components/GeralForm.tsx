@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
 import { Input, Select, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
 import { useField, useFormikContext } from 'formik';
-import { Fornecedor } from './../../../../../models/Pessoas/Fornecedor';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
@@ -11,16 +10,7 @@ import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/Cond
 const GeralForm: React.FC = () => {
 
     const [field,] = useField<TIPO_PESSOA>({ name: "tipo" });
-    const { setFieldValue } = useFormikContext<Fornecedor>();
-
-    useEffect(() => {
-
-        setFieldValue("estadoCivil", undefined);
-        setFieldValue("sexo", undefined);
-        setFieldValue("dataNascimento", undefined);
-        setFieldValue("nacionalidade", undefined);
-
-    }, [field.value])
+    console.log(useFormikContext())
 
     return (
         <>
@@ -44,7 +34,6 @@ const GeralForm: React.FC = () => {
                 <Col span={7}>
                     <Input name="apelido" label={field.value === TIPO_PESSOA.Fisica ? "Apelido" : "Nome Fantasia"} placeholder={field.value === TIPO_PESSOA.Fisica ? "João" : "Eletrôjoão"} fast={false} />
                 </Col>
-
             </Row>
 
 
@@ -54,7 +43,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputNumber name="numero" label="Número" placeholder="549" required />
+                    <Input name="numero" label="Número" placeholder="549" required />
                 </Col>
 
                 <Col span={5}>
@@ -101,7 +90,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cPFCPNJ" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required fast={false} />
+                    <Input name="cpfcpnj" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required fast={false} />
                 </Col>
 
                 <Col span={3}>

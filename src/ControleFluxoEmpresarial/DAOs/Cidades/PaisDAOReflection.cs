@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.DAOs;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Cidades;
 using System;
@@ -21,6 +22,17 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                         WHERE Nome = @nome ";
 
             return base.ExecuteGetFirstOrDefault(sql, new { nome });
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            var sql = @"SELECT 1 FROM estados
+                        WHERE paisId = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Pais não pode ser excluido");
+            }
         }
     }
 }

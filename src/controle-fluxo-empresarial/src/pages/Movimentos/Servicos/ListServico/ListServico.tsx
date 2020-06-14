@@ -3,23 +3,36 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ServicoApi } from '../../../../apis/Movimentos/ServicoApi';
+import { Servico } from './../../../../models/Movimentos/Servico';
+import { ColumnProps } from 'antd/lib/table';
 
 const ListServico: React.FC = () => {
     const response = UseListPagined({ getListPagined: ServicoApi.GetListPagined.bind(ServicoApi) });
 
-    const columns = [
+    const columns:ColumnProps<Servico>[] = [
         {
             title: 'Código',
             dataIndex: 'id',
             key: 'id',
         },
         {
-            title: 'Servico',
+            title: 'Serviço',
             dataIndex: 'nome',
+        },
+        {
+            title: 'Categoria',
+            dataIndex: 'categoria.nome',
         },
         {
             title: 'Valor',
             dataIndex: 'valor',
+            render:(text: any, record: Servico, index: number) =>{
+                let format = Intl.NumberFormat(undefined, {
+                    minimumFractionDigits: 2
+                });
+
+                return format.format(record.valor ?? 0)
+            }
         },
     ];
 

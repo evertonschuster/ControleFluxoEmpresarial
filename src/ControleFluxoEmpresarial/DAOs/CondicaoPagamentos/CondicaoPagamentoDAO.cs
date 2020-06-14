@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
@@ -49,8 +50,15 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                         WHERE Id = @id";
 
             var entity = base.ExecuteGetFirstOrDefault(sql, new { id }, false);
-            this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
-            entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id, true);
+            if (entity != null)
+            {
+                this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
+                entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id, true);
+            }
+            else
+            {
+                this.Connection.Close();
+            }
 
             return entity;
         }
@@ -143,7 +151,21 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                 sql += $" WHERE nome ilike @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, new { id, filter.Filter }, filter);
+            return base.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM CondicaoPagamentos", new { id, filter.Filter }, filter);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            var sql = @"SELECT 1 FROM Clientes
+                            WHERE condicaopagamentoid = @id 
+                        union
+                        SELECT 1 FROM Fornecedores
+	                        WHERE condicaopagamentoid = @id";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Condição de Pagamento não pode ser excluida!");
+            }
         }
     }
 }

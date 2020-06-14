@@ -71,7 +71,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 sql += $" WHERE nome like '%{filter.Filter}%' {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, filter);
+            return base.ExecuteGetPaginated(sql, null, filter);
         }
 
         internal Cidade GetByNome(string nome)
@@ -107,6 +107,11 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                         WHERE ID = {entity.Id} ";
 
             base.ExecuteScript(sql);
+        }
+
+        public override void VerifyRelationshipDependence(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
