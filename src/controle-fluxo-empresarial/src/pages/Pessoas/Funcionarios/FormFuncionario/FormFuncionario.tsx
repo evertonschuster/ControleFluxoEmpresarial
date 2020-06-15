@@ -5,46 +5,67 @@ import { FuncionarioSchema } from './FuncionarioSchema';
 import { Funcionario } from '../../../../models/Pessoas/Funcionario';
 import GeralForm from './components/GeralForm';
 import { errorBack } from '../../../../utils/MessageApi';
+import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
+import { FormikHelpers } from 'formik';
+import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
 
 const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
-    const [funcionario] = useState<Funcionario>({
-        apelido: "",
-        bairro: "",
-        cep: "",
-        complemento: "",
-        cpfcpnj: "",
+    const [funcionario, setFuncionario] = useState<Funcionario>({
+        apelido: undefined,
+        bairro: undefined,
+        cep: undefined,
+        cidadeId: undefined,
+        cnh: undefined,
+        complemento: undefined,
+        cpfcpnj: undefined,
         dataNascimento: undefined,
-        email: "",
-        endereco: "",
+        dataValidadeCNH: undefined,
+        email: undefined,
+        endereco: undefined,
         estadoCivil: undefined,
-        id: "",
-        nacionalidade: "",
-        nome: "",
-        observacao: "",
-        rgInscricaoEstadual: "",
+        funcaoFuncionarioId: undefined,
+        isBrasileiro: undefined,
+        nacionalidade: NATIONALITY_TYPE.BRASILEIRO,
+        nome: undefined,
+        numero: undefined,
+        observacao: undefined,
+        rgInscricaoEstadual: undefined,
         sexo: undefined,
-        telefone: "",
-        cnh: ""
-
+        telefone: undefined,
     });
     const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
-        getFuncionario();
+        getFuncionario(props.match.params.id);
     }, [props.match.params.id])
 
 
-    async function onSubmit() {
-
+    async function onSubmit(Funcionario: Funcionario, formikHelpers: FormikHelpers<Funcionario>) {
+        try {
+            if (props.match.params.id) {
+                await FuncionarioApi.Update(Funcionario);
+            } else {
+                await FuncionarioApi.Save(Funcionario);
+            }
+            props.history.push("/funcionario")
+        }
+        catch (e) {
+            errorBack(formikHelpers, e);
+        }
     }
 
-    async function getFuncionario() {
+    async function getFuncionario(id: number) {
         try {
+            if (!id) {
+                return;
+            }
 
-
+            setLoading(true);
+            let bdFuncionario = await FuncionarioApi.GetById(id);
+            setFuncionario(bdFuncionario.data);
         } catch (e) {
             errorBack(null, e);
         } finally {
@@ -61,8 +82,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
             validationSchema={FuncionarioSchema}
             onSubmit={onSubmit}
         >
-
-            <GeralForm></GeralForm>
+            <GeralForm />
 
         </CrudFormLayout>
     );

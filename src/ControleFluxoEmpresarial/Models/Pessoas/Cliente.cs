@@ -25,6 +25,8 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 
         public TipoPessoaType Tipo { get; set; }
 
+        public int CondicaoPagamentoId { get; set; }
+
     }
 
 

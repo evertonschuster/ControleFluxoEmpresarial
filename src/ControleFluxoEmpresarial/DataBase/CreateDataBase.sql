@@ -33,7 +33,7 @@ CREATE TABLE "AspNetRoleClaims" (
     "ClaimType" text NULL,
     "ClaimValue" text NULL,
     CONSTRAINT "PK_AspNetRoleClaims" PRIMARY KEY ("Id"),
-    CONSTRAINT "FK_AspNetRoleClaims_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ON DELETE CASCADE
+    CONSTRAINT "FK_AspNetRoleClaims_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") 
 );
 
 CREATE TABLE "AspNetUserClaims" (
@@ -42,7 +42,7 @@ CREATE TABLE "AspNetUserClaims" (
     "ClaimType" text NULL,
     "ClaimValue" text NULL,
     CONSTRAINT "PK_AspNetUserClaims" PRIMARY KEY ("Id"),
-    CONSTRAINT "FK_AspNetUserClaims_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+    CONSTRAINT "FK_AspNetUserClaims_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") 
 );
 
 CREATE TABLE "AspNetUserLogins" (
@@ -51,15 +51,15 @@ CREATE TABLE "AspNetUserLogins" (
     "ProviderDisplayName" text NULL,
     "UserId" text NOT NULL,
     CONSTRAINT "PK_AspNetUserLogins" PRIMARY KEY ("LoginProvider", "ProviderKey"),
-    CONSTRAINT "FK_AspNetUserLogins_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+    CONSTRAINT "FK_AspNetUserLogins_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") 
 );
 
 CREATE TABLE "AspNetUserRoles" (
     "UserId" text NOT NULL,
     "RoleId" text NOT NULL,
     CONSTRAINT "PK_AspNetUserRoles" PRIMARY KEY ("UserId", "RoleId"),
-    CONSTRAINT "FK_AspNetUserRoles_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ON DELETE CASCADE,
-    CONSTRAINT "FK_AspNetUserRoles_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+    CONSTRAINT "FK_AspNetUserRoles_AspNetRoles_RoleId" FOREIGN KEY ("RoleId") REFERENCES "AspNetRoles" ("Id") ,
+    CONSTRAINT "FK_AspNetUserRoles_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") 
 );
 
 CREATE TABLE "AspNetUserTokens" (
@@ -68,7 +68,7 @@ CREATE TABLE "AspNetUserTokens" (
     "Name" text NOT NULL,
     "Value" text NULL,
     CONSTRAINT "PK_AspNetUserTokens" PRIMARY KEY ("UserId", "LoginProvider", "Name"),
-    CONSTRAINT "FK_AspNetUserTokens_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") ON DELETE CASCADE
+    CONSTRAINT "FK_AspNetUserTokens_AspNetUsers_UserId" FOREIGN KEY ("UserId") REFERENCES "AspNetUsers" ("Id") 
 );
 
 CREATE TABLE Paises (
@@ -89,7 +89,7 @@ CREATE TABLE Estados (
     DataAtualizacao TIMESTAMP with time zone,
     PaisId integer NOT NULL,
     CONSTRAINT PK_Estados PRIMARY KEY (Id),
-    CONSTRAINT FK_Estados_Paises_PaisId FOREIGN KEY (PaisId) REFERENCES Paises (Id) ON DELETE CASCADE
+    CONSTRAINT FK_Estados_Paises_PaisId FOREIGN KEY (PaisId) REFERENCES Paises (Id) 
 );
 
 CREATE TABLE Cidades (
@@ -100,7 +100,7 @@ CREATE TABLE Cidades (
     DataAtualizacao TIMESTAMP with time zone,
     EstadoId integer NOT NULL,
     CONSTRAINT PK_Cidades PRIMARY KEY (Id),
-    CONSTRAINT FK_Cidades_Estados_EstadoId FOREIGN KEY (EstadoId) REFERENCES Estados (Id) ON DELETE CASCADE
+    CONSTRAINT FK_Cidades_Estados_EstadoId FOREIGN KEY (EstadoId) REFERENCES Estados (Id) 
 );
 
 CREATE TABLE Clients (
@@ -117,7 +117,7 @@ CREATE TABLE Clients (
     Address text NULL,
     Number text NULL,
     CONSTRAINT PK_Clients PRIMARY KEY (Id),
-    CONSTRAINT FK_Clients_Cidades_CidadeId FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) ON DELETE CASCADE
+    CONSTRAINT FK_Clients_Cidades_CidadeId FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) 
 );
 
 
@@ -132,7 +132,7 @@ CREATE TABLE Associados (
     DataAtualizacao TIMESTAMP with time zone,
 
     CONSTRAINT PK_Associado PRIMARY KEY (Id),
-    FOREIGN KEY (TitularId) REFERENCES Associados (Id) ON DELETE CASCADE
+    FOREIGN KEY (TitularId) REFERENCES Associados (Id) 
 );
 
 CREATE TABLE Titulares (
@@ -147,7 +147,7 @@ CREATE TABLE Titulares (
     DataAtualizacao TIMESTAMP with time zone,
 
     CONSTRAINT PK_Titular PRIMARY KEY (Id),
-    FOREIGN KEY (Id) REFERENCES Associados (Id) ON DELETE CASCADE
+    FOREIGN KEY (Id) REFERENCES Associados (Id) 
 );
 
 
@@ -184,7 +184,7 @@ CREATE TABLE CondicaoPagamentoParcelas (
     DataAtualizacao TIMESTAMP with time zone,
 	
     CONSTRAINT PK_Condicao_Pagamento_Parcelas PRIMARY KEY (Id),
-	FOREIGN KEY (CondicaoPagamentosId) REFERENCES CondicaoPagamentos (Id) ON DELETE CASCADE,
+	FOREIGN KEY (CondicaoPagamentosId) REFERENCES CondicaoPagamentos (Id) ,
 	FOREIGN KEY (FormaPagamentoId) REFERENCES FormaPagamentos (Id) 
 );
 
@@ -256,7 +256,7 @@ CREATE TABLE Clientes (
     DataAtualizacao TIMESTAMP with time zone,
 
     CONSTRAINT PK_Clientes PRIMARY KEY (Id),
-    FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) ON DELETE CASCADE,
+    FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) ,
 	FOREIGN KEY (CondicaoPagamentoId) REFERENCES CondicaoPagamentos (Id) 
 );
 
@@ -278,13 +278,12 @@ CREATE TABLE Fornecedores (
     Telefone VARCHAR(30) NOT NULL,
 	Tipo VARCHAR(10) NOT NULL,
     LimiteCredito decimal(10,2),
-    Sexo VARCHAR(10) NULL,
 	Observacao varchar(255) NULL,
     DataCriacao  TIMESTAMP with time zone ,
     DataAtualizacao TIMESTAMP with time zone,
 
     CONSTRAINT PK_Fornecedores PRIMARY KEY (Id),
-    FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) ON DELETE CASCADE,
+    FOREIGN KEY (CidadeId) REFERENCES Cidades (Id) ,
 	FOREIGN KEY (CondicaoPagamentoId) REFERENCES CondicaoPagamentos (Id) 
 );
 
@@ -310,6 +309,40 @@ CREATE TABLE Produtos (
     FOREIGN KEY (UnidadeMedidaId) REFERENCES UnidadesMedida (Id),
 	FOREIGN KEY (MarcaId) REFERENCES Marcas (Id),
 	FOREIGN KEY (CategoriaId) REFERENCES Categorias (Id) 
+);
+
+CREATE TABLE Funcionarios (
+    Id integer NOT NULL GENERATED BY DEFAULT AS IDENTITY,
+    Nome varchar(60) NOT NULL,
+    Apelido varchar(60) NULL,
+    Bairro varchar(60) NOT NULL,
+    Cep varchar(9) NOT NULL,
+    CidadeId integer NOT NULL,
+    Complemento VARCHAR(255) NULL,
+    CPFCPNJ varchar(16) NOT NULL,
+    Email varchar(60) NOT NULL,
+    Endereco varchar(60) NOT NULL,
+    Numero VARCHAR(10) NOT NULL,
+    RgInscricaoEstadual VARCHAR(14) NOT NULL,
+    Telefone VARCHAR(30) NOT NULL,
+    Sexo VARCHAR(10) NOT NULL,
+	Observacao varchar(255) NULL,
+  	EstadoCivil VARCHAR(20) NULL,
+	cnh VARCHAR(9) NULL,
+	DataValidadeCNH TIMESTAMP with time zone NULL,
+	
+	IsBrasileiro boolean NOT NULL,
+    
+	Nacionalidade VARCHAR(20) NOT NULL,
+	DataNascimento TIMESTAMP with time zone NOT NULL,
+	FuncaoFuncionarioId int NOT NULL,
+	
+  	DataCriacao  TIMESTAMP with time zone ,
+    DataAtualizacao TIMESTAMP with time zone,
+	
+    CONSTRAINT PK_Funcionarios PRIMARY KEY (Id),
+    FOREIGN KEY (CidadeId) REFERENCES Cidades (Id),
+	FOREIGN KEY (FuncaoFuncionarioId) REFERENCES FuncaoFuncionarios (Id)
 );
 
 

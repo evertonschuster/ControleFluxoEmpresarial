@@ -61,8 +61,8 @@ const FormFornecedor: React.FC<RouteComponentProps & RouteComponentProps<any>> =
             }
 
             setLoading(true);
-            let bdpais = await FornecedorApi.GetById(id);
-            setFornecedor(bdpais.data);
+            let bdFornecedor = await FornecedorApi.GetById(id);
+            setFornecedor(bdFornecedor.data);
         } catch (e) {
             errorBack(null, e);
         } finally {

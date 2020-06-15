@@ -1,12 +1,15 @@
 import React from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
-import { Input, Select, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
+import { Input, Select, DatePicker, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
 import { ColumnProps } from 'antd/lib/table';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { ServicoApi } from '../../../../../apis/Movimentos/ServicoApi';
 import { FuncaoFuncionarioApi } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
+import { useField } from 'formik';
+import NationalitySelect from '../../../../../components/NationalitySelect/NationalitySelect';
+import { FuncaoFuncionario } from '../../../../../models/Pessoas/FuncaoFuncionario';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
@@ -23,6 +26,9 @@ const GeralForm: React.FC = () => {
             dataIndex: 'categoria.nome',
         },
     ];
+
+    const [fieldFuncaoFuncionario] = useField<FuncaoFuncionario>("funcaoFuncionario");
+    const [fieldCNH] = useField<string>("cnh");
 
     return (
         <>
@@ -59,7 +65,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputNumber name="numero" label="Número" placeholder="549" required />
+                    <Input name="numero" label="Número" placeholder="549" required />
                 </Col>
 
                 <Col span={5}>
@@ -104,7 +110,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4} >
-                    <Input name="nacionalidade" label="Nacionalidade" placeholder="Brasileiro." required />
+                    <NationalitySelect name="nacionalidade" label="Nacionalidade" nameIsBrasileiro="isBrasileiro" placeholder="Brasileiro." required></NationalitySelect>
                 </Col>
 
                 <Col span={3} >
@@ -118,14 +124,15 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cPFCPNJ" label="CPF" placeholder="000.000.000-00" />
+                    <Input name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
                 </Col>
 
                 <Col span={6}>
                     <SelectModelOne
                         fetchMethod={FuncaoFuncionarioApi.GetById.bind(FuncaoFuncionarioApi)}
                         name="funcaoFuncionarioId"
-                        keyDescription="FuncaoFuncionario"
+                        keyDescription="nome"
+                        objectName="funcaoFuncionario"
                         required={true}
                         label={{ title: "Seleção da Função Funcionário", label: "Função Funcionário" }}
                         errorMessage={{ noSelection: "Selecione uma Função Funcionário!" }}
@@ -133,11 +140,17 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <Input name="cnh" label="CNH" placeholder="999999999" />
+                    <Input name="cnh" label="CNH" placeholder="999999999" required={fieldFuncaoFuncionario?.value?.requerCNH} />
                 </Col>
 
                 <Col span={3} >
-                    <DatePicker name="dataValidadeCNH" label="Data de Validade" placeholder="01/01/2001" required format="DD/MM/yyyy" />
+                    <DatePicker
+                        name="dataValidadeCNH"
+                        label="Data de Validade"
+                        placeholder="01/01/2001"
+                        format="DD/MM/yyyy"
+                        required={fieldCNH.value?.length > 0 || fieldFuncaoFuncionario?.value?.requerCNH}
+                    />
                 </Col>
             </Row>
 
