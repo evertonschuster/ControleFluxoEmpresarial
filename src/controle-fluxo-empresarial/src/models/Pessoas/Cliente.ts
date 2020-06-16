@@ -1,15 +1,15 @@
 import { SEXO, ESTADO_CIVIL, Pessoa, TIPO_PESSOA } from "./Pessoa";
 
 export interface Cliente extends Pessoa {
-    limiteCredito?: number;
-    condicaoPagamentoId?: number
+    limiteCredito?: number | null;
+    condicaoPagamentoId?: number | null;
 
 
-    sexo?: SEXO;
+    sexo?: SEXO | null;
     estadoCivil?: ESTADO_CIVIL;
     tipo?: TIPO_PESSOA;
-    isBrasileiro?: boolean;
-    nacionalidade?: string,
-    dataNascimento?: Date,
+    isBrasileiro?: boolean | null;
+    nacionalidade?: string | null,
+    dataNascimento?: Date | null,
 
 }

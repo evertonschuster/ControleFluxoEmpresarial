@@ -13,28 +13,28 @@ import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [cliente, setCliente] = useState<Cliente>({
-        apelido: "",
+        apelido: undefined,
         isBrasileiro: true,
-        bairro: "",
-        cep: "",
-        complemento: "",
-        cpfcpnj: "",
+        bairro: undefined,
+        cep: undefined,
+        complemento: undefined,
+        cpfcpnj: undefined,
         dataNascimento: undefined,
-        email: "",
-        endereco: "",
+        email: undefined,
+        endereco: undefined,
         estadoCivil: undefined,
         id: undefined,
         limiteCredito: undefined,
         nacionalidade: NATIONALITY_TYPE.BRASILEIRO,
-        nome: "",
-        observacao: "",
-        rgInscricaoEstadual: "",
+        nome: undefined,
+        observacao: undefined,
+        rgInscricaoEstadual: undefined,
         sexo: undefined,
-        telefone: "",
+        telefone: undefined,
         tipo: TIPO_PESSOA.Fisica,
         cidadeId: undefined,
         condicaoPagamentoId: undefined,
-        numero: ""
+        numero: undefined
     })
     const [loading, setLoading] = useState(false);
 
@@ -82,8 +82,7 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
             validationSchema={ClienteSchema}
             onSubmit={onSubmit}
         >
-
-            <GeralForm></GeralForm>
+            <GeralForm />
 
         </CrudFormLayout>
     );

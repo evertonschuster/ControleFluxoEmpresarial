@@ -12,11 +12,11 @@ import { FormikHelpers } from 'formik';
 const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [funcaofuncionario, setFuncaofuncionario] = useState<FuncaoFuncionario>({
-        nome: "",
+        nome: undefined,
         requerCNH: false,
-        descricao: "",
+        descricao: undefined,
         cargaHoraria: undefined,
-        observacao: ""
+        observacao: undefined
     });
     const [loading, setLoading] = useState(false);
 
@@ -66,7 +66,6 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
             validationSchema={FuncaoFuncionarioSchema}
             onSubmit={onSubmit}
         >
-
             <Row>
                 <Col span={2}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />

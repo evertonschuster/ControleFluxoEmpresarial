@@ -8,31 +8,38 @@ const regexRG = /((^[A-Z]{2}-?)?([0-9\\.-]{5,}))([A-Z]{3})?([A-Z]{2})?/
 
 export const ClienteSchema = Yup.object().shape<Cliente>({
     nome: Yup.string()
+        .nullable()
         .max(60, "O campo não deve possuir mais de 60 caracteres.")
         .min(5, "O campo deve possuir mais de 5 caracteres.")
         .required('Informe o Cliente.'),
 
     apelido: Yup.string()
+        .nullable()
         .max(60, "O campo não deve possuir mais de 60 caracteres."),
 
     bairro: Yup.string()
+        .nullable()
         .max(60, "O Bairro não deve possuir mais de 60 caracteres.")
         .required('Informe Bairro.'),
 
     cep: Yup.string()
+        .nullable()
         .max(9, "O CEP não deve possuir mais de 9 caracteres.")
         .min(8, "O CEP deve possuir mais de 8 caracteres.")
         .required('Informe o CEP.'),
 
     complemento: Yup.string()
+        .nullable()
         .max(60, "O Complemento não deve possuir mais de 60 caracteres"),
 
     observacao: Yup.string()
+        .nullable()
         .max(255, "A Descrição não deve possuir mais de 255 caracteres"),
 
     cpfcpnj: Yup.string().when("nacionalidade", (nacionalidade: NATIONALITY_TYPE, schema: any) => {
         if (nacionalidade === NATIONALITY_TYPE.BRASILEIRO) {
             return Yup.string()
+                .nullable()
                 .required("Informe o CPF/CNPJ.")
                 .max(16, "O CPF/CNPJ não deve possuir mais de 16 caracteres")
                 .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
@@ -41,15 +48,19 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
     }),
 
     dataNascimento: Yup.date()
+        .nullable()
+        .typeError("Informe a data.")
         .required("Informe a data.")
         .max(new Date(), "Data inválida."),
 
     email: Yup.string()
+        .nullable()
         .required("Informe o Email.")
         .max(60, "O Email não deve possuir mais de 60 caracteres")
         .email("Informe um email válido"),
 
     endereco: Yup.string()
+        .nullable()
         .min(5, "O Endereço deve possuir mais de 5 caracteres.")
         .max(60, "O Endereço não deve possuir mais de 60 caracteres.")
         .required('Informe o Endereço.'),
@@ -57,13 +68,14 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
     estadoCivil: Yup.mixed()
         .when("tipo", (tipo: TIPO_PESSOA, schema: any) => {
             if (tipo === TIPO_PESSOA.Juridica) {
-                return Yup.string();
+                return Yup.string().nullable();
             }
 
-            return Yup.string().required('Informe o Estado Civíl.')
+            return Yup.string().nullable().required('Informe o Estado Civíl.')
         }),
 
     limiteCredito: Yup.number()
+        .nullable()
         .typeError("Informe um valor válido")
         .required('Informe o Limite de credito.')
         .min(-0.00001, "O Limite de credito não pode ser negativo"),
@@ -71,16 +83,18 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
     nacionalidade: Yup.string()
         .when("tipo", (tipo: TIPO_PESSOA, schema: any) => {
             if (tipo === TIPO_PESSOA.Juridica) {
-                return Yup.string();
+                return Yup.string().nullable();
             }
 
             return Yup.string()
+                .nullable()
                 .required('Informe a Nacionalidade.')
                 .min(5, "A Nacionalidade deve possuir mais de 5 caracteres.")
                 .max(60, "A Nacionalidade não deve possuir mais de 60 caracteres.")
         }),
 
     rgInscricaoEstadual: Yup.string()
+        .nullable()
         .matches(regexRG, "Documento inválido.")
         .max(14, "Documento inválido.")
         .required("Informe o Documento."),
@@ -91,17 +105,20 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
                 return Yup.string();
             }
 
-            return Yup.string().required("Informe o sexo.")
+            return Yup.string().required("Informe o sexo.").nullable()
         }),
 
     telefone: Yup.string()
+        .nullable()
         .min(5, "Informe um telefone válido,")
         .max(30, "O Telefone não pode ter mais de 30 caracteres.")
         .required("Informe um telefone."),
 
-    cidadeId: Yup.number().required("Informe a Cidade."),
+    cidadeId: Yup.number()
+        .nullable().required("Informe a Cidade."),
 
     numero: Yup.string()
+        .nullable()
         .typeError("Informe o Número.")
         .min(1, "O Número deve possuir mais de 1 caracteres.")
         .max(10, "O Número não pode ter mais de 10 caracteres.")
