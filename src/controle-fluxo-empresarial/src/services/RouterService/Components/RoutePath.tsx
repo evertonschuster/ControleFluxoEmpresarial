@@ -9,7 +9,6 @@ import FormFuncionario from '../../../pages/Pessoas/Funcionarios/FormFuncionario
 import FormMarca from './../../../pages/Movimentos/Marcas/FormMarca/FormMarca';
 import FormProduto from '../../../pages/Movimentos/Produtos/FormProduto/FormProduto';
 import FormServico from '../../../pages/Movimentos/Servicos/FormServico/FormServico';
-import FormTitular from '../../../pages/Pessoas/Associados/FormTitular/FormTitular';
 import ListCategoria from './../../../pages/Movimentos/Categorias/ListCategoria/ListCategoria';
 import ListCidade from '../../../pages/Cidades/Cidade/ListCidade/ListCidade';
 import ListCliente from '../../../pages/Pessoas/Clientes/ListCliente/ListCliente';
@@ -22,7 +21,6 @@ import ListMarca from '../../../pages/Movimentos/Marcas/ListCategoria/ListMarca'
 import ListPais from '../../../pages/Cidades/Pais/ListPais/ListPais';
 import ListProduto from '../../../pages/Movimentos/Produtos/ListProduto/ListProduto';
 import ListServico from './../../../pages/Movimentos/Servicos/ListServico/ListServico';
-import ListTitular from '../../../pages/Pessoas/Associados/ListTitular/ListTitular';
 import ListUser from '../../../pages/Pessoas/Users/ListUser/ListUser';
 import FormPais from '../../../pages/Cidades/Pais/FormPais/FormPais';
 import ListUnidadeMedida from './../../../pages/Movimentos/UnidadeMedida/ListUnidadeMedida/ListUnidadeMedida';
@@ -89,10 +87,6 @@ const RoutePath: React.FC = () => {
             <Route path="/servico" component={ListServico} exact />
             <Route path="/servico/edit/:id" component={FormServico} />
             <Route path="/servico/new" component={FormServico} />
-
-            <Route path="/titular" component={ListTitular} exact />
-            <Route path="/titular/edit/:id" component={FormTitular} />
-            <Route path="/titular/new" component={FormTitular} />
 
             <Route path="/user" component={ListUser} exact />
             <Route path="/user/edit/:id" component={FormUser} />

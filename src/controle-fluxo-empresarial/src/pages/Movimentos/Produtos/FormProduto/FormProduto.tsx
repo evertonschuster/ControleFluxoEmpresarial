@@ -11,7 +11,7 @@ import { Modal } from 'antd';
 
 const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [produto, setProduto] = useState<Produto>({
-        nome: "",
+        nome: undefined,
         categoriaId: undefined,
         quantidade: undefined,
         quantidadeMinima: undefined,
@@ -19,14 +19,13 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         valorVenda: undefined,
         taxa: undefined,
         unidadeMedidaId: undefined,
-        codigoBarras: "",
-        referencia: "",
+        codigoBarras: undefined,
+        referencia: undefined,
         marcaId: undefined,
-        descricao: "",
-        observacao: ""
+        descricao: undefined,
+        observacao: undefined
     });
     const [loading, setLoading] = useState(false);
-
 
     useEffect(() => {
         getProduto(props.match.params.id);

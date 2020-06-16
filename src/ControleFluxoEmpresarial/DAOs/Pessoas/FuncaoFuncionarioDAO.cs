@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Models.Pessoas;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,13 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
         public override void VerifyRelationshipDependence(int id)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT 1 FROM funcionarios
+                            WHERE FuncaoFuncionarioId = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Função Funcionário não pode ser excluida!");
+            }
         }
 
         internal FuncaoFuncionario GetByNome(string nome)

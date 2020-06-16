@@ -1,7 +1,7 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
-using ControleFluxoEmpresarial.DAOs.Movimentos;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.Filters.ModelView;
-using ControleFluxoEmpresarial.Models.Movimentos;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {
-    [Route("api/produtos")]
+    [Route("api/funcionarios")]
     [ApiController]
-    public class ProdutoController : ControllerBase<Produto, PaginationQuery>
+    public class FuncionarioController : ControllerBase<Funcionario, PaginationQuery>
     {
-        public ProdutoController(ProdutoDAO dao) : base(dao)
+        public FuncionarioController(FuncionarioDAO dAO) : base(dAO)
         {
         }
     }

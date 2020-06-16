@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.Controllers
     //[AllowAnonymous]
     public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseEntity<int> where TPaginationQuery : PaginationQuery
     {
-        public ControllerBase(IDAO<TEntity, int> dAO) : base(dAO)
+        public ControllerBase(IDAO<TEntity, int> dao) : base(dao)
         {
         }
     }
@@ -23,9 +23,9 @@ namespace ControleFluxoEmpresarial.Controllers
     [Authorize]
     public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseEntity<TId> where TPaginationQuery : PaginationQuery
     {
-        protected ControllerBase(IDAO<TEntity, TId> dAO)
+        protected ControllerBase(IDAO<TEntity, TId> dao)
         {
-            DAO = dAO ?? throw new ArgumentNullException(nameof(dAO));
+            DAO = dao ?? throw new ArgumentNullException(nameof(dao));
         }
 
         public IDAO<TEntity, TId> DAO { get; set; }

@@ -9,8 +9,6 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
     {
         public int CidadeId { get; set; }
 
-        public int CondicaoPagamentoId { get; set; }
-
         public string Apelido { get; set; }
 
         public string Bairro { get; set; }

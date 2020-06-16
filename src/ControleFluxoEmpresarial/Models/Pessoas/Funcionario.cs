@@ -1,5 +1,4 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
 using FluentValidation;
 using System;
@@ -9,45 +8,46 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Pessoas
 {
-    public class Fornecedor : Pessoa
+    public class Funcionario : Pessoa
     {
-        public TipoPessoaType Tipo { get; set; }
+        public EstadoCivilType EstadoCivil { get; set; }
 
-        public string Contato { get; set; }
+        public SexoType Sexo { get; set; }
 
-        public decimal LimiteCredito { get; set; }
+        public string Nacionalidade { get; set; }
 
-        public int CondicaoPagamentoId { get; set; }
+        public Boolean IsBrasileiro { get; set; }
 
+        public DateTime DataNascimento { get; set; }
+
+        public string Cnh { get; set; }
+
+        public DateTime? DataValidadeCNH { get; set; }
+
+        public int FuncaoFuncionarioId { get; set; }
     }
 
-
-    public class FornecedorValidator : AbstractValidator<Fornecedor>
+    public class FuncionarioValidator : AbstractValidator<Funcionario>
     {
-        public FornecedorDAO FornecedorDAO { get; }
+        public FuncionarioDAO FuncionarioDAO { get; }
         public CidadeDAO CidadeDAO { get; }
-        public CondicaoPagamentoDAO CondicaoPagamentoDAO { get; }
+        public FuncaoFuncionarioDAO FuncaoFuncionarioDAO { get; }
 
 
-        public FornecedorValidator(FornecedorDAO fornecedorDAO, CidadeDAO cidadeDAO, CondicaoPagamentoDAO condicaoPagamentoDAO)
+        public FuncionarioValidator(FuncionarioDAO FuncionarioDAO, CidadeDAO cidadeDAO, FuncaoFuncionarioDAO funcaoFuncionarioDAO)
         {
 
             this.CidadeDAO = cidadeDAO;
-            this.FornecedorDAO = fornecedorDAO;
-            this.CondicaoPagamentoDAO = condicaoPagamentoDAO;
+            this.FuncionarioDAO = FuncionarioDAO;
+            this.FuncaoFuncionarioDAO = funcaoFuncionarioDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("O Fornecedor não pode ser vaziu.")
-                .MaximumLength(60).WithMessage("O Fornecedor não deve possuir mais de 60 caracteres.")
-                .MinimumLength(5).WithMessage("O Fornecedor deve possuir mais de 5 caracteres.");
-
-            RuleFor(e => e.Contato)
-                .NotEmpty().WithMessage("O Contato não pode ser vaziu.")
-                .MaximumLength(60).WithMessage("O Contato não deve possuir mais de 60 caracteres.")
-                .MinimumLength(5).WithMessage("O Contato deve possuir mais de 5 caracteres.");
+                .NotEmpty().WithMessage("O Funcionário não pode ser vaziu.")
+                .MaximumLength(60).WithMessage("O Funcionário não deve possuir mais de 60 caracteres.")
+                .MinimumLength(5).WithMessage("O Funcionário deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Apelido)
-                .MaximumLength(60).WithMessage("O Fornecedor não deve possuir mais de 60 caracteres.");
+                .MaximumLength(60).WithMessage("O Funcionario não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.CPFCPNJ)
                    .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
@@ -94,21 +94,18 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
                 .MinimumLength(5).WithMessage("O Telefone deve possuir mais de 5 caracteres.")
                 .MaximumLength(30).WithMessage("O Telefone não deve possuir mais de 30 caracteres.");
 
-            RuleFor(e => e.LimiteCredito)
-                .Must(e => e >= 0).WithMessage("O Limite Credito deve ser maior que 0.")
-                .Must(e => e < 100000000).WithMessage("O Limite Credito deve ser menor que 100000000.");
 
-            RuleFor(e => e.CPFCPNJ).Must(CPFIsAllow).WithMessage("Fornecedor já cadastrado.");
+            RuleFor(e => e.CPFCPNJ).Must(CPFIsAllow).WithMessage("Funcionario já cadastrado.");
 
             RuleFor(e => e.CidadeId).Must(ExistCidade).WithMessage("Cidade não cadastrada.");
 
-            RuleFor(e => e.CondicaoPagamentoId).Must(ExistCondicaoPagamento).WithMessage("Condição de Pagamento não cadastrada.");
+            RuleFor(e => e.FuncaoFuncionarioId).Must(ExistFuncaoFuncionario).WithMessage("Função Funcionário não cadastrada.");
         }
 
-        private bool CPFIsAllow(Fornecedor Fornecedor, string cpf)
+        private bool CPFIsAllow(Funcionario Funcionario, string cpf)
         {
-            var findFornecedor = this.FornecedorDAO.GetByCPFCNPJ(cpf);
-            return findFornecedor == null || findFornecedor?.Id == Fornecedor.Id;
+            var findFuncionario = this.FuncionarioDAO.GetByCPFCNPJ(cpf);
+            return findFuncionario == null || findFuncionario?.Id == Funcionario.Id;
         }
 
         private bool ExistCidade(int id)
@@ -116,9 +113,9 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             return this.CidadeDAO.GetByID(id) != null;
         }
 
-        private bool ExistCondicaoPagamento(int id)
+        private bool ExistFuncaoFuncionario(int id)
         {
-            return this.CondicaoPagamentoDAO.GetByID(id) != null;
+            return this.FuncaoFuncionarioDAO.GetByID(id) != null;
         }
     }
 }

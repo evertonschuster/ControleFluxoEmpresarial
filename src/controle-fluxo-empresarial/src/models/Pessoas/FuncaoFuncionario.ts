@@ -1,9 +1,9 @@
 import { BaseEntity } from "../BaseEntity";
 
 export interface FuncaoFuncionario extends BaseEntity {
-    nome: String;
-    cargaHoraria?: number;
-    requerCNH?: boolean;
-    descricao?: String;
-    observacao?: String;
+    nome?: String | null;
+    cargaHoraria?: number | null;
+    requerCNH?: boolean ;
+    descricao?: String | null;
+    observacao?: String | null;
 }
