@@ -332,12 +332,15 @@ CREATE TABLE Funcionarios (
 	DataValidadeCNH TIMESTAMP with time zone NULL,
 	
 	IsBrasileiro boolean NOT NULL,
+    Salario DECIMAL(10,2) NOT NULL,
+    DataDemissao TIMESTAMP with time zone NULL,
+    DataAdmissao TIMESTAMP with time zone NOT NULL,
     
 	Nacionalidade VARCHAR(20) NOT NULL,
 	DataNascimento TIMESTAMP with time zone NOT NULL,
 	FuncaoFuncionarioId int NOT NULL,
 	
-  	DataCriacao  TIMESTAMP with time zone ,
+  	DataCriacao TIMESTAMP with time zone ,
     DataAtualizacao TIMESTAMP with time zone,
 	
     CONSTRAINT PK_Funcionarios PRIMARY KEY (Id),

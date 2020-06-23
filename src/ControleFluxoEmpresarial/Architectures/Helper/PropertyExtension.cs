@@ -31,7 +31,9 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 e.PropertyType == typeof(float) ||
                 e.PropertyType == typeof(double) ||
                 e.PropertyType == typeof(DateTime) ||
-                e.PropertyType == typeof(DateTimeOffset)
+                e.PropertyType == typeof(DateTime?) ||
+                e.PropertyType == typeof(DateTimeOffset) ||
+                e.PropertyType == typeof(DateTimeOffset?)
             )).Select(e => e.Name).ToList();
         }
 

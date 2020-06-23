@@ -25,6 +25,14 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
         public DateTime? DataValidadeCNH { get; set; }
 
         public int FuncaoFuncionarioId { get; set; }
+
+        public decimal Salario { get; set; }
+
+        public DateTime DataAdmissao { get; set; }
+
+        public DateTime? DataDemissao { get; set; }
+
+
     }
 
     public class FuncionarioValidator : AbstractValidator<Funcionario>
@@ -94,6 +102,15 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
                 .MinimumLength(5).WithMessage("O Telefone deve possuir mais de 5 caracteres.")
                 .MaximumLength(30).WithMessage("O Telefone não deve possuir mais de 30 caracteres.");
 
+            RuleFor(e => e.Salario)
+                .NotEmpty().WithMessage("O Salário não pode ser vaziu.")
+                .Must(e => e >= 0).WithMessage("Sálario não pode ser nagativo.");
+
+            RuleFor(e => e.DataAdmissao)
+                .NotEmpty().WithMessage("A Data de Admissão não pode ser vazia.");
+
+            RuleFor(e => e.DataDemissao)
+                .Must((e, a) => e.DataAdmissao < e.DataDemissao || e.DataDemissao == null).WithMessage("Data de Demissão não pode ser inferior a data de Admissão.");
 
             RuleFor(e => e.CPFCPNJ).Must(CPFIsAllow).WithMessage("Funcionario já cadastrado.");
 

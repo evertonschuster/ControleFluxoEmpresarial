@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, Row, Col, Button, Tooltip, Tag } from 'antd';
 import SelectModelMore from './SelectModelMore';
 import { WithItemNone } from '../../hoc/WithFormItem';
@@ -6,6 +6,7 @@ import { useField } from 'formik';
 import { ColumnProps } from 'antd/lib/table';
 import { Label, ErrorMessage } from '../ModalForm/ModalForm';
 import { AxiosResponse } from 'axios';
+import { PaginationResult, PaginationQuery } from '../../models/BaseEntity';
 
 export interface Props {
     keyId?: string;
@@ -17,11 +18,13 @@ export interface Props {
     errorMessage: ErrorMessage;
     path: string;
     fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
+    getListPagined: (filter: PaginationQuery) => Promise<AxiosResponse<PaginationResult<any>>>;
 }
 
 const SelectModelMoreWithTable: React.FC<Props> = (props) => {
 
-    const [data, setData] = useState<any[]>([])
+    const [, metaTable, helperTable] = useField<any[]>({ name: props.name });
+    const [data, setData] = useState<any[]>(metaTable.value ?? [])
     const [, meta, helper] = useField<any[]>({ name: props.name + "SelectionIds" })
 
     const keyId = props.keyId || "id";
@@ -33,8 +36,8 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
         render: renderAction
     })
 
-    function onSaveClick() {
 
+    function onSaveClick() {
 
         setData((old) => {
 
@@ -42,7 +45,9 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
                 return old.filter((ee) => ee[keyId] === e[keyId]).length === 0
             });
 
-            return [...old, ...lefJoin]
+            let value = [...old, ...lefJoin];
+            helperTable.setValue(value);
+            return value
         });
         helper.setValue([]);
     }
@@ -84,6 +89,7 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
                             showLabel={false}
                             label={props.label}
                             errorMessage={props.errorMessage}
+                            getListPagined={props.getListPagined}
                             path={props.path} />
                     </WithItemNone>
                 </Col>
@@ -97,7 +103,7 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
             <Row>
                 <Col span={24}>
                     <WithItemNone >
-                        <Table columns={columns} dataSource={data} size="small" />
+                        <Table columns={columns} dataSource={data} size="small" rowKey="id" />
                     </WithItemNone>
                 </Col>
             </Row>

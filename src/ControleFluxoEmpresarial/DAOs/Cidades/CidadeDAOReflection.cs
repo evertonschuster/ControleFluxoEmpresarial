@@ -45,7 +45,11 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                             WHERE cidadeId = @id 
                         union
                         SELECT 1 FROM Fornecedores
-	                        WHERE cidadeId = @id";
+	                        WHERE cidadeId = @id
+                        union
+                        SELECT 1 FROM Funcionarios
+
+                            WHERE cidadeId = @id";
 
             if (this.ExecuteExist(sql, new { id }))
             {

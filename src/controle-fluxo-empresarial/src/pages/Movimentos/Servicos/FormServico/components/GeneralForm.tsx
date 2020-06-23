@@ -67,6 +67,7 @@ const GeneralForm: React.FC = () => {
                 <Col span={24}>
                     <SelectModelMoreWithTable
                         fetchMethod={FuncaoFuncionarioApi.GetById.bind(FuncaoFuncionarioApi)}
+                        getListPagined={FuncaoFuncionarioApi.GetListPagined.bind(FuncaoFuncionarioApi)}
                         label={{ label: "Funcionários", title: "Selecione um Funcionário" }}
                         name="funcionarioIds"
                         columns={columns}

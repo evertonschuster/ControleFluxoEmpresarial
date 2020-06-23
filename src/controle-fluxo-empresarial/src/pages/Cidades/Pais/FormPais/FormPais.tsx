@@ -62,7 +62,7 @@ const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (prop
                 <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={10}>
+                <Col span={8}>
                     <Input name="nome" label="Pais" placeholder="Pais" required />
                 </Col>
                 <Col span={4}>

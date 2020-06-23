@@ -55,7 +55,8 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 }
                 else
                 {
-                    var value = Convert.ChangeType(reader.GetValue(propertyNameWithPrefix), property.PropertyType);
+                    Type type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                    var value = Convert.ChangeType(reader.GetValue(propertyNameWithPrefix), type);
                     property.SetValue(entity, value);
                 }
             }
