@@ -103,15 +103,6 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
             //this.UserManager.pass
         }
 
-        public void Delete(int id, bool commit = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(ApplicationUser entity, bool commit = true)
-        {
-            throw new NotImplementedException();
-        }
 
         private void FormatMessageError(IdentityResult result)
         {

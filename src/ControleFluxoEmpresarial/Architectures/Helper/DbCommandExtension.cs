@@ -26,7 +26,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 
             foreach (var property in properties)
             {
-                if (property.GetValue(@params) is IBaseEntity<TId>)
+                if (property.GetValue(@params) is IBaseEntity<TId> || typeof(System.Collections.ICollection).IsAssignableFrom(property.PropertyType))
                 {
                     continue;
                 }

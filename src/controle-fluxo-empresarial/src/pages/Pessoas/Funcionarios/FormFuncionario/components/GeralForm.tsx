@@ -189,7 +189,7 @@ const GeralForm: React.FC = () => {
                         fetchMethod={ServicoApi.GetById.bind(ServicoApi)}
                         getListPagined={ServicoApi.GetListPagined.bind(ServicoApi)}
                         label={{ label: "Serviços", title: "Selecione um Serviço" }}
-                        name="servicoIds"
+                        name="servicos"
                         columns={columns}
                         errorMessage={{ noSelection: "Selecione ao menos um Serviço" }}
                         path="servico"

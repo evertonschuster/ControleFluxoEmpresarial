@@ -9,7 +9,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
     public class UnidadeMedidaDAO : DAOReflection<UnidadeMedida, string>
     {
-        public UnidadeMedidaDAO(ApplicationContext context) : base(context, "UnidadesMedida", "Id", false)
+        public UnidadeMedidaDAO(ApplicationContext context) : base(context, "UnidadesMedida", "Id","Nome", false)
         {
         }
 

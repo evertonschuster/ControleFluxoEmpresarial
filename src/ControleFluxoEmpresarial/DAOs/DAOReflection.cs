@@ -23,12 +23,13 @@ namespace ControleFluxoEmpresarial.DAOs
         public override abstract void VerifyRelationshipDependence(int id);
     }
 
-    public abstract class DAOReflection<TEntity, TId> : DAO<TEntity, TId>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
+    public abstract class DAOReflection<TEntity, TId> : BaseDAO<TEntity>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
     {
         private string TableName { get; }
         private string IdProperty { get; }
+        private string NameProperty { get; }
         public bool AutoIncrement { get; set; }
-
+        protected virtual string SqlListPagined { set; get; } = null;
         private List<string> Property
         {
             get
@@ -37,15 +38,14 @@ namespace ControleFluxoEmpresarial.DAOs
             }
         }
 
-        protected virtual string SqlListPagined { set; get; } = null;
 
 
-        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id", bool autoIncrement = true) : base(context)
+        public DAOReflection(ApplicationContext context, string tableName, string idProperty = "Id", string nameProperty = "nome", bool autoIncrement = true) : base(context, idProperty)
         {
             this.TableName = tableName;
             this.IdProperty = idProperty;
+            this.NameProperty = nameProperty;
             this.AutoIncrement = autoIncrement;
-
         }
 
         protected override TEntity MapEntity(DbDataReader reader)
@@ -65,7 +65,7 @@ namespace ControleFluxoEmpresarial.DAOs
             return entity;
         }
 
-        public override void Delete(TId id, bool commit = true)
+        public virtual void Delete(TId id, bool commit = true)
         {
             var sql = $@"DELETE FROM {this.TableName} 
                         WHERE {this.IdProperty} = @id";
@@ -73,12 +73,12 @@ namespace ControleFluxoEmpresarial.DAOs
             this.ExecuteScript(sql, new { id });
         }
 
-        public override void Delete(TEntity entity, bool commit = true)
+        public virtual void Delete(TEntity entity, bool commit = true)
         {
             this.Delete(entity.Id, commit);
         }
 
-        public override TEntity GetByID(TId id)
+        public virtual TEntity GetByID(TId id)
         {
             var sql = $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
                           FROM {this.TableName} 
@@ -88,7 +88,7 @@ namespace ControleFluxoEmpresarial.DAOs
             return base.ExecuteGetFirstOrDefault(sql, parameters: new { id });
         }
 
-        public override PaginationResult<TEntity> GetPagined(PaginationQuery filter)
+        public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
         {
             var sql = this.SqlListPagined ?? $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
                           FROM {this.TableName} ";
@@ -106,34 +106,79 @@ namespace ControleFluxoEmpresarial.DAOs
                 catch
                 {
                 }
-                filter.Filter = $"%{filter.Filter.Replace(" ","%")}%";
-                sql += $" WHERE {this.TableName}.nome ilike @Filter {sqlId} ";
+                filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
+                sql += $" WHERE {this.TableName}.{this.NameProperty} ilike @Filter {sqlId} ";
             }
 
             return base.ExecuteGetPaginated(sql, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", new { id = byId, filter.Filter }, filter);
         }
 
-        public override TId Insert(TEntity entity, bool commit = true)
+        public virtual TId Insert(TEntity entity, bool commit = true)
         {
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.IdProperty} " : "")})
                          VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.IdProperty} " : "")})";
 
             entity.DataCriacao = DateTime.Now;
             entity.DataAtualizacao = DateTime.Now;
-            return base.ExecuteScriptInsert(sql, entity);
+            return this.ExecuteScriptInsert(sql, entity);
         }
 
-        public override void Update(TEntity entity, bool commit = true)
+        public virtual void Update(TEntity entity, bool commit = true)
         {
             var sql = $@"UPDATE {this.TableName} 
                         SET {this.Property.Where(e => e != nameof(IBaseEntity<TId>.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
-                        WHERE Id = @Id";
+                        WHERE {this.IdProperty} = @Id";
 
             entity.DataAtualizacao = DateTime.Now;
             base.ExecuteScript(sql, entity);
         }
 
-        public override abstract void VerifyRelationshipDependence(TId id);
-       
+        public abstract void VerifyRelationshipDependence(TId id);
+
+        protected override void AddParameterValues(DbCommand command, object parameters)
+        {
+            command.AddParameterValues<TId>(parameters);
+        }
+
+        protected virtual new TId ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
+        {
+            if (string.IsNullOrEmpty(sql))
+            {
+                throw new Exception("Sql não informado ");
+            }
+
+            this.CreateTransaction(this.Transaction);
+            var command = CreateCommand();
+            command.AddParameterValues<TId>(parameters);
+
+            try
+            {
+                command.CommandText = sql += $"RETURNING {this.PropertiesIds.FormatProperty(e => e)};";
+                command.CommandType = CommandType.Text;
+
+                Console.WriteLine("SQL => " + command.CommandText);
+
+                TId id = (TId)Convert.ChangeType(command.ExecuteScalar(), typeof(TId));
+
+                if (commit)
+                {
+                    this.Transaction.Commit();
+                }
+
+                return id;
+            }
+            catch
+            {
+                command.Transaction?.Rollback();
+                throw;
+            }
+            finally
+            {
+                if (commit)
+                {
+                    command.Connection.Close();
+                }
+            }
+        }
     }
 }

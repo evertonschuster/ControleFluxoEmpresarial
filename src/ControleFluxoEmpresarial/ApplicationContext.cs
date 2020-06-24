@@ -1,6 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Models.Cidades;
 using ControleFluxoEmpresarial.Models.Pessoas;
-using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;

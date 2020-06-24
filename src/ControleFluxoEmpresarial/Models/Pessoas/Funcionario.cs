@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.Models.Movimentos;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,16 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
         public DateTime? DataValidadeCNH { get; set; }
 
         public int FuncaoFuncionarioId { get; set; }
+        
+        public FuncaoFuncionario FuncaoFuncionario { get; set; }
 
         public decimal Salario { get; set; }
 
         public DateTime DataAdmissao { get; set; }
 
         public DateTime? DataDemissao { get; set; }
+
+        public List<Servico> Servicos { get; set; }
 
 
     }
