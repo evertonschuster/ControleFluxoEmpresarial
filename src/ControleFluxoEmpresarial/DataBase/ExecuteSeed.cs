@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.DataBase
 
             IServiceScopeFactory serviceScopeFactory = serviceProvider.ApplicationServices.GetService(typeof(IServiceScopeFactory)) as IServiceScopeFactory;
 
-            IServiceScope scope = serviceScopeFactory.CreateScope();
+            using var scope = serviceScopeFactory.CreateScope();
             var services = scope.ServiceProvider;
 
             this.Context = services.GetRequiredService<ApplicationContext>();
@@ -32,7 +32,6 @@ namespace ControleFluxoEmpresarial.DataBase
         public void Execute()
         {
             SeedUsuario();
-            SeedPais();
         }
 
         public void SeedUsuario()
@@ -46,17 +45,6 @@ namespace ControleFluxoEmpresarial.DataBase
                     PhoneNumber = "45988293328"
                 }, "string");
             }
-        }
-
-        public void SeedPais()
-        {
-            //var ass = this.Context.Paises.FirstOrDefault();
-
-            //if (this.Context.Paises.Any())
-            //{
-            //    return;
-            //}
-
         }
 
     }

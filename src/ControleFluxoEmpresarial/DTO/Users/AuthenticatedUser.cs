@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.ModelView.Users
+namespace ControleFluxoEmpresarial.DTO.Users
 {
     public class AuthenticatedUser
     {

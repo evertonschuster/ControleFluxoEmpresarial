@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using Microsoft.AspNetCore.Mvc;
 using System;

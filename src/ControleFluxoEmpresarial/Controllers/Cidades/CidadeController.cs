@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

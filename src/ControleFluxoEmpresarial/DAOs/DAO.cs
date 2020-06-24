@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.Architectures.Helper;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
 using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.EntityFrameworkCore;

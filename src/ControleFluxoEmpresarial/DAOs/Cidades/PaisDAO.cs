@@ -1,7 +1,7 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.simple;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Cidades;
 using System;
 using System.Collections.Generic;

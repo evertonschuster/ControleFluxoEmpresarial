@@ -1,4 +1,4 @@
-﻿using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.ModelView.Users
+namespace ControleFluxoEmpresarial.DTO.Users
 {
     public class LoginModel
     {
@@ -14,6 +14,7 @@ namespace ControleFluxoEmpresarial.ModelView.Users
         public string username { get; set; }
         public string password { get; set; }
         public string refresh_token { get; set; }
+
         // Optional
         //public string scope { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.Entities;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;

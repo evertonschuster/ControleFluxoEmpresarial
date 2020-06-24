@@ -1,5 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

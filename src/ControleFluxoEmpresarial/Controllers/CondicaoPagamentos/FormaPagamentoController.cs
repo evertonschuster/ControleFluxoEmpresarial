@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using Microsoft.AspNetCore.Mvc;
 using System;

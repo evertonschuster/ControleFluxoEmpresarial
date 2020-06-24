@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Mvc;
 using System;
