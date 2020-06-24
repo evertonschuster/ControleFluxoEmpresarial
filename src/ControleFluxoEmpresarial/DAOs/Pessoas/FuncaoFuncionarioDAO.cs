@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class FuncaoFuncionarioDAO : DAOReflection<FuncaoFuncionario>
+    public class FuncaoFuncionarioDAO : DAO<FuncaoFuncionario>
     {
         public FuncaoFuncionarioDAO(ApplicationContext context) : base(context, "FuncaoFuncionarios")
         {

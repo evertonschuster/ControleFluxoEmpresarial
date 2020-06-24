@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
-    public class ServicoDAO : DAOReflection<Servico>
+    public class ServicoDAO : DAO<Servico>
     {
         protected override string SqlListPagined { get; set; } = @"
                 SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,

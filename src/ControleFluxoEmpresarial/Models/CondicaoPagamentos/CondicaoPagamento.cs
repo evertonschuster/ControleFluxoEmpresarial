@@ -25,9 +25,9 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
     {
         public CondicaoPagamentoParcelaDAO CondicaoPagamentoParcelaDAO { get; }
         public CondicaoPagamentoDAO CondicaoPagamentoDAO { get; }
-        public FormaPagamentoDAOReflection FormaPagamentoDAO { get; }
+        public FormaPagamentoDAO FormaPagamentoDAO { get; }
 
-        public CondicaoPagamentoValidator(CondicaoPagamentoDAO condicaoPagamentoDAO, FormaPagamentoDAOReflection formaPagamentoDAO, CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO)
+        public CondicaoPagamentoValidator(CondicaoPagamentoDAO condicaoPagamentoDAO, FormaPagamentoDAO formaPagamentoDAO, CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO)
         {
             this.CondicaoPagamentoParcelaDAO = condicaoPagamentoParcelaDAO;
             this.CondicaoPagamentoDAO = condicaoPagamentoDAO;

@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
 {
     public class CondicaoPagamentoParcelaDAO : DAO<CondicaoPagamentoParcela, int>
     {
-        public CondicaoPagamentoParcelaDAO(ApplicationContext context) : base(context)
+        public CondicaoPagamentoParcelaDAO(ApplicationContext context) : base(context, "CondicaoPagamentoParcelas")
         {
         }
         protected override CondicaoPagamentoParcela MapEntity(DbDataReader reader)

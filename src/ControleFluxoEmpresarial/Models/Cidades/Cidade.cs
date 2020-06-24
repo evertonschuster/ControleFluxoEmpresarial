@@ -24,10 +24,10 @@ namespace ControleFluxoEmpresarial.Models.Cidades
 
     public class CidadeValidator : AbstractValidator<Cidade>
     {
-        public CidadeDAOReflection CidadeDAO { get; }
-        public EstadoDAOReflection EstadoDAO { get; }
+        public CidadeDAO CidadeDAO { get; }
+        public EstadoDAO EstadoDAO { get; }
 
-        public CidadeValidator(CidadeDAOReflection cidadeDAO, EstadoDAOReflection estadoDAO)
+        public CidadeValidator(CidadeDAO cidadeDAO, EstadoDAO estadoDAO)
         {
             this.CidadeDAO = cidadeDAO;
             this.EstadoDAO = estadoDAO;

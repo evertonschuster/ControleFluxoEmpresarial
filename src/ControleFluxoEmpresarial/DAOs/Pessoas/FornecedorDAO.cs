@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class FornecedorDAO : DAOReflection<Fornecedor>
+    public class FornecedorDAO : DAO<Fornecedor>
     {
         public FornecedorDAO(ApplicationContext context) : base(context, "Fornecedores")
         {

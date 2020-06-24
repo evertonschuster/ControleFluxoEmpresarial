@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class FuncionarioDAO : DAOReflection<Funcionario>
+    public class FuncionarioDAO : DAO<Funcionario>
     {
         protected override string SqlListPagined { get; set; } = @"
                     SELECT funcionarios.Id, funcionarios.EstadoCivil, funcionarios.Sexo, funcionarios.Nacionalidade, funcionarios.IsBrasileiro, funcionarios.DataNascimento, 

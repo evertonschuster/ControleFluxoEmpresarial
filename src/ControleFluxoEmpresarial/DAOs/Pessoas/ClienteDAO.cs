@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class ClienteDAO : DAOReflection<Cliente>
+    public class ClienteDAO : DAO<Cliente>
     {
         public ClienteDAO(ApplicationContext context) : base(context, "Clientes")
         {

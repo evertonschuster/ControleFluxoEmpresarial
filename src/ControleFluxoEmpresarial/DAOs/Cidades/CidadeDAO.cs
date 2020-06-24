@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Cidades
 {
-    public class CidadeDAOReflection : DAOReflection<Cidade>
+    public class CidadeDAO : DAO<Cidade>
     {
         protected override string SqlListPagined { get; set; } = @"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId,
 				                                                        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF""
                                                                                   FROM Cidades
                                                                         INNER JOIN Estados ON Cidades.EstadoID = Estados.Id";
 
-        public EstadoDAOReflection EstadoDAO { get; set; }
+        public EstadoDAO EstadoDAO { get; set; }
 
-        public CidadeDAOReflection(ApplicationContext context, EstadoDAOReflection estadoDAO) : base(context, "Cidades")
+        public CidadeDAO(ApplicationContext context, EstadoDAO estadoDAO) : base(context, "Cidades")
         {
             this.EstadoDAO = estadoDAO;
         }

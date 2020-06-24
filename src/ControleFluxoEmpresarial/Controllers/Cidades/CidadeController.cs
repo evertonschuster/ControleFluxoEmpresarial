@@ -16,7 +16,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     [ApiController]
     public class CidadeController : ControllerBase<Cidade, PaginationQuery>
     {
-        public CidadeController(CidadeDAOReflection dAO) : base(dAO)
+        public CidadeController(CidadeDAO dAO) : base(dAO)
         {
         }
 

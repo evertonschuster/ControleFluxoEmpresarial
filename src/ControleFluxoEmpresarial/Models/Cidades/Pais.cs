@@ -18,9 +18,9 @@ namespace ControleFluxoEmpresarial.Models.Cidades
 
     public class PaisValidator : AbstractValidator<Pais>
     {
-        public PaisDAOReflection PaisDAO { get; set; }
+        public PaisDAO PaisDAO { get; set; }
 
-        public PaisValidator(PaisDAOReflection paisDao)
+        public PaisValidator(PaisDAO paisDao)
         {
             this.PaisDAO = paisDao;
 

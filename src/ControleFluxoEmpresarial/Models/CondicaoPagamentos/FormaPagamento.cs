@@ -15,9 +15,9 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
 
     public class FormaPagamentoValidator : AbstractValidator<FormaPagamento>
     {
-        public FormaPagamentoDAOReflection FormaPagamentoDAO { get; }
+        public FormaPagamentoDAO FormaPagamentoDAO { get; }
 
-        public FormaPagamentoValidator(FormaPagamentoDAOReflection formaPagamentoDAO)
+        public FormaPagamentoValidator(FormaPagamentoDAO formaPagamentoDAO)
         {
             this.FormaPagamentoDAO = formaPagamentoDAO;
 

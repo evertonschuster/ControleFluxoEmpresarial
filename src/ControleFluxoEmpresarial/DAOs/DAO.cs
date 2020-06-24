@@ -1,32 +1,76 @@
-﻿using ControleFluxoEmpresarial.Architectures.Helper;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models;
-using Microsoft.Data.SqlClient;
+using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-
-    public abstract class DAO<TEntity, TId> : BaseDAO<TEntity>, IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new()
+    public abstract class DAO<TEntity> : DAO<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseEntity<int>, new()
     {
-        public DAO(ApplicationContext context) : base(context)
+        public DAO(ApplicationContext context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
         {
         }
 
-        #region PUBLIC CRUD
+        public override abstract void VerifyRelationshipDependence(int id);
+    }
+
+    public abstract class DAO<TEntity, TId> : BaseDAO<TEntity>, IDAO<TEntity, TId> where TEntity : class, IBaseEntity<TId>, new()
+    {
+        private string TableName { get; }
+        private string IdProperty { get; }
+        private string NameProperty { get; }
+        public bool AutoIncrement { get; set; }
+        protected virtual string SqlListPagined { set; get; } = null;
+        private List<string> Property
+        {
+            get
+            {
+                return typeof(TEntity).Property(IdProperty);
+            }
+        }
+
+
+
+        public DAO(ApplicationContext context, string tableName, string idProperty = "Id", string nameProperty = "nome", bool autoIncrement = true) : base(context, idProperty)
+        {
+            this.TableName = tableName;
+            this.IdProperty = idProperty;
+            this.NameProperty = nameProperty;
+            this.AutoIncrement = autoIncrement;
+        }
+
+        protected override TEntity MapEntity(DbDataReader reader)
+        {
+            var entity = reader.MapEntity<TEntity, TId>(this.Property, this.IdProperty);
+
+            foreach (var property in typeof(TEntity).PropertyIBaseEntity<TId>())
+            {
+                var instance = Activator.CreateInstance(property.PropertyType);
+
+                var properties = property.PropertyType.Property(this.IdProperty);
+                var propertyEntity = reader.MapEntity(instance, properties, this.IdProperty, $"{property.Name}.");
+
+                property.SetValue(entity, propertyEntity);
+            }
+
+            return entity;
+        }
 
         public virtual void Delete(TId id, bool commit = true)
         {
-            throw new NotImplementedException();
+            var sql = $@"DELETE FROM {this.TableName} 
+                        WHERE {this.IdProperty} = @id";
+
+            this.ExecuteScript(sql, new { id });
         }
 
         public virtual void Delete(TEntity entity, bool commit = true)
@@ -36,36 +80,60 @@ namespace ControleFluxoEmpresarial.DAOs
 
         public virtual TEntity GetByID(TId id)
         {
-            throw new NotImplementedException();
-        }
+            var sql = $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
+                          FROM {this.TableName} 
+                        WHERE {this.IdProperty} = @id";
 
 
-        public virtual TId Insert(TEntity entity, bool commit = true)
-        {
-            throw new Exception();
-        }
-
-        public virtual void Update(TEntity entity, bool commit = true)
-        {
+            return base.ExecuteGetFirstOrDefault(sql, parameters: new { id });
         }
 
         public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
         {
-            throw new Exception();
+            var sql = this.SqlListPagined ?? $@"SELECT {this.IdProperty}, {this.Property.FormatProperty()}
+                          FROM {this.TableName} ";
+
+            TId byId = default;
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(TId));
+                try
+                {
+                    byId = (TId)converter.ConvertFrom(filter.Filter);
+                    sqlId += $" OR {this.TableName}.id = @id ";
+                }
+                catch
+                {
+                }
+                filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
+                sql += $" WHERE {this.TableName}.{this.NameProperty} ilike @Filter {sqlId} ";
+            }
+
+            return base.ExecuteGetPaginated(sql, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", new { id = byId, filter.Filter }, filter);
         }
 
-
-        #endregion
-
-        #region PRIVATE METHOD
-
-        protected override TEntity MapEntity(DbDataReader reader)
+        public virtual TId Insert(TEntity entity, bool commit = true)
         {
-            var entity = new TEntity();
-            entity.Id = reader.GetFieldValue<TId>("Id");
+            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.IdProperty} " : "")})
+                         VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.IdProperty} " : "")})";
 
-            return entity;
+            entity.DataCriacao = DateTime.Now;
+            entity.DataAtualizacao = DateTime.Now;
+            return this.ExecuteScriptInsert(sql, entity);
         }
+
+        public virtual void Update(TEntity entity, bool commit = true)
+        {
+            var sql = $@"UPDATE {this.TableName} 
+                        SET {this.Property.Where(e => e != nameof(IBaseEntity<TId>.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
+                        WHERE {this.IdProperty} = @Id";
+
+            entity.DataAtualizacao = DateTime.Now;
+            base.ExecuteScript(sql, entity);
+        }
+
+        public abstract void VerifyRelationshipDependence(TId id);
 
         protected override void AddParameterValues(DbCommand command, object parameters)
         {
@@ -85,7 +153,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             try
             {
-                command.CommandText = sql += "RETURNING id;";
+                command.CommandText = sql += $"RETURNING {this.PropertiesIds.FormatProperty(e => e)};";
                 command.CommandType = CommandType.Text;
 
                 Console.WriteLine("SQL => " + command.CommandText);
@@ -112,9 +180,5 @@ namespace ControleFluxoEmpresarial.DAOs
                 }
             }
         }
-
-        public abstract void VerifyRelationshipDependence(TId id);
-
-        #endregion
     }
 }

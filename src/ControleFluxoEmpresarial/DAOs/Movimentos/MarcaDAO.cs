@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
-    public class MarcaDAO : DAOReflection<Marca>
+    public class MarcaDAO : DAO<Marca>
     {
         public MarcaDAO(ApplicationContext context) : base(context, "Marcas")
         {

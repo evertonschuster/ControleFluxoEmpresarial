@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Cidades
 {
-    public class PaisDAOReflection : DAOReflection<Pais>
+    public class PaisDAO : DAO<Pais>
     {
-        public PaisDAOReflection(ApplicationContext context) : base(context, "paises")
+        public PaisDAO(ApplicationContext context) : base(context, "paises")
         {
         }
 

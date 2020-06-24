@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 {
     public class CondicaoPagamentoDAO : DAO<CondicaoPagamento, int>
     {
-        public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, ApplicationContext context) : base(context)
+        public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, ApplicationContext context) : base(context, "CondicaoPagamentos")
         {
             CondicaoPagamentoParcelaDAO = condicaoPagamentoParcelaDAO ?? throw new ArgumentNullException(nameof(condicaoPagamentoParcelaDAO));
         }

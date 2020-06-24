@@ -18,7 +18,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     public class PaisController : ControllerBase<Pais, PaginationQuery>
     {
 
-        public PaisController(PaisDAOReflection dAO) : base(dAO)
+        public PaisController(PaisDAO dAO) : base(dAO)
         {
         }
     }

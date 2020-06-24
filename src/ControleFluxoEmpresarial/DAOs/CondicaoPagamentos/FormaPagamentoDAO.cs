@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 {
-    public class FormaPagamentoDAOReflection : DAOReflection<FormaPagamento>
+    public class FormaPagamentoDAO : DAO<FormaPagamento>
     {
-        public FormaPagamentoDAOReflection(ApplicationContext context) : base(context, "FormaPagamentos")
+        public FormaPagamentoDAO(ApplicationContext context) : base(context, "FormaPagamentos")
         {
         }
 

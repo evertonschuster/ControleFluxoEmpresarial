@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Entities
 {
-    //public class FuncionarioServicoDAO : DAOReflection<FuncionarioServico>
+    //public class FuncionarioServicoDAO : DAO<FuncionarioServico>
     //{
     //}
 }

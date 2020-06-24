@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
-    public class CategoriaDAO : DAOReflection<Categoria>
+    public class CategoriaDAO : DAO<Categoria>
     {
         public CategoriaDAO(ApplicationContext context) : base(context, "Categorias")
         {
