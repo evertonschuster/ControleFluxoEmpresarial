@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
 {
-    public class FormaPagamento : BaseEntity
+    public class FormaPagamento : BaseModel
     {
         public string Nome { get; set; }
 

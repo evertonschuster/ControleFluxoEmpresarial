@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Models.Pessoas;
+﻿using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;
 using System.Linq;

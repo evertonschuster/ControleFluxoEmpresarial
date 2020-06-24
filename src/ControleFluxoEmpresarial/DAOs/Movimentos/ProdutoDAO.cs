@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Models.Movimentos;
+﻿using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.Models.Movimentos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

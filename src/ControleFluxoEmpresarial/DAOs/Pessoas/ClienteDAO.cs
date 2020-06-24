@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
+using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.Filters.ModelView;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;

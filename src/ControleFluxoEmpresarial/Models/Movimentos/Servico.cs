@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Movimentos
 {
-    public class Servico : BaseEntity
+    public class Servico : BaseModel
     {
         public string Nome { get; set; }
 

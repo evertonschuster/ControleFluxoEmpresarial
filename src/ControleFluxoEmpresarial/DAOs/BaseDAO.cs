@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs
 {
-    public abstract class BaseDAO<TEntity>
+    public abstract class BaseDAO<TEntity> : IDAO
     {
         public string[] PropertiesIds { get; }
         private ApplicationContext Context { get; }

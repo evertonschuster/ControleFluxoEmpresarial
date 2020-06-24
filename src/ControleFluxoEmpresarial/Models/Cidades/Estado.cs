@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Cidades
 {
-    public class Estado : BaseEntity
+    public class Estado : BaseModel
     {
         public string Nome { get; set; }
 

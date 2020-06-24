@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Pessoas
 {
-    public class Associado : BaseEntity
+    public class Associado : BaseModel
     {
         public string Nome { get; set; }
 

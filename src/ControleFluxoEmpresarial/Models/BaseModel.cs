@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ControleFluxoEmpresarial.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models
 {
-    public abstract class BaseEntity : IBaseEntity<int>
+    public abstract class BaseModel : IBaseModel<int>
     {
         public int Id { get; set; }
 
@@ -15,14 +16,10 @@ namespace ControleFluxoEmpresarial.Models
         public DateTime DataAtualizacao { get; set; }
     }
 
-    public interface IBaseEntity<TId>
+    public interface IBaseModel<TId> : IBaseEntity
     {
         [JsonProperty(Order = 1)]
         TId Id { get; set; }
-
-        DateTime DataCriacao { get; set; }
-
-        DateTime DataAtualizacao { get; set; }
     }
 
 }

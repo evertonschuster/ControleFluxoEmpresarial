@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Cidades
 {
-    public class Cidade : BaseEntity
+    public class Cidade : BaseModel
     {
         public string Nome { get; set; }
 

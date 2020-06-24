@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.Models;
+﻿using ControleFluxoEmpresarial.Entities;
+using ControleFluxoEmpresarial.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,22 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
     public static class PropertyExtension
     {
 
-        public static List<PropertyInfo> PropertyIBaseEntity<TId>(this Type type)
+        public static List<PropertyInfo> PropertyIBaseEntity(this Type type)
         {
             var properties = type.GetProperties();
 
-            return properties.Where(e => typeof(IBaseEntity<TId>).IsAssignableFrom(e.PropertyType)).ToList();
+            return properties.Where(e => typeof(IBaseEntity).IsAssignableFrom(e.PropertyType)).ToList();
         }
 
-        public static List<string> Property(this Type type, string idProperty = "Id")
+        public static List<string> Property(this Type type, params string[] ignoreProperty)
         {
             var properties = type.GetProperties();
 
-            return properties.Where(e => e.Name.ToLower() != idProperty.ToLower() &&
+            return properties.Where(e => ignoreProperty.Any(ee => ee.ToLower() != e.Name.ToLower()) &&
             (
                 e.PropertyType.IsPrimitive ||
                 e.PropertyType.IsEnum ||
-                Nullable.GetUnderlyingType(e.PropertyType)?.IsEnum == true||
+                Nullable.GetUnderlyingType(e.PropertyType)?.IsEnum == true ||
                 e.PropertyType == typeof(string) ||
                 e.PropertyType == typeof(decimal) ||
                 e.PropertyType == typeof(float) ||
