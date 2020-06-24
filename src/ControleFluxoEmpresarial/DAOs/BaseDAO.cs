@@ -160,7 +160,7 @@ namespace ControleFluxoEmpresarial.DAOs
                 command.CommandType = CommandType.Text;
                 Console.WriteLine("SQL => " + command.CommandText);
 
-                command.ExecuteNonQuery();
+                command.ExecuteScalar();
 
                 if (commit)
                 {

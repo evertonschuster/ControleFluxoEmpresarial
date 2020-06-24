@@ -22,7 +22,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
         {
             var properties = type.GetProperties();
 
-            return properties.Where(e => ignoreProperty.Any(ee => ee.ToLower() != e.Name.ToLower()) &&
+            return properties.Where(e => !ignoreProperty.Any(ee => ee.ToLower() == e.Name.ToLower()) &&
             (
                 e.PropertyType.IsPrimitive ||
                 e.PropertyType.IsEnum ||
@@ -38,7 +38,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
             )).Select(e => e.Name).ToList();
         }
 
-        public static string FormatProperty(this IEnumerable<string> properties, Func<string, string> func = null)
+        public static string FormatProperty(this IEnumerable<string> properties, Func<string, string> func = null, string separeitor = ",")
         {
             var str = "";
             var propertiesList = properties.ToList();
@@ -56,7 +56,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 
                 if (i < propertiesList.Count - 1)
                 {
-                    str += ", ";
+                    str += $" {separeitor} ";
                 }
             }
 

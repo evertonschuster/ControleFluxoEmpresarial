@@ -1,9 +1,13 @@
-﻿using ControleFluxoEmpresarial.DAOs.simple;
+﻿using ControleFluxoEmpresarial.DAOs.Entities;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using ControleFluxoEmpresarial.Architectures.Exceptions;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
@@ -15,15 +19,105 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
 
                 FROM Servicos
-	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId
-        ";
+	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId";
 
-        public ServicoDAO(ApplicationContext context) : base(context, "Servicos")
+        public IServiceProvider ServiceProvider { get; set; }
+        public FuncionarioServicoDAO FuncionarioServicoDAO { get { return this.ServiceProvider.GetService<FuncionarioServicoDAO>(); } }
+
+        public FuncionarioDAO FuncionarioDAO { get { return this.ServiceProvider.GetService<FuncionarioDAO>(); } }
+
+        public ServicoDAO(ApplicationContext context, IServiceProvider serviceProvider) : base(context, "Servicos")
         {
+            this.ServiceProvider = serviceProvider;
         }
 
         public override void VerifyRelationshipDependence(int id)
         {
+            var sql = @"SELECT 1 FROM FuncionarioServicos
+                            WHERE FuncionarioServicos.servicoid = @id ";
+
+            if (this.ExecuteExist(sql, new { id }))
+            {
+                throw new BusinessException(null, "Serviço não pode ser excluido!");
+            }
         }
+
+        public override int Insert(Servico entity, bool commit = true)
+        {
+            var id = base.Insert(entity, false);
+            this.FuncionarioServicoDAO.Transaction = this.Transaction;
+
+            for (int i = 0; i < entity.Funcionarios.Count; i++)
+            {
+                var commitFuncionarioServico = i == entity.Funcionarios.Count - 1;
+                var funcionarioServico = new FuncionarioServico()
+                {
+                    FuncionarioId = entity.Funcionarios[i].Id,
+                    ServicoId = id
+                };
+
+                this.FuncionarioServicoDAO.Insert(funcionarioServico, commitFuncionarioServico);
+            }
+
+            return id;
+        }
+
+        public override void Update(Servico entity, bool commit = true)
+        {
+            base.Update(entity, false);
+            this.FuncionarioServicoDAO.Transaction = this.Transaction;
+            this.FuncionarioDAO.Transaction = this.Transaction;
+
+            var dbFuncionarioIds = this.FuncionarioDAO.GetInServico(entity.Id)?.Select(e => e.Id).ToList() ?? new List<int>();
+            var funcionariosIds = entity.Funcionarios.Select(e => e.Id).ToList();
+
+            var removeFuncionarioIds = dbFuncionarioIds.Except(funcionariosIds).ToList();
+            var insertFuncionarioId = funcionariosIds.Except(dbFuncionarioIds).ToList();
+
+            foreach (var funcionarioId in removeFuncionarioIds)
+            {
+                this.FuncionarioServicoDAO.Delete(new { FuncionarioId = funcionarioId, ServicoId = entity.Id }, false);
+            }
+
+            foreach (var funcionarioId in insertFuncionarioId)
+            {
+                this.FuncionarioServicoDAO.Insert(new FuncionarioServico() { FuncionarioId = funcionarioId, ServicoId = entity.Id }, false);
+            }
+
+            try
+            {
+                this.Transaction.Commit();
+            }
+            catch
+            {
+                this.Transaction?.Rollback();
+                throw;
+            }
+        }
+
+        public override Servico GetByID(int id)
+        {
+            var servico = base.GetByID(id);
+
+            servico.Funcionarios = this.FuncionarioDAO.GetInServico(id);
+
+            return servico;
+        }
+
+        internal List<Servico> GetInFuncionario(int funcionarioId)
+        {
+            var sql = @"SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
+		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
+
+                FROM Servicos
+	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId
+                    INNER JOIN funcionarioservicos ON funcionarioservicos.servicoid = Servicos.id
+                WHERE funcionarioservicos.funcionarioid = @funcionarioId";
+
+            return this.ExecuteGetAll(sql, new { funcionarioId }, false);
+
+        }
+
     }
 }

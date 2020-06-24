@@ -5,22 +5,26 @@ import { TextArea } from './../../../../../components/WithFormItem/withFormItem'
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
 import { CategoriaApi } from '../../../../../apis/Movimentos/CategoriaApi';
-import { FuncaoFuncionarioApi } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Funcionario } from './../../../../../models/Pessoas/Funcionario';
+import { FuncionarioApi } from '../../../../../apis/Pessoas/FuncionarioApi';
 
 const columns: ColumnProps<Funcionario>[] = [
+    {
+        title: 'Código',
+        dataIndex: 'id',
+    },
     {
         title: 'Funcionário',
         dataIndex: 'nome',
     },
     {
-        title: 'Idade',
-        dataIndex: 'idade',
-    },
-    {
         title: 'Função',
         dataIndex: 'funcaoFuncionario.nome',
+    },
+    {
+        title: 'Carga Horária',
+        dataIndex: 'funcaoFuncionario.cargaHoraria',
     },
 ];
 
@@ -66,10 +70,10 @@ const GeneralForm: React.FC = () => {
             <Row>
                 <Col span={24}>
                     <SelectModelMoreWithTable
-                        fetchMethod={FuncaoFuncionarioApi.GetById.bind(FuncaoFuncionarioApi)}
-                        getListPagined={FuncaoFuncionarioApi.GetListPagined.bind(FuncaoFuncionarioApi)}
+                        fetchMethod={FuncionarioApi.GetById.bind(FuncionarioApi)}
+                        getListPagined={FuncionarioApi.GetListPagined.bind(FuncionarioApi)}
                         label={{ label: "Funcionários", title: "Selecione um Funcionário" }}
-                        name="funcionarioIds"
+                        name="funcionarios"
                         columns={columns}
                         errorMessage={{ noSelection: "Selecione ao menos um funcionário" }}
                         path="funcionario"

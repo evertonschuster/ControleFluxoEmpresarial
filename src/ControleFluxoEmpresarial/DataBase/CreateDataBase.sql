@@ -364,6 +364,17 @@ CREATE TABLE Servicos (
 	FOREIGN KEY (CategoriaId) REFERENCES Categorias (Id) 
 );
 
+CREATE TABLE FuncionarioServicos(
+    ServicoId  integer NOT NULL,
+    FuncionarioId  integer NOT NULL,
+
+    DataCriacao  TIMESTAMP with time zone ,
+    DataAtualizacao TIMESTAMP with time zone,
+
+    CONSTRAINT PK_FuncionarioServicos PRIMARY KEY (FuncionarioId,ServicoId),
+	FOREIGN KEY (ServicoId) REFERENCES Servicos (Id),
+	FOREIGN KEY (FuncionarioId) REFERENCES Funcionarios (Id) 
+);
 
 CREATE INDEX "IX_AspNetRoleClaims_RoleId" ON "AspNetRoleClaims" ("RoleId");
 

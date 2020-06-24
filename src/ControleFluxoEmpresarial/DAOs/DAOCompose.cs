@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
     public abstract class DAO<TEntity> : BaseDAO<TEntity>, IDAO where TEntity : class, IBaseEntity
     {
         private string TableName { get; }
-        private string[] PropertiesIds { get; }
+        private string[] PropertiesId { get; }
         public ApplicationContext Context { get; set; }
         private List<string> Property
         {
@@ -26,21 +26,24 @@ namespace ControleFluxoEmpresarial.DAOs.compose
         protected DAO(ApplicationContext context, string tableName, params string[] propertiesIds) : base(context, propertiesIds)
         {
             this.TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
-            this.PropertiesIds = propertiesIds ?? throw new ArgumentNullException(nameof(propertiesIds));
+            this.PropertiesId = propertiesIds ?? throw new ArgumentNullException(nameof(propertiesIds));
             this.Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Delete(bool commit = true, params object[] ids)
+        public void Delete(object ids, bool commit = true)
+        {
+            var sql = $@"DELETE FROM {this.TableName} 
+                        WHERE {this.PropertiesId.FormatProperty(e => $"{e} = @{e}", "and")}";
+
+            base.ExecuteScript(sql, ids, commit);
+        }
+
+        public void Delete(TEntity entity, bool commit = true)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(bool commit = true, TEntity entity = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity GetByID(params object[] id)
+        public TEntity GetByID(object ids)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +53,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             throw new NotImplementedException();
         }
 
-        public object[] Insert(bool commit = true, TEntity entity = default)
+        public object[] Insert(TEntity entity, bool commit = true)
         {
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} )
                          VALUES ( {this.Property.FormatProperty(e => $"@{e}")} )";
@@ -62,12 +65,12 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             return null;
         }
 
-        public void Update(bool commit = true, TEntity entity = default)
+        public void Update(TEntity entity, bool commit = true)
         {
             throw new NotImplementedException();
         }
 
-        public abstract void VerifyRelationshipDependence(params object[] id);
+        public abstract void VerifyRelationshipDependence(object ids);
 
         protected override void AddParameterValues(DbCommand command, object parameters)
         {
@@ -76,13 +79,13 @@ namespace ControleFluxoEmpresarial.DAOs.compose
 
         protected override TEntity MapEntity(DbDataReader reader)
         {
-            var entity = reader.MapEntity(this.Property, this.Property, this.PropertiesIds) as TEntity;
+            var entity = reader.MapEntity(this.Property, this.Property, this.PropertiesId) as TEntity;
 
             foreach (var property in typeof(TEntity).PropertyIBaseEntity())
             {
                 var instance = Activator.CreateInstance(property.PropertyType);
 
-                var properties = property.PropertyType.Property(this.PropertiesIds);
+                var properties = property.PropertyType.Property(this.PropertiesId);
                 var propertyEntity = reader.MapEntity(instance, properties, new string[] { "Id" }, $"{property.Name}.");
 
                 property.SetValue(entity, propertyEntity);

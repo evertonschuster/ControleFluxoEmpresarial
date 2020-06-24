@@ -24,7 +24,7 @@ export interface Props {
 const SelectModelMoreWithTable: React.FC<Props> = (props) => {
 
     const [, metaTable, helperTable] = useField<any[]>({ name: props.name });
-    const [data, setData] = useState<any[]>(metaTable.value ?? [])
+    // const [data, setData] = useState<any[]>(metaTable.value ?? [])
     const [, meta, helper] = useField<any[]>({ name: props.name + "SelectionIds" })
 
     const keyId = props.keyId || "id";
@@ -39,21 +39,18 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
 
     function onSaveClick() {
 
-        setData((old) => {
-
-            let lefJoin = meta.value.filter(e => {
-                return old.filter((ee) => ee[keyId] === e[keyId]).length === 0
-            });
-
-            let value = [...old, ...lefJoin];
-            helperTable.setValue(value);
-            return value
+        let lefJoin = meta.value.filter(e => {
+            return (metaTable.value ?? []).filter((ee) => ee[keyId] === e[keyId]).length === 0
         });
+
+        let value = [...(metaTable.value ?? []), ...lefJoin];
+        helperTable.setValue(value);
+
         helper.setValue([]);
     }
 
     function onRemoveClick(record: any) {
-        setData((oldData) => oldData.filter(e => e[keyId] !== record[keyId]))
+        helperTable.setValue(metaTable.value.filter(e => e[keyId] !== record[keyId]))
     }
 
     function renderAction(text: any, record: any, index: number) {
@@ -103,7 +100,7 @@ const SelectModelMoreWithTable: React.FC<Props> = (props) => {
             <Row>
                 <Col span={24}>
                     <WithItemNone >
-                        <Table columns={columns} dataSource={data} size="small" rowKey="id" />
+                        <Table columns={columns} dataSource={metaTable.value} size="small" rowKey="id" />
                     </WithItemNone>
                 </Col>
             </Row>
