@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
 using System.Collections.Generic;

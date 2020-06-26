@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.Models.Pessoas;
+using System.Collections.ObjectModel;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
@@ -47,16 +50,25 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             var id = base.Insert(entity, false);
             this.FuncionarioServicoDAO.Transaction = this.Transaction;
 
-            for (int i = 0; i < entity.Funcionarios.Count; i++)
+            for (int i = 0; i < (entity.Funcionarios ?? Enumerable.Empty<Funcionario>()).Count(); i++)
             {
-                var commitFuncionarioServico = i == entity.Funcionarios.Count - 1;
                 var funcionarioServico = new FuncionarioServico()
                 {
                     FuncionarioId = entity.Funcionarios[i].Id,
                     ServicoId = id
                 };
 
-                this.FuncionarioServicoDAO.Insert(funcionarioServico, commitFuncionarioServico);
+                this.FuncionarioServicoDAO.Insert(funcionarioServico, false);
+            }
+
+            try
+            {
+                this.Transaction.Commit();
+            }
+            catch
+            {
+                this.Transaction?.Rollback();
+                throw;
             }
 
             return id;
@@ -69,7 +81,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             this.FuncionarioDAO.Transaction = this.Transaction;
 
             var dbFuncionarioIds = this.FuncionarioDAO.GetInServico(entity.Id)?.Select(e => e.Id).ToList() ?? new List<int>();
-            var funcionariosIds = entity.Funcionarios.Select(e => e.Id).ToList();
+            var funcionariosIds = entity.Funcionarios?.Select(e => e.Id).ToList() ?? Enumerable.Empty<int>();
 
             var removeFuncionarioIds = dbFuncionarioIds.Except(funcionariosIds).ToList();
             var insertFuncionarioId = funcionariosIds.Except(dbFuncionarioIds).ToList();

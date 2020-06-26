@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;

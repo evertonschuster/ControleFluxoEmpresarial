@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.DataBase
 
             IServiceScopeFactory serviceScopeFactory = serviceProvider.ApplicationServices.GetService(typeof(IServiceScopeFactory)) as IServiceScopeFactory;
 
-            using var scope = serviceScopeFactory.CreateScope();
+            var scope = serviceScopeFactory.CreateScope();
             var services = scope.ServiceProvider;
 
             this.Context = services.GetRequiredService<ApplicationContext>();

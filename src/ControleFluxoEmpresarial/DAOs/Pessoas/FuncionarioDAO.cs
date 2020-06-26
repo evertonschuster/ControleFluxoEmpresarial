@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.Models.Movimentos;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
@@ -82,8 +84,8 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
             this.FuncionarioServicoDAO.Transaction = this.Transaction;
             this.ServicoDAO.Transaction = this.Transaction;
 
-            var dbServicoIds = this.ServicoDAO.GetInFuncionario(entity.Id).Select(e => e.Id).ToList();
-            var servicoIds = entity.Servicos.Select(e => e.Id).ToList();
+            var dbServicoIds = this.ServicoDAO.GetInFuncionario(entity.Id)?.Select(e => e.Id).ToList() ?? Enumerable.Empty<int>();
+            var servicoIds = entity.Servicos?.Select(e => e.Id).ToList() ?? Enumerable.Empty<int>();
 
             var removeServicoIds = dbServicoIds.Except(servicoIds).ToList();
             var insertServicoId = servicoIds.Except(dbServicoIds).ToList();
@@ -122,16 +124,25 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
             var id = base.Insert(entity, false);
             this.FuncionarioServicoDAO.Transaction = this.Transaction;
 
-            for (int i = 0; i < entity.Servicos.Count; i++)
+            for (int i = 0; i < (entity.Servicos ?? Enumerable.Empty<Servico>()).Count(); i++)
             {
-                var commitFuncionarioServico = i == entity.Servicos.Count - 1;
                 var funcinarioServico = new FuncionarioServico()
                 {
                     FuncionarioId = id,
                     ServicoId = entity.Servicos[i].Id
                 };
 
-                this.FuncionarioServicoDAO.Insert(funcinarioServico, commitFuncionarioServico);
+                this.FuncionarioServicoDAO.Insert(funcinarioServico, false);
+            }
+
+            try
+            {
+                this.Transaction.Commit();
+            }
+            catch
+            {
+                this.Transaction?.Rollback();
+                throw;
             }
 
             return id;

@@ -7,15 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Architectures\DataBase\**" />
     <Compile Remove="Models\CompraVenda\**" />
+    <Content Remove="Architectures\DataBase\**" />
     <Content Remove="Models\CompraVenda\**" />
+    <EmbeddedResource Remove="Architectures\DataBase\**" />
     <EmbeddedResource Remove="Models\CompraVenda\**" />
+    <None Remove="Architectures\DataBase\**" />
     <None Remove="Models\CompraVenda\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Architectures\DataBase\20191115230045_initial2.cs" />
-    <Compile Remove="Architectures\DataBase\20191115230045_initial2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Architectures\DataBase\" />
     <Folder Include="DTO\Filters\Results\" />
   </ItemGroup>
 

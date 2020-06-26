@@ -26,7 +26,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
         public DateTime? DataValidadeCNH { get; set; }
 
         public int FuncaoFuncionarioId { get; set; }
-        
+
         public FuncaoFuncionario FuncaoFuncionario { get; set; }
 
         public decimal Salario { get; set; }
@@ -64,7 +64,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 
             RuleFor(e => e.CPFCPNJ)
                    .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
-                   .MaximumLength(16).WithMessage("O CPF/CNPJ não deve possuir mais de 16 caracteres.")
+                   .MaximumLength(18).WithMessage("O CPF/CNPJ não deve possuir mais de 18 caracteres.")
                    .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Bairro)
@@ -100,7 +100,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.RgInscricaoEstadual)
                 .NotEmpty().WithMessage("O RG não pode ser vaziu.")
                 .MinimumLength(5).WithMessage("O RG deve possuir mais de 5 caracteres.")
-                .MaximumLength(16).WithMessage("O RG não deve possuir mais de 16 caracteres.");
+                .MaximumLength(19).WithMessage("O RG não deve possuir mais de 19 caracteres.");
 
             RuleFor(e => e.Telefone)
                 .NotEmpty().WithMessage("O Telefone não pode ser vaziu.")
@@ -122,6 +122,9 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.CidadeId).Must(ExistCidade).WithMessage("Cidade não cadastrada.");
 
             RuleFor(e => e.FuncaoFuncionarioId).Must(ExistFuncaoFuncionario).WithMessage("Função Funcionário não cadastrada.");
+
+            RuleFor(e => e.DataValidadeCNH)
+                .Must(e => e == null || (e != null && e >= DateTime.Now)).WithMessage("CNH está vencida.");
         }
 
         private bool CPFIsAllow(Funcionario Funcionario, string cpf)

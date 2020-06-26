@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
 using ControleFluxoEmpresarial.Models.Cidades;

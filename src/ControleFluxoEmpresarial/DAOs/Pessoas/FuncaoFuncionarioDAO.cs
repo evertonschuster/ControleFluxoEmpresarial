@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;

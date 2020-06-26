@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
