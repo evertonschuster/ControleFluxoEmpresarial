@@ -20,6 +20,8 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         cnh: undefined,
         complemento: undefined,
         cpfcpnj: undefined,
+        dataAdmissao: undefined,
+        dataDemissao: undefined,
         dataNascimento: undefined,
         dataValidadeCNH: undefined,
         email: undefined,
@@ -32,6 +34,7 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
         numero: undefined,
         observacao: undefined,
         rgInscricaoEstadual: undefined,
+        salario: undefined,
         sexo: undefined,
         telefone: undefined,
     });

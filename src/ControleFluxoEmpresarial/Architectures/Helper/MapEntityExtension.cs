@@ -13,22 +13,24 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
     public static class MapEntityExtension
     {
 
-        public static TEntity MapEntity<TEntity, TId>(this DbDataReader reader, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : class, IBaseEntity<TId>, new()
+        public static TEntity MapEntity<TEntity, TId>(this DbDataReader reader, List<string> properties, string propertyId = "id", string prefixProperty = "") where TEntity : class, IBaseModel<TId>, new()
         {
             var entity = new TEntity();
-            return reader.MapEntity<TEntity, TId>(entity, properties, idProperty, prefixProperty);
+            return reader.MapEntity<TEntity, TId>(entity, properties, propertyId, prefixProperty);
         }
-        public static TEntity MapEntity<TEntity, TId>(this DbDataReader reader, TEntity entity, List<string> properties, string idProperty = "id", string prefixProperty = "") where TEntity : class, IBaseEntity<TId>
+        public static TEntity MapEntity<TEntity, TId>(this DbDataReader reader, TEntity entity, List<string> properties, string propertyId = "id", string prefixProperty = "") where TEntity : class, IBaseModel<TId>
         {
-            return reader.MapEntity(entity, properties, idProperty, prefixProperty) as TEntity;
+            return reader.MapEntity(entity, properties, new string[] { propertyId }, prefixProperty) as TEntity;
         }
 
-        public static Object MapEntity(this DbDataReader reader, Object entity, List<string> properties, string idProperty = "id", string prefixProperty = "")
+        public static Object MapEntity(this DbDataReader reader, Object entity, List<string> properties, string[] propertiesId = null, string prefixProperty = "")
         {
-            var propertiesWithId = new List<string>(properties)
+            if (propertiesId == null)
             {
-                idProperty
-            };
+                propertiesId = new string[] { "Id" };
+            }
+
+            var propertiesWithId = new List<string>(properties).Concat(propertiesId);
 
             foreach (var propertyName in propertiesWithId)
             {
@@ -55,7 +57,8 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 }
                 else
                 {
-                    var value = Convert.ChangeType(reader.GetValue(propertyNameWithPrefix), property.PropertyType);
+                    Type type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                    var value = Convert.ChangeType(reader.GetValue(propertyNameWithPrefix), type);
                     property.SetValue(entity, value);
                 }
             }

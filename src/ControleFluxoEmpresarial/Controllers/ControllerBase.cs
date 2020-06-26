@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.DAOs;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
-using ControleFluxoEmpresarial.ModelView.Filters.Queries;
+using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ControleFluxoEmpresarial.Controllers
 {
     //[AllowAnonymous]
-    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseEntity<int> where TPaginationQuery : PaginationQuery
+    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseModel<int> where TPaginationQuery : PaginationQuery
     {
         public ControllerBase(IDAO<TEntity, int> dao) : base(dao)
         {
@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.Controllers
     }
 
     [Authorize]
-    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseEntity<TId> where TPaginationQuery : PaginationQuery
+    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseModel<TId> where TPaginationQuery : PaginationQuery
     {
         protected ControllerBase(IDAO<TEntity, TId> dao)
         {

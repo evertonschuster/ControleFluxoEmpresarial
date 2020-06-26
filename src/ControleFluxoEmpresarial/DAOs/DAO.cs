@@ -1,43 +1,75 @@
-﻿using ControleFluxoEmpresarial.Architectures.Helper;
-using ControleFluxoEmpresarial.Filters.ModelView;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
-using Microsoft.Data.SqlClient;
+using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.DAOs
+namespace ControleFluxoEmpresarial.DAOs.simple
 {
-
-    //INSERT INTO Paises(Nome) VALUES('bob');
-    //SELECT SCOPE_IDENTITY()
-
-    //Insert into Paises(Nome) Output Inserted.Id Values ('example')
-
-
-    public abstract class DAO<TEntity, TId> : IDAO<TEntity, TId> where TEntity : IBaseEntity<TId>, new()
+    public abstract class DAO<TEntity> : DAO<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseModel<int>, new()
     {
-        private ApplicationContext Context { get; set; }
-        public DbTransaction Transaction { get; set; }
-        public DbConnection Connection { get { return this.Context.Database.GetDbConnection(); } }
-
-
-        public DAO(ApplicationContext context)
+        public DAO(ApplicationContext context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
         {
-            this.Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        #region PUBLIC CRUD
+        public override abstract void VerifyRelationshipDependence(int id);
+    }
+
+    public abstract class DAO<TEntity, TId> : BaseDAO<TEntity>, IDAO<TEntity, TId> where TEntity : class, IBaseModel<TId>, new()
+    {
+        private string TableName { get; }
+        private string PropertyId { get; }
+        private string NameProperty { get; }
+        public bool AutoIncrement { get; set; }
+        protected virtual string SqlListPagined { set; get; } = null;
+        private List<string> Property
+        {
+            get
+            {
+                return typeof(TEntity).Property(PropertyId);
+            }
+        }
+
+        public DAO(ApplicationContext context, string tableName, string propertyId = "Id", string nameProperty = "nome", bool autoIncrement = true) : base(context, propertyId)
+        {
+            this.TableName = tableName;
+            this.PropertyId = propertyId;
+            this.NameProperty = nameProperty;
+            this.AutoIncrement = autoIncrement;
+        }
+
+        protected override TEntity MapEntity(DbDataReader reader)
+        {
+            var entity = reader.MapEntity<TEntity, TId>(this.Property, this.PropertyId);
+
+            foreach (var property in typeof(TEntity).PropertyIBaseEntity())
+            {
+                var instance = Activator.CreateInstance(property.PropertyType);
+
+                var properties = property.PropertyType.Property(this.PropertyId);
+                var propertyEntity = reader.MapEntity(instance, properties, new string[] { this.PropertyId }, $"{property.Name}.");
+
+                property.SetValue(entity, propertyEntity);
+            }
+
+            return entity;
+        }
 
         public virtual void Delete(TId id, bool commit = true)
         {
-            throw new NotImplementedException();
+            var sql = $@"DELETE FROM {this.TableName} 
+                        WHERE {this.PropertyId} = @id";
+
+            this.ExecuteScript(sql, new { id }, commit);
         }
 
         public virtual void Delete(TEntity entity, bool commit = true)
@@ -47,66 +79,67 @@ namespace ControleFluxoEmpresarial.DAOs
 
         public virtual TEntity GetByID(TId id)
         {
-            throw new NotImplementedException();
-        }
+            var sql = $@"SELECT {this.PropertyId}, {this.Property.FormatProperty()}
+                          FROM {this.TableName} 
+                        WHERE {this.PropertyId} = @id";
 
 
-        public virtual TId Insert(TEntity entity, bool commit = true)
-        {
-            throw new Exception();
-        }
-
-        public virtual void Update(TEntity entity, bool commit = true)
-        {
+            return base.ExecuteGetFirstOrDefault(sql, parameters: new { id });
         }
 
         public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
         {
-            throw new Exception();
+            var sql = this.SqlListPagined ?? $@"SELECT {this.PropertyId}, {this.Property.FormatProperty()}
+                          FROM {this.TableName} ";
+
+            TId byId = default;
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(TId));
+                try
+                {
+                    byId = (TId)converter.ConvertFrom(filter.Filter);
+                    sqlId += $" OR {this.TableName}.id = @id ";
+                }
+                catch
+                {
+                }
+                filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
+                sql += $" WHERE {this.TableName}.{this.NameProperty} ilike @Filter {sqlId} ";
+            }
+
+            return base.ExecuteGetPaginated(sql, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", new { id = byId, filter.Filter }, filter);
+        }
+
+        public virtual TId Insert(TEntity entity, bool commit = true)
+        {
+            var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.PropertyId} " : "")})
+                         VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.PropertyId} " : "")})";
+
+            entity.DataCriacao = DateTime.Now;
+            entity.DataAtualizacao = DateTime.Now;
+            return this.ExecuteScriptInsert(sql, entity, commit);
+        }
+
+        public virtual void Update(TEntity entity, bool commit = true)
+        {
+            var sql = $@"UPDATE {this.TableName} 
+                        SET {this.Property.Where(e => e != nameof(IBaseModel<TId>.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
+                        WHERE {this.PropertyId} = @Id";
+
+            entity.DataAtualizacao = DateTime.Now;
+            base.ExecuteScript(sql, entity, commit);
         }
 
         public abstract void VerifyRelationshipDependence(TId id);
 
-
-        #endregion
-
-
-        #region PRIVATE METHOD
-
-
-        public void CreateTransaction(DbTransaction transaction = null)
+        protected override void AddParameterValues(DbCommand command, object parameters)
         {
-            var connection = this.Context.Database.GetDbConnection();
-
-            if (transaction == null || connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-                this.Transaction = connection.BeginTransaction();
-            }
-            else
-            {
-                this.Transaction = transaction;
-            }
+            command.AddParameterValues(parameters);
         }
 
-        protected DbCommand CreateCommand()
-        {
-            var connection = this.Context.Database.GetDbConnection();
-            var command = connection.CreateCommand();
-            command.Transaction = this.Transaction;
-
-            return command;
-        }
-
-        protected virtual TEntity MapEntity(DbDataReader reader)
-        {
-            var entity = new TEntity();
-            entity.Id = reader.GetFieldValue<TId>("Id");
-
-            return entity;
-        }
-
-        protected virtual void ExecuteScript(string sql, object parameters = null, bool commit = true)
+        protected virtual new TId ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -115,252 +148,11 @@ namespace ControleFluxoEmpresarial.DAOs
 
             this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
-            command.AddParameterValues<TId>(parameters);
+            this.AddParameterValues(command, parameters);
 
             try
             {
-                command.CommandText = sql;
-                command.CommandType = CommandType.Text;
-                Console.WriteLine("SQL => " + command.CommandText);
-
-                command.ExecuteNonQuery();
-
-                if (commit)
-                {
-                    this.Transaction.Commit();
-                }
-            }
-            catch
-            {
-                this.Transaction?.Rollback();
-                throw;
-            }
-            finally
-            {
-                if (commit)
-                {
-                    command.Connection.Close();
-                }
-            }
-        }
-
-        protected virtual TEntity ExecuteGetFirstOrDefault(string sql, object parameters = null, bool closeConnection = true)
-        {
-            if (string.IsNullOrEmpty(sql))
-            {
-                throw new Exception("Sql não informado ");
-            }
-
-            this.CreateTransaction(this.Transaction);
-            var command = CreateCommand();
-            command.AddParameterValues<TId>(parameters);
-
-            try
-            {
-                command.CommandText = sql += " limit 1";
-                command.CommandType = CommandType.Text;
-
-                Console.WriteLine("SQL => " + command.CommandText);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    var entity = MapEntity(reader);
-                    reader.Close();
-                    return entity;
-                }
-
-                reader.Close();
-                return default(TEntity);
-
-            }
-            finally
-            {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
-            }
-        }
-
-        protected virtual bool ExecuteExist(string sql, object parameters = null, bool closeConnection = true)
-        {
-            if (string.IsNullOrEmpty(sql))
-            {
-                throw new Exception("Sql não informado ");
-            }
-
-            this.CreateTransaction(this.Transaction);
-            var command = CreateCommand();
-            command.AddParameterValues<TId>(parameters);
-
-            try
-            {
-                command.CommandText = sql += " limit 1";
-                command.CommandType = CommandType.Text;
-                Console.WriteLine("SQL => " + command.CommandText);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    reader.Close();
-                    return true;
-                }
-
-                reader.Close();
-                return false;
-
-            }
-            finally
-            {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
-            }
-        }
-
-        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, string sqlTotalItem, object @params = null, PaginationQuery filter = default, bool closeConnection = true)
-        {
-            if (string.IsNullOrEmpty(sql))
-            {
-                throw new Exception("Sql não informado ");
-            }
-            if (!sql.Contains("order", StringComparison.OrdinalIgnoreCase))
-            {
-                sql += " ORDER BY Id  ";
-            }
-            var result = new PaginationResult<TEntity>()
-            {
-                CurrentPage = filter.CurrentPage,
-                PageSize = filter.PageSize,
-            };
-
-            this.CreateTransaction(this.Transaction);
-            var commandCount = CreateCommand();
-            var command = CreateCommand();
-
-
-            try
-            {
-                commandCount.CommandText = sqlTotalItem;
-                commandCount.CommandType = CommandType.Text;
-
-                var readerCount = commandCount.ExecuteReader();
-                if (readerCount.HasRows)
-                {
-                    readerCount.Read();
-                    result.TotalItem = readerCount.GetInt32("TotalItem");
-                    readerCount.Close();
-
-                    var totalPageDb = Math.Ceiling((double)result.TotalItem / filter.PageSize);
-                    if (totalPageDb < filter.CurrentPage && totalPageDb != 0)
-                    {
-                        result.CurrentPage = (int)totalPageDb;
-                        filter.CurrentPage = (int)totalPageDb;
-                    }
-                }
-                else
-                {
-                    result.TotalItem = 0;
-                    readerCount.Close();
-                    return result;
-                }
-
-
-                command.AddParameterValues<TId>(@params);
-                command.CommandText = sql
-                                      + $@" OFFSET {filter.PageSize * (filter.CurrentPage - 1) }  "
-                                      + $@" LIMIT {filter.PageSize}  ";
-
-                command.CommandType = CommandType.Text;
-                Console.WriteLine("SQL => " + command.CommandText);
-                var reader = command.ExecuteReader();
-
-                var list = new List<TEntity>();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(MapEntity(reader));
-                    }
-                }
-                reader.Close();
-                result.Result = list;
-                return result;
-            }
-            finally
-            {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
-            }
-        }
-
-        protected virtual List<TEntity> ExecuteGetAll(string sql, object @params = null, bool closeConnection = true)
-        {
-            if (string.IsNullOrEmpty(sql))
-            {
-                throw new Exception("Sql não informado ");
-            }
-            if (!sql.Contains("order", StringComparison.OrdinalIgnoreCase))
-            {
-                sql += " ORDER BY Id  ";
-            }
-
-
-            this.CreateTransaction(this.Transaction);
-            var command = CreateCommand();
-            command.AddParameterValues<TId>(@params);
-
-            try
-            {
-                command.CommandText = sql;
-                command.CommandType = CommandType.Text;
-                Console.WriteLine("SQL => " + command.CommandText);
-
-                var reader = command.ExecuteReader();
-
-                var list = new List<TEntity>();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        list.Add(MapEntity(reader));
-                    }
-                }
-                reader.Close();
-
-                return list.Count == 0 ? null : list;
-            }
-            finally
-            {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
-            }
-        }
-
-        protected virtual TId ExecuteScriptInsert(string sql, object parameters = null, bool commit = true)
-        {
-            if (string.IsNullOrEmpty(sql))
-            {
-                throw new Exception("Sql não informado ");
-            }
-
-            this.CreateTransaction(this.Transaction);
-            var command = CreateCommand();
-            command.AddParameterValues<TId>(parameters);
-
-            try
-            {
-                command.CommandText = sql += "RETURNING id;";
+                command.CommandText = sql += $"RETURNING {this.PropertiesIds.FormatProperty(e => e)};";
                 command.CommandType = CommandType.Text;
 
                 Console.WriteLine("SQL => " + command.CommandText);
@@ -387,7 +179,5 @@ namespace ControleFluxoEmpresarial.DAOs
                 }
             }
         }
-
-        #endregion
     }
 }

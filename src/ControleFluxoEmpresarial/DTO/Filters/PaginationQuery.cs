@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Filters.ModelView
+namespace ControleFluxoEmpresarial.Filters.DTO
 {
     public class PaginationQuery
     {

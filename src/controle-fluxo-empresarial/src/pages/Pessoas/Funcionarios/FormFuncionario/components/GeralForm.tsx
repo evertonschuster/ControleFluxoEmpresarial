@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
-import { Input, Select, DatePicker, TextArea } from '../../../../../components/WithFormItem/withFormItem';
+import { Input, Select, DatePicker, TextArea, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
 import { ColumnProps } from 'antd/lib/table';
@@ -13,6 +13,10 @@ import { FuncaoFuncionario } from '../../../../../models/Pessoas/FuncaoFuncionar
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
+        {
+            title: 'Codigo',
+            dataIndex: 'id',
+        },
         {
             title: 'Serviço',
             dataIndex: 'nome',
@@ -126,7 +130,9 @@ const GeralForm: React.FC = () => {
                 <Col span={4}>
                     <Input name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
                 </Col>
+            </Row>
 
+            <Row>
                 <Col span={6}>
                     <SelectModelOne
                         fetchMethod={FuncaoFuncionarioApi.GetById.bind(FuncaoFuncionarioApi)}
@@ -140,6 +146,29 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
+                    <InputNumber name="salario" label="Salario" placeholder="2500,00" required min={0}/>
+                </Col>
+
+                <Col span={3} >
+                    <DatePicker
+                        name="dataAdmissao"
+                        label="Data de Admissão"
+                        placeholder="01/01/2001"
+                        format="DD/MM/yyyy"
+                        required={true}
+                    />
+                </Col>
+
+                <Col span={3} >
+                    <DatePicker
+                        name="dataDemissao"
+                        label="Data de Demissão"
+                        placeholder="01/01/2001"
+                        format="DD/MM/yyyy"
+                    />
+                </Col>
+
+                <Col span={4}>
                     <Input name="cnh" label="CNH" placeholder="999999999" required={fieldFuncaoFuncionario?.value?.requerCNH} />
                 </Col>
 
@@ -158,8 +187,9 @@ const GeralForm: React.FC = () => {
                 <Col span={24}>
                     <SelectModelMoreWithTable
                         fetchMethod={ServicoApi.GetById.bind(ServicoApi)}
+                        getListPagined={ServicoApi.GetListPagined.bind(ServicoApi)}
                         label={{ label: "Serviços", title: "Selecione um Serviço" }}
-                        name="servicoIds"
+                        name="servicos"
                         columns={columns}
                         errorMessage={{ noSelection: "Selecione ao menos um Serviço" }}
                         path="servico"

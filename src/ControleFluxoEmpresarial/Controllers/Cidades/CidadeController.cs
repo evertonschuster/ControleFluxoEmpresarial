@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +16,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     [ApiController]
     public class CidadeController : ControllerBase<Cidade, PaginationQuery>
     {
-        public CidadeController(CidadeDAOReflection dAO) : base(dAO)
+        public CidadeController(CidadeDAO dAO) : base(dAO)
         {
         }
 

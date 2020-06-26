@@ -1,0 +1,30 @@
+Cliente
+    nao pode alterar o tipo
+    telefone de digitos confere com telefone/cpf
+    
+    não e obrigatório
+        Estado civil 
+        sexo
+        data nacimento (pelo menos 14)
+        nacionalidade 
+        -> barrar ao gerar a nota
+            CPF
+            RG
+
+Fornecedor
+    nao pode alterar o tipo
+    mensagem esta com cliente
+
+
+seed 
+    Condição de pagamento
+
+Funcionario
+
+produto
+    unidade medida und
+    Valor venda abaixo de venda pedir login e senha
+    listagem tirar preço de compra e por saldo
+
+
+Sitiação (Habilitado, Desabilitado) arquivo de configuração

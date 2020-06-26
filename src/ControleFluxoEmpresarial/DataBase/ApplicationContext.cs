@@ -1,6 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Models.Cidades;
 using ControleFluxoEmpresarial.Models.Pessoas;
-using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial
+namespace ControleFluxoEmpresarial.DataBase
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

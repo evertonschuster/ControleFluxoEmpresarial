@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 {
     public static class DbCommandExtension
     {
-
-
-
-        public static void AddParameterValues<TId>(this DbCommand command, object @params)
+        public static void AddParameterValues(this DbCommand command, object @params)
         {
             if (@params == null || command == null)
             {
@@ -26,7 +24,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 
             foreach (var property in properties)
             {
-                if (property.GetValue(@params) is IBaseEntity<TId>)
+                if (property.GetValue(@params) is IBaseEntity|| typeof(System.Collections.ICollection).IsAssignableFrom(property.PropertyType))
                 {
                     continue;
                 }
@@ -48,6 +46,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 command.Parameters.Add(dbParameter);
             }
         }
+       
 
         public static bool HasColumn(this IDataRecord r, string columnName)
         {

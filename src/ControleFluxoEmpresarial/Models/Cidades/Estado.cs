@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Cidades
 {
-    public class Estado : BaseEntity
+    public class Estado : BaseModel
     {
         public string Nome { get; set; }
 
@@ -22,10 +22,10 @@ namespace ControleFluxoEmpresarial.Models.Cidades
 
     public class EstadoValidator : AbstractValidator<Estado>
     {
-        public EstadoDAOReflection EstadoDAO { get; set; }
-        public PaisDAOReflection PaisDAO { get; set; }
+        public EstadoDAO EstadoDAO { get; set; }
+        public PaisDAO PaisDAO { get; set; }
 
-        public EstadoValidator(EstadoDAOReflection estadoDAO, PaisDAOReflection paisDAO)
+        public EstadoValidator(EstadoDAO estadoDAO, PaisDAO paisDAO)
         {
             this.EstadoDAO = estadoDAO;
             this.PaisDAO = paisDAO;

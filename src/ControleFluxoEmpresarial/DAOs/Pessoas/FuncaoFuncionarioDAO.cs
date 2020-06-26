@@ -1,4 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class FuncaoFuncionarioDAO : DAOReflection<FuncaoFuncionario>
+    public class FuncaoFuncionarioDAO : DAO<FuncaoFuncionario>
     {
         public FuncaoFuncionarioDAO(ApplicationContext context) : base(context, "FuncaoFuncionarios")
         {

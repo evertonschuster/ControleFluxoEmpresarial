@@ -1,7 +1,7 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
-using ControleFluxoEmpresarial.ModelView.Filters.Queries;
+using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -103,15 +103,6 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
             //this.UserManager.pass
         }
 
-        public void Delete(int id, bool commit = true)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(ApplicationUser entity, bool commit = true)
-        {
-            throw new NotImplementedException();
-        }
 
         private void FormatMessageError(IdentityResult result)
         {

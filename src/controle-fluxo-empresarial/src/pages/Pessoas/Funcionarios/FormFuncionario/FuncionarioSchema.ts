@@ -37,7 +37,7 @@ export const FuncionarioSchema = Yup.object().shape<Funcionario>({
     cpfcpnj: Yup.string()
         .nullable()
         .required("Informe o CPF/CNPJ.")
-        .max(16, "O CPF/CNPJ não deve possuir mais de 16 caracteres")
+        .max(18, "O CPF/CNPJ não deve possuir mais de 18 caracteres")
         .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
         .matches(regexCPF, "CPF/CNPJ não é válido."),
 
@@ -70,7 +70,7 @@ export const FuncionarioSchema = Yup.object().shape<Funcionario>({
     rgInscricaoEstadual: Yup.string()
         .nullable()
         .matches(regexRG, "Documento inválido.")
-        .max(14, "Documento inválido.")
+        .max(18, "Documento inválido.")
         .required("Informe o Documento."),
 
     sexo: Yup.mixed().nullable().required("Informe o sexo."),
@@ -94,7 +94,7 @@ export const FuncionarioSchema = Yup.object().shape<Funcionario>({
 
     cnh: Yup.string()
         .nullable()
-        .max(9, "A CNH não deve possuir mais de 9 caracteres.")
+        .max(14, "A CNH não deve possuir mais de 14 caracteres.")
         .when("funcaoFuncionario", (funcaoFuncionario: FuncaoFuncionario, schema: any) => {
             if (!funcaoFuncionario || (funcaoFuncionario && !funcaoFuncionario.requerCNH)) {
                 return schema;

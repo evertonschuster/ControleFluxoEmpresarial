@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Movimentos;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Movimentos
 {
-    public class Servico : BaseEntity
+    public class Servico : BaseModel
     {
         public string Nome { get; set; }
 
@@ -20,6 +21,8 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
         public string Descricao { get; set; }
 
         public string Observacao { get; set; }
+
+        public List<Funcionario> Funcionarios { get; set; }
 
     }
 

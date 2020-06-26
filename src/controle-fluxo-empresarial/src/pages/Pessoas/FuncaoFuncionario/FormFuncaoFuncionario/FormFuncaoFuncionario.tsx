@@ -74,7 +74,7 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
                 <Col span={7}>
                     <Input name="nome" label="Função Funcionário" placeholder="técnico" required />
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                     <InputNumber name="cargaHoraria" label="Carga Horária" placeholder="8" required />
                 </Col>
 
@@ -84,13 +84,13 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
             </Row>
 
             <Row>
-                <Col span={13}>
+                <Col span={14}>
                     <TextArea name="descricao" label="Descrição" rows={4} />
                 </Col>
             </Row>
 
             <Row>
-                <Col span={13}>
+                <Col span={14}>
                     <TextArea name="observacao" label="Observação" rows={4} />
                 </Col>
             </Row>

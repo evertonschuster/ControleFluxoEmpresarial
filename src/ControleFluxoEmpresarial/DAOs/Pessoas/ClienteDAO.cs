@@ -1,5 +1,7 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
-    public class ClienteDAO : DAOReflection<Cliente>
+    public class ClienteDAO : DAO<Cliente>
     {
         public ClienteDAO(ApplicationContext context) : base(context, "Clientes")
         {

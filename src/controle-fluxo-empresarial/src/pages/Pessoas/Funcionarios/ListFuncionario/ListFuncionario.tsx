@@ -16,11 +16,15 @@ const ListFuncionario: React.FC = () => {
         },
         {
             title: 'Funcionário',
-            dataIndex: 'funcionario',
+            dataIndex: 'nome',
         },
         {
             title: 'Cargo',
-            dataIndex: 'cargo',
+            dataIndex: 'funcaoFuncionario.nome',
+        },
+        {
+            title: 'Carga Horária',
+            dataIndex: 'funcaoFuncionario.cargaHoraria',
         },
         {
             title: 'Telefone',

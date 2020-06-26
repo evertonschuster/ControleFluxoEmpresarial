@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,7 +14,7 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
     [ApiController]
     public class FormaPagamentoController : ControllerBase<FormaPagamento, PaginationQuery>
     {
-        public FormaPagamentoController(FormaPagamentoDAOReflection dAO) : base(dAO)
+        public FormaPagamentoController(FormaPagamentoDAO dAO) : base(dAO)
         {
         }
 

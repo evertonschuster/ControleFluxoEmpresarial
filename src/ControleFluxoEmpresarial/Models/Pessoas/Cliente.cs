@@ -71,7 +71,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             {
                 RuleFor(e => e.CPFCPNJ)
                     .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
-                    .MaximumLength(16).WithMessage("O CPF/CNPJ não deve possuir mais de 16 caracteres.")
+                    .MaximumLength(18).WithMessage("O CPF/CNPJ não deve possuir mais de 18 caracteres.")
                     .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
             });
 
@@ -102,7 +102,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.RgInscricaoEstadual)
                 .NotEmpty().WithMessage("O RG não pode ser vaziu.")
                 .MinimumLength(5).WithMessage("O RG deve possuir mais de 5 caracteres.")
-                .MaximumLength(14).WithMessage("O RG não deve possuir mais de 14 caracteres.");
+                .MaximumLength(19).WithMessage("O RG não deve possuir mais de 19 caracteres.");
 
             RuleFor(e => e.Telefone)
                 .NotEmpty().WithMessage("O Telefone não pode ser vaziu.")

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Filters.ModelView
+namespace ControleFluxoEmpresarial.Filters.DTO
 {
     public class PaginationResult<TEntity>
     {

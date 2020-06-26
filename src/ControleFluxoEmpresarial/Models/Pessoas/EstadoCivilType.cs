@@ -9,7 +9,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
     {
         Casado,
         Divorciado,
-        Separadoo,
+        Separado,
         Solteiro,
         Viuvo,
         Outros,

@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.Models.Movimentos;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,18 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
         public DateTime? DataValidadeCNH { get; set; }
 
         public int FuncaoFuncionarioId { get; set; }
+
+        public FuncaoFuncionario FuncaoFuncionario { get; set; }
+
+        public decimal Salario { get; set; }
+
+        public DateTime DataAdmissao { get; set; }
+
+        public DateTime? DataDemissao { get; set; }
+
+        public List<Servico> Servicos { get; set; }
+
+
     }
 
     public class FuncionarioValidator : AbstractValidator<Funcionario>
@@ -51,7 +64,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 
             RuleFor(e => e.CPFCPNJ)
                    .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
-                   .MaximumLength(16).WithMessage("O CPF/CNPJ não deve possuir mais de 16 caracteres.")
+                   .MaximumLength(18).WithMessage("O CPF/CNPJ não deve possuir mais de 18 caracteres.")
                    .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Bairro)
@@ -87,19 +100,31 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.RgInscricaoEstadual)
                 .NotEmpty().WithMessage("O RG não pode ser vaziu.")
                 .MinimumLength(5).WithMessage("O RG deve possuir mais de 5 caracteres.")
-                .MaximumLength(16).WithMessage("O RG não deve possuir mais de 16 caracteres.");
+                .MaximumLength(19).WithMessage("O RG não deve possuir mais de 19 caracteres.");
 
             RuleFor(e => e.Telefone)
                 .NotEmpty().WithMessage("O Telefone não pode ser vaziu.")
                 .MinimumLength(5).WithMessage("O Telefone deve possuir mais de 5 caracteres.")
                 .MaximumLength(30).WithMessage("O Telefone não deve possuir mais de 30 caracteres.");
 
+            RuleFor(e => e.Salario)
+                .NotEmpty().WithMessage("O Salário não pode ser vaziu.")
+                .Must(e => e >= 0).WithMessage("Sálario não pode ser nagativo.");
+
+            RuleFor(e => e.DataAdmissao)
+                .NotEmpty().WithMessage("A Data de Admissão não pode ser vazia.");
+
+            RuleFor(e => e.DataDemissao)
+                .Must((e, a) => e.DataAdmissao < e.DataDemissao || e.DataDemissao == null).WithMessage("Data de Demissão não pode ser inferior a data de Admissão.");
 
             RuleFor(e => e.CPFCPNJ).Must(CPFIsAllow).WithMessage("Funcionario já cadastrado.");
 
             RuleFor(e => e.CidadeId).Must(ExistCidade).WithMessage("Cidade não cadastrada.");
 
             RuleFor(e => e.FuncaoFuncionarioId).Must(ExistFuncaoFuncionario).WithMessage("Função Funcionário não cadastrada.");
+
+            RuleFor(e => e.DataValidadeCNH)
+                .Must(e => e == null || (e != null && e >= DateTime.Now)).WithMessage("CNH está vencida.");
         }
 
         private bool CPFIsAllow(Funcionario Funcionario, string cpf)

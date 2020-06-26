@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Cidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.Controllers.Cidades
     [ApiController]
     public class EstadoController : ControllerBase<Estado, PaginationQuery>
     {
-        public EstadoController(EstadoDAOReflection dAO) : base(dAO)
+        public EstadoController(EstadoDAO dAO) : base(dAO)
         {
         }
 

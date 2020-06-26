@@ -8,6 +8,7 @@ import { ItemFormRender, WithItemNone } from '../../hoc/WithFormItem';
 import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import { UseListPagined } from '../../hoc/UseListPagined';
 import { PaisApi } from '../../apis/Cidades/PaisApi';
+import { PaginationResult, PaginationQuery } from '../../models/BaseEntity';
 
 export interface Props {
     path: string;
@@ -18,6 +19,7 @@ export interface Props {
     keyDescription: string;
     required?: boolean;
     fetchMethod: (id: number) => Promise<AxiosResponse<any>>;
+    getListPagined: (filter: PaginationQuery) => Promise<AxiosResponse<PaginationResult<any>>>;
     showLabel?: boolean;
     showDescription?: boolean;
     ObjectName?: string;
@@ -36,7 +38,7 @@ const SelectModelMore: React.FC<Props> = (props) => {
     const [dataSource, setDataSource] = useState<any[]>([])
     const [visible, setVisible] = useState(false);
     const [, meta, helpers] = useField<any[]>({ name: props.name });
-    const response = UseListPagined({ getListPagined: PaisApi.GetListPagined.bind(PaisApi)  });
+    const response = UseListPagined({ getListPagined: props.getListPagined  });
 
     function setState(params: any[]) {
         setDataSource(params)

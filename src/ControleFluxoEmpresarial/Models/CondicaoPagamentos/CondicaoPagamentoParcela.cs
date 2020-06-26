@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
 {
-    public class CondicaoPagamentoParcela : BaseEntity
+    public class CondicaoPagamentoParcela : BaseModel
     {
         public FormaPagamento FormaPagamento { get; set; }
 

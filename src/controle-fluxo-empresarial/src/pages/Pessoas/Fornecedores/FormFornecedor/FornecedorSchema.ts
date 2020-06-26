@@ -37,7 +37,7 @@ export const FornecedorSchema = Yup.object().shape<Fornecedor>({
     cpfcpnj: Yup.string()
         .nullable()
         .required("Informe o CPF/CNPJ.")
-        .max(16, "O CPF/CNPJ não deve possuir mais de 16 caracteres")
+        .max(18, "O CPF/CNPJ não deve possuir mais de 18 caracteres")
         .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
         .matches(regexCPF, "CPF/CNPJ não é válido."),
 
@@ -63,7 +63,7 @@ export const FornecedorSchema = Yup.object().shape<Fornecedor>({
     rgInscricaoEstadual: Yup.string()
         .nullable()
         .matches(regexRG, "Documento inválido.")
-        .max(14, "Documento inválido.")
+        .max(18, "Documento inválido.")
         .required("Informe o Documento."),
 
 

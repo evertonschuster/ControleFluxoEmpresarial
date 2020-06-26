@@ -1,5 +1,7 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
 {
     public class CondicaoPagamentoParcelaDAO : DAO<CondicaoPagamentoParcela, int>
     {
-        public CondicaoPagamentoParcelaDAO(ApplicationContext context) : base(context)
+        public CondicaoPagamentoParcelaDAO(ApplicationContext context) : base(context, "CondicaoPagamentoParcelas")
         {
         }
         protected override CondicaoPagamentoParcela MapEntity(DbDataReader reader)

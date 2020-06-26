@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.ModelView.Users
+namespace ControleFluxoEmpresarial.DTO.Users
 {
     public class UserChangePasswordModel
     {

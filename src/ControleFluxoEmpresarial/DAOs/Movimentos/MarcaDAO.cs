@@ -1,4 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
-    public class MarcaDAO : DAOReflection<Marca>
+    public class MarcaDAO : DAO<Marca>
     {
         public MarcaDAO(ApplicationContext context) : base(context, "Marcas")
         {

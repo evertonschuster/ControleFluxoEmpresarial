@@ -1,6 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ControleFluxoEmpresarial.Controllers
+namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {
-    [Route("api/funcao-funcionarios")]
+    [Route("api/funcionarios")]
     [ApiController]
-    public class FuncaoFuncionarioController : ControllerBase<FuncaoFuncionario, PaginationQuery>
+    public class FuncionarioController : ControllerBase<Funcionario, PaginationQuery>
     {
-        public FuncaoFuncionarioController(FuncaoFuncionarioDAO dAO) : base(dAO)
+        public FuncionarioController(FuncionarioDAO dAO) : base(dAO)
         {
         }
     }

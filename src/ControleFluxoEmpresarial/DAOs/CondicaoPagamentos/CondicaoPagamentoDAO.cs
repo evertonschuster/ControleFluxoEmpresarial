@@ -1,6 +1,8 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
-using ControleFluxoEmpresarial.Filters.ModelView;
+using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 {
     public class CondicaoPagamentoDAO : DAO<CondicaoPagamento, int>
     {
-        public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, ApplicationContext context) : base(context)
+        public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, ApplicationContext context) : base(context, "CondicaoPagamentos")
         {
             CondicaoPagamentoParcelaDAO = condicaoPagamentoParcelaDAO ?? throw new ArgumentNullException(nameof(condicaoPagamentoParcelaDAO));
         }
