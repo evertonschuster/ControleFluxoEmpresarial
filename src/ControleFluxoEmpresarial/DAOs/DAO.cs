@@ -26,12 +26,11 @@ namespace ControleFluxoEmpresarial.DAOs.simple
 
     public abstract class DAO<TEntity, TId> : BaseDAO<TEntity>, IDAO<TEntity, TId> where TEntity : class, IBaseModel<TId>, new()
     {
-        private string TableName { get; }
-        private string PropertyId { get; }
+        protected string TableName { get; }
+        protected string PropertyId { get; }
         private string NameProperty { get; }
         public bool AutoIncrement { get; set; }
-        protected virtual string SqlListPagined { set; get; } = null;
-        private List<string> Property
+        protected List<string> Property
         {
             get
             {
@@ -87,29 +86,33 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             return base.ExecuteGetFirstOrDefault(sql, parameters: new { id });
         }
 
-        public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
+        public virtual (string query, object @params) GetQueryListPagined(PaginationQuery filter)
         {
-            var sql = this.SqlListPagined ?? $@"SELECT {this.PropertyId}, {this.Property.FormatProperty()}
+            var sql = $@"SELECT {this.PropertyId}, {this.Property.FormatProperty()}
                           FROM {this.TableName} ";
 
             TId byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
             {
                 var sqlId = "";
-                TypeConverter converter = TypeDescriptor.GetConverter(typeof(TId));
-                try
+                byId = filter.Filter.ConvertValue<TId>();
+
+                if (byId != null)
                 {
-                    byId = (TId)converter.ConvertFrom(filter.Filter);
                     sqlId += $" OR {this.TableName}.id = @id ";
                 }
-                catch
-                {
-                }
+
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
                 sql += $" WHERE {this.TableName}.{this.NameProperty} ilike @Filter {sqlId} ";
             }
 
-            return base.ExecuteGetPaginated(sql, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", new { id = byId, filter.Filter }, filter);
+            return (sql, new { id = byId, filter.Filter });
+        }
+
+        public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
+        {
+            var (query, @params) = this.GetQueryListPagined(filter);
+            return base.ExecuteGetPaginated(query, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", @params, filter);
         }
 
         public virtual TId Insert(TEntity entity, bool commit = true)

@@ -11,19 +11,13 @@ using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System.Collections.ObjectModel;
+using ControleFluxoEmpresarial.Filters.DTO;
+using ControleFluxoEmpresarial.Architectures.Helper;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
     public class ServicoDAO : DAO<Servico>
     {
-        protected override string SqlListPagined { get; set; } = @"
-                SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
-		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
-		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
-
-                FROM Servicos
-	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId";
-
         public IServiceProvider ServiceProvider { get; set; }
         public FuncionarioServicoDAO FuncionarioServicoDAO { get { return this.ServiceProvider.GetService<FuncionarioServicoDAO>(); } }
 
@@ -131,5 +125,31 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         }
 
+        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        {
+            var sql = $@" SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
+		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
+
+                FROM Servicos
+	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId";
+
+            int? byId = default;
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                byId = filter.Filter.ConvertValue<int>();
+
+                if (byId != null)
+                {
+                    sqlId += $" OR {this.TableName}.id = @id ";
+                }
+
+                filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
+                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+            }
+
+            return (sql, new { id = byId, filter.Filter });
+        }
     }
 }
