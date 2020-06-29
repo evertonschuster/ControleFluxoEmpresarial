@@ -14,7 +14,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
     public class ClienteDAO : DAO<Cliente>
     {
-        public ClienteDAO(ApplicationContext context) : base(context, "Clientes")
+        public ClienteDAO(DataBaseConnection context) : base(context, "Clientes")
         {
         }
 

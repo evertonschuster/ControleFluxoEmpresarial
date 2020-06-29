@@ -11,10 +11,11 @@ using System.Data.Common;
 
 namespace ControleFluxoEmpresarial.DataBase
 {
-    public class ApplicationContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class DataBaseConnection : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IDisposable
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public DataBaseConnection(DbContextOptions<DataBaseConnection> options) : base(options)
         {
+            this.Transaction = this.CreateTransaction();
         }
 
         public DbTransaction Transaction { get; }
@@ -38,5 +39,10 @@ namespace ControleFluxoEmpresarial.DataBase
             return null;
         }
 
+        public void Dispose()
+        {
+            base.Dispose();
+            this.Database.GetDbConnection().Close();
+        }
     }
 }

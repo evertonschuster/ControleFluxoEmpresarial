@@ -12,7 +12,7 @@ namespace ControleFluxoEmpresarial.DataBase
     public class ExecuteSeed : ISeedDataBase
     {
         public IApplicationBuilder serviceProvider { get; set; }
-        public ApplicationContext Context { get; set; }
+        public DataBaseConnection Context { get; set; }
         public UserManager<ApplicationUser> UserManager { get; set; }
 
         public ExecuteSeed(IApplicationBuilder serviceProvider)
@@ -24,7 +24,7 @@ namespace ControleFluxoEmpresarial.DataBase
             var scope = serviceScopeFactory.CreateScope();
             var services = scope.ServiceProvider;
 
-            this.Context = services.GetRequiredService<ApplicationContext>();
+            this.Context = services.GetRequiredService<DataBaseConnection>();
             this.UserManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         }
 

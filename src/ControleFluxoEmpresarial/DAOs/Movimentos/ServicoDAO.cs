@@ -29,7 +29,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         public FuncionarioDAO FuncionarioDAO { get { return this.ServiceProvider.GetService<FuncionarioDAO>(); } }
 
-        public ServicoDAO(ApplicationContext context, IServiceProvider serviceProvider) : base(context, "Servicos")
+        public ServicoDAO(DataBaseConnection context, IServiceProvider serviceProvider) : base(context, "Servicos")
         {
             this.ServiceProvider = serviceProvider;
         }
@@ -127,7 +127,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                     INNER JOIN funcionarioservicos ON funcionarioservicos.servicoid = Servicos.id
                 WHERE funcionarioservicos.funcionarioid = @funcionarioId";
 
-            return this.ExecuteGetAll(sql, new { funcionarioId }, false);
+            return this.ExecuteGetAll(sql, new { funcionarioId });
 
         }
 

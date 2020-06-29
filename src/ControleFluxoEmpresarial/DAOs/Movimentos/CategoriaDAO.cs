@@ -11,7 +11,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
     public class CategoriaDAO : DAO<Categoria>
     {
-        public CategoriaDAO(ApplicationContext context) : base(context, "Categorias")
+        public CategoriaDAO(DataBaseConnection context) : base(context, "Categorias")
         {
         }
 

@@ -26,7 +26,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 	
 	";
 
-        public ProdutoDAO(ApplicationContext context) : base(context, "Produtos")
+        public ProdutoDAO(DataBaseConnection context) : base(context, "Produtos")
         {
         }
 

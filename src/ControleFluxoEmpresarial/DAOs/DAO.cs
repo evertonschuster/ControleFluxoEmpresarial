@@ -17,7 +17,7 @@ namespace ControleFluxoEmpresarial.DAOs.simple
 {
     public abstract class DAO<TEntity> : DAO<TEntity, int>, IDAO<TEntity, int> where TEntity : class, IBaseModel<int>, new()
     {
-        public DAO(ApplicationContext context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
+        public DAO(DataBaseConnection context, string tableName, string idProperty = "Id") : base(context, tableName, idProperty)
         {
         }
 
@@ -39,7 +39,7 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             }
         }
 
-        public DAO(ApplicationContext context, string tableName, string propertyId = "Id", string nameProperty = "nome", bool autoIncrement = true) : base(context, propertyId)
+        public DAO(DataBaseConnection context, string tableName, string propertyId = "Id", string nameProperty = "nome", bool autoIncrement = true) : base(context, propertyId)
         {
             this.TableName = tableName;
             this.PropertyId = propertyId;
@@ -146,7 +146,6 @@ namespace ControleFluxoEmpresarial.DAOs.simple
                 throw new Exception("Sql não informado ");
             }
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, parameters);
 

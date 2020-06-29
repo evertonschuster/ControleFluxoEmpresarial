@@ -10,7 +10,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
     public class FornecedorDAO : DAO<Fornecedor>
     {
-        public FornecedorDAO(ApplicationContext context) : base(context, "Fornecedores")
+        public FornecedorDAO(DataBaseConnection context) : base(context, "Fornecedores")
         {
         }
 

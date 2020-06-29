@@ -11,7 +11,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 {
     public class FormaPagamentoDAO : DAO<FormaPagamento>
     {
-        public FormaPagamentoDAO(ApplicationContext context) : base(context, "FormaPagamentos")
+        public FormaPagamentoDAO(DataBaseConnection context) : base(context, "FormaPagamentos")
         {
         }
 

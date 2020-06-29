@@ -19,7 +19,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public EstadoDAO EstadoDAO { get; set; }
 
-        public CidadeDAO(ApplicationContext context, EstadoDAO estadoDAO) : base(context, "Cidades")
+        public CidadeDAO(DataBaseConnection context, EstadoDAO estadoDAO) : base(context, "Cidades")
         {
             this.EstadoDAO = estadoDAO;
         }
@@ -34,7 +34,6 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var entity = base.ExecuteGetFirstOrDefault(sql, new { nome });
             if (entity != null)
             {
-                this.EstadoDAO.CreateTransaction(this.Transaction);
                 entity.Estado = this.EstadoDAO.GetByID(entity.EstadoId);
             }
 

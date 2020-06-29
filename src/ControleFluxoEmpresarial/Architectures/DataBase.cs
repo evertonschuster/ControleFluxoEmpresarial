@@ -26,7 +26,7 @@ namespace ControleFluxoEmpresarial.Architectures
                 conectionString = configuration.GetConnectionString("DefaultConnectionProd");
             }
 
-            services.AddDbContext<ApplicationContext>(b => b
+            services.AddDbContext<DataBaseConnection>(b => b
               .UseNpgsql(conectionString));
             //.AddInterceptors(new HintCommandInterceptor()));
 

@@ -11,7 +11,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
     public class UnidadeMedidaDAO : DAO<UnidadeMedida, string>
     {
-        public UnidadeMedidaDAO(ApplicationContext context) : base(context, "UnidadesMedida", "Id","Nome", false)
+        public UnidadeMedidaDAO(DataBaseConnection context) : base(context, "UnidadesMedida", "Id","Nome", false)
         {
         }
 

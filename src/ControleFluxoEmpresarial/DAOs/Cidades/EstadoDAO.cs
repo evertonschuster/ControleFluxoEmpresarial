@@ -23,7 +23,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                                                                         INNER JOIN Paises ON Paises.id = Estados.paisId";
 
 
-        public EstadoDAO(ApplicationContext context, PaisDAO paisDAO) : base(context, "Estados")
+        public EstadoDAO(DataBaseConnection context, PaisDAO paisDAO) : base(context, "Estados")
         {
             this.PaisDAO = paisDAO;
         }
@@ -37,7 +37,6 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var entity = base.ExecuteGetFirstOrDefault(sql, new { nome });
             if (entity != null)
             {
-                this.PaisDAO.CreateTransaction(this.Transaction);
                 entity.Pais = this.PaisDAO.GetByID(entity.PaisId);
             }
 

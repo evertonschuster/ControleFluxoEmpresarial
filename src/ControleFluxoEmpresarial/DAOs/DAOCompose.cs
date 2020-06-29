@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
     {
         private string TableName { get; }
         private string[] PropertiesId { get; }
-        public ApplicationContext Context { get; set; }
+        public DataBaseConnection Context { get; set; }
         private List<string> Property
         {
             get
@@ -24,7 +24,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             }
         }
 
-        protected DAO(ApplicationContext context, string tableName, params string[] propertiesIds) : base(context, propertiesIds)
+        protected DAO(DataBaseConnection context, string tableName, params string[] propertiesIds) : base(context, propertiesIds)
         {
             this.TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
             this.PropertiesId = propertiesIds ?? throw new ArgumentNullException(nameof(propertiesIds));
@@ -102,7 +102,6 @@ namespace ControleFluxoEmpresarial.DAOs.compose
                 throw new Exception("Sql não informado ");
             }
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, parameters);
 

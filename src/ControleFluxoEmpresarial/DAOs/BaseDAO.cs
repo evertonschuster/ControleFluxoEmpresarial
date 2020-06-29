@@ -14,12 +14,12 @@ namespace ControleFluxoEmpresarial.DAOs
     public abstract class BaseDAO<TEntity> : IDAO
     {
         public string[] PropertiesIds { get; }
-        private ApplicationContext Context { get; }
+        private DataBaseConnection Context { get; }
         public DbTransaction Transaction { get; set; }
         public DbConnection Connection { get { return this.Context.Database.GetDbConnection(); } }
 
 
-        public BaseDAO(ApplicationContext context, params string[] propertiesIds)
+        public BaseDAO(DataBaseConnection context, params string[] propertiesIds)
         {
             this.Context = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -32,24 +32,11 @@ namespace ControleFluxoEmpresarial.DAOs
                 this.PropertiesIds = new[] { "Id" };
             }
 
+            this.Transaction = context.Transaction;
+
         }
 
         #region connection
-
-        //public void CreateTransaction(DbTransaction transaction = null)
-        //{
-        //    var connection = this.Context.Database.GetDbConnection();
-
-        //    if (transaction == null || connection.State == ConnectionState.Closed)
-        //    {
-        //        connection.Open();
-        //        this.Transaction = connection.BeginTransaction();
-        //    }
-        //    else
-        //    {
-        //        this.Transaction = transaction;
-        //    }
-        //}
 
         protected DbCommand CreateCommand()
         {
@@ -65,14 +52,13 @@ namespace ControleFluxoEmpresarial.DAOs
 
         protected abstract TEntity MapEntity(DbDataReader reader);
 
-        protected virtual TEntity ExecuteGetFirstOrDefault(string sql, object parameters = null, bool closeConnection = true)
+        protected virtual TEntity ExecuteGetFirstOrDefault(string sql, object parameters = null)
         {
             if (string.IsNullOrEmpty(sql))
             {
                 throw new Exception("Sql não informado ");
             }
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, parameters);
 
@@ -99,21 +85,17 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
+               
             }
         }
 
-        protected virtual bool ExecuteExist(string sql, object parameters = null, bool closeConnection = true)
+        protected virtual bool ExecuteExist(string sql, object parameters = null)
         {
             if (string.IsNullOrEmpty(sql))
             {
                 throw new Exception("Sql não informado ");
             }
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, parameters);
 
@@ -137,10 +119,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
+               
             }
         }
 
@@ -151,7 +130,6 @@ namespace ControleFluxoEmpresarial.DAOs
                 throw new Exception("Sql não informado ");
             }
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, parameters);
 
@@ -175,16 +153,12 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (commit)
-                {
-                    command.Connection.Close();
-                }
             }
         }
 
         protected abstract void AddParameterValues(DbCommand command, object parameters);
 
-        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, string sqlTotalItem, object @params = null, PaginationQuery filter = default, bool closeConnection = true)
+        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, string sqlTotalItem, object @params = null, PaginationQuery filter = default)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -200,7 +174,6 @@ namespace ControleFluxoEmpresarial.DAOs
                 PageSize = filter.PageSize,
             };
 
-            this.CreateTransaction(this.Transaction);
             var commandCount = CreateCommand();
             var command = CreateCommand();
 
@@ -256,14 +229,11 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
+              
             }
         }
 
-        protected virtual List<TEntity> ExecuteGetAll(string sql, object @params = null, bool closeConnection = true)
+        protected virtual List<TEntity> ExecuteGetAll(string sql, object @params = null)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -275,7 +245,6 @@ namespace ControleFluxoEmpresarial.DAOs
             }
 
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, @params);
 
@@ -301,10 +270,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (closeConnection)
-                {
-                    command.Connection.Close();
-                }
+              
             }
         }
 
@@ -315,7 +281,6 @@ namespace ControleFluxoEmpresarial.DAOs
                 throw new Exception("Sql não informado ");
             }
 
-            this.CreateTransaction(this.Transaction);
             var command = CreateCommand();
             this.AddParameterValues(command, parameters);
 
@@ -340,10 +305,7 @@ namespace ControleFluxoEmpresarial.DAOs
             }
             finally
             {
-                if (commit)
-                {
-                    command.Connection.Close();
-                }
+              
             }
         }
 
