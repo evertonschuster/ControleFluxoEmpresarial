@@ -2,15 +2,17 @@ import React from 'react'
 import { Row, Col, Select as SelectAntd } from 'antd';
 import { Input, Select, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import { useParams } from 'react-router-dom';
 
 const GeralForm: React.FC = () => {
 
     const [field,] = useField<TIPO_PESSOA>({ name: "tipo" });
-    console.log(useFormikContext())
+    let { id } = useParams();
+
 
     return (
         <>
@@ -21,7 +23,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Select name="tipo" label="Tipo" required>
+                    <Select name="tipo" label="Tipo" required disabled={!!id}>
                         <SelectAntd.Option key={TIPO_PESSOA.Fisica} value={TIPO_PESSOA.Fisica}>Pessoa Física.</SelectAntd.Option>
                         <SelectAntd.Option key={TIPO_PESSOA.Juridica} value={TIPO_PESSOA.Juridica}>Pessoa Jurídica.</SelectAntd.Option>
                     </Select>

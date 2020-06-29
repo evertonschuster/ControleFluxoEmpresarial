@@ -53,7 +53,7 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
             this.MarcaDAO = marcaDAO ?? throw new ArgumentNullException(nameof(marcaDAO));
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("Produto não pode ser vaziu.")
+                .NotEmpty().WithMessage("Produto não pode ser vazio.")
                 .MaximumLength(60).WithMessage("Produto não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("Produto deve possuir mais de 5 caracteres.");
 

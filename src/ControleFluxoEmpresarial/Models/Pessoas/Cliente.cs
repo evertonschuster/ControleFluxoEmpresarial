@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
     {
         public bool IsBrasileiro { get; set; }
 
-        public DateTime DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; }
 
         public decimal LimiteCredito { get; set; }
 
@@ -43,7 +43,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             this.CondicaoPagamentoDAO = condicaoPagamentoDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("O Cliente não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Cliente não pode ser vazio.")
                 .MaximumLength(60).WithMessage("O Cliente não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("O Cliente deve possuir mais de 5 caracteres.");
 
@@ -52,11 +52,11 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
 
 
             RuleFor(e => e.Bairro)
-               .NotEmpty().WithMessage("O Bairro não pode ser vaziu.")
+               .NotEmpty().WithMessage("O Bairro não pode ser vazio.")
                .MaximumLength(60).WithMessage("O Bairro não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.Cep)
-                .NotEmpty().WithMessage("O Cep não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Cep não pode ser vazio.")
                 .MaximumLength(9).WithMessage("O Cep não deve possuir mais de 9 caracteres.")
                 .MinimumLength(8).WithMessage("O Cep deve possuir mais de 8 caracteres.");
 
@@ -70,42 +70,38 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             When(e => e.Nacionalidade.ToLower() == "brasileiro", () =>
             {
                 RuleFor(e => e.CPFCPNJ)
-                    .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
                     .MaximumLength(18).WithMessage("O CPF/CNPJ não deve possuir mais de 18 caracteres.")
                     .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
             });
 
             RuleFor(e => e.Email)
-                .NotEmpty().WithMessage("O Email não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Email não pode ser vazio.")
                 .MinimumLength(5).WithMessage("O Email deve possuir mais de 5 caracteres.")
                 .MaximumLength(60).WithMessage("O Email não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.DataNascimento)
-                .Must(e => e < DateTime.Now.AddDays(-1)).WithMessage("Data de nascimento inválida.")
-                .NotEmpty().WithMessage("O Data de nascimento não pode ser vaziu.");
+                .Must(e => e == null || e < DateTime.Now.AddYears(-14)).WithMessage("Data de nascimento inválida, deve ter ao menos 14 anos.");
 
             RuleFor(e => e.Endereco)
-                .NotEmpty().WithMessage("O Endereço não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Endereço não pode ser vazio.")
                 .MaximumLength(60).WithMessage("O Endereço não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("O Endereço deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Nacionalidade)
-                .NotEmpty().WithMessage("A Nacionalidade não pode ser vaziu.")
                 .MinimumLength(5).WithMessage("A Nacionalidade deve possuir mais de 5 caracteres.")
                 .MaximumLength(60).WithMessage("A Nacionalidade não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.Numero)
-                .NotEmpty().WithMessage("O Número não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Número não pode ser vazio.")
                 .MinimumLength(1).WithMessage("O Número deve possuir mais de 1 caracteres.")
                 .MaximumLength(10).WithMessage("O Número não deve possuir mais de 10 caracteres.");
 
             RuleFor(e => e.RgInscricaoEstadual)
-                .NotEmpty().WithMessage("O RG não pode ser vaziu.")
                 .MinimumLength(5).WithMessage("O RG deve possuir mais de 5 caracteres.")
                 .MaximumLength(19).WithMessage("O RG não deve possuir mais de 19 caracteres.");
 
             RuleFor(e => e.Telefone)
-                .NotEmpty().WithMessage("O Telefone não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Telefone não pode ser vazio.")
                 .MinimumLength(5).WithMessage("O Telefone deve possuir mais de 5 caracteres.")
                 .MaximumLength(30).WithMessage("O Telefone não deve possuir mais de 30 caracteres.");
 
@@ -127,7 +123,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             return findCliente == null || findCliente?.Id == cliente.Id;
         }
 
-        private bool ExistCidade( int id)
+        private bool ExistCidade(int id)
         {
             return this.CidadeDAO.GetByID(id) != null;
         }

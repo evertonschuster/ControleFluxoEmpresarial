@@ -40,18 +40,11 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
         if (nacionalidade === NATIONALITY_TYPE.BRASILEIRO) {
             return Yup.string()
                 .nullable()
-                .required("Informe o CPF/CNPJ.")
                 .max(18, "O CPF/CNPJ não deve possuir mais de 18 caracteres")
                 .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
                 .matches(regexCPF, "CPF/CNPJ não é válido.")
         }
     }),
-
-    dataNascimento: Yup.date()
-        .nullable()
-        .typeError("Informe a data.")
-        .required("Informe a data.")
-        .max(new Date(), "Data inválida."),
 
     email: Yup.string()
         .nullable()
@@ -65,48 +58,16 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
         .max(60, "O Endereço não deve possuir mais de 60 caracteres.")
         .required('Informe o Endereço.'),
 
-    estadoCivil: Yup.mixed()
-        .when("tipo", (tipo: TIPO_PESSOA, schema: any) => {
-            if (tipo === TIPO_PESSOA.Juridica) {
-                return Yup.string().nullable();
-            }
-
-            return Yup.string().nullable().required('Informe o Estado Civíl.')
-        }),
-
     limiteCredito: Yup.number()
         .nullable()
         .typeError("Informe um valor válido")
         .required('Informe o Limite de credito.')
         .min(-0.00001, "O Limite de credito não pode ser negativo"),
 
-    nacionalidade: Yup.string()
-        .when("tipo", (tipo: TIPO_PESSOA, schema: any) => {
-            if (tipo === TIPO_PESSOA.Juridica) {
-                return Yup.string().nullable();
-            }
-
-            return Yup.string()
-                .nullable()
-                .required('Informe a Nacionalidade.')
-                .min(5, "A Nacionalidade deve possuir mais de 5 caracteres.")
-                .max(60, "A Nacionalidade não deve possuir mais de 60 caracteres.")
-        }),
-
     rgInscricaoEstadual: Yup.string()
         .nullable()
         .matches(regexRG, "Documento inválido.")
-        .max(18, "Documento inválido.")
-        .required("Informe o Documento."),
-
-    sexo: Yup.mixed()
-        .when("tipo", (tipo: TIPO_PESSOA, schema: any) => {
-            if (tipo === TIPO_PESSOA.Juridica) {
-                return Yup.string();
-            }
-
-            return Yup.string().required("Informe o sexo.").nullable()
-        }),
+        .max(18, "Documento inválido."),
 
     telefone: Yup.string()
         .nullable()

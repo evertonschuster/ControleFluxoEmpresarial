@@ -55,7 +55,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             this.FuncaoFuncionarioDAO = funcaoFuncionarioDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("O Funcionário não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Funcionário não pode ser vazio.")
                 .MaximumLength(60).WithMessage("O Funcionário não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("O Funcionário deve possuir mais de 5 caracteres.");
 
@@ -63,16 +63,16 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
                 .MaximumLength(60).WithMessage("O Funcionario não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.CPFCPNJ)
-                   .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vaziu.")
+                   .NotEmpty().WithMessage("O CPF/CNPJ não pode ser vazio.")
                    .MaximumLength(18).WithMessage("O CPF/CNPJ não deve possuir mais de 18 caracteres.")
                    .MinimumLength(5).WithMessage("O CPF/CNPJ deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Bairro)
-               .NotEmpty().WithMessage("O Bairro não pode ser vaziu.")
+               .NotEmpty().WithMessage("O Bairro não pode ser vazio.")
                .MaximumLength(60).WithMessage("O Bairro não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.Cep)
-                .NotEmpty().WithMessage("O Cep não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Cep não pode ser vazio.")
                 .MaximumLength(9).WithMessage("O Cep não deve possuir mais de 9 caracteres.")
                 .MinimumLength(8).WithMessage("O Cep deve possuir mais de 8 caracteres.");
 
@@ -83,32 +83,32 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
                 .MaximumLength(255).WithMessage("A Observacoes não deve possuir mais de 255 caracteres.");
 
             RuleFor(e => e.Email)
-                .NotEmpty().WithMessage("O Email não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Email não pode ser vazio.")
                 .MinimumLength(5).WithMessage("O Email deve possuir mais de 5 caracteres.")
                 .MaximumLength(60).WithMessage("O Email não deve possuir mais de 60 caracteres.");
 
             RuleFor(e => e.Endereco)
-              .NotEmpty().WithMessage("O Endereço não pode ser vaziu.")
+              .NotEmpty().WithMessage("O Endereço não pode ser vazio.")
               .MaximumLength(60).WithMessage("O Endereço não deve possuir mais de 60 caracteres.")
               .MinimumLength(5).WithMessage("O Endereço deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Numero)
-                .NotEmpty().WithMessage("O Número não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Número não pode ser vazio.")
                 .MinimumLength(1).WithMessage("O Número deve possuir mais de 1 caracteres.")
                 .MaximumLength(10).WithMessage("O Número não deve possuir mais de 10 caracteres.");
 
             RuleFor(e => e.RgInscricaoEstadual)
-                .NotEmpty().WithMessage("O RG não pode ser vaziu.")
+                .NotEmpty().WithMessage("O RG não pode ser vazio.")
                 .MinimumLength(5).WithMessage("O RG deve possuir mais de 5 caracteres.")
                 .MaximumLength(19).WithMessage("O RG não deve possuir mais de 19 caracteres.");
 
             RuleFor(e => e.Telefone)
-                .NotEmpty().WithMessage("O Telefone não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Telefone não pode ser vazio.")
                 .MinimumLength(5).WithMessage("O Telefone deve possuir mais de 5 caracteres.")
                 .MaximumLength(30).WithMessage("O Telefone não deve possuir mais de 30 caracteres.");
 
             RuleFor(e => e.Salario)
-                .NotEmpty().WithMessage("O Salário não pode ser vaziu.")
+                .NotEmpty().WithMessage("O Salário não pode ser vazio.")
                 .Must(e => e >= 0).WithMessage("Sálario não pode ser nagativo.");
 
             RuleFor(e => e.DataAdmissao)

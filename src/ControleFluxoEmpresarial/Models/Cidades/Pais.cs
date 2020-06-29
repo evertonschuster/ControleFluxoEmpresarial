@@ -25,15 +25,15 @@ namespace ControleFluxoEmpresarial.Models.Cidades
             this.PaisDAO = paisDao;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("[Nome] do pais não pode ser vaziu.")
+                .NotEmpty().WithMessage("[Nome] do pais não pode ser vazio.")
                 .MaximumLength(50).WithMessage("O campo [Nome] não deve possuir mais de 50 caracteres.");
 
             RuleFor(e => e.Sigla)
-                .NotEmpty().WithMessage("[Sigla] do pais não pode ser vaziu.")
+                .NotEmpty().WithMessage("[Sigla] do pais não pode ser vazio.")
                 .MaximumLength(5).WithMessage("O campo [Sigla] não deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.DDI)
-                .NotEmpty().WithMessage("[DDI] do pais não pode ser vaziu.")
+                .NotEmpty().WithMessage("[DDI] do pais não pode ser vazio.")
                 .MaximumLength(5).WithMessage("O campo [DDI] não deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Pais já cadastrado.");

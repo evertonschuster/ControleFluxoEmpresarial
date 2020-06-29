@@ -36,20 +36,20 @@ namespace ControleFluxoEmpresarial.DAOs
 
         #region connection
 
-        public void CreateTransaction(DbTransaction transaction = null)
-        {
-            var connection = this.Context.Database.GetDbConnection();
+        //public void CreateTransaction(DbTransaction transaction = null)
+        //{
+        //    var connection = this.Context.Database.GetDbConnection();
 
-            if (transaction == null || connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-                this.Transaction = connection.BeginTransaction();
-            }
-            else
-            {
-                this.Transaction = transaction;
-            }
-        }
+        //    if (transaction == null || connection.State == ConnectionState.Closed)
+        //    {
+        //        connection.Open();
+        //        this.Transaction = connection.BeginTransaction();
+        //    }
+        //    else
+        //    {
+        //        this.Transaction = transaction;
+        //    }
+        //}
 
         protected DbCommand CreateCommand()
         {

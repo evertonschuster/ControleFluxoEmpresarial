@@ -32,18 +32,6 @@ const ListProduto: React.FC = () => {
             dataIndex: 'marca.nome',
         },
         {
-            title: 'Valor Compra',
-            dataIndex: 'valorCompra',
-            align:"right",
-            render: (valorCompra: number, record: Produto) => {
-                let format = Intl.NumberFormat(undefined, {
-                    minimumFractionDigits: 2
-                });
-
-                return format.format(record.valorCompra ?? 0)
-            }
-        },
-        {
             title: 'Valor de Venda',
             dataIndex: 'valorVenda',
             align:"right",

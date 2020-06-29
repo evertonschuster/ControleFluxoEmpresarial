@@ -31,11 +31,11 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             this.FuncaoFuncionarioDAO = funcaoFuncionarioDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("[Nome] da Função Funcionário não pode ser vaziu.")
+                .NotEmpty().WithMessage("[Nome] da Função Funcionário não pode ser vazio.")
                 .MaximumLength(50).WithMessage("O campo [Nome] não deve possuir mais de 50 caracteres.");
 
             RuleFor(e => e.CargaHoraria)
-                .NotEmpty().WithMessage("A Carga Horária não pode ser vaziu.")
+                .NotEmpty().WithMessage("A Carga Horária não pode ser vazio.")
                 .Must(e => e > 0).WithMessage("A Carga Horária  não deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Função Funcionário já cadastrado.");
