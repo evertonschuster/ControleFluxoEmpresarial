@@ -27,7 +27,7 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
             this.UnidadeMedidaDAO = unidadeMedidaDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("[Nome] da Unidade Medida  não pode ser vaziu.")
+                .NotEmpty().WithMessage("[Nome] da Unidade Medida  não pode ser vazio.")
                 .MaximumLength(50).WithMessage("O campo [Nome] não deve possuir mais de 50 caracteres.");
 
             RuleFor(e => e.Id)

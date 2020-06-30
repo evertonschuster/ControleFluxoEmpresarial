@@ -6,7 +6,7 @@ export interface Cliente extends Pessoa {
 
 
     sexo?: SEXO | null;
-    estadoCivil?: ESTADO_CIVIL;
+    estadoCivil?: ESTADO_CIVIL | null;
     tipo?: TIPO_PESSOA;
     isBrasileiro?: boolean | null;
     nacionalidade?: string | null,

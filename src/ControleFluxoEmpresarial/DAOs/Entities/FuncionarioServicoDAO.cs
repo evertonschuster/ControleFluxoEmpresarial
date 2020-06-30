@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.DAOs.Entities
     public class FuncionarioServicoDAO : DAO<FuncionarioServico>
     {
 
-        public FuncionarioServicoDAO(ApplicationContext context) : base(context, "FuncionarioServicos", new string[] { "ServicoId", "FuncionarioId" })
+        public FuncionarioServicoDAO(DataBaseConnection context) : base(context, "FuncionarioServicos", new string[] { "ServicoId", "FuncionarioId" })
         {
         }
 

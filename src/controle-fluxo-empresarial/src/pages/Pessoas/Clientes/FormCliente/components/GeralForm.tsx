@@ -7,6 +7,7 @@ import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/NationalitySelect/NationalitySelect';
+import { useParams } from 'react-router-dom';
 
 const GeralForm: React.FC = () => {
     const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
@@ -14,16 +15,12 @@ const GeralForm: React.FC = () => {
     const [fieldNacionalidade, , helperNacionalidade] = useField<NATIONALITY_TYPE>("nacionalidade");
     const [, , helperEstadoCivil,] = useField("estadoCivil");
     const [, , helperSexo] = useField("sexo");
+    let { id } = useParams();
 
     useEffect(() => {
 
-        if (fieldTipoPessoa.value === TIPO_PESSOA.Fisica) {
-            helperEstadoCivil.setValue("");
-            helperSexo.setValue("");
-        } else {
-            helperEstadoCivil.setValue(undefined);
-            helperSexo.setValue(undefined);
-        }
+        helperEstadoCivil.setValue(undefined);
+        helperSexo.setValue(undefined);
         helperNacionalidade.setValue(NATIONALITY_TYPE.BRASILEIRO);
         helperIsBrasileiro.setValue(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,7 +35,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Select name="tipo" label="Tipo" required>
+                    <Select name="tipo" label="Tipo" required disabled={!!id}>
                         <SelectAntd.Option key={TIPO_PESSOA.Fisica} value={TIPO_PESSOA.Fisica}>Pessoa Física.</SelectAntd.Option>
                         <SelectAntd.Option key={TIPO_PESSOA.Juridica} value={TIPO_PESSOA.Juridica}>Pessoa Jurídica.</SelectAntd.Option>
                     </Select>
@@ -53,7 +50,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
-                    <Select name="estadoCivil" label="Estado Civíl" placeholder="Solteiro(a)" required >
+                    <Select name="estadoCivil" label="Estado Civíl" placeholder="Solteiro(a)" defaultValue={undefined}>
                         <SelectAntd.Option key="Casado" value="Casado">Casado(a).</SelectAntd.Option>
                         <SelectAntd.Option key="Divorciado" value="Divorciado">Divorciado(a).</SelectAntd.Option>
                         <SelectAntd.Option key="Separadoo" value="Separado">Separado(a).</SelectAntd.Option>
@@ -108,7 +105,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
-                    <Select name="sexo" label="Sexo" placeholder="Masculino" required >
+                    <Select name="sexo" label="Sexo" placeholder="Masculino"  >
                         <SelectAntd.Option key="Masculino" value="Masculino">Masculino.</SelectAntd.Option>
                         <SelectAntd.Option key="Feminino" value="Feminino">Feminino.</SelectAntd.Option>
                         <SelectAntd.Option key="Outros" value="Outros">Outros.</SelectAntd.Option>
@@ -116,11 +113,11 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <DatePicker name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" required format="DD/MM/yyyy" />
+                    <DatePicker name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" format="DD/MM/yyyy" />
                 </Col>
 
                 <Col span={6} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
-                    <NationalitySelect name="nacionalidade" label="Nacionalidade" nameIsBrasileiro="isBrasileiro" placeholder="Brasileiro." required></NationalitySelect>
+                    <NationalitySelect name="nacionalidade" label="Nacionalidade" nameIsBrasileiro="isBrasileiro" placeholder="Brasileiro." ></NationalitySelect>
                 </Col>
 
             </Row>
@@ -131,11 +128,11 @@ const GeralForm: React.FC = () => {
                         name="rgInscricaoEstadual"
                         label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? `RG${fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO ? "" : " (Documento)"}` : `Inscrição Estadual`}
                         placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"}
-                        required fast={false} />
+                        fast={false} />
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required={fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO} fast={false} />
+                    <Input name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} fast={false} />
                 </Col>
 
                 <Col span={3}>

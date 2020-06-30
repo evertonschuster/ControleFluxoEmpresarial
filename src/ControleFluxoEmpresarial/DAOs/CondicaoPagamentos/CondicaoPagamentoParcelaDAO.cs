@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
 {
     public class CondicaoPagamentoParcelaDAO : DAO<CondicaoPagamentoParcela, int>
     {
-        public CondicaoPagamentoParcelaDAO(ApplicationContext context) : base(context, "CondicaoPagamentoParcelas")
+        public CondicaoPagamentoParcelaDAO(DataBaseConnection context) : base(context, "CondicaoPagamentoParcelas")
         {
         }
         protected override CondicaoPagamentoParcela MapEntity(DbDataReader reader)
@@ -71,14 +71,14 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             }
         }
 
-        internal List<CondicaoPagamentoParcela> GetByCondicaoPagamentoId(int id, bool closeConnection = true)
+        internal List<CondicaoPagamentoParcela> GetByCondicaoPagamentoId(int id)
         {
             var sql = @$"SELECT CondicaoPagamentoParcelas.*,  formapagamentos.nome as ""formapagamentos.nome""
                         FROM CondicaoPagamentoParcelas
                             INNER JOIN formapagamentos ON formapagamentos.id = CondicaoPagamentoParcelas.formapagamentoid
                         WHERE condicaopagamentosid = @id";
 
-            return base.ExecuteGetAll(sql, new { id }, closeConnection);
+            return base.ExecuteGetAll(sql, new { id });
         }
 
         public override void Update(CondicaoPagamentoParcela entity, bool commit = true)

@@ -11,7 +11,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
     public class FuncaoFuncionarioDAO : DAO<FuncaoFuncionario>
     {
-        public FuncaoFuncionarioDAO(ApplicationContext context) : base(context, "FuncaoFuncionarios")
+        public FuncaoFuncionarioDAO(DataBaseConnection context) : base(context, "FuncaoFuncionarios")
         {
         }
 

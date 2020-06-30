@@ -50,8 +50,7 @@ const ModelForm: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     function handleOk() {
 
-
-        if (props.required && (state === undefined || (Array.isArray(state) && state.length === 0))) {
+        if (props.required && (state === undefined || (Array.isArray(state) && (state.length === 0 || state[0]?.id === undefined)))) {
             message.error(props.errorMessage.noSelection);
             return;
         }

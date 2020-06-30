@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
@@ -12,14 +13,9 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 {
     public class CidadeDAO : DAO<Cidade>
     {
-        protected override string SqlListPagined { get; set; } = @"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId,
-				                                                        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF""
-                                                                                  FROM Cidades
-                                                                        INNER JOIN Estados ON Cidades.EstadoID = Estados.Id";
-
         public EstadoDAO EstadoDAO { get; set; }
 
-        public CidadeDAO(ApplicationContext context, EstadoDAO estadoDAO) : base(context, "Cidades")
+        public CidadeDAO(DataBaseConnection context, EstadoDAO estadoDAO) : base(context, "Cidades")
         {
             this.EstadoDAO = estadoDAO;
         }
@@ -34,7 +30,6 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var entity = base.ExecuteGetFirstOrDefault(sql, new { nome });
             if (entity != null)
             {
-                this.EstadoDAO.CreateTransaction(this.Transaction);
                 entity.Estado = this.EstadoDAO.GetByID(entity.EstadoId);
             }
 
@@ -57,6 +52,31 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             {
                 throw new BusinessException(null, "Cidade não pode ser excluida!");
             }
+        }
+
+        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        {
+            var sql = $@"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId,
+				        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF""
+                                    FROM Cidades
+                        INNER JOIN Estados ON Cidades.EstadoID = Estados.Id";
+
+            int? byId = default;
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                byId = filter.Filter.ConvertValue<int>();
+
+                if (byId != null)
+                {
+                    sqlId += $" OR {this.TableName}.id = @id ";
+                }
+
+                filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
+                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+            }
+
+            return (sql, new { id = byId, filter.Filter });
         }
     }
 }

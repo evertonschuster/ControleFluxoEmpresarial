@@ -36,7 +36,7 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
             this.CategoriaDAO = categoriaDAO ?? throw new ArgumentNullException(nameof(categoriaDAO));
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("Servico não pode ser vaziu.")
+                .NotEmpty().WithMessage("Servico não pode ser vazio.")
                 .MaximumLength(60).WithMessage("Servico não deve possuir mais de 60 caracteres.")
                 .MinimumLength(5).WithMessage("Servico deve possuir mais de 5 caracteres.");
 

@@ -15,7 +15,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 {
     public class CondicaoPagamentoDAO : DAO<CondicaoPagamento, int>
     {
-        public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, ApplicationContext context) : base(context, "CondicaoPagamentos")
+        public CondicaoPagamentoDAO(CondicaoPagamentoParcelaDAO condicaoPagamentoParcelaDAO, DataBaseConnection context) : base(context, "CondicaoPagamentos")
         {
             CondicaoPagamentoParcelaDAO = condicaoPagamentoParcelaDAO ?? throw new ArgumentNullException(nameof(condicaoPagamentoParcelaDAO));
         }
@@ -51,11 +51,11 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                           FROM CondicaoPagamentos
                         WHERE Id = @id";
 
-            var entity = base.ExecuteGetFirstOrDefault(sql, new { id }, false);
+            var entity = base.ExecuteGetFirstOrDefault(sql, new { id });
             if (entity != null)
             {
                 this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
-                entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id, true);
+                entity.Parcela = this.CondicaoPagamentoParcelaDAO.GetByCondicaoPagamentoId(id);
             }
             else
             {

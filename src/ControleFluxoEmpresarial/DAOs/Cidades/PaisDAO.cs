@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 {
     public class PaisDAO : DAO<Pais>
     {
-        public PaisDAO(ApplicationContext context) : base(context, "paises")
+        public PaisDAO(DataBaseConnection context) : base(context, "paises")
         {
         }
 

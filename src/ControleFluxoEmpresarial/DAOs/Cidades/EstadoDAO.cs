@@ -17,13 +17,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public PaisDAO PaisDAO { get; set; }
 
-        protected override string SqlListPagined { get; set; } = @"SELECT Estados.Id, Estados.Nome, Estados.UF, Estados.PaisId, 
-                                                                    Paises.Id as ""Pais.Id"", Paises.Nome as ""Pais.Nome"", Paises.Sigla as ""Pais.Sigla"", Paises.DDI as ""Pais.DDI""
-                                                                        FROM Estados 
-                                                                        INNER JOIN Paises ON Paises.id = Estados.paisId";
-
-
-        public EstadoDAO(ApplicationContext context, PaisDAO paisDAO) : base(context, "Estados")
+        public EstadoDAO(DataBaseConnection context, PaisDAO paisDAO) : base(context, "Estados")
         {
             this.PaisDAO = paisDAO;
         }
@@ -37,7 +31,6 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var entity = base.ExecuteGetFirstOrDefault(sql, new { nome });
             if (entity != null)
             {
-                this.PaisDAO.CreateTransaction(this.Transaction);
                 entity.Pais = this.PaisDAO.GetByID(entity.PaisId);
             }
 
@@ -53,6 +46,31 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             {
                 throw new BusinessException(null, "Estado não pode ser excluido!");
             }
+        }
+
+        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        {
+            var sql = @"SELECT Estados.Id, Estados.Nome, Estados.UF, Estados.PaisId, 
+                        Paises.Id as ""Pais.Id"", Paises.Nome as ""Pais.Nome"", Paises.Sigla as ""Pais.Sigla"", Paises.DDI as ""Pais.DDI""
+                            FROM Estados 
+                            INNER JOIN Paises ON Paises.id = Estados.paisId";
+
+            int? byId = default;
+            if (!string.IsNullOrEmpty(filter.Filter))
+            {
+                var sqlId = "";
+                byId = filter.Filter.ConvertValue<int>();
+
+                if (byId != null)
+                {
+                    sqlId += $" OR {this.TableName}.id = @id ";
+                }
+
+                filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
+                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+            }
+
+            return (sql, new { id = byId, filter.Filter });
         }
     }
 }

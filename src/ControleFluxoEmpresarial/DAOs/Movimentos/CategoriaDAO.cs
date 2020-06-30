@@ -11,7 +11,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
     public class CategoriaDAO : DAO<Categoria>
     {
-        public CategoriaDAO(ApplicationContext context) : base(context, "Categorias")
+        public CategoriaDAO(DataBaseConnection context) : base(context, "Categorias")
         {
         }
 
@@ -28,6 +28,15 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             {
                 throw new BusinessException(null, "Categoria não pode ser excluida!");
             }
+        }
+
+        internal Categoria GetByNome(string nome)
+        {
+            var sql = $@"SELECT *
+                            FROM Categorias
+                         WHERE Nome = @nome";
+
+            return base.ExecuteGetFirstOrDefault(sql, new { nome });
         }
     }
 }

@@ -22,7 +22,7 @@ const ListFornecedor: React.FC = () => {
         },
         {
             title: 'Nome Fantasia/Apelido',
-            dataIndex: 'bairro',
+            dataIndex: 'apelido',
         },
         {
             title: 'Crédito',
