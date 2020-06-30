@@ -59,8 +59,6 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} )
                          VALUES ( {this.Property.FormatProperty(e => $"@{e}")} )";
 
-            entity.DataCriacao = DateTime.Now;
-            entity.DataAtualizacao = DateTime.Now;
             this.ExecuteScriptInsert(sql, entity, commit);
 
             return null;

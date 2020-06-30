@@ -29,5 +29,14 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                 throw new BusinessException(null, "Categoria não pode ser excluida!");
             }
         }
+
+        internal Categoria GetByNome(string nome)
+        {
+            var sql = $@"SELECT *
+                            FROM Categorias
+                         WHERE Nome = @nome";
+
+            return base.ExecuteGetFirstOrDefault(sql, new { nome });
+        }
     }
 }

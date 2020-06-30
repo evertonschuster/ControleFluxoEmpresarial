@@ -14,7 +14,7 @@ export const FuncaoFuncionarioSchema = Yup.object().shape<FuncaoFuncionario>({
         .min(0.0001, "A Carga Horária não pode ser igual ou inferior a 0.")
         .required('A Carga Horária deve ser informada.'),
 
-    observacao: Yup.string().nullable(),
-    
-    descricao: Yup.string().nullable(),
+    observacao: Yup.string().nullable().max(255, "Observação não pode ter mais de 255 caracteres."),
+
+    descricao: Yup.string().nullable().max(255, "Descrição não pode ter mais de 255 caracteres."),
 });
