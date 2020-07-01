@@ -38,7 +38,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 .MaximumLength(50).WithMessage("O campo Nome não deve possuir mais de 50 caracteres.");
 
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Condição de Pagamento já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Condição de Pagamento já cadastrada.");
             RuleFor(e => e.Multa)
                 .Must(e => e >= 0).WithMessage("Valor da multa não pode ser negativo")
                 .Must(e => e <= 100).WithMessage("Valor da multa não pode ser maior que 100%");
@@ -51,7 +51,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 .Must(e => e >= 0).WithMessage("Valor do desconto não pode ser negativo")
                 .Must(e => e <= 100).WithMessage("Valor do desconto não pode ser maior que 100%");
 
-            RuleFor(e => e.Id).Must(ExistsCondicaoPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrado.");
+            RuleFor(e => e.Id).Must(ExistsCondicaoPagamento).When(e => e.Id > 0).WithMessage("Forma de Pagamento não cadastrada.");
 
             RuleFor(e => e.Parcela)
                 .Must(e => e.All(a => a.Percentual > 0 && a.Percentual <= 100))
@@ -67,15 +67,15 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                         dia = e.NumeroDias;
                         return valid;
                     });
-                }).WithMessage("Os dias devem ser sequênciais.")
+                }).WithMessage("Os dias devem ser sequenciais.")
                 .Must(ee =>
                 {
                     return ee.Where(a => a.Id > 0).All(a => ExistsParcela(a.Id));
-                }).WithMessage("Parcela não cadastrado.")
+                }).WithMessage("Parcela não cadastrada.")
                 .Must(ee =>
                 {
                     return ee.All(a => ExistsFormaPagamento(a.FormaPagamento.Id));
-                }).WithMessage("Forma de Pagamento não cadastrado.");
+                }).WithMessage("Forma de Pagamento não cadastrada.");
 
         }
 
