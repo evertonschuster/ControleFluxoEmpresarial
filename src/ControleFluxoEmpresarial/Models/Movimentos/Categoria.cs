@@ -22,10 +22,10 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
             this.CategoriaDAO = CategoriaDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("Categoria não pode ser vazio.")
+                .NotEmpty().WithMessage("Categoria não pode estar vazia.")
                 .MaximumLength(50).WithMessage("Categoria não deve possuir mais de 50 caracteres.");
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Categoria já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Categoria já cadastrada.");
 
         }
 
