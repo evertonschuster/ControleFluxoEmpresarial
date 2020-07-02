@@ -112,9 +112,10 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         internal List<Servico> GetInFuncionario(int funcionarioId)
         {
-            var sql = @"SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
+            var sql = @"SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, 
+                        Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao, Servicos.Situacao,
 		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
-		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"", categorias.Situacao AS ""categoria.Situacao""
 
                 FROM Servicos
 	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId
@@ -127,9 +128,10 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
         {
-            var sql = $@" SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
+            var sql = $@" SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, 
+                        Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao, Servicos.Situacao,
 		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
-		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"", categorias.Situacao AS ""categoria.Situacao""
 
                 FROM Servicos
 	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId";

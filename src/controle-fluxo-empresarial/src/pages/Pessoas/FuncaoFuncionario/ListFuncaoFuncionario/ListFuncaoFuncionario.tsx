@@ -5,6 +5,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario';
 import { ColumnProps } from 'antd/lib/table';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 
 const ListFuncaoFuncionario: React.FC = () => {
     const response = UseListPagined({ getListPagined: FuncaoFuncionarioApi.GetListPagined.bind(FuncaoFuncionarioApi) });
@@ -27,6 +28,11 @@ const ListFuncaoFuncionario: React.FC = () => {
             title: 'CNH?',
             dataIndex: 'requerCNH',
             render: (text: any, record: FuncaoFuncionario, index: number) => record.requerCNH ? "Sim" : "Não"
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 

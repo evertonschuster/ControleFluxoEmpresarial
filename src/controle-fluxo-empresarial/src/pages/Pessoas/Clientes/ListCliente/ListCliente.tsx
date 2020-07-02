@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 
 const ListCliente: React.FC = () => {
 
@@ -38,6 +39,11 @@ const ListCliente: React.FC = () => {
         {
             title: 'Telefone',
             dataIndex: 'telefone',
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Cidades
 {
-    public class Pais : BaseModel
+    public class Pais : BaseModelSituacao
     {
         public string Nome { get; set; }
 

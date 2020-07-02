@@ -56,8 +56,8 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
         public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
         {
-            var sql = $@"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId,
-				        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF""
+            var sql = $@"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId, Cidades.Situacao,
+				        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF"", Estados.Situacao as ""Estado.Situacao""
                                     FROM Cidades
                         INNER JOIN Estados ON Cidades.EstadoID = Estados.Id";
 

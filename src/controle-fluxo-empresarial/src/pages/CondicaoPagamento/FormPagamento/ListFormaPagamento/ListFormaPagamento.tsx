@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { FormaPagamento } from './../../../../models/CondicaoPagamento/FormaPagamento';
 import { ColumnProps } from 'antd/lib/table';
 import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 
 const ListFormaPagamento: React.FC = () => {
 
@@ -20,6 +21,11 @@ const ListFormaPagamento: React.FC = () => {
         {
             title: 'Forma de Pagamento',
             dataIndex: 'nome',
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 

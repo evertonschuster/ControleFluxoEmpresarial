@@ -17,7 +17,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public FormaPagamento GetByNome(string nome)
         {
-            var sql = $@"SELECT Id, Nome
+            var sql = $@"SELECT *
                           FROM FormaPagamentos
                         WHERE Nome = @nome ";
 

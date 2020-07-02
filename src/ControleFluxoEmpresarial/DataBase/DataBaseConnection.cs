@@ -11,19 +11,26 @@ using System.Data.Common;
 
 namespace ControleFluxoEmpresarial.DataBase
 {
-    public class DataBaseConnection : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IDisposable
+    public class DataBaseConnectionApplication : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
-        public DataBaseConnection(DbContextOptions<DataBaseConnection> options) : base(options)
+        public DataBaseConnectionApplication(DbContextOptions<DataBaseConnectionApplication> options) : base(options)
         {
-            this.Transaction = this.CreateTransaction();
         }
-
-        public DbTransaction Transaction { get; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
         }
+    }
+
+    public class DataBaseConnection : DataBaseConnectionApplication, IDisposable
+    {
+        public DataBaseConnection(DbContextOptions<DataBaseConnectionApplication> options) : base(options)
+        {
+            this.Transaction = this.CreateTransaction();
+        }
+
+        public DbTransaction Transaction { get; }
 
 
         public DbTransaction CreateTransaction()
@@ -33,7 +40,7 @@ namespace ControleFluxoEmpresarial.DataBase
             if (connection.State == ConnectionState.Closed)
             {
                 connection.Open();
-                return  connection.BeginTransaction();
+                return connection.BeginTransaction();
             }
 
             return null;

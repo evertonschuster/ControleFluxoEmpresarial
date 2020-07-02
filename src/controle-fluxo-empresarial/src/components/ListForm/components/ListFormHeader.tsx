@@ -1,5 +1,5 @@
 import React, { memo, useState, useContext } from 'react';
-import { Input, Col, Button } from 'antd';
+import { Input, Col, Button, Select } from 'antd';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 import { ListItem } from '../ListForm';
 import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
@@ -15,6 +15,8 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     const [filterValues, setFilterValues] = useState<string>()
     const { setFormMode } = useContext(BasicLayoutContext);
+
+    const { Option } = Select;
     //#endregion
 
 
@@ -32,6 +34,17 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     onClick={() => {
                         props.tableProps.setFilterRequest({ ...props.tableProps.filterRequest, currentPage: 1, filter: filterValues })
                     }} />
+            </Col>
+
+            <Col span={3} style={{ textAlign: "center" }}>
+                <Select
+                    // bordered={false}
+                    placeholder="Please select"
+                    defaultValue={['Habilitado']}
+                >
+                    <Option key="Habilitado" value="Habilitado">Habilitado</Option>
+                    <Option key="Desabilitado" value="Desabilitado">Desabilitado</Option>
+                </Select>
             </Col>
 
             <Col span={2} push={11} style={{ textAlign: "right" }}>

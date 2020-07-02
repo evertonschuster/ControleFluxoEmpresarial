@@ -5,6 +5,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
 import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
 import { ColumnProps } from 'antd/lib/table';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 
 const ListFornecedor: React.FC = () => {
 
@@ -37,6 +38,11 @@ const ListFornecedor: React.FC = () => {
         {
             title: 'Telefone',
             dataIndex: 'telefone',
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 

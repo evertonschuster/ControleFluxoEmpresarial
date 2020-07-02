@@ -10,6 +10,7 @@ import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagament
 import { useField } from 'formik';
 import { CondicaoPagamento } from '../../../../../models/CondicaoPagamento/CondicaoPagamento';
 import RenderSelectionMode from './RenderSelectionFormaPagamento'
+import InputSituation from '../../../../../components/Situation/InputSituation';
 
 
 const CondicaoPagamentoGeneral: React.FC = () => {
@@ -50,7 +51,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
                 <Col span={2}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={13}>
+                <Col span={11}>
                     <Input name="nome" label="Nome da Condição de Pagamento" placeholder="Pagamento em 30/60/90" required />
                 </Col>
                 <Col span={3}>
@@ -61,6 +62,9 @@ const CondicaoPagamentoGeneral: React.FC = () => {
                 </Col>
                 <Col span={3}>
                     <InputNumber name="desconto" label="Desconto (%)" placeholder="0" required />
+                </Col>
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

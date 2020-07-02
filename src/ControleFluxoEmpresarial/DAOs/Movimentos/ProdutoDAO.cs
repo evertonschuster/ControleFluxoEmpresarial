@@ -24,12 +24,13 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         {
             var sql = $@"SELECT Produtos.Id, Produtos.Nome, Produtos.UnidadeMedidaId, Produtos.CodigoBarras, Produtos.Referencia, Produtos.Descricao, 
                                 Produtos.Observacao, Produtos.MarcaId, Produtos.CategoriaId, Produtos.QuantidadeMinima, Produtos.ValorCompra, Produtos.ValorVenda, 
-                                Produtos.Quantidade, Produtos.DataCriacao, Produtos.DataAtualizacao,
+                                Produtos.Quantidade, Produtos.DataCriacao, Produtos.DataAtualizacao, Produtos.Situacao,
 		
 		                        categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
-		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"",
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"", categorias.Situacao AS ""categoria.Situacao"",
 
-                                marcas.id AS ""marca.id"", marcas.nome AS ""marca.nome"", marcas.datacriacao AS ""marca.datacriacao"", marcas.dataatualizacao AS ""marca.dataatualizacao""
+                                marcas.id AS ""marca.id"", marcas.nome AS ""marca.nome"", marcas.datacriacao AS ""marca.datacriacao"", 
+                                marcas.dataatualizacao AS ""marca.dataatualizacao"", marcas.Situacao AS ""marca.Situacao""
 
                         FROM Produtos
                             INNER JOIN categorias ON categorias.id = Produtos.CategoriaId

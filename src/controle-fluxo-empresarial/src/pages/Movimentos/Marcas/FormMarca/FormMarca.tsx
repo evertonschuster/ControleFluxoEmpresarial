@@ -8,6 +8,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { Marca } from '../../../../models/Movimentos/Marca';
 import { MarcaSchema } from './FormMarcaSchema';
 import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
+import InputSituation from '../../../../components/Situation/InputSituation';
 
 const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -68,6 +69,9 @@ const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pro
                 </Col>
                 <Col span={6}>
                     <Input name="nome" label="Marca" placeholder="Manutenção" required />
+                </Col>
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

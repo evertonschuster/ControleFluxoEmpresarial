@@ -8,6 +8,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
 import { FormaPagamentoSchema } from './FormaPagamentoSchema';
 import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import InputSituation from '../../../../components/Situation/InputSituation';
 
 const FormFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -69,6 +70,9 @@ const FormFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any
                 </Col>
                 <Col span={12}>
                     <Input name="nome" label="Forma de Pagamento" placeholder="Dinheiro" required />
+                </Col>
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

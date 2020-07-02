@@ -8,6 +8,7 @@ import { Pais } from '../../../../models/Cidades/Pais';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
+import InputSituation from '../../../../components/Situation/InputSituation';
 
 const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -70,6 +71,9 @@ const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (prop
                 </Col>
                 <Col span={4}>
                     <Input name="ddi" label="DDI" placeholder="DDI" required />
+                </Col>
+                <Col span={4}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

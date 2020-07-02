@@ -18,7 +18,7 @@ namespace ControleFluxoEmpresarial.Architectures
         public static void AddIdentityConfig(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-               .AddEntityFrameworkStores<DataBaseConnection>()
+               .AddEntityFrameworkStores<DataBaseConnectionApplication>()
                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>

@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Marca } from '../../../../models/Movimentos/Marca';
 import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 
 const ListMarca: React.FC = () => {
 
@@ -20,6 +21,11 @@ const ListMarca: React.FC = () => {
         {
             title: 'Marca',
             dataIndex: 'nome',
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 

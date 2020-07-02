@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Pessoas
 {
-    public class FuncaoFuncionario : BaseModel
+    public class FuncaoFuncionario : BaseModelSituacao
     {
         public string Nome { get; set; }
 

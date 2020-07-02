@@ -9,7 +9,7 @@ namespace ControleFluxoEmpresarial.Models
 {
     public abstract class BaseModelSituacao : BaseModel, IBaseModelSituacao<int>
     {
-        public DateTime Situacao { get; set; }
+        public DateTime? Situacao { get; set; }
     }
 
     public abstract class BaseModel : IBaseModel<int>
@@ -25,7 +25,7 @@ namespace ControleFluxoEmpresarial.Models
 
     public interface IBaseModelSituacao<TId> : IBaseModel<TId>
     {
-        DateTime Situacao { get; set; }
+        DateTime? Situacao { get; set; }
     }
 
     public interface IBaseModel<TId> : IBaseEntity

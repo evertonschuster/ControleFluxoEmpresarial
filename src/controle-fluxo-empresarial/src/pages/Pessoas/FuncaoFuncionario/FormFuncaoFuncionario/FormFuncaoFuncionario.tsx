@@ -8,6 +8,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormikHelpers } from 'formik';
+import InputSituation from '../../../../components/Situation/InputSituation';
 
 const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -61,7 +62,7 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
         <CrudFormLayout
             isLoading={loading}
             backPath="/funcao-funcionario"
-            breadcrumbList={[{ displayName: "Funções Funcionário", URL: "/funcao-funcionario" }, { displayName: props.match.params.id ? "Edição da Função Funcionário" :"Nova Função Funcionário", URL: undefined }]}
+            breadcrumbList={[{ displayName: "Funções Funcionário", URL: "/funcao-funcionario" }, { displayName: props.match.params.id ? "Edição da Função Funcionário" : "Nova Função Funcionário", URL: undefined }]}
             initialValues={funcaofuncionario}
             validationSchema={FuncaoFuncionarioSchema}
             onSubmit={onSubmit}
@@ -78,22 +79,27 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
                     <InputNumber name="cargaHoraria" label="Carga Horária" placeholder="8" required />
                 </Col>
 
-                <Col span={2}>
+                <Col span={3}>
                     <Switch name="requerCNH" label="Requer CNH?" checkedChildren="Requer" unCheckedChildren="Opcional" ></Switch>
+                </Col>
+
+                <Col span={2}>
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 
             <Row>
-                <Col span={14}>
+                <Col span={17}>
                     <TextArea name="descricao" label="Descrição" rows={4} />
                 </Col>
             </Row>
 
             <Row>
-                <Col span={14}>
+                <Col span={17}>
                     <TextArea name="observacao" label="Observação" rows={4} />
                 </Col>
             </Row>
+
 
         </CrudFormLayout>
     )

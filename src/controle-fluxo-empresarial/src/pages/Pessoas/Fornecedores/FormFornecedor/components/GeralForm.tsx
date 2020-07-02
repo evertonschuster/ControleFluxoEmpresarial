@@ -7,6 +7,7 @@ import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { useParams } from 'react-router-dom';
+import InputSituation from '../../../../../components/Situation/InputSituation';
 
 const GeralForm: React.FC = () => {
 
@@ -29,12 +30,16 @@ const GeralForm: React.FC = () => {
                     </Select>
                 </Col>
 
-                <Col span={7}>
+                <Col span={6}>
                     <Input name="nome" label="Fornecedor" placeholder={field.value === TIPO_PESSOA.Fisica ? "João da silva" : "Eletrônicos do João"} required fast={false} />
                 </Col>
 
-                <Col span={7}>
+                <Col span={6}>
                     <Input name="apelido" label={field.value === TIPO_PESSOA.Fisica ? "Apelido" : "Nome Fantasia"} placeholder={field.value === TIPO_PESSOA.Fisica ? "João" : "Eletrôjoão"} fast={false} />
+                </Col>
+
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

@@ -6,6 +6,7 @@ import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Produto } from '../../../../models/Movimentos/Produto';
 import { Typography } from 'antd';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 const { Text } = Typography;
 
 const ListProduto: React.FC = () => {
@@ -46,6 +47,11 @@ const ListProduto: React.FC = () => {
 
                 return format.format(record.valorVenda ?? 0)
             }
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 

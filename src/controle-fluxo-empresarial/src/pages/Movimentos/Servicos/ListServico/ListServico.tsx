@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ServicoApi } from '../../../../apis/Movimentos/ServicoApi';
 import { Servico } from './../../../../models/Movimentos/Servico';
 import { ColumnProps } from 'antd/lib/table';
+import ShowSituation from '../../../../components/Situation/ShowSituation';
 
 const ListServico: React.FC = () => {
     const response = UseListPagined({ getListPagined: ServicoApi.GetListPagined.bind(ServicoApi) });
@@ -33,6 +34,11 @@ const ListServico: React.FC = () => {
 
                 return format.format(record.valor ?? 0)
             }
+        },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
         },
     ];
 
