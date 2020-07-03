@@ -8,7 +8,7 @@ import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/NationalitySelect/NationalitySelect';
 import { useParams } from 'react-router-dom';
-import InputSituation from '../../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const GeralForm: React.FC = () => {
     const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");

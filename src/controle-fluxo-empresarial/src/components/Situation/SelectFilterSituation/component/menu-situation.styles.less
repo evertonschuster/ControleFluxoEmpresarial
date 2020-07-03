@@ -1,0 +1,39 @@
+.menu {
+    position: fixed;
+    z-index: 500;
+
+    background-color: white;
+    box-shadow: 1px 1px 3px 1px gray;
+}
+
+.list-situation {
+    list-style-type: none;
+    padding: 0;
+    
+    li {
+        padding: 4px;
+        cursor: pointer;
+        display: flex;
+        justify-content: end;
+
+        label {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        &:hover {
+            background-color: #e2e2e2;
+        }
+    }
+}
+
+.menu-selection-layer {
+    position: fixed;
+    z-index: 499;
+
+    top: 0;
+    left: 0;
+
+    height: 100vh;
+    width: 100vw;
+}

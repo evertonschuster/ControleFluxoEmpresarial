@@ -6,7 +6,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Pais } from '../../../../models/Cidades/Pais';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListPais: React.FC<RouteComponentProps> = () => {
 

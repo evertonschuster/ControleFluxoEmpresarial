@@ -134,7 +134,8 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"", categorias.Situacao AS ""categoria.Situacao""
 
                 FROM Servicos
-	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId";
+	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId
+                WHERE 1=1  ";
 
             int? byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -148,7 +149,17 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                 }
 
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
-                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+                sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
+            }
+
+
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND Servicos.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND Servicos.situacao is not null";
             }
 
             return (sql, new { id = byId, filter.Filter });

@@ -59,7 +59,8 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             var sql = $@"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId, Cidades.Situacao,
 				        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF"", Estados.Situacao as ""Estado.Situacao""
                                     FROM Cidades
-                        INNER JOIN Estados ON Cidades.EstadoID = Estados.Id";
+                        INNER JOIN Estados ON Cidades.EstadoID = Estados.Id
+                        WHERE 1=1";
 
             int? byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -73,7 +74,16 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 }
 
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
-                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+                sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
+            }
+            
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND Cidades.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND Cidades.situacao is not null";
             }
 
             return (sql, new { id = byId, filter.Filter });

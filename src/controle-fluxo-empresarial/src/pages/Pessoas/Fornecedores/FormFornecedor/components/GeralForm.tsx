@@ -7,7 +7,7 @@ import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { useParams } from 'react-router-dom';
-import InputSituation from '../../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const GeralForm: React.FC = () => {
 

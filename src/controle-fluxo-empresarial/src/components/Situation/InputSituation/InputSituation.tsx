@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch } from 'antd'
 import { useField } from 'formik';
-import { ItemFormRender } from '../../hoc/WithFormItem';
+import { ItemFormRender } from '../../../hoc/WithFormItem';
 import "./InputSituation.style.less"
 
 export interface Props {

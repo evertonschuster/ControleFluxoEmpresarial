@@ -10,7 +10,7 @@ import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagament
 import { useField } from 'formik';
 import { CondicaoPagamento } from '../../../../../models/CondicaoPagamento/CondicaoPagamento';
 import RenderSelectionMode from './RenderSelectionFormaPagamento'
-import InputSituation from '../../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 
 const CondicaoPagamentoGeneral: React.FC = () => {

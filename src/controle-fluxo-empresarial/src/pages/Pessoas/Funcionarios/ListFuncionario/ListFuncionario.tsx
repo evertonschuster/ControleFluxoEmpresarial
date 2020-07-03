@@ -3,7 +3,7 @@ import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFuncionario: React.FC = () => {
 

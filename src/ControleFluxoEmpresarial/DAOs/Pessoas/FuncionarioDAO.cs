@@ -148,7 +148,8 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 	                        funcaofuncionarios.descricao as ""FuncaoFuncionario.descricao"", funcaofuncionarios.observacao as ""FuncaoFuncionario.observacao"", 
 	                        funcaofuncionarios.datacriacao as ""FuncaoFuncionario.datacriacao"", funcaofuncionarios.dataatualizacao as ""FuncaoFuncionario.dataatualizacao""
                         FROM funcionarios
-                            INNER JOIN funcaofuncionarios ON funcaofuncionarios.id = funcionarios.FuncaoFuncionarioId";
+                            INNER JOIN funcaofuncionarios ON funcaofuncionarios.id = funcionarios.FuncaoFuncionarioId 
+                        WHERE  1=1 ";
 
             int? byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -162,7 +163,16 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
                 }
 
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
-                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+                sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
+            }
+
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND funcionarios.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND funcionarios.situacao is not null";
             }
 
             return (sql, new { id = byId, filter.Filter });

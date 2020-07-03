@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControleFluxoEmpresarial.DTO.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,5 +15,7 @@ namespace ControleFluxoEmpresarial.Filters.DTO
         public string? Filter { get; set; }
 
         public string? OrderByProps { get; set; }
+
+        public SituacaoType Situacao { get; set; }
     }
 }

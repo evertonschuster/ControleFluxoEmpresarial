@@ -8,7 +8,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { Marca } from '../../../../models/Movimentos/Marca';
 import { MarcaSchema } from './FormMarcaSchema';
 import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
-import InputSituation from '../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormMarca: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

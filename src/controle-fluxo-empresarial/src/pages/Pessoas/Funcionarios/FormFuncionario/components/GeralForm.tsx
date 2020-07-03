@@ -10,7 +10,7 @@ import { FuncaoFuncionarioApi } from '../../../../../apis/Pessoas/FuncaoFunciona
 import { useField } from 'formik';
 import NationalitySelect from '../../../../../components/NationalitySelect/NationalitySelect';
 import { FuncaoFuncionario } from '../../../../../models/Pessoas/FuncaoFuncionario';
-import InputSituation from '../../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [

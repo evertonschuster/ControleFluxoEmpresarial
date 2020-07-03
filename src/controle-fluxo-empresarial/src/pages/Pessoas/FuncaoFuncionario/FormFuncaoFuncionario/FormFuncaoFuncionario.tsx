@@ -8,7 +8,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormikHelpers } from 'formik';
-import InputSituation from '../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

@@ -3,7 +3,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListUnidadeMedida: React.FC = () => {
     const response = UseListPagined({ getListPagined: UnidadeMedidaApi.GetListPagined.bind(UnidadeMedidaApi)});

@@ -5,7 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Marca } from '../../../../models/Movimentos/Marca';
 import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListMarca: React.FC = () => {
 

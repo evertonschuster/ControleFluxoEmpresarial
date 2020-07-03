@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCidade: React.FC<RouteComponentProps> = () => {
 

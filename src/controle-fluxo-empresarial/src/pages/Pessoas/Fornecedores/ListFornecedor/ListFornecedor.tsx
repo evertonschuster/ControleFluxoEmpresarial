@@ -5,7 +5,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
 import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
 import { ColumnProps } from 'antd/lib/table';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFornecedor: React.FC = () => {
 

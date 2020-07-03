@@ -10,7 +10,7 @@ import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
-import InputSituation from '../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

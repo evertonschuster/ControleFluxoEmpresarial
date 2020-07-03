@@ -8,7 +8,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
 import { CategoriaSchema } from './CategoriaSchema';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
-import InputSituation from '../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 

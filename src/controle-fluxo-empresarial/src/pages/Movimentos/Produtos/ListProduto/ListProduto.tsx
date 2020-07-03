@@ -6,7 +6,7 @@ import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Produto } from '../../../../models/Movimentos/Produto';
 import { Typography } from 'antd';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 const { Text } = Typography;
 
 const ListProduto: React.FC = () => {

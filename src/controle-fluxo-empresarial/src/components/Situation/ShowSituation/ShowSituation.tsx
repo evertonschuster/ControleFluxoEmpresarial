@@ -5,7 +5,9 @@ export interface Props {
     Situacao?: Date | null
 }
 
-const ShowSituation: React.FC<Props> = (props) => {
+const ShowSituation = (props : Props | undefined | null) => {
+    console.log(props)
+
     if (!props) {
         return <Badge color={"blue"} text={"Habilitado"} />
     }

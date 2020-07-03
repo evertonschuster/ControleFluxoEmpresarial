@@ -147,7 +147,8 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
         public override PaginationResult<CondicaoPagamento> GetPagined(PaginationQuery filter)
         {
             var sql = $@"SELECT *
-                          FROM CondicaoPagamentos ";
+                          FROM CondicaoPagamentos 
+                        WHERE 1=1 ";
 
             int id = 0;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -158,7 +159,16 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                     sqlId += $" OR id = @id ";
                 }
                 filter.Filter = "%" + filter.Filter + "%";
-                sql += $" WHERE nome ilike @Filter {sqlId} ";
+                sql += $" AND nome ilike @Filter {sqlId} ";
+            }
+
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND CondicaoPagamentos.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND CondicaoPagamentos.situacao is not null";
             }
 
             return base.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM CondicaoPagamentos", new { id, filter.Filter }, filter);

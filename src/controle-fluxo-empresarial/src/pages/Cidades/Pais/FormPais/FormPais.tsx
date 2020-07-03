@@ -8,7 +8,7 @@ import { Pais } from '../../../../models/Cidades/Pais';
 import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
-import InputSituation from '../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormPais: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

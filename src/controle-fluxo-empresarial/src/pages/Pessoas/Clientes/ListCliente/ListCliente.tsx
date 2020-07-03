@@ -5,7 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCliente: React.FC = () => {
 

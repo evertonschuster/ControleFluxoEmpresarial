@@ -8,7 +8,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { UnidadeMedida } from '../../../../models/Movimentos/UnidadeMedida';
 import { UnidadeMedidaSchema } from './UnidadeMedidaSchema';
 import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi';
-import InputSituation from '../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormUnidadeMedida: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

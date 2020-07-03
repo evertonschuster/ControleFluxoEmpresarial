@@ -5,7 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCategoria: React.FC = () => {
 

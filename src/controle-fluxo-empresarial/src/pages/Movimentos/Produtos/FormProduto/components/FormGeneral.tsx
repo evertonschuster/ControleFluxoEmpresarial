@@ -6,7 +6,7 @@ import { Row, Col } from 'antd';
 import { UnidadeMedidaApi } from '../../../../../apis/Movimentos/UnidadeMedidaApi';
 import { useField } from 'formik';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import InputSituation from '../../../../../components/Situation/InputSituation';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const FormGeneral: React.FC = () => {
 

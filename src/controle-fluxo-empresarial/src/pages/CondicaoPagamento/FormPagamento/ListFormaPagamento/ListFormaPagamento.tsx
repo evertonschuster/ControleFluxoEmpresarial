@@ -5,7 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { FormaPagamento } from './../../../../models/CondicaoPagamento/FormaPagamento';
 import { ColumnProps } from 'antd/lib/table';
 import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
-import ShowSituation from '../../../../components/Situation/ShowSituation';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFormaPagamento: React.FC = () => {
 
