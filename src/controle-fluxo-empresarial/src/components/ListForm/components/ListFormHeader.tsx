@@ -33,7 +33,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     }} />
             </Col>
 
-            <Col span={2} style={{ textAlign: "center" }}>
+            <Col span={3} style={{ textAlign: "center" }}>
                 <SelectFilterSituation onChange={(value) => setSituacao(value)} />
             </Col>
 
@@ -45,7 +45,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
             </Col>
 
 
-            <Col span={3} push={8} style={{ textAlign: "right" }}>
+            <Col span={3} push={7} style={{ textAlign: "right" }}>
                 <Button type="primary">
                     <Link to={(props.location.pathname + "/new").replace("//", "/")} onClick={() => setFormMode(FormMode.New)}>
                         Adicionar
