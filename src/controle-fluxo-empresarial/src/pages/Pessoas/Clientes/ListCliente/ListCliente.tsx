@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCliente: React.FC = () => {
 
@@ -39,6 +40,11 @@ const ListCliente: React.FC = () => {
             title: 'Telefone',
             dataIndex: 'telefone',
         },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
+        },
     ];
 
     return (
@@ -46,6 +52,7 @@ const ListCliente: React.FC = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={ClienteApi.Desativar.bind(ClienteApi)}
                 deleteFunction={ClienteApi.Excluir.bind(ClienteApi)}
                 columns={columns} />
 

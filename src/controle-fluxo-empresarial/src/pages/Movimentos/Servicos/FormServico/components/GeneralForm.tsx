@@ -8,6 +8,7 @@ import { CategoriaApi } from '../../../../../apis/Movimentos/CategoriaApi';
 import { ColumnProps } from 'antd/lib/table';
 import { Funcionario } from './../../../../../models/Pessoas/Funcionario';
 import { FuncionarioApi } from '../../../../../apis/Pessoas/FuncionarioApi';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const columns: ColumnProps<Funcionario>[] = [
     {
@@ -53,6 +54,10 @@ const GeneralForm: React.FC = () => {
                         label={{ title: "Seleção de Categoria", label: "Categoria" }}
                         errorMessage={{ noSelection: "Selecione ao menos uma Categoriaa!" }}
                         path="categoria" />
+                </Col>
+
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

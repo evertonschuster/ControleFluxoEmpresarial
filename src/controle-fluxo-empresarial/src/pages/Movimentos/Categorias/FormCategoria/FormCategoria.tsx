@@ -8,6 +8,7 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
 import { CategoriaSchema } from './CategoriaSchema';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
 
@@ -66,6 +67,9 @@ const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = 
                 </Col>
                 <Col span={9}>
                     <Input name="nome" label="Categoria" placeholder="Manutenção" required />
+                </Col>
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

@@ -17,7 +17,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public FormaPagamento GetByNome(string nome)
         {
-            var sql = $@"SELECT Id, Nome
+            var sql = $@"SELECT *
                           FROM FormaPagamentos
                         WHERE Nome = @nome ";
 
@@ -31,7 +31,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Forma de Pagamento não pode ser excluida!");
+                throw new BusinessRelationshipException(null, "Forma de Pagamento não pode ser excluida!");
             }
         }
     }

@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCategoria: React.FC = () => {
 
@@ -21,6 +22,11 @@ const ListCategoria: React.FC = () => {
             title: 'Categoria',
             dataIndex: 'nome',
         },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
+        },
     ];
 
 
@@ -31,6 +37,7 @@ const ListCategoria: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={CategoriaApi.Excluir.bind(CategoriaApi)}
+                desativarFunction={CategoriaApi.Desativar.bind(CategoriaApi)}
                 columns={columns} />
 
         </FormBasicLayout>

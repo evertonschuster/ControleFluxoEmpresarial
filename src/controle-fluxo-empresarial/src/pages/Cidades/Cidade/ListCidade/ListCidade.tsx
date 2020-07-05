@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCidade: React.FC<RouteComponentProps> = () => {
 
@@ -27,6 +28,11 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
             title: 'Estado',
             dataIndex: 'estado.nome',
         },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
+        },
     ], []);
 
 
@@ -36,6 +42,7 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={CidadeApi.Desativar.bind(CidadeApi)}
                 deleteFunction={CidadeApi.Excluir.bind(CidadeApi)}
                 columns={columns} />
 

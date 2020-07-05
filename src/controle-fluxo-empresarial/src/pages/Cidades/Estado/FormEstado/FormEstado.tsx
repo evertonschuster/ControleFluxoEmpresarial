@@ -10,6 +10,7 @@ import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
+import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -66,7 +67,7 @@ const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pr
                 <Col span={3}>
                     <Input name="id" label="Código" placeholder="Codigo" readOnly />
                 </Col>
-                <Col span={10}>
+                <Col span={8}>
                     <Input name="nome" label="Estado" placeholder="Estado" required />
                 </Col>
                 <Col span={3}>
@@ -81,6 +82,9 @@ const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (pr
                         label={{ title: "Seleção de Pais", label: "Pais" }}
                         errorMessage={{ noSelection: "Selecione ao menos um Pais!" }}
                         path="pais" />
+                </Col>
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
             </Row>
 

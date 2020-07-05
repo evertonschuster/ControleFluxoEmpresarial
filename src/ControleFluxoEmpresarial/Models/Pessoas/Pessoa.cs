@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Pessoas
 {
-    public class Pessoa : BaseModel
+    public class Pessoa : BaseModelSituacao
     {
         public int CidadeId { get; set; }
 

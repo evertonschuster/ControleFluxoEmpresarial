@@ -5,6 +5,7 @@ import ListForm from '../../../../components/ListForm/ListForm';
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
 import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
 import { ColumnProps } from 'antd/lib/table';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFornecedor: React.FC = () => {
 
@@ -38,6 +39,11 @@ const ListFornecedor: React.FC = () => {
             title: 'Telefone',
             dataIndex: 'telefone',
         },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
+        },
     ];
 
     return (
@@ -46,6 +52,7 @@ const ListFornecedor: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={FornecedorApi.Excluir.bind(FornecedorApi)}
+                desativarFunction={FornecedorApi.Desativar.bind(FornecedorApi)}
                 columns={columns} />
 
         </FormBasicLayout>

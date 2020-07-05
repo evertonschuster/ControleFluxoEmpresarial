@@ -12,6 +12,7 @@ export interface PaginationQuery {
     currentPage: number;
     filter?: string;
     orderByProps?: string;
+    situacao?: SITUACAO
 }
 
 export interface PaginationResult<TEntity> {
@@ -19,4 +20,10 @@ export interface PaginationResult<TEntity> {
     currentPage: number;
     totalItem: number;
     result: TEntity[]
+}
+
+export enum SITUACAO {
+    HABILITADO = "Habilitado",
+    DESABILITADO = "Desabilitado",
+    TODOS = "Todos"
 }

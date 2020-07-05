@@ -5,6 +5,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { CondicaoPagamento } from './../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { ColumnProps } from 'antd/lib/table';
 import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCondicaoPagamento: React.FC = () => {
 
@@ -21,6 +22,11 @@ const ListCondicaoPagamento: React.FC = () => {
             title: 'Condição de Pagamento',
             dataIndex: 'nome',
         },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
+        },
     ];
 
 
@@ -30,6 +36,7 @@ const ListCondicaoPagamento: React.FC = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={CondicaoPagamentoApi.Desativar.bind(CondicaoPagamentoApi)}
                 deleteFunction={CondicaoPagamentoApi.Excluir.bind(CondicaoPagamentoApi)}
                 columns={columns} />
 

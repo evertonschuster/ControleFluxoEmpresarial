@@ -33,6 +33,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             entity.Desconto = reader.GetDecimal("Desconto");
             entity.DataAtualizacao = reader.GetDateTime("DataAtualizacao");
             entity.DataCriacao = reader.GetDateTime("DataCriacao");
+            entity.Situacao = (reader.IsDBNull("Situacao") ? null as DateTime?: reader.GetDateTime("Situacao"));
 
             return entity;
         }
@@ -47,7 +48,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public override CondicaoPagamento GetByID(int id)
         {
-            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto,DataAtualizacao, DataCriacao
+            var sql = $@"SELECT *
                           FROM CondicaoPagamentos
                         WHERE Id = @id";
 
@@ -70,10 +71,13 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
         {
             try
             {
-                var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao)
-                         VALUES (@Nome, @Juro, @Multa, @Desconto, @DataAtualizacao, @DataCriacao)";
+                var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao, Situacao)
+                         VALUES (@Nome, @Juro, @Multa, @Desconto, @DataAtualizacao, @DataCriacao, @Situacao)";
 
-                var id = base.ExecuteScriptInsert(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto, DataAtualizacao = DateTime.Now, DataCriacao = DateTime.Now }, false);
+                entity.DataAtualizacao = DateTime.Now;
+                entity.DataCriacao = DateTime.Now;
+
+                var id = base.ExecuteScriptInsert(sql, entity, false);
 
                 this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
                 foreach (var parcela in entity.Parcela)
@@ -93,7 +97,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public CondicaoPagamento GetByNome(string nome)
         {
-            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao
+            var sql = $@"SELECT *
                           FROM CondicaoPagamentos
                         WHERE Nome = @nome ";
 
@@ -110,7 +114,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                         Juro = @Juro,
                         Multa = @Multa,
                         Desconto = @Desconto,
-                        DataAtualizacao= @DataAtualizacao
+                        DataAtualizacao= @DataAtualizacao,
+                        Situacao = @Situacao 
+
                         WHERE Id = @Id";
 
 
@@ -132,14 +138,17 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
 
             this.Transaction = this.CondicaoPagamentoParcelaDAO.Transaction;
-            base.ExecuteScript(sql, new { entity.Nome, entity.Juro, entity.Multa, entity.Desconto, entity.Id, DataAtualizacao = DateTime.Now });
+            entity.DataAtualizacao = DateTime.Now;
+
+            base.ExecuteScript(sql, entity);
 
         }
 
         public override PaginationResult<CondicaoPagamento> GetPagined(PaginationQuery filter)
         {
-            var sql = $@"SELECT Id, Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao
-                          FROM CondicaoPagamentos ";
+            var sql = $@"SELECT *
+                          FROM CondicaoPagamentos 
+                        WHERE 1=1 ";
 
             int id = 0;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -150,7 +159,16 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                     sqlId += $" OR id = @id ";
                 }
                 filter.Filter = "%" + filter.Filter + "%";
-                sql += $" WHERE nome ilike @Filter {sqlId} ";
+                sql += $" AND nome ilike @Filter {sqlId} ";
+            }
+
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND CondicaoPagamentos.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND CondicaoPagamentos.situacao is not null";
             }
 
             return base.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM CondicaoPagamentos", new { id, filter.Filter }, filter);
@@ -166,7 +184,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Condição de Pagamento não pode ser excluida!");
+                throw new BusinessRelationshipException(null, "Condição de Pagamento não pode ser excluida!");
             }
         }
     }

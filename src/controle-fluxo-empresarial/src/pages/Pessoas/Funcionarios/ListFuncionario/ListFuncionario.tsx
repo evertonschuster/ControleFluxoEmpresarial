@@ -3,6 +3,7 @@ import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import ListForm from '../../../../components/ListForm/ListForm';
 import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFuncionario: React.FC = () => {
 
@@ -30,6 +31,11 @@ const ListFuncionario: React.FC = () => {
             title: 'Telefone',
             dataIndex: 'telefone',
         },
+        {
+            title: 'Situação',
+            dataIndex: 'situacao',
+            render: ShowSituation
+        },
     ];
 
     return (
@@ -38,6 +44,7 @@ const ListFuncionario: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={FuncionarioApi.Excluir.bind(FuncionarioApi)}
+                desativarFunction={FuncionarioApi.Desativar.bind(FuncionarioApi)}
                 columns={columns} />
 
         </FormBasicLayout>

@@ -34,7 +34,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Funcionário não pode ser excluido!");
+                throw new BusinessRelationshipException(null, "Funcionário não pode ser excluido!");
             }
         }
 
@@ -141,14 +141,15 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 	                        funcionarios.Cnh, funcionarios.DataValidadeCNH, funcionarios.FuncaoFuncionarioId, funcionarios.Salario, funcionarios.DataAdmissao, 
 	                        funcionarios.DataDemissao, funcionarios.CidadeId, funcionarios.Apelido, funcionarios.Bairro, funcionarios.Cep, funcionarios.Complemento, 
 	                        funcionarios.CPFCPNJ, funcionarios.Email, funcionarios.Endereco, funcionarios.Nome, funcionarios.Numero, funcionarios.Observacao, 
-	                        funcionarios.RgInscricaoEstadual, funcionarios.Telefone, funcionarios.DataCriacao, funcionarios.DataAtualizacao,
+	                        funcionarios.RgInscricaoEstadual, funcionarios.Telefone, funcionarios.DataCriacao, funcionarios.DataAtualizacao, funcionarios.Situacao,
 	
 	                        funcaofuncionarios.id as ""FuncaoFuncionario.id"", funcaofuncionarios.nome as ""FuncaoFuncionario.nome"", 
 	                        funcaofuncionarios.cargahoraria as ""FuncaoFuncionario.cargahoraria"", funcaofuncionarios.requercnh as ""FuncaoFuncionario.requercnh"", 
 	                        funcaofuncionarios.descricao as ""FuncaoFuncionario.descricao"", funcaofuncionarios.observacao as ""FuncaoFuncionario.observacao"", 
 	                        funcaofuncionarios.datacriacao as ""FuncaoFuncionario.datacriacao"", funcaofuncionarios.dataatualizacao as ""FuncaoFuncionario.dataatualizacao""
                         FROM funcionarios
-                            INNER JOIN funcaofuncionarios ON funcaofuncionarios.id = funcionarios.FuncaoFuncionarioId";
+                            INNER JOIN funcaofuncionarios ON funcaofuncionarios.id = funcionarios.FuncaoFuncionarioId 
+                        WHERE  1=1 ";
 
             int? byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -162,7 +163,16 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
                 }
 
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
-                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+                sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
+            }
+
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND funcionarios.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND funcionarios.situacao is not null";
             }
 
             return (sql, new { id = byId, filter.Filter });

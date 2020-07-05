@@ -35,7 +35,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Serviço não pode ser excluido!");
+                throw new BusinessRelationshipException(null, "Serviço não pode ser excluido!");
             }
         }
 
@@ -112,9 +112,10 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         internal List<Servico> GetInFuncionario(int funcionarioId)
         {
-            var sql = @"SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
+            var sql = @"SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, 
+                        Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao, Servicos.Situacao,
 		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
-		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"", categorias.Situacao AS ""categoria.Situacao""
 
                 FROM Servicos
 	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId
@@ -127,12 +128,14 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
         {
-            var sql = $@" SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao,
+            var sql = $@" SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, 
+                        Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao, Servicos.Situacao,
 		                categorias.id AS ""categoria.id"", categorias.nome AS ""categoria.nome"", categorias.datacriacao AS ""categoria.datacriacao"", 
-		                        categorias.dataatualizacao AS ""categorias.dataatualizacao""
+		                        categorias.dataatualizacao AS ""categorias.dataatualizacao"", categorias.Situacao AS ""categoria.Situacao""
 
                 FROM Servicos
-	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId";
+	                INNER JOIN categorias ON categorias.id = Servicos.CategoriaId
+                WHERE 1=1  ";
 
             int? byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -146,7 +149,17 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                 }
 
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
-                sql += $" WHERE {this.TableName}.Nome ilike @Filter {sqlId} ";
+                sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
+            }
+
+
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND Servicos.situacao is null";
+            }
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND Servicos.situacao is not null";
             }
 
             return (sql, new { id = byId, filter.Filter });

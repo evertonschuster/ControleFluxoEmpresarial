@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TableProps } from '../components/ListForm/ListForm';
-import { PaginationQuery, PaginationResult } from '../models/BaseEntity';
+import { PaginationQuery, PaginationResult, SITUACAO } from '../models/BaseEntity';
 import { AxiosResponse } from 'axios';
 
 
@@ -21,7 +21,7 @@ export interface RequestResult {
 export function UseListPagined(props: Props<any>): RequestResult {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [filterRequest, setFilterRequest] = useState<PaginationQuery>({ pageSize: 10, currentPage: 1 })
+    const [filterRequest, setFilterRequest] = useState<PaginationQuery>({ pageSize: 10, currentPage: 1, situacao: SITUACAO.HABILITADO })
     const [responseBack, setResponseBack] = useState<TableProps<any>>(
         {
             current: 0,

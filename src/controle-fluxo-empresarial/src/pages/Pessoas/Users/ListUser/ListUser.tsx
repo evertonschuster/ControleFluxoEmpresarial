@@ -40,6 +40,7 @@ const ListUser: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={UserApi.Desativar.bind(UserApi)}
                 columns={columns} />
 
 

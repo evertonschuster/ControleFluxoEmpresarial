@@ -8,6 +8,7 @@ import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/NationalitySelect/NationalitySelect';
 import { useParams } from 'react-router-dom';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const GeralForm: React.FC = () => {
     const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
@@ -41,11 +42,11 @@ const GeralForm: React.FC = () => {
                     </Select>
                 </Col>
 
-                <Col span={7}>
+                <Col span={6}>
                     <Input name="nome" label="Cliente" placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "João da silva" : "Eletrônicos do João"} required fast={false} />
                 </Col>
 
-                <Col span={7}>
+                <Col span={6}>
                     <Input name="apelido" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Apelido" : "Nome Fantasia"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "João" : "Eletrôjoão"} fast={false} />
                 </Col>
 
@@ -58,6 +59,9 @@ const GeralForm: React.FC = () => {
                         <SelectAntd.Option key="Viuvo" value="Viuvo">Viúvo(a).</SelectAntd.Option>
                         <SelectAntd.Option key="Outros" value="Outros">Outros.</SelectAntd.Option>
                     </Select>
+                </Col>
+                <Col span={2}>
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 

@@ -89,7 +89,8 @@ namespace ControleFluxoEmpresarial.DAOs.simple
         public virtual (string query, object @params) GetQueryListPagined(PaginationQuery filter)
         {
             var sql = $@"SELECT {this.PropertyId}, {this.Property.FormatProperty()}
-                          FROM {this.TableName} ";
+                          FROM {this.TableName} 
+                        WHERE 1 = 1 ";
 
             TId byId = default;
             if (!string.IsNullOrEmpty(filter.Filter))
@@ -103,7 +104,16 @@ namespace ControleFluxoEmpresarial.DAOs.simple
                 }
 
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
-                sql += $" WHERE {this.TableName}.{this.NameProperty} ilike @Filter {sqlId} ";
+                sql += $" AND ({this.TableName}.{this.NameProperty} ilike @Filter {sqlId}) ";
+            }
+
+            if(filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            {
+                sql += " AND situacao is null";
+            }
+            if(filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            {
+                sql += " AND situacao is not null";
             }
 
             return (sql, new { id = byId, filter.Filter });

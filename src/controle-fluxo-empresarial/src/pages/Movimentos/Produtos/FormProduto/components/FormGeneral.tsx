@@ -6,6 +6,7 @@ import { Row, Col } from 'antd';
 import { UnidadeMedidaApi } from '../../../../../apis/Movimentos/UnidadeMedidaApi';
 import { useField } from 'formik';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 
 const FormGeneral: React.FC = () => {
 
@@ -18,12 +19,15 @@ const FormGeneral: React.FC = () => {
         setValorVendaAtencao(metaValorCompra.value >= metaValorVenda.value);
     }, [metaValorCompra.value, metaValorVenda.value]);
 
-    function calculeValorTaxa(valorVenda: number = 0) {
+    function calculeValorTaxa(value: number | string | undefined = 0) {
+        let valorVenda = value as number;
         let taxa = (valorVenda - metaValorCompra.value) / (metaValorCompra.value ) * 100;
         helperTaxa.setValue(taxa);
     }
 
-    function calculeValorVenda(taxa: number = 0) {
+    function calculeValorVenda(value: number | string | undefined = 0) {
+        let taxa = value as number;
+
         let valorVenda = metaValorCompra.value * ((taxa / 100) + 1);
         if (isNaN(valorVenda)) {
             return;
@@ -61,6 +65,10 @@ const FormGeneral: React.FC = () => {
 
                 <Col span={3}>
                     <Input name="referencia" label="Referência" placeholder="Codigo" required />
+                </Col>
+
+                <Col span={2}>
+                    <InputSituation name="situacao"  />
                 </Col>
 
             </Row>
