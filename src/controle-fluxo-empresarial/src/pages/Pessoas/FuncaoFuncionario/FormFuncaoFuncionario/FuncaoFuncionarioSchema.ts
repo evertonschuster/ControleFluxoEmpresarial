@@ -6,13 +6,13 @@ export const FuncaoFuncionarioSchema = Yup.object().shape<FuncaoFuncionario>({
 
     nome: Yup.string()
         .nullable()
-        .max(50, "O campo [Nome] não deve possuir mais de 50 caracteres.")
-        .required('[Nome] da Função do Funcionário não pode ser vaziu.'),
+        .max(50, "Função do Funcionário não deve possuir mais de 50 caracteres.")
+        .required('Função do Funcionário não pode estar vaziu.'),
 
     cargaHoraria: Yup.number()
         .nullable()
-        .min(0.0001, "A Carga Horária não pode ser igual ou inferior a 0.")
-        .required('A Carga Horária deve ser informada.'),
+        .min(0.0001, "A Carga Horária não pode estar igual ou inferior a 0.")
+        .required('A Carga Horária deve estar informada.'),
 
     observacao: Yup.string().nullable().max(255, "Observação não pode ter mais de 255 caracteres."),
 

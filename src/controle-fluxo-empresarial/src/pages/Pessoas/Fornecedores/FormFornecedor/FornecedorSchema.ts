@@ -58,7 +58,7 @@ export const FornecedorSchema = Yup.object().shape<Fornecedor>({
         .nullable()
         .typeError("Informe um valor válido")
         .required('Informe o Limite de credito.')
-        .min(-0.00001, "O Limite de credito não pode ser negativo"),
+        .min(-0.00001, "O Limite de credito não pode estar negativo"),
 
     rgInscricaoEstadual: Yup.string()
         .nullable()

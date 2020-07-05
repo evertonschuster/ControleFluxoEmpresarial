@@ -4,6 +4,6 @@ import { Marca } from '../../../../models/Movimentos/Marca';
 
 export const MarcaSchema = Yup.object().shape<Marca>({
     nome: Yup.string()
-        .max(50, "O campo Nome não deve possuir mais de 50 caracteres.")
-        .required('Nome da Marca não pode ser vaziu.')
+        .max(50, "Marca não deve possuir mais de 50 caracteres.")
+        .required('Marca não pode estar vaziu.')
 });

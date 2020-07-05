@@ -9,7 +9,7 @@ export const ProdutoSchema = Yup.object().shape<Produto>({
         .nullable()
         .max(60, "Produto não deve possuir mais de 60 caracteres.")
         .min(5, "Produto deve possuir mais de 5 caracteres.")
-        .required('Produto não pode ser vaziu.'),
+        .required('Produto não pode estar vaziu.'),
 
     marcaId: Yup.number()
         .nullable()
@@ -47,13 +47,13 @@ export const ProdutoSchema = Yup.object().shape<Produto>({
 
     codigoBarras: Yup.string()
         .nullable()
-        .max(20, "Codigo de Barras não deve possuir mais de 20 caracteres."),
+        .max(20, "Código de Barras não deve possuir mais de 20 caracteres."),
 
     referencia: Yup.string()
         .nullable()
         .max(60, "Referência não deve possuir mais de 60 caracteres.")
         .min(5, "Referência deve possuir mais de 5 caracteres.")
-        .required('Referência não pode ser vazia.'),
+        .required('Referência não pode estar vazia.'),
 
     descricao: Yup.string()
         .nullable()

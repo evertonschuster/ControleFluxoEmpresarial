@@ -4,6 +4,6 @@ import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagame
 
 export const FormaPagamentoSchema = Yup.object().shape<FormaPagamento>({
     nome: Yup.string()
-        .max(50, "O campo Nome não deve possuir mais de 50 caracteres.")
-        .required('Nome da Forma de Pagamento não pode ser vaziu.')
+        .max(50, "Forma de Pagamento não deve possuir mais de 50 caracteres.")
+        .required('Forma de Pagamento não pode estar vaziu.')
 });

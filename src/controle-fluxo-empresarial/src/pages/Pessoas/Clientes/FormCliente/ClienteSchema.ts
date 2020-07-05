@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
 import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
-import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
 // const regexCPFV1 = /(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/;
 const regexCPF = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
 const regexRG = /((^[A-Z]{2}-?)?([0-9\\.-]{5,}))([A-Z]{3})?([A-Z]{2})?/
@@ -62,7 +61,7 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
         .nullable()
         .typeError("Informe um valor válido")
         .required('Informe o Limite de credito.')
-        .min(-0.00001, "O Limite de credito não pode ser negativo"),
+        .min(-0.00001, "O Limite de credito não pode estar negativo"),
 
     rgInscricaoEstadual: Yup.string()
         .nullable()
