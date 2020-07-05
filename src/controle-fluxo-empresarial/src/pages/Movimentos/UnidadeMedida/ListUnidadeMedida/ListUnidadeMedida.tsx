@@ -31,6 +31,7 @@ const ListUnidadeMedida: React.FC = () => {
         <ListForm
             tableProps={response}
             deleteFunction={UnidadeMedidaApi.Excluir.bind(UnidadeMedidaApi)}
+            desativarFunction={UnidadeMedidaApi.Desativar.bind(UnidadeMedidaApi)}
             columns={columns} />
 
     </FormBasicLayout>

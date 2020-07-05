@@ -36,6 +36,7 @@ const ListCondicaoPagamento: React.FC = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={CondicaoPagamentoApi.Desativar.bind(CondicaoPagamentoApi)}
                 deleteFunction={CondicaoPagamentoApi.Excluir.bind(CondicaoPagamentoApi)}
                 columns={columns} />
 

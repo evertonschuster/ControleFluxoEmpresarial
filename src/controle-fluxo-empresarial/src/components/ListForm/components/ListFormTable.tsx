@@ -6,12 +6,14 @@ import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/Basic
 import ModalFormContext from '../../ModalForm/ModalFormContext';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { errorBack } from '../../../utils/MessageApi';
+import { ValidationError } from '../../../apis/Api.configure';
 
 export interface Props<T> {
     keyProp?: string;
     columns: ColumnProps<T>[];
     tableProps: ListItem<T>;
     deleteFunction?: (id: number) => void;
+    desativarFunction?: (id: number) => void;
     keyDescription?: string;
 }
 
@@ -79,6 +81,37 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
         }
     }
 
+    function showDisableSituation(e: ValidationError) {
+        Modal.confirm({
+            title: e.message,
+            content: "Deseja desativar?",
+            cancelText: "Cancelar",
+            okText: "Desativar",
+            onOk: async () => {
+                setLoading(true);
+                try {
+
+                    props.desativarFunction && await props.desativarFunction((record || {})[key])
+                    props.tableProps.reflesh();
+
+                    notification.success({
+                        message: "Registro desativado com sucesso!",
+                        duration: 10
+                    });
+                }
+                catch (e) {
+                    errorBack(null, e);
+                }
+                finally {
+                    setLoading(false);
+                    setFormMode(FormMode.List)
+                    hidenExluir();
+                }
+            }
+        })
+
+    }
+
 
     function onClick(record: any) {
         if (!isSelectMode) return;
@@ -121,6 +154,10 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     }
                     catch (e) {
                         errorBack(null, e);
+
+                        if (e.code === 409 && props.desativarFunction && !(record || {})["situacao"]) {
+                            return showDisableSituation(e);
+                        }
                     }
                     finally {
                         setLoading(false);

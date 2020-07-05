@@ -120,7 +120,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Confição de Pagamento não pode ser excluida!");
+                throw new BusinessRelationshipException(null, "Confição de Pagamento não pode ser excluida!");
             }
         }
     }

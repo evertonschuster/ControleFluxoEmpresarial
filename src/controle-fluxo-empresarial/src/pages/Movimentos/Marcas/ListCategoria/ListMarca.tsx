@@ -37,6 +37,7 @@ const ListMarca: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={MarcaApi.Excluir.bind(MarcaApi)}
+                desativarFunction={MarcaApi.Desativar.bind(MarcaApi)}
                 columns={columns} />
 
         </FormBasicLayout>

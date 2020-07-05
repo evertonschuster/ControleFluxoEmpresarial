@@ -40,9 +40,9 @@ api.interceptors.response.use((response) => {
         }
 
         if ((error.response!.data!.code === 422 || error.response.status === 422) ||
+            (error.response!.data!.code === 409 || error.response.status === 409) ||
             (error.response!.data!.code === 400 || error.response.status === 400)) {
-            console.log("Cambioooo")
-            return Promise.reject(new ValidationError(error.response.data));
+            return Promise.reject(new ValidationError(error.response));
         }
 
 
@@ -55,9 +55,9 @@ export default api;
 
 export class ValidationError {
     constructor(values: any) {
-        this.errors = values.errors;
-        this.code = values.code;
-        this.message = values.message;
+        this.errors = values.data.errors;
+        this.code = values.data.code ?? values.status;
+        this.message = values.data.message;
     }
 
     errors: any;

@@ -26,6 +26,7 @@ export interface Props<T> {
     columns: ColumnProps<T>[];
     keyProp?: string;
     deleteFunction?: (id: number) => void
+    desativarFunction?: (id: number) => void
 }
 
 const ListForm: React.FC<Props<any>> = (props) => {
@@ -58,6 +59,7 @@ const ListForm: React.FC<Props<any>> = (props) => {
                 <Col>
                     <ListFormTable
                         deleteFunction={props.deleteFunction}
+                        desativarFunction={props.desativarFunction}
                         keyProp={props.keyProp}
                         columns={props.columns}
                         tableProps={props.tableProps}

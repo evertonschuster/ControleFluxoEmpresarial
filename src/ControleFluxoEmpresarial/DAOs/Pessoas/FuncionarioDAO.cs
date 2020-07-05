@@ -34,7 +34,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Funcionário não pode ser excluido!");
+                throw new BusinessRelationshipException(null, "Funcionário não pode ser excluido!");
             }
         }
 

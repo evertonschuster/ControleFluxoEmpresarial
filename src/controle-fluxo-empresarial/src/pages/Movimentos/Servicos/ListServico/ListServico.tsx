@@ -48,6 +48,7 @@ const ListServico: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={ServicoApi.Excluir.bind(ServicoApi)}
+                desativarFunction={ServicoApi.Desativar.bind(ServicoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

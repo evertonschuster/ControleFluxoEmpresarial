@@ -42,6 +42,7 @@ const ListCidade: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={CidadeApi.Desativar.bind(CidadeApi)}
                 deleteFunction={CidadeApi.Excluir.bind(CidadeApi)}
                 columns={columns} />
 

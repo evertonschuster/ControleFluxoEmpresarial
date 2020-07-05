@@ -37,6 +37,7 @@ const ListFormaPagamento: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={FormaPagamentoApi.Excluir.bind(FormaPagamentoApi)}
+                desativarFunction={FormaPagamentoApi.Desativar.bind(FormaPagamentoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

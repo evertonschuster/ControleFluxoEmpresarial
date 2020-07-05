@@ -35,7 +35,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Serviço não pode ser excluido!");
+                throw new BusinessRelationshipException(null, "Serviço não pode ser excluido!");
             }
         }
 

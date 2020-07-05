@@ -61,6 +61,7 @@ const ListProduto: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={ProdutoApi.Excluir.bind(ProdutoApi)}
+                desativarFunction={ProdutoApi.Desativar.bind(ProdutoApi)}
                 columns={columns} />
 
         </FormBasicLayout>

@@ -52,6 +52,7 @@ const ListCliente: React.FC = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={ClienteApi.Desativar.bind(ClienteApi)}
                 deleteFunction={ClienteApi.Excluir.bind(ClienteApi)}
                 columns={columns} />
 

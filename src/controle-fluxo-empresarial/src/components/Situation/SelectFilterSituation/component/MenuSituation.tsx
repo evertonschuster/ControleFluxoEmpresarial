@@ -53,13 +53,15 @@ const MenuSituation: React.FC<Props> = (props) => {
                     <li onClick={onChangeHabilitado} >
                         <Checkbox
                             checked={props.situation === SITUACAO.HABILITADO || props.situation === SITUACAO.TODOS}
-                            onClick={onChangeHabilitado} />{ShowSituation(null)}
+                            onClick={onChangeHabilitado} />Habilitado
+                            {/* {ShowSituation(null)} */}
                     </li>
 
                     <li onClick={onChangeDesabilitado} >
                         <Checkbox
                             checked={props.situation === SITUACAO.DESABILITADO || props.situation === SITUACAO.TODOS}
-                            onClick={onChangeDesabilitado} />{ShowSituation({ Situacao: new Date() })}
+                            onClick={onChangeDesabilitado} />Desabilitado
+                            {/* {ShowSituation({ Situacao: new Date() })} */}
                     </li>
                 </ul>
             </div>

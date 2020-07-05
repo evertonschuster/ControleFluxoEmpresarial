@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ControleFluxoEmpresarial.Controllers
 {
     //[AllowAnonymous]
-    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseModel<int> where TPaginationQuery : PaginationQuery
+    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseModelSituacao<int> where TPaginationQuery : PaginationQuery
     {
         public ControllerBase(IDAO<TEntity, int> dao) : base(dao)
         {
@@ -21,7 +21,7 @@ namespace ControleFluxoEmpresarial.Controllers
     }
 
     [Authorize]
-    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseModel<TId> where TPaginationQuery : PaginationQuery
+    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseModelSituacao<TId> where TPaginationQuery : PaginationQuery
     {
         protected ControllerBase(IDAO<TEntity, TId> dao)
         {
@@ -66,6 +66,16 @@ namespace ControleFluxoEmpresarial.Controllers
         {
             this.DAO.VerifyRelationshipDependence(id);
             this.DAO.Delete(id);
+            return Ok();
+        }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpPut("desativar/{id}")]
+        public virtual IActionResult Desativar(TId id)
+        {
+            var entity = this.DAO.GetByID(id);
+            entity.Situacao = DateTime.Now;
+            this.DAO.Update(entity);
             return Ok();
         }
 

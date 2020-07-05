@@ -30,5 +30,9 @@ export class ApiBase<T extends IBaseEntity<any>> {
     GetListPagined(query: PaginationQuery): Promise<AxiosResponse<PaginationResult<T>>> {
         return api.post(`${this.EndPoint}/list`, query);
     }
+
+    Desativar(id: number): Promise<AxiosResponse<any>> {
+        return api.put(`${this.EndPoint}/desativar/${id.toString()}`);
+    }
 }
 

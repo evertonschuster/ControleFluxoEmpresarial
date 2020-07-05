@@ -20,7 +20,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             var unidade = this.GetByID(entity.Id);
             if (unidade == null)
             {
-                throw new BusinessException(new { Id = "Código da Unidade de medida é inválido!" });
+                throw new BusinessRelationshipException(new { Id = "Código da Unidade de medida é inválido!" });
             }
 
             base.Update(entity, commit);

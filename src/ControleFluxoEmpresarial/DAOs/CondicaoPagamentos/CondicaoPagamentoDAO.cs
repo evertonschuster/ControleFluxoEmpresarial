@@ -184,7 +184,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Condição de Pagamento não pode ser excluida!");
+                throw new BusinessRelationshipException(null, "Condição de Pagamento não pode ser excluida!");
             }
         }
     }

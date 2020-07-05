@@ -37,6 +37,7 @@ const ListCategoria: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={CategoriaApi.Excluir.bind(CategoriaApi)}
+                desativarFunction={CategoriaApi.Desativar.bind(CategoriaApi)}
                 columns={columns} />
 
         </FormBasicLayout>

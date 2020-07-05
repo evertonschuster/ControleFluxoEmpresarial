@@ -28,19 +28,22 @@ namespace ControleFluxoEmpresarial.Architectures.Middlewares
                 await next(context);
 
             }
+            catch (BusinessRelationshipException ex)
+            {
+                HandleExceptionAsync(context, ex, HttpStatusCode.Conflict);
+            }
             catch (BusinessException ex)
             {
-                HandleExceptionAsync(context, ex);
+                HandleExceptionAsync(context, ex, HttpStatusCode.UnprocessableEntity);
             }
         }
 
-        private static void HandleExceptionAsync(HttpContext context, BusinessException exception)
+        private static void HandleExceptionAsync(HttpContext context, BusinessException exception, HttpStatusCode code )
         {
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             var result = JsonConvert.SerializeObject(exception.Response, serializerSettings);
 
-            var code = HttpStatusCode.UnprocessableEntity;
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
             context.Response.WriteAsync(result).Wait();

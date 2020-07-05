@@ -44,6 +44,7 @@ const ListFuncionario: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={FuncionarioApi.Excluir.bind(FuncionarioApi)}
+                desativarFunction={FuncionarioApi.Desativar.bind(FuncionarioApi)}
                 columns={columns} />
 
         </FormBasicLayout>

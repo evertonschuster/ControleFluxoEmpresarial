@@ -50,7 +50,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
 
             if (this.ExecuteExist(sql, new { id }))
             {
-                throw new BusinessException(null, "Cidade não pode ser excluida!");
+                throw new BusinessRelationshipException(null, "Cidade não pode ser excluida!");
             }
         }
 

@@ -52,6 +52,7 @@ const ListFornecedor: React.FC = () => {
             <ListForm
                 tableProps={response}
                 deleteFunction={FornecedorApi.Excluir.bind(FornecedorApi)}
+                desativarFunction={FornecedorApi.Desativar.bind(FornecedorApi)}
                 columns={columns} />
 
         </FormBasicLayout>

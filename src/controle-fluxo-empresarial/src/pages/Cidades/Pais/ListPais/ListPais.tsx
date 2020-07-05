@@ -40,6 +40,7 @@ const ListPais: React.FC<RouteComponentProps> = () => {
 
             <ListForm
                 tableProps={response}
+                desativarFunction={PaisApi.Desativar.bind(PaisApi)}
                 deleteFunction={PaisApi.Excluir.bind(PaisApi)}
                 columns={columns} />
 
