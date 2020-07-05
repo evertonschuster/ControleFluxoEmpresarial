@@ -26,7 +26,7 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
                 .NotEmpty().WithMessage("[Nome] da Marca não pode ser vazio.")
                 .MaximumLength(50).WithMessage("O campo [Nome] não deve possuir mais de 50 caracteres.");
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Marca já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Marca já cadastrada.");
 
         }
 

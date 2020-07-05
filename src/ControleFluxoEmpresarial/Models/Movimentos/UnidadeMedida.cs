@@ -30,16 +30,16 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
             this.UnidadeMedidaDAO = unidadeMedidaDAO;
 
             RuleFor(e => e.Nome)
-                .NotEmpty().WithMessage("[Nome] da Unidade Medida  não pode ser vazio.")
+                .NotEmpty().WithMessage("[Nome] da Unidade Medida não pode ser vazio.")
                 .MaximumLength(50).WithMessage("O campo [Nome] não deve possuir mais de 50 caracteres.");
 
             RuleFor(e => e.Id)
                 .Transform(e => e.Trim())
-                .MaximumLength(3).WithMessage("O Codígo não deve possuir mais de 3 caracteres.")
-                .MinimumLength(1).WithMessage("O Codígo deve possuir mais de 1 caracter.");
+                .MaximumLength(3).WithMessage("O Código não deve possuir mais de 3 caracteres.")
+                .MinimumLength(1).WithMessage("O Código deve possuir mais de 1 caracter.");
 
-            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Unidade Medida já cadastrado.");
-            RuleFor(e => e.Id).Must(IdIsAllow).WithMessage("Unidade Medida já cadastrado.");
+            RuleFor(e => e.Nome).Must(NameIsAllow).WithMessage("Unidade Medida já cadastrada.");
+            RuleFor(e => e.Id).Must(IdIsAllow).WithMessage("Unidade Medida já cadastrada.");
         }
 
         private bool IdIsAllow(UnidadeMedida unidadeMedida, string id)

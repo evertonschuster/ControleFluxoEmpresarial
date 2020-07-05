@@ -58,11 +58,11 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
                 .MinimumLength(5).WithMessage("Produto deve possuir mais de 5 caracteres.");
 
             RuleFor(e => e.UnidadeMedidaId)
-                .NotEmpty().WithMessage("Informe a Undade de Medida.")
-                .Must(ExistUnidadeMedida).WithMessage("Undade de Medida não cadastrada.");
+                .NotEmpty().WithMessage("Informe a Unidade de Medida.")
+                .Must(ExistUnidadeMedida).WithMessage("Unidade de Medida não cadastrada.");
 
             RuleFor(e => e.CodigoBarras)
-                    .MaximumLength(20).WithMessage("Codigo de Barras não deve possuir mais de 20 caracteres.");
+                    .MaximumLength(20).WithMessage("Código de Barras não deve possuir mais de 20 caracteres.");
 
             RuleFor(e => e.Referencia)
                 .NotEmpty().WithMessage("Referência não pode ser vazia.")
