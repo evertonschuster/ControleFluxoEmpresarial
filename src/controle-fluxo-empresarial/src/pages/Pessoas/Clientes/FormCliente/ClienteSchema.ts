@@ -8,13 +8,13 @@ const regexRG = /((^[A-Z]{2}-?)?([0-9\\.-]{5,}))([A-Z]{3})?([A-Z]{2})?/
 export const ClienteSchema = Yup.object().shape<Cliente>({
     nome: Yup.string()
         .nullable()
-        .max(60, "O campo não deve possuir mais de 60 caracteres.")
-        .min(5, "O campo deve possuir mais de 5 caracteres.")
+        .max(60, "Cliente não deve possuir mais de 60 caracteres.")
+        .min(5, "Cliente deve possuir mais de 5 caracteres.")
         .required('Informe o Cliente.'),
 
     apelido: Yup.string()
         .nullable()
-        .max(60, "O campo não deve possuir mais de 60 caracteres."),
+        .max(60, "Apelido não deve possuir mais de 60 caracteres."),
 
     bairro: Yup.string()
         .nullable()
