@@ -151,7 +151,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="salario" label="Salario" placeholder="2500,00" required min={0}/>
+                    <InputNumber name="salario" label="Salário" placeholder="2500,00" required min={0}/>
                 </Col>
 
                 <Col span={3} >
