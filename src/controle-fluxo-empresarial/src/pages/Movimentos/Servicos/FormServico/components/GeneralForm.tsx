@@ -68,7 +68,7 @@ const GeneralForm: React.FC = () => {
                 </Col>
 
                 <Col span={12}>
-                    <TextArea name="oservacao" label="Observação" rows={3} />
+                    <TextArea name="observacao" label="Observação" rows={3} />
                 </Col>
             </Row>
 
