@@ -1,6 +1,6 @@
 import React, {  } from 'react'
 import { Row, Col } from 'antd';
-import { Input, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
+import { Input } from '../../../../../components/WithFormItem/withFormItem';
 import { TextArea } from './../../../../../components/WithFormItem/withFormItem';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
@@ -9,6 +9,7 @@ import { ColumnProps } from 'antd/lib/table';
 import { Funcionario } from './../../../../../models/Pessoas/Funcionario';
 import { FuncionarioApi } from '../../../../../apis/Pessoas/FuncionarioApi';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 
 const columns: ColumnProps<Funcionario>[] = [
     {
@@ -42,7 +43,7 @@ const GeneralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <InputNumber name="valor" label="Valor" required min={0}/>
+                    <InputDecimal name="valor" label="Valor" required prefix="R$" placeholder="50,00"/>
                 </Col>
 
                 <Col span={8}>

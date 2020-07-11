@@ -9,6 +9,8 @@ import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/Cond
 import NationalitySelect, { NATIONALITY_TYPE } from '../../../../../components/NationalitySelect/NationalitySelect';
 import { useParams } from 'react-router-dom';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
+import InputCPFCNPJ from '../../../../../components/InputCPFCNPJ/InputCPFCNPJ';
 
 const GeralForm: React.FC = () => {
     const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
@@ -140,7 +142,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required />
+                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$"/>
                 </Col>
 
                 <Col span={7}>

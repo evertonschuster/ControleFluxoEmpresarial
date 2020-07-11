@@ -8,6 +8,7 @@ import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { useParams } from 'react-router-dom';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 
 const GeralForm: React.FC = () => {
 
@@ -101,7 +102,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required />
+                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$"/>
                 </Col>
 
                 <Col span={7}>

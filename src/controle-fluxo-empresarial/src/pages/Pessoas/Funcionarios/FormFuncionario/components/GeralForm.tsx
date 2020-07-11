@@ -11,6 +11,7 @@ import { useField } from 'formik';
 import NationalitySelect from '../../../../../components/NationalitySelect/NationalitySelect';
 import { FuncaoFuncionario } from '../../../../../models/Pessoas/FuncaoFuncionario';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
@@ -63,7 +64,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 
@@ -151,7 +152,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="salario" label="Salário" placeholder="2500,00" required min={0}/>
+                    <InputDecimal name="salario" label="Salário" placeholder="2500,00" required prefix="R$" />
                 </Col>
 
                 <Col span={3} >
