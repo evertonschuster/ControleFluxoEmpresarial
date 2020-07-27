@@ -9,6 +9,9 @@ import { errorBack } from '../../../../utils/MessageApi';
 import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
 import { FormikHelpers } from 'formik';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
+import { DatePicker } from 'antd';
+import { useRef } from 'react';
+import { DatePickerProps } from 'formik-antd';
 
 const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -73,6 +76,8 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
         }
     }
 
+
+
     return (
         <CrudFormLayout
             isLoading={loading}
@@ -82,6 +87,11 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
             validationSchema={ClienteSchema}
             onSubmit={onSubmit}
         >
+
+            <DatePicker
+                format="DD.MM.YYYY"
+
+            ></DatePicker>
             <GeralForm />
 
         </CrudFormLayout>

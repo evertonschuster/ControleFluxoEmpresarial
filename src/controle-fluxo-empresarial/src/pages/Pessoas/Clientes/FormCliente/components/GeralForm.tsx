@@ -11,6 +11,9 @@ import { useParams } from 'react-router-dom';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import InputCPFCNPJ from '../../../../../components/InputCPFCNPJ/InputCPFCNPJ';
+import InputTelefone from '../../../../../components/InputTelefone/InputTelefone';
+import InputCEP from '../../../../../components/InputCEP/InputCEP';
+import InputRG from '../../../../../components/InputRG/InputRG';
 
 const GeralForm: React.FC = () => {
     const [fieldTipoPessoa] = useField<TIPO_PESSOA>("tipo");
@@ -86,7 +89,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <Input name="cep" label="CEP" placeholder="85890-000" required />
+                    <InputCEP name="cep" label="CEP" placeholder="85890-000" required />
                 </Col>
 
                 <Col span={5}>
@@ -103,7 +106,7 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={4}>
-                    <Input name="telefone" label="Telefone" placeholder="(45)988293328" required />
+                    <InputTelefone name="telefone" label="Telefone" placeholder="(45)988293328" required />
                 </Col>
 
                 <Col span={5}>
@@ -119,7 +122,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <DatePicker name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" format="DD/MM/yyyy" />
+                    <DatePicker  name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" format="DD/MM/yyyy" />
                 </Col>
 
                 <Col span={6} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
@@ -130,19 +133,18 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={4}>
-                    <Input
+                    <InputRG
                         name="rgInscricaoEstadual"
                         label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? `RG${fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO ? "" : " (Documento)"}` : `Inscrição Estadual`}
-                        placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"}
-                        fast={false} />
+                        placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"} />
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} fast={false} />
+                    <InputCPFCNPJ name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} />
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$"/>
+                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$" />
                 </Col>
 
                 <Col span={7}>

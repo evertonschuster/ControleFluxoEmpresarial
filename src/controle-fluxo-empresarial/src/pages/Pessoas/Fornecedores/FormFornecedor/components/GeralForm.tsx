@@ -9,6 +9,7 @@ import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/Cond
 import { useParams } from 'react-router-dom';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
+import InputCPFCNPJ from '../../../../../components/InputCPFCNPJ/InputCPFCNPJ';
 
 const GeralForm: React.FC = () => {
 
@@ -40,7 +41,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 
@@ -98,11 +99,11 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cpfcpnj" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required fast={false} />
+                    <InputCPFCNPJ name="cpfcpnj" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required />
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$"/>
+                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$" />
                 </Col>
 
                 <Col span={7}>

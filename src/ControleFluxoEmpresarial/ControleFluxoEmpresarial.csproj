@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Architectures\Constatnts\" />
     <Folder Include="DTO\Filters\Results\" />
   </ItemGroup>
 

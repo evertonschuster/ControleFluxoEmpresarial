@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Switch } from 'antd'
 import { useField } from 'formik';
 import { ItemFormRender } from '../../../hoc/WithFormItem';
@@ -31,4 +31,4 @@ const InputSituation: React.FC<Props> = (props) => {
     )
 }
 
-export default InputSituation
+export default memo(InputSituation, () => true)

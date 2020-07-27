@@ -12,6 +12,7 @@ import NationalitySelect from '../../../../../components/NationalitySelect/Natio
 import { FuncaoFuncionario } from '../../../../../models/Pessoas/FuncaoFuncionario';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
+import InputCPFCNPJ from '../../../../../components/InputCPFCNPJ/InputCPFCNPJ';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
@@ -134,7 +135,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
+                    <InputCPFCNPJ name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
                 </Col>
             </Row>
 
