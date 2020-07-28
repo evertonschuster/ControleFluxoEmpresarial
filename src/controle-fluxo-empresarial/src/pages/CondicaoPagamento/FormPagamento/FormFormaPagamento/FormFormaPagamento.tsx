@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col } from 'antd';
-import { Input } from '../../../../components/WithFormItem/withFormItem';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
-import { FormaPagamentoSchema } from './FormaPagamentoSchema';
 import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import { FormaPagamentoSchema } from './FormaPagamentoSchema';
+import { FormikHelpers } from 'formik';
+import { Input } from '../../../../components/WithFormItem/withFormItem';
+import { RouteComponentProps } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormFormaPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {

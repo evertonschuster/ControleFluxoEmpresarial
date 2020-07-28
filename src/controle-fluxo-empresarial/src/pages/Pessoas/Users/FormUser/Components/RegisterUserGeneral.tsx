@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import CrudFormLayout from '../../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col } from 'antd';
-import UserModel from '../../../../../models/Pessoas/UserModel';
-import { Input } from '../../../../../components/WithFormItem/withFormItem';
-import BasicLayoutContext, { FormMode } from '../../../../../layouts/BasicLayout/BasicLayoutContext';
-import { UserSchema } from '../UserSchema';
-import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
+import { Input } from '../../../../../components/WithFormItem/withFormItem';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Row, Col } from 'antd';
 import { UserApi } from '../../../../../apis/Pessoas/UserApi';
+import { UserSchema } from '../UserSchema';
+import BasicLayoutContext, { FormMode } from '../../../../../layouts/BasicLayout/BasicLayoutContext';
+import CrudFormLayout from '../../../../../layouts/CrudFormLayout/CrudFormLayout';
+import UserModel from '../../../../../models/Pessoas/UserModel';
 
 const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

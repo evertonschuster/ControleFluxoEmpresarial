@@ -1,10 +1,10 @@
 import React from 'react'
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
-import { UseListPagined } from '../../../../hoc/UseListPagined';
-import ListForm from '../../../../components/ListForm/ListForm';
-import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
-import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
 import { ColumnProps } from 'antd/lib/table';
+import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
+import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
+import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFornecedor: React.FC = () => {

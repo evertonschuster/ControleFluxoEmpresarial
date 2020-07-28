@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { FormikHelpers } from 'formik';
-import { errorBack } from '../../../../utils/MessageApi';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
-import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
-import CondicaoPagamentoGeneral from './components/CondicaoPagamentoGeneral';
 import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import { CondicaoPagamentoSchema } from './CondicaoPagamentoSchema';
+import { errorBack } from '../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
+import { RouteComponentProps } from 'react-router-dom';
+import CondicaoPagamentoGeneral from './components/CondicaoPagamentoGeneral';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 
 const FormCondicaoPagamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

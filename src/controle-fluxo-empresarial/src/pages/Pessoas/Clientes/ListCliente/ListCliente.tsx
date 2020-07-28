@@ -1,10 +1,10 @@
 import React from 'react'
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
-import ListForm from '../../../../components/ListForm/ListForm'
-import { UseListPagined } from '../../../../hoc/UseListPagined';
+import { Cliente } from '../../../../models/Pessoas/Cliente';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 import { ColumnProps } from 'antd/lib/table';
-import { Cliente } from '../../../../models/Pessoas/Cliente';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
+import ListForm from '../../../../components/ListForm/ListForm'
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCliente: React.FC = () => {

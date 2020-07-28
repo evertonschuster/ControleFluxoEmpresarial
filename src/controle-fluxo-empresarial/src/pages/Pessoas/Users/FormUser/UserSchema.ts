@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
-import UserModel from '../../../../models/Pessoas/UserModel';
 import { FormMode } from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import UserChangePasswordModel from '../../../../models/Pessoas/UserChangePasswordModel';
+import UserModel from '../../../../models/Pessoas/UserModel';
 
 
 export const UserSchema = (formMode: FormMode) => Yup.object().shape<UserModel>({

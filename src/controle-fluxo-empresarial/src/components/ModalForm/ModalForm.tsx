@@ -1,10 +1,10 @@
 import React, { useState, memo, useEffect } from 'react';
+import "./modal-form.less"
+import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
 import { Modal, message } from 'antd';
-import RouterServiceModel from '../../services/RouterService/RouterServiceModel';
 import { ModalFormContextProvider } from './ModalFormContext';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
-import "./modal-form.less"
+import RouterServiceModel from '../../services/RouterService/RouterServiceModel';
 
 export interface ErrorMessage {
     noSelection: string;

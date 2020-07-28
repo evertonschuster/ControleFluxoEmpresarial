@@ -1,11 +1,11 @@
 import React, { memo, useMemo, useCallback } from 'react';
-import { Table, Form } from 'antd';
-import { ColumnProps, TableComponents } from 'antd/lib/table';
-import EditableFormRow from './Components/EditableFormRow';
-import EditableCell from './Components/EditableCell';
-import { useField } from 'formik';
-import EditableCellAction from './Components/EditableCellAction';
 import "./editable-table-style.css"
+import { ColumnProps, TableComponents } from 'antd/lib/table';
+import { Table, Form } from 'antd';
+import { useField } from 'formik';
+import EditableCell from './Components/EditableCell';
+import EditableCellAction from './Components/EditableCellAction';
+import EditableFormRow from './Components/EditableFormRow';
 import EditableRowFooter from './Components/EditableRowFooter';
 
 export enum RowMode {
@@ -43,6 +43,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
     const [field, meta, helpers] = useField(props.name);
     const rowKey = useMemo(() => props.rowKey ?? "id", [props.rowKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataSource = useMemo(() => mapRecord(field.value as any[]), [field.value]);
     const components: TableComponents = useMemo(() => {
         return {
@@ -69,6 +70,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         title: "Ações",
         width: "180px",
         render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [props.columns]);
 
     const columns: ColumnProps<any>[] = useMemo(() => columnsAction.map((col: ColumnEditableProps<any>) => {
@@ -93,26 +95,27 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         (values: RecordTable & any) => {
             const dataSourceNew = dataSource.map(e => e.tableKey !== values.tableKey ? e : { ...values, rowMode: RowMode.view });
             helpers.setValue(dataSourceNew);
-        }, [dataSource]);
+        }, [dataSource, helpers]);
 
     const handleRemove = useCallback(
         (values: RecordTable & any) => {
             const dataSourceNew = dataSource.filter(e => e.tableKey !== values.tableKey);
             helpers.setValue(dataSourceNew);
-        }, [dataSource])
+        }, [dataSource, helpers])
 
     const handleRowMode = useCallback(
         (record: RecordTable & any, rowMode: RowMode) => {
             const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
             helpers.setValue(dataSourceNew);
-        }, [dataSource])
+        }, [dataSource, helpers])
 
     const handleRowNew = useCallback(
         () => {
 
             let mapedDataSource = mapRecord(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
             helpers.setValue(mapedDataSource);
-        }, [dataSource])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [dataSource, helpers])
 
 
     function mapRecord(dataSource: RecordTable[]): RecordTable[] {

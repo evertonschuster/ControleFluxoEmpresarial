@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import { RecordTable, RowMode, TypeAttribute } from './../EditableTable'
 import { Input, InputNumber } from '../../WithFormItem/withFormItem';
 import { isFunction } from 'formik';

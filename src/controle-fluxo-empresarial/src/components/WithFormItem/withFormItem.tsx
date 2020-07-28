@@ -1,7 +1,7 @@
 import * as formikAntd from "formik-antd"
+import { memo } from "react";
 import { withFormItem, withFormItemCustom } from "../../hoc/WithFormItem"
 import MaskedInput from 'react-text-mask'
-import { memo } from "react";
 
 export const Input = withFormItem(formikAntd.Input, { fast: true });
 export const InputNumber = withFormItem(formikAntd.InputNumber, { decimalSeparator: ",", fast: true });

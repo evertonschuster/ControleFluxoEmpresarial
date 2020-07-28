@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
-import { InputNumber } from '../../../../../components/WithFormItem/withFormItem';
-import { useFormikContext } from 'formik';
-import { RecordTable } from '../../../../../components/EditableTable/EditableTable';
 import { CondicaoPagamentoParcela } from './../../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
+import { InputNumber } from '../../../../../components/WithFormItem/withFormItem';
+import { RecordTable } from '../../../../../components/EditableTable/EditableTable';
+import { useFormikContext } from 'formik';
 import { validateNumeroDias } from '../CondicaoPagamentoSchema';
 
 export interface Props {

@@ -1,10 +1,10 @@
 import React, { } from 'react';
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
-import ListForm from '../../../../components/ListForm/ListForm';
-import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
 import { Marca } from '../../../../models/Movimentos/Marca';
 import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListMarca: React.FC = () => {

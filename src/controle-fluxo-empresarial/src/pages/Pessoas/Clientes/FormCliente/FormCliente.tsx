@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { ClienteSchema } from './ClienteSchema';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
-import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
-import GeralForm from './components/GeralForm';
-import { errorBack } from '../../../../utils/MessageApi';
-import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
-import { FormikHelpers } from 'formik';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
+import { ClienteSchema } from './ClienteSchema';
 import { DatePicker } from 'antd';
-import { useRef } from 'react';
-import { DatePickerProps } from 'formik-antd';
+import { errorBack } from '../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
+import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
+import { RouteComponentProps } from 'react-router-dom';
+import { TIPO_PESSOA } from '../../../../models/Pessoas/Pessoa';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
+import GeralForm from './components/GeralForm';
 
 const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

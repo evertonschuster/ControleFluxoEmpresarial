@@ -1,8 +1,8 @@
-import React, { memo, useCallback, PropsWithChildren } from 'react'
+import React, { memo, useCallback } from 'react'
 import MaskedInput from 'react-text-mask'
 import { Input } from 'antd';
 import { FormItem } from 'formik-antd';
-import { useField, FastField } from 'formik';
+import { useField } from 'formik';
 
 export interface Props {
     name: string;

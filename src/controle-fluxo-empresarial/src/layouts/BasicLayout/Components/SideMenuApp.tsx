@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, Icon, Layout } from "antd";
-import SubMenu from 'antd/lib/menu/SubMenu';
 import { Link } from 'react-router-dom';
+import { Menu, Icon, Layout } from "antd";
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import SubMenu from 'antd/lib/menu/SubMenu';
 
 const SideMenuApp: React.FC = () => {
     const { Sider } = Layout;

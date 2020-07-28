@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Produto } from '../../../../models/Movimentos/Produto';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { RouteComponentProps } from 'react-router-dom';
-import { ProdutoSchema } from './ProdutoSchema';
 import { errorBack } from '../../../../utils/MessageApi';
-import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
 import { FormikHelpers } from 'formik';
-import FormGeneral from './components/FormGeneral';
 import { Modal } from 'antd';
+import { Produto } from '../../../../models/Movimentos/Produto';
+import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi';
+import { ProdutoSchema } from './ProdutoSchema';
+import { RouteComponentProps } from 'react-router-dom';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
+import FormGeneral from './components/FormGeneral';
 
 const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [produto, setProduto] = useState<Produto>({

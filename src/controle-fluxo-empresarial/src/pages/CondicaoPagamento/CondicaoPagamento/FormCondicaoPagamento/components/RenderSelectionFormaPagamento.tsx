@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
-import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { FormaPagamentoApi } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 
 const RenderSelectionFormaPagamento: React.FC = () => {
 

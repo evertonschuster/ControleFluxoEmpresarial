@@ -1,10 +1,10 @@
 import React, { } from 'react';
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
-import ListForm from '../../../../components/ListForm/ListForm';
-import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ColumnProps } from 'antd/lib/table';
 import { Categoria } from '../../../../models/Movimentos/Categoria';
 import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
+import { ColumnProps } from 'antd/lib/table';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListCategoria: React.FC = () => {

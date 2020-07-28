@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { CategoriaApi } from '../../../../../apis/Movimentos/CategoriaApi';
-import { Input, TextArea, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
+import { Input, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { MarcaApi } from '../../../../../apis/Movimentos/MarcaApi';
 import { Row, Col } from 'antd';
 import { UnidadeMedidaApi } from '../../../../../apis/Movimentos/UnidadeMedidaApi';
-import { useField } from 'formik';
-import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
-import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import { useDebouncedCallback } from '../../../../../hoc/useDebouncedCallback';
+import { useField } from 'formik';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
+import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 
 const FormGeneral: React.FC = () => {
 

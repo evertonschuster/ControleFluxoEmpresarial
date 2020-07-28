@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Form, Icon, Button, Card, Row, Col } from 'antd';
-import { Input, FormItem } from "formik-antd"
 import "./LoginUserStyle.less"
+import { errorBack } from '../../../../utils/MessageApi';
+import { Form, Icon, Button, Card, Row, Col } from 'antd';
 import { Formik, FormikHelpers } from 'formik';
+import { Input, FormItem } from "formik-antd"
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { login, getUserName } from '../../../../services/Authenticate';
 import { LoginUserSchema } from './LoginUserSchema';
 import { message } from 'antd';
-import { login, getUserName } from '../../../../services/Authenticate';
-import { errorBack } from '../../../../utils/MessageApi';
 import { UserApi } from '../../../../apis/Pessoas/UserApi';
 
 const LoginUser: React.FC<RouteComponentProps> = (props) => {

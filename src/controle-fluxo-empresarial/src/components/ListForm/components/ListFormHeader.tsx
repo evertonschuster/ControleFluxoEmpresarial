@@ -1,10 +1,10 @@
 import React, { memo, useState, useContext } from 'react';
-import { Input, Col, Button, Select } from 'antd';
-import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
+import { Input, Col, Button } from 'antd';
 import { ListItem } from '../ListForm';
+import { SITUACAO } from '../../../models/BaseEntity';
+import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
 import SelectFilterSituation from '../../Situation/SelectFilterSituation/SelectFilterSituation';
-import { SITUACAO } from '../../../models/BaseEntity';
 
 
 export interface Props<T> {
@@ -19,7 +19,6 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
     const [situacao, setSituacao] = useState<SITUACAO>()
     const { setFormMode } = useContext(BasicLayoutContext);
 
-    const { Option } = Select;
     //#endregion
 
 

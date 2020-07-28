@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { SITUACAO } from '../../../models/BaseEntity';
-import { Icon, Tooltip } from 'antd';
 import "./select-filter-situation.styles.less"
+import { Icon, Tooltip } from 'antd';
+import { SITUACAO } from '../../../models/BaseEntity';
 import MenuSituation from './component/MenuSituation';
 
 export interface Props {

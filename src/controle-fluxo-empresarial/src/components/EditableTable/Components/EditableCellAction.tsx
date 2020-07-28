@@ -13,7 +13,7 @@ export interface Props {
 
 const EditableCellAction: React.FC<Props> = (props) => {
 
-    const { submitForm, errors } = useFormikContext();
+    const { submitForm } = useFormikContext();
 
     function handleCancel(record: RecordTable) {
         if (record.rowMode === RowMode.new) {

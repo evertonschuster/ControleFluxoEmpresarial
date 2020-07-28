@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { RecordTable, RowMode } from './../EditableTable'
 import { Formik, FormikHelpers } from 'formik';
 
