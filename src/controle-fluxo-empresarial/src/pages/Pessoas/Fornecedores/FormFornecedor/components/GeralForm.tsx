@@ -1,13 +1,18 @@
 import React from 'react'
-import { Row, Col, Select as SelectAntd } from 'antd';
-import { Input, Select, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
-import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
-import { useField } from 'formik';
-import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
+import { Input, Select, TextArea } from '../../../../../components/WithFormItem/withFormItem';
+import { Row, Col, Select as SelectAntd } from 'antd';
+import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
+import { useField } from 'formik';
 import { useParams } from 'react-router-dom';
+import InputCPFCNPJ from '../../../../../components/InputCPFCNPJ/InputCPFCNPJ';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import InputCEP from '../../../../../components/InputCEP/InputCEP';
+import InputTelefone from '../../../../../components/InputTelefone/InputTelefone';
+import InputRG from '../../../../../components/InputRG/InputRG';
 
 const GeralForm: React.FC = () => {
 
@@ -39,7 +44,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 
@@ -62,7 +67,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <Input name="cep" label="CEP" placeholder="85890-000" required />
+                    <InputCEP name="cep" label="CEP" placeholder="85890-000" required />
                 </Col>
 
                 <Col span={5}>
@@ -79,7 +84,7 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={4}>
-                    <Input name="telefone" label="Telefone" placeholder="(45)988293328" required />
+                    <InputTelefone name="telefone" label="Telefone" placeholder="(45)988293328" required />
                 </Col>
 
                 <Col span={5}>
@@ -93,15 +98,15 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={4}>
-                    <Input name="rgInscricaoEstadual" label={field.value === TIPO_PESSOA.Fisica ? "RG" : "Inscrição Estadual"} placeholder={field.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"} required fast={false} />
+                    <InputRG name="rgInscricaoEstadual" label={field.value === TIPO_PESSOA.Fisica ? "RG" : "Inscrição Estadual"} placeholder={field.value === TIPO_PESSOA.Fisica ? "99.999.999-X" : "999.999.999.999"} required />
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cpfcpnj" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required fast={false} />
+                    <InputCPFCNPJ name="cpfcpnj" label={field.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={field.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required />
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required />
+                    <InputDecimal name="limiteCredito" label="Limite de Crédito" placeholder="500,00" required prefix="R$" />
                 </Col>
 
                 <Col span={7}>

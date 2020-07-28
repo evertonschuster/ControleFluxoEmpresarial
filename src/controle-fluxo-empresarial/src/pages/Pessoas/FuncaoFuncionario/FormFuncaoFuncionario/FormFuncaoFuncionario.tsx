@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col } from 'antd';
-import { Input, TextArea, Switch, InputNumber } from '../../../../components/WithFormItem/withFormItem';
-import { FuncaoFuncionarioSchema } from './FuncaoFuncionarioSchema';
-import { RouteComponentProps } from 'react-router-dom';
-import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormikHelpers } from 'formik';
+import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario';
+import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
+import { FuncaoFuncionarioSchema } from './FuncaoFuncionarioSchema';
+import { Input, TextArea, Switch, InputNumber } from '../../../../components/WithFormItem/withFormItem';
+import { RouteComponentProps } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
 
 const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {

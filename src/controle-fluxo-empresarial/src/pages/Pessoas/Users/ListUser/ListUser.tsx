@@ -1,9 +1,9 @@
 import React from 'react';
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import { RouteComponentProps } from 'react-router-dom';
-import ListForm from '../../../../components/ListForm/ListForm';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { UserApi } from '../../../../apis/Pessoas/UserApi';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListForm from '../../../../components/ListForm/ListForm';
 
 const ListUser: React.FC<RouteComponentProps> = () => {
 

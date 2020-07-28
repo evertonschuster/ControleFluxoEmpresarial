@@ -1,10 +1,10 @@
 import React from 'react'
-import ListForm from '../../../../components/ListForm/ListForm';
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
-import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { ServicoApi } from '../../../../apis/Movimentos/ServicoApi';
-import { Servico } from './../../../../models/Movimentos/Servico';
 import { ColumnProps } from 'antd/lib/table';
+import { Servico } from './../../../../models/Movimentos/Servico';
+import { ServicoApi } from '../../../../apis/Movimentos/ServicoApi';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListServico: React.FC = () => {

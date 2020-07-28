@@ -1,16 +1,21 @@
 import React from 'react'
-import { Row, Col, Select as SelectAntd } from 'antd';
-import { Input, Select, DatePicker, TextArea, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
-import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
-import { ColumnProps } from 'antd/lib/table';
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
-import { ServicoApi } from '../../../../../apis/Movimentos/ServicoApi';
-import { FuncaoFuncionarioApi } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
-import { useField } from 'formik';
-import NationalitySelect from '../../../../../components/NationalitySelect/NationalitySelect';
+import { ColumnProps } from 'antd/lib/table';
 import { FuncaoFuncionario } from '../../../../../models/Pessoas/FuncaoFuncionario';
+import { FuncaoFuncionarioApi } from '../../../../../apis/Pessoas/FuncaoFuncionarioApi';
+import { Input, Select, DatePicker, TextArea } from '../../../../../components/WithFormItem/withFormItem';
+import { Row, Col, Select as SelectAntd } from 'antd';
+import { ServicoApi } from '../../../../../apis/Movimentos/ServicoApi';
+import { useField } from 'formik';
+import InputCPFCNPJ from '../../../../../components/InputCPFCNPJ/InputCPFCNPJ';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import NationalitySelect from '../../../../../components/NationalitySelect/NationalitySelect';
+import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
+import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import InputCEP from '../../../../../components/InputCEP/InputCEP';
+import InputTelefone from '../../../../../components/InputTelefone/InputTelefone';
+import InputRG from '../../../../../components/InputRG/InputRG';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
@@ -63,7 +68,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 
@@ -86,7 +91,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <Input name="cep" label="CEP" placeholder="85890-000" required />
+                    <InputCEP name="cep" label="CEP" placeholder="85890-000" required />
                 </Col>
 
                 <Col span={5}>
@@ -103,7 +108,7 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={4}>
-                    <Input name="telefone" label="Telefone" placeholder="(45)988293328" required />
+                    <InputTelefone name="telefone" label="Telefone" placeholder="(45)988293328" required />
                 </Col>
 
                 <Col span={5}>
@@ -129,11 +134,11 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={4}>
-                    <Input name="rgInscricaoEstadual" label="RG" placeholder="99.999.999-X" required />
+                    <InputRG name="rgInscricaoEstadual" label="RG" placeholder="99.999.999-X" required />
                 </Col>
 
                 <Col span={4}>
-                    <Input name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
+                    <InputCPFCNPJ name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
                 </Col>
             </Row>
 
@@ -151,7 +156,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="salario" label="Salário" placeholder="2500,00" required min={0}/>
+                    <InputDecimal name="salario" label="Salário" placeholder="2500,00" required prefix="R$" />
                 </Col>
 
                 <Col span={3} >

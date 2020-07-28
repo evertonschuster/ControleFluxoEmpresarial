@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { Fornecedor } from '../../../../models/Pessoas/Fornecedor';
+import { validaCPFCNPJ } from '../../../../utils/Validate';
 const regexCPF = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
 const regexRG = /((^[A-Z]{2}-?)?([0-9\\.-]{5,}))([A-Z]{3})?([A-Z]{2})?/
 
@@ -39,7 +40,10 @@ export const FornecedorSchema = Yup.object().shape<Fornecedor>({
         .required("Informe o CPF/CNPJ.")
         .max(18, "O CPF/CNPJ não deve possuir mais de 18 caracteres")
         .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
-        .matches(regexCPF, "CPF/CNPJ não é válido."),
+        .matches(regexCPF, "CPF/CNPJ não é válido.")
+        .test('cpfcpnj', 'CPF/CNPJ não é válido.', value => {
+            return validaCPFCNPJ(value)
+        }),
 
     email: Yup.string()
         .nullable()

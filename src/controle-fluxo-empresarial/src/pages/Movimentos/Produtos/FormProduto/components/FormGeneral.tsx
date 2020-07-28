@@ -1,16 +1,18 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CategoriaApi } from '../../../../../apis/Movimentos/CategoriaApi';
-import { Input, TextArea, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
+import { Input, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { MarcaApi } from '../../../../../apis/Movimentos/MarcaApi';
 import { Row, Col } from 'antd';
 import { UnidadeMedidaApi } from '../../../../../apis/Movimentos/UnidadeMedidaApi';
+import { useDebouncedCallback } from '../../../../../hoc/useDebouncedCallback';
 import { useField } from 'formik';
-import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 
 const FormGeneral: React.FC = () => {
 
-    const [,, helperTaxa] = useField<number>("taxa");
+    const [, , helperTaxa] = useField<number>("taxa");
     const [, metaValorVenda, helperValorVenda] = useField<number>("valorVenda");
     const [, metaValorCompra] = useField<number>("valorCompra");
     const [valorVendaAtencao, setValorVendaAtencao] = useState(true);
@@ -19,13 +21,13 @@ const FormGeneral: React.FC = () => {
         setValorVendaAtencao(metaValorCompra.value >= metaValorVenda.value);
     }, [metaValorCompra.value, metaValorVenda.value]);
 
-    function calculeValorTaxa(value: number | string | undefined = 0) {
+    const calculeValorTaxa = useDebouncedCallback((value: number | string | undefined = 0) => {
         let valorVenda = value as number;
-        let taxa = (valorVenda - metaValorCompra.value) / (metaValorCompra.value ) * 100;
+        let taxa = (valorVenda - metaValorCompra.value) / (metaValorCompra.value) * 100;
         helperTaxa.setValue(taxa);
-    }
+    }, 100)
 
-    function calculeValorVenda(value: number | string | undefined = 0) {
+    const calculeValorVenda = useDebouncedCallback((value: number | string | undefined = 0) => {
         let taxa = value as number;
 
         let valorVenda = metaValorCompra.value * ((taxa / 100) + 1);
@@ -33,7 +35,7 @@ const FormGeneral: React.FC = () => {
             return;
         }
         helperValorVenda.setValue(valorVenda);
-    }
+    }, 100)
 
     return (
         <>
@@ -68,7 +70,7 @@ const FormGeneral: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
 
             </Row>
@@ -110,34 +112,34 @@ const FormGeneral: React.FC = () => {
 
             <Row>
                 <Col span={3}>
-                    <InputNumber name="quantidadeMinima" label="Quantidade Mínima" placeholder="2" required />
+                    <InputDecimal name="quantidadeMinima" label="Quantidade Mínima" placeholder="2" required />
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber
-                        name="valorCompra" label="Valor Compra" placeholder="10,20" required
-                        parser={(value) => value?.replace(/\$\s?|(,*)/g, '') || ""}
-                    />
+                    <InputDecimal
+                        name="valorCompra" label="Valor Compra" placeholder="10,20" required prefix="R$"/>
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="taxa" label="Margem de lucro (%)" min={0}  placeholder="15,50" onChange={calculeValorVenda}/>
+                    <InputDecimal name="taxa" label="Margem de lucro (%)" placeholder="15,50" onChange={calculeValorVenda} />
                 </Col>
 
 
                 <Col span={3}>
-                    <InputNumber
+                    <InputDecimal
                         onChange={calculeValorTaxa}
                         name="valorVenda"
                         label="Valor Venda"
                         placeholder="15,50"
+                        prefix="R$"
                         required
                         validateStatus={valorVendaAtencao ? "warning" : ""}
-                        help={valorVendaAtencao ? "Valor de Venda é Inferior ao de Compra" : ""} />
+                        help={valorVendaAtencao ? "Valor de Venda é Inferior ao de Compra" : ""}
+                    />
                 </Col>
 
                 <Col span={3}>
-                    <InputNumber name="quantidade" label="Quantidade" placeholder="10" required />
+                    <InputDecimal name="quantidade" label="Quantidade" placeholder="10" required />
                 </Col>
 
             </Row>

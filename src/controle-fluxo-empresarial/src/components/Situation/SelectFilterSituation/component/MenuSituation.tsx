@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./menu-situation.styles.less"
-import ShowSituation from '../../ShowSituation/ShowSituation';
 import { Checkbox } from 'antd';
 import { SITUACAO } from '../../../../models/BaseEntity';
 

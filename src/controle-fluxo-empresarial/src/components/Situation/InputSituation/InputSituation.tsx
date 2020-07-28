@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
+import "./InputSituation.style.less"
+import { ItemFormRender } from '../../../hoc/WithFormItem';
 import { Switch } from 'antd'
 import { useField } from 'formik';
-import { ItemFormRender } from '../../../hoc/WithFormItem';
-import "./InputSituation.style.less"
 
 export interface Props {
     name: string;
@@ -31,4 +31,4 @@ const InputSituation: React.FC<Props> = (props) => {
     )
 }
 
-export default InputSituation
+export default memo(InputSituation, () => true)

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Icon, Tabs } from 'antd';
 import "./FormUserStyle.css"
-import RegisterUserGeneral from './Components/RegisterUserGeneral';
+import { Icon, Tabs } from 'antd';
+import { RouteComponentProps } from 'react-router-dom';
 import BasicLayoutContext, { FormMode } from '../../../../layouts/BasicLayout/BasicLayoutContext';
 import ChangePassword from './Components/ChangePassword';
+import RegisterUserGeneral from './Components/RegisterUserGeneral';
 
 enum Menus {
     Profile = "Profile",

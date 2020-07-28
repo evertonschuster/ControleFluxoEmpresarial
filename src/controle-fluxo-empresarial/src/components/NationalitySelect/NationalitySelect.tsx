@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import Select from 'antd/lib/select'
-import { Input, Form } from 'antd'
 import './nationality-select-styles.less'
+import { Input, Form } from 'antd'
 import { ItemFormRender } from '../../hoc/WithFormItem'
 import { useField } from 'formik'
+import Select from 'antd/lib/select'
 
 
 export interface Props {

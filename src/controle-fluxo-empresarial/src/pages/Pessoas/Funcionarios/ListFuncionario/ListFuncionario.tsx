@@ -1,8 +1,8 @@
 import React from 'react'
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
-import { UseListPagined } from '../../../../hoc/UseListPagined';
-import ListForm from '../../../../components/ListForm/ListForm';
 import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout'
+import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFuncionario: React.FC = () => {

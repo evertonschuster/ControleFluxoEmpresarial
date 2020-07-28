@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col } from 'antd';
-import SelectModel from '../../../../components/SelectModel/SelectModelOne';
-import { Input } from '../../../../components/WithFormItem/withFormItem';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Cidade } from '../../../../models/Cidades/Cidade';
+import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
 import { CidadeSchema } from './CidadeSchema';
-import { FormikHelpers } from 'formik';
 import { errorBack } from '../../../../utils/MessageApi';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
-import { CidadeApi } from '../../../../apis/Cidades/CidadeApi';
+import { FormikHelpers } from 'formik';
+import { Input } from '../../../../components/WithFormItem/withFormItem';
+import { RouteComponentProps } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
+import SelectModel from '../../../../components/SelectModel/SelectModelOne';
 
 const FormCidade: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

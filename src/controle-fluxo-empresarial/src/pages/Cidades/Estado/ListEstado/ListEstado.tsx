@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
-import { RouteComponentProps } from 'react-router-dom';
-import ListForm from '../../../../components/ListForm/ListForm';
-import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
+import { RouteComponentProps } from 'react-router-dom';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListEstado: React.FC<RouteComponentProps> = () => {

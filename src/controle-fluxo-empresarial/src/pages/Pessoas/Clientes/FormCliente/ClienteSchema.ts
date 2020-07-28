@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
 import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
+import { validaCPFCNPJ } from './../../../../utils/Validate';
 // const regexCPFV1 = /(^\d{3}\.\d{3}\.\d{3}\-\d{2}$)|(^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$)/;
 const regexCPF = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
 const regexRG = /((^[A-Z]{2}-?)?([0-9\\.-]{5,}))([A-Z]{3})?([A-Z]{2})?/
@@ -29,19 +30,22 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
 
     complemento: Yup.string()
         .nullable()
-        .max(60, "O Complemento não deve possuir mais de 60 caracteres"),
+        .max(60, "O Complemento não deve possuir mais de 60 caracteres."),
 
     observacao: Yup.string()
         .nullable()
-        .max(255, "A Descrição não deve possuir mais de 255 caracteres"),
+        .max(255, "A Descrição não deve possuir mais de 255 caracteres."),
 
     cpfcpnj: Yup.string().when("nacionalidade", (nacionalidade: NATIONALITY_TYPE, schema: any) => {
         if (nacionalidade === NATIONALITY_TYPE.BRASILEIRO) {
             return Yup.string()
                 .nullable()
-                .max(18, "O CPF/CNPJ não deve possuir mais de 18 caracteres")
-                .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres")
+                .max(18, "O CPF/CNPJ não deve possuir mais de 18 caracteres.")
+                .min(5, "O CPF/CNPJ deve possuir mais de 5 caracteres.")
                 .matches(regexCPF, "CPF/CNPJ não é válido.")
+                .test('cpfcpnj', 'CPF/CNPJ não é válido.', value => {
+                    return validaCPFCNPJ(value)
+                })
         }
     }),
 

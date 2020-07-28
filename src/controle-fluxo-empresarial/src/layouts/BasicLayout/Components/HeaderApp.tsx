@@ -1,8 +1,8 @@
 import React from 'react';
-import { Layout, Avatar, Row, Col, Badge, Breadcrumb, Icon, Menu, Dropdown } from 'antd';
 import { BreadcrumbProp } from '../BasicLayout';
-import { Link } from 'react-router-dom';
 import { getUserName, logout } from '../../../services/Authenticate';
+import { Layout, Avatar, Row, Col, Badge, Breadcrumb, Icon, Menu, Dropdown } from 'antd';
+import { Link } from 'react-router-dom';
 
 export interface Props {
     breadcrumbList?: BreadcrumbProp[]

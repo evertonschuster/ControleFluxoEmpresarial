@@ -1,8 +1,8 @@
 import React from 'react';
-import { InputNumber } from '../../../../../components/WithFormItem/withFormItem';
-import { useFormikContext } from 'formik';
 import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
+import { InputNumber } from '../../../../../components/WithFormItem/withFormItem';
 import { RecordTable } from '../../../../../components/EditableTable/EditableTable';
+import { useFormikContext } from 'formik';
 import { validatePercentual } from '../CondicaoPagamentoSchema';
 
 export interface Props {

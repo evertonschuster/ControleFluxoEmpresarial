@@ -1,10 +1,10 @@
 import React from 'react'
+import { ColumnProps } from 'antd/lib/table';
+import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario';
+import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
 import { UseListPagined } from '../../../../hoc/UseListPagined';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
-import { FuncaoFuncionarioApi } from '../../../../apis/Pessoas/FuncaoFuncionarioApi';
-import { FuncaoFuncionario } from '../../../../models/Pessoas/FuncaoFuncionario';
-import { ColumnProps } from 'antd/lib/table';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFuncaoFuncionario: React.FC = () => {

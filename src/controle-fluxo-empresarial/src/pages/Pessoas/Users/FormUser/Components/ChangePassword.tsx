@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import CrudFormLayout from '../../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { Row, Col } from 'antd';
-import { Input } from '../../../../../components/WithFormItem/withFormItem';
-import { FormikHelpers } from 'formik';
-import UserChangePasswordModel from '../../../../../models/Pessoas/UserChangePasswordModel';
 import { errorBack } from '../../../../../utils/MessageApi';
-import { UserChangePasswor } from '../UserSchema';
+import { FormikHelpers } from 'formik';
+import { Input } from '../../../../../components/WithFormItem/withFormItem';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Row, Col } from 'antd';
 import { UserApi } from '../../../../../apis/Pessoas/UserApi';
+import { UserChangePasswor } from '../UserSchema';
+import CrudFormLayout from '../../../../../layouts/CrudFormLayout/CrudFormLayout';
+import UserChangePasswordModel from '../../../../../models/Pessoas/UserChangePasswordModel';
 
 const ChangePassword: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { errorBack } from '../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
+import { Funcionario } from '../../../../models/Pessoas/Funcionario';
+import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
+import { FuncionarioSchema } from './FuncionarioSchema';
+import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
 import { RouteComponentProps } from 'react-router-dom';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { FuncionarioSchema } from './FuncionarioSchema';
-import { Funcionario } from '../../../../models/Pessoas/Funcionario';
 import GeralForm from './components/GeralForm';
-import { errorBack } from '../../../../utils/MessageApi';
-import { FuncionarioApi } from '../../../../apis/Pessoas/FuncionarioApi';
-import { FormikHelpers } from 'formik';
-import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';
 
 const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

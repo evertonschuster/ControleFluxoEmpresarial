@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { Categoria } from '../../../../models/Movimentos/Categoria';
+import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
+import { CategoriaSchema } from './CategoriaSchema';
+import { errorBack } from '../../../../utils/MessageApi';
+import { FormikHelpers } from 'formik';
+import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
-import { Input } from '../../../../components/WithFormItem/withFormItem';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
-import { FormikHelpers } from 'formik';
-import { errorBack } from '../../../../utils/MessageApi';
-import { Categoria } from '../../../../models/Movimentos/Categoria';
-import { CategoriaSchema } from './CategoriaSchema';
-import { CategoriaApi } from '../../../../apis/Movimentos/CategoriaApi';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
-const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
+const FormCategoria: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
     const [categoria, setCategoria] = useState<Categoria>({ nome: "" })
     const [loading, setLoading] = useState(false);

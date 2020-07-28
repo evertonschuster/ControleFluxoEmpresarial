@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Row, Col } from 'antd';
-import SelectModel from '../../../../components/SelectModel/SelectModelOne';
-import { Input } from '../../../../components/WithFormItem/withFormItem';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
+import { errorBack } from '../../../../utils/MessageApi';
 import { Estado } from '../../../../models/Cidades/Estado';
+import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
 import { EstadoSchema } from './EstadoSchema';
 import { FormikHelpers } from 'formik';
-import { errorBack } from '../../../../utils/MessageApi';
+import { Input } from '../../../../components/WithFormItem/withFormItem';
 import { PaisApi } from '../../../../apis/Cidades/PaisApi';
-import { EstadoApi } from '../../../../apis/Cidades/EstadoApi';
+import { RouteComponentProps } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
+import SelectModel from '../../../../components/SelectModel/SelectModelOne';
 
 const FormEstado: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 

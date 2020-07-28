@@ -1,10 +1,10 @@
 import React, { } from 'react';
+import { ColumnProps } from 'antd/lib/table';
+import { FormaPagamento } from './../../../../models/CondicaoPagamento/FormaPagamento';
+import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
-import { UseListPagined } from '../../../../hoc/UseListPagined';
-import { FormaPagamento } from './../../../../models/CondicaoPagamento/FormaPagamento';
-import { ColumnProps } from 'antd/lib/table';
-import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 
 const ListFormaPagamento: React.FC = () => {

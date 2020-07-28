@@ -1,16 +1,16 @@
 import React from 'react';
-import { Row, Col, Divider } from 'antd';
-import EditableTable, { ColumnEditableProps } from '../../../../../components/EditableTable/EditableTable';
-import NumeroDias from './NumeroDias';
-import Percentual from './Percentual';
+import { CondicaoPagamento } from '../../../../../models/CondicaoPagamento/CondicaoPagamento';
+import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
+import { CondicaoPagamentoParcelaSchema } from '../CondicaoPagamentoSchema';
 import { FormaPagamento } from '../../../../../models/CondicaoPagamento/FormaPagamento';
 import { Input, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
-import { CondicaoPagamentoParcelaSchema } from '../CondicaoPagamentoSchema';
-import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
+import { Row, Col, Divider } from 'antd';
 import { useField } from 'formik';
-import { CondicaoPagamento } from '../../../../../models/CondicaoPagamento/CondicaoPagamento';
-import RenderSelectionMode from './RenderSelectionFormaPagamento'
+import EditableTable, { ColumnEditableProps } from '../../../../../components/EditableTable/EditableTable';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
+import NumeroDias from './NumeroDias';
+import Percentual from './Percentual';
+import RenderSelectionMode from './RenderSelectionFormaPagamento'
 
 
 const CondicaoPagamentoGeneral: React.FC = () => {
