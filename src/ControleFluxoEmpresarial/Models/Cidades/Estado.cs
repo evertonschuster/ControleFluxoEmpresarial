@@ -59,9 +59,16 @@ namespace ControleFluxoEmpresarial.Models.Cidades
             return this.EstadoDAO.GetByID(id) != null;
         }
 
-        private bool ExistsPais(int id)
+        private bool ExistsPais(Estado estado, int id)
         {
-            return this.PaisDAO.GetByID(id) != null;
+            var paisDb = this.PaisDAO.GetByID(id);
+            var estadoDb = this.EstadoDAO.GetByID(estado.Id);
+            if (estado.Id > 0 && paisDb != null && estado.PaisId == estadoDb.PaisId)
+            {
+                return true;
+            }
+
+            return paisDb != null && paisDb.Situacao == null;
         }
     }
 }

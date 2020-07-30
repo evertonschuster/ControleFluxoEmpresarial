@@ -41,7 +41,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
 
         public void Delete(TEntity entity, bool commit = true)
         {
-            throw new NotImplementedException();
+            this.Delete(entity, commit);
         }
 
         public TEntity GetByID(object ids)

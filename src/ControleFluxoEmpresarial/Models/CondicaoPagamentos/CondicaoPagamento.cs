@@ -74,7 +74,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 }).WithMessage("Parcela não cadastrada.")
                 .Must(ee =>
                 {
-                    return ee.All(a => ExistsFormaPagamento(a.FormaPagamento.Id));
+                    return ee.All(a => ExistsFormaPagamento(a, a.FormaPagamento.Id));
                 }).WithMessage("Forma de Pagamento não cadastrada.");
 
         }
@@ -95,9 +95,16 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
             return this.CondicaoPagamentoParcelaDAO.GetByID(id) != null;
         }
 
-        private bool ExistsFormaPagamento(int id)
+        private bool ExistsFormaPagamento(CondicaoPagamentoParcela parcela, int id)
         {
-            return this.FormaPagamentoDAO.GetByID(id) != null;
+            var formaDb = this.FormaPagamentoDAO.GetByID(id);
+            var parcelaDb = this.CondicaoPagamentoParcelaDAO.GetByID(parcela.Id);
+            if (parcela.Id > 0 && formaDb != null && parcela.FormaPagamento.Id == parcelaDb.FormaPagamento.Id)
+            {
+                return true;
+            }
+
+            return formaDb != null && formaDb.Situacao == null;
         }
     }
 }

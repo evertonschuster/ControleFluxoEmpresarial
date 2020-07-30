@@ -39,7 +39,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             var sql = $@"DELETE FROM CondicaoPagamentoParcelas 
                         WHERE Id = @id";
 
-            base.ExecuteScript(sql, new { id });
+            base.ExecuteScript(sql, new { id }, commit);
         }
 
         public override CondicaoPagamentoParcela GetByID(int id)

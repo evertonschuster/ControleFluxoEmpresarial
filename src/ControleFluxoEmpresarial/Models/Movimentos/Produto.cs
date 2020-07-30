@@ -46,10 +46,13 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
 
         public MarcaDAO MarcaDAO { get; set; }
 
-        public ProdutoValidator(UnidadeMedidaDAO unidadeMedidaDAO, CategoriaDAO categoriaDAO, MarcaDAO marcaDAO)
+        public ProdutoDAO ProdutoDAO { get; set; }
+
+        public ProdutoValidator(UnidadeMedidaDAO unidadeMedidaDAO, CategoriaDAO categoriaDAO, MarcaDAO marcaDAO, ProdutoDAO produtoDAO)
         {
             this.UnidadeMedidaDAO = unidadeMedidaDAO ?? throw new ArgumentNullException(nameof(unidadeMedidaDAO));
             this.CategoriaDAO = categoriaDAO ?? throw new ArgumentNullException(nameof(categoriaDAO));
+            this.ProdutoDAO = produtoDAO ?? throw new ArgumentNullException(nameof(produtoDAO));
             this.MarcaDAO = marcaDAO ?? throw new ArgumentNullException(nameof(marcaDAO));
 
             RuleFor(e => e.Nome)
@@ -105,19 +108,40 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
         }
 
 
-        private bool ExistUnidadeMedida(string id)
+        private bool ExistUnidadeMedida(Produto produto, string id)
         {
-            return this.UnidadeMedidaDAO.GetByID(id) != null;
+            var unidadeMedidaDb = this.UnidadeMedidaDAO.GetByID(id);
+            var produtoDb = this.ProdutoDAO.GetByID(produto.Id);
+            if (produto.Id > 0 && unidadeMedidaDb != null && produtoDb.UnidadeMedidaId == produto.UnidadeMedidaId)
+            {
+                return true;
+            }
+
+            return unidadeMedidaDb != null && unidadeMedidaDb.Situacao == null;
         }
 
-        private bool ExistMarca(int id)
+        private bool ExistMarca(Produto produto, int id)
         {
-            return this.MarcaDAO.GetByID(id) != null;
+            var marcaDb = this.MarcaDAO.GetByID(id);
+            var produtoDb = this.ProdutoDAO.GetByID(produto.Id);
+            if (produto.Id > 0 && marcaDb != null && produtoDb.MarcaId == produto.MarcaId)
+            {
+                return true;
+            }
+
+            return marcaDb != null && marcaDb.Situacao == null;
         }
 
-        private bool ExistCategoria(int id)
+        private bool ExistCategoria(Produto produto, int id)
         {
-            return this.CategoriaDAO.GetByID(id) != null;
+            var categoriaDb = this.CategoriaDAO.GetByID(id);
+            var produtoDb = this.ProdutoDAO.GetByID(produto.Id);
+            if (produto.Id > 0 && categoriaDb != null && produtoDb.CategoriaId == produto.CategoriaId)
+            {
+                return true;
+            }
+
+            return categoriaDb != null && categoriaDb.Situacao == null;
         }
     }
 }

@@ -29,10 +29,12 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
     public class ServicoValidator : AbstractValidator<Servico>
     {
         public CategoriaDAO CategoriaDAO { get; set; }
+        public ServicoDAO ServicoDAO { get; set; }
 
 
-        public ServicoValidator(CategoriaDAO categoriaDAO)
+        public ServicoValidator(CategoriaDAO categoriaDAO, ServicoDAO servicoDAO)
         {
+            this.ServicoDAO = servicoDAO ?? throw new ArgumentNullException(nameof(servicoDAO));
             this.CategoriaDAO = categoriaDAO ?? throw new ArgumentNullException(nameof(categoriaDAO));
 
             RuleFor(e => e.Nome)
@@ -58,9 +60,16 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
         }
 
 
-        private bool ExistCategoria(int id)
+        private bool ExistCategoria(Servico servico, int id)
         {
-            return this.CategoriaDAO.GetByID(id) != null;
+            var categoriaDb = this.CategoriaDAO.GetByID(id);
+            var servicoDb = this.ServicoDAO.GetByID(servico.Id);
+            if (servico.Id > 0 && categoriaDb != null && servico.CategoriaId == servicoDb.CategoriaId)
+            {
+                return true;
+            }
+
+            return categoriaDb != null && categoriaDb.Situacao == null;
         }
     }
 }

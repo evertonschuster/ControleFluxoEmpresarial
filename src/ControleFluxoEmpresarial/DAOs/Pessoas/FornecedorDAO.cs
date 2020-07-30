@@ -18,7 +18,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
         {
         }
 
-        internal Fornecedor GetByCPFCNPJ(string cpfcpnj)
+        public Fornecedor GetByCPFCNPJ(string cpfcpnj)
         {
             var sql = "SELECT * FROM Fornecedores WHERE cpfcpnj = @cpfcpnj";
 

@@ -1,3 +1,11 @@
 ESTÁGIO SUPERVISIONADO I (REMOTA)
 pagamento rematricula
 nota fiscal
+
+
+
+Diagrama de banco e todo ele,
+Diagrama de classe por caso de uso
+Diagrama de sequencia (não precisa ter o fluxo da validação, apenas o caminho na arquitetura)
+
+planilha dos casos de uso, => oque falta pra fazer o caso de uso roda

@@ -107,11 +107,11 @@ namespace ControleFluxoEmpresarial.DAOs.simple
                 sql += $" AND ({this.TableName}.{this.NameProperty} ilike @Filter {sqlId}) ";
             }
 
-            if(filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND situacao is null";
             }
-            if(filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND situacao is not null";
             }
@@ -130,18 +130,26 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.PropertyId} " : "")})
                          VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.PropertyId} " : "")})";
 
-            entity.DataCriacao = DateTime.Now;
-            entity.DataAtualizacao = DateTime.Now;
+            if (entity is IBaseAuditoria)
+            {
+                ((IBaseAuditoria)entity).DataCriacao = DateTime.Now;
+                ((IBaseAuditoria)entity).DataAtualizacao = DateTime.Now;
+            }
             return this.ExecuteScriptInsert(sql, entity, commit);
         }
 
         public virtual void Update(TEntity entity, bool commit = true)
         {
+            var property = this.Property.Where(e => e != nameof(IBaseAuditoria.DataCriacao));
+
             var sql = $@"UPDATE {this.TableName} 
-                        SET {this.Property.Where(e => e != nameof(IBaseModel<TId>.DataCriacao)).FormatProperty(e => $"{e}=@{e}")}
+                        SET {property.FormatProperty(e => $"{e}=@{e}")}
                         WHERE {this.PropertyId} = @Id";
 
-            entity.DataAtualizacao = DateTime.Now;
+            if (entity is IBaseAuditoria)
+            {
+                ((IBaseAuditoria)entity).DataAtualizacao = DateTime.Now;
+            }
             base.ExecuteScript(sql, entity, commit);
         }
 

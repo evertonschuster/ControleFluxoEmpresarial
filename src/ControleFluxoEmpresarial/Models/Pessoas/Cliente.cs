@@ -123,14 +123,28 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             return findCliente == null || findCliente?.Id == cliente.Id;
         }
 
-        private bool ExistCidade(int id)
+        private bool ExistCidade(Cliente cliente, int id)
         {
-            return this.CidadeDAO.GetByID(id) != null;
+            var cidadeDb = this.CidadeDAO.GetByID(id);
+            var clienteDb = this.ClienteDAO.GetByID(cliente.Id);
+            if (cliente.Id > 0 && cidadeDb != null && clienteDb.CidadeId == cliente.CidadeId)
+            {
+                return true;
+            }
+
+            return cidadeDb != null && cidadeDb.Situacao == null;
         }
 
-        private bool ExistCondicaoPagamento(int id)
+        private bool ExistCondicaoPagamento(Cliente cliente, int id)
         {
-            return this.CondicaoPagamentoDAO.GetByID(id) != null;
+            var condicaoDb = this.CondicaoPagamentoDAO.GetByID(id);
+            var clienteDb = this.ClienteDAO.GetByID(cliente.Id);
+            if (cliente.Id > 0 && condicaoDb != null && clienteDb.CondicaoPagamentoId == cliente.CondicaoPagamentoId)
+            {
+                return true;
+            }
+
+            return condicaoDb != null && condicaoDb.Situacao == null;
         }
     }
 }

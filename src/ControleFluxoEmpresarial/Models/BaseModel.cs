@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models
 {
-    public abstract class BaseModelSituacao : BaseModel, IBaseModelSituacao<int>
+    public abstract class BaseModelSituacao : BaseModel, IBaseSituacao, IBaseModel<int>
     {
         public DateTime? Situacao { get; set; }
     }
 
-    public abstract class BaseModel : IBaseModel<int>
+    public abstract class BaseModel : IBaseModel<int>, IBaseAuditoria
     {
         public int Id { get; set; }
 
@@ -23,7 +23,7 @@ namespace ControleFluxoEmpresarial.Models
 
 
 
-    public interface IBaseModelSituacao<TId> : IBaseModel<TId>
+    public interface IBaseSituacao
     {
         DateTime? Situacao { get; set; }
     }
@@ -32,11 +32,13 @@ namespace ControleFluxoEmpresarial.Models
     {
         [JsonProperty(Order = 1)]
         TId Id { get; set; }
+    }
 
+    public interface IBaseAuditoria
+    {
         DateTime DataCriacao { get; set; }
 
         DateTime DataAtualizacao { get; set; }
-
     }
 
 }

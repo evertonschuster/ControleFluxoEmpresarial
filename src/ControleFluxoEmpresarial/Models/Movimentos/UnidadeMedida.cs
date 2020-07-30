@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Movimentos
 {
-    public class UnidadeMedida : IBaseModelSituacao<string>
+    public class UnidadeMedida : IBaseSituacao, IBaseModel<string>
     {
         public string Id { get; set; }
 
