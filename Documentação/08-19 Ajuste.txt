@@ -12,3 +12,7 @@ Compra:
 	Valor do imposto é sobre o total ou por unidade?
 	Condição de pagamento tem desconto, como calcula?
 
+- Nota de compra n pode ser excluida, so cancelada com justificativa
+- usuario que lançou a nota.
+- Observações
+

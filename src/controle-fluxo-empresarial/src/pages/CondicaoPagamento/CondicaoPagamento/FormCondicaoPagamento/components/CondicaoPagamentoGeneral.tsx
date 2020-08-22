@@ -16,9 +16,12 @@ import RenderSelectionMode from './RenderSelectionFormaPagamento'
 const CondicaoPagamentoGeneral: React.FC = () => {
 
     const [field] = useField("parcela");
-
     const columns: ColumnEditableProps<CondicaoPagamento>[] = useMemo(() => [
-        { dataIndex: "id", title: "Código" },
+        {
+            dataIndex: "id",
+            title: "Parcela",
+            render: (text: any, record: any, index: number) => index + 1
+        },
         {
             dataIndex: "numeroDias", title: "Número de Dias", editable: true,
             renderEditable: (text: any, record: any, index: number) => <NumeroDias text={text} record={record} index={index} percelasSource={field.value} />

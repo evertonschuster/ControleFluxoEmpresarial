@@ -148,7 +148,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                     handleSave: handleSave,
                     validationSchema: props.validationSchema
                 })}
-                pagination={{}}
+                pagination={false}
                 footer={!(props.showNewAction === false) ? () => <EditableRowFooter onNewRow={handleRowNew} /> : undefined}
             />
 

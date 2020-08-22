@@ -75,7 +75,10 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 .Must(ee =>
                 {
                     return ee.All(a => ExistsFormaPagamento(a, a.FormaPagamentoId));
-                }).WithMessage("Forma de Pagamento não cadastrada.");
+                }).WithMessage("Forma de Pagamento não cadastrada.")
+                .Must(ee => ee.Select(a => a.NumeroDias).Distinct().Count() == ee.Count()).WithMessage("Número de dias repetidos.");
+
+            //dias repetidos
 
         }
 

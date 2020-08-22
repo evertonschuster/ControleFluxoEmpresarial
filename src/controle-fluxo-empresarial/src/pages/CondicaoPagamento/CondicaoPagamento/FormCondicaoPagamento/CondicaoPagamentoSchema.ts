@@ -63,7 +63,7 @@ export const CondicaoPagamentoSchema = Yup.object().shape<CondicaoPagamento>({
         .test({
             name: "parcela",
             message: (parcelas) => {
-                return `As parcelas devem estar sequenciais.`
+                return `O número de dias deve ser crescente.`
             },
             test: (parcelas: CondicaoPagamentoParcela[]) => {
                 let init = 0;
@@ -89,8 +89,12 @@ export function validateNumeroDias(value: number, record: CondicaoPagamentoParce
     if (!beforeRecord) {
         return undefined;
     }
-    if (beforeRecord.numeroDias <= value) {
+    if (beforeRecord.numeroDias < value) {
         return undefined;
+    }
+
+    if (beforeRecord.numeroDias = value) {
+        return "Número de dias já adicionado.";
     }
 
     return `Número de dias inferior a parcela anterior${beforeRecord.numeroDias !== undefined ? ` (${beforeRecord.numeroDias})` : ""}.`
