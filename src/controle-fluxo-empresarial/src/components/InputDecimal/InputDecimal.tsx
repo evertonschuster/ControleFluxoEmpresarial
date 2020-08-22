@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import NumberFormat, { NumberFormatValues } from 'react-number-format';
 import { useField, } from 'formik';
 import { ItemFormRender, ValidateStatuses } from '../../hoc/WithFormItem';
@@ -7,10 +7,11 @@ import { useDebouncedCallback } from './../../hoc/useDebouncedCallback';
 
 export interface Props {
     name: string;
-    label: string;
+    label?: string;
     placeholder: string
     required?: boolean;
     prefix?: string;
+    disabled?: boolean;
     decimalScale?: number;
 
     onChange?: (value: number | undefined) => void;
@@ -20,7 +21,32 @@ export interface Props {
 
 const InputDecimal: React.FC<Props> = (props) => {
 
-    const [{ value }, , { setValue }] = useField(props.name);
+    const [{ value }, { error, touched }, { setValue }] = useField(props.name);
+
+    const validateStatus = useMemo(() => {
+        if (props.help) {
+            return props.validateStatus
+        }
+
+        if (error && touched) {
+            return "error"
+        }
+
+        return "validating"
+
+    }, [props.help, error, touched])
+
+    const helpMessage = useMemo(() => {
+        if (props.help) {
+            return props.help
+        }
+
+        if (error && touched) {
+            return error
+        }
+
+        return undefined
+    }, [error, props.help, touched])
 
     const onChange = useDebouncedCallback((value) => {
         props.onChange && props.onChange(value);
@@ -32,18 +58,19 @@ const InputDecimal: React.FC<Props> = (props) => {
             return;
         }
 
-        setValue(eventValue.floatValue);
-        onChange(eventValue.floatValue);
+        setValue(eventValue.floatValue ?? null);
+        onChange(eventValue.floatValue ?? null);
     }
 
     return (
         <Form.Item
             className="select-model-one-style-item"
-            validateStatus={props.validateStatus}
-            help={props.help}>
+            validateStatus={validateStatus}
+            help={helpMessage}>
 
-            <ItemFormRender label={props.label} required={props.required}>
+            <ItemFormRender label={props.label} required={props.required} showLabel={!!props.label}>
                 <NumberFormat
+                    disabled={props.disabled}
                     onValueChange={onValueChange}
                     customInput={Input}
                     value={value}

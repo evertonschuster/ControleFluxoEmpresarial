@@ -7,6 +7,11 @@ export interface IBaseEntity<TId> {
     DataAtualizacao?: Date;
 }
 
+export interface IBaseEntity2 {
+    DataCriacao?: Date;
+    DataAtualizacao?: Date;
+}
+
 export interface PaginationQuery {
     pageSize: number;
     currentPage: number;

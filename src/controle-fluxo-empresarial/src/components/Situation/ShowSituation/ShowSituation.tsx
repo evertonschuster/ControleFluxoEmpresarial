@@ -6,7 +6,6 @@ export interface Props {
 }
 
 const ShowSituation = (props : Props | undefined | null) => {
-    console.log(props)
 
     if (!props) {
         return <Badge color={"blue"} text={"Habilitado"} />

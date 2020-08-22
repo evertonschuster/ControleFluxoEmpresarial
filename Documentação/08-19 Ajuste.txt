@@ -1,0 +1,14 @@
+codigo do produto,
+Unidade medida só a sigla
+
+alinhar numericos a direita
+salvar salvo apenas na tabela
+ratia
+
+
+
+Compra:
+	Dúvidas :
+	Valor do imposto é sobre o total ou por unidade?
+	Condição de pagamento tem desconto, como calcula?
+

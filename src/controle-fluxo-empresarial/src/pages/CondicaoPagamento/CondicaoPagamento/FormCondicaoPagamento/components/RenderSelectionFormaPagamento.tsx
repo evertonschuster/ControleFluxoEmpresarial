@@ -7,7 +7,7 @@ const RenderSelectionFormaPagamento: React.FC = () => {
     return (
         <SelectModelOne
             fetchMethod={FormaPagamentoApi.GetById.bind(FormaPagamentoApi)}
-            name="formaPagamento.id"
+            name="formaPagamentoId"
             objectName="formaPagamento"
             keyDescription="nome"
             required={true}

@@ -22,7 +22,7 @@ export enum TypeAttribute {
 
 export interface ColumnEditableProps<T> extends ColumnProps<T> {
     editable?: boolean;
-    renderEditable?: (text: any, record: T, index: number) => React.ReactNode;
+    renderEditable?: (text: any, record: T & RecordTable, index: number) => React.ReactNode;
     type?: TypeAttribute;
 }
 
@@ -32,6 +32,7 @@ export interface Props<T> {
     initiallValues: T;
     name: string;
     validationSchema?: any | (() => any);
+    showNewAction?: boolean
 }
 
 export interface RecordTable {
@@ -40,6 +41,7 @@ export interface RecordTable {
 }
 
 const EditableTable: React.FC<Props<any>> = (props) => {
+
 
     const [field, meta, helpers] = useField(props.name);
     const rowKey = useMemo(() => props.rowKey ?? "id", [props.rowKey]);
@@ -65,13 +67,20 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
     const hasListError = useMemo(() => !Array.isArray(meta.error) && meta.touched && (meta.error?.length ?? "") > 2, [meta.error, meta.touched]);
 
+    const handleRowMode = useCallback(
+        (record: RecordTable & any, rowMode: RowMode) => {
+            const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
+
+            helpers.setValue(dataSourceNew);
+        }, [dataSource, helpers])
+
     const columnsAction = useMemo(() => props.columns.concat({
         key: "Action",
         title: "Ações",
         width: "180px",
         render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [props.columns]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [props.columns, handleRowMode]);
 
     const columns: ColumnProps<any>[] = useMemo(() => columnsAction.map((col: ColumnEditableProps<any>) => {
         if (!col.editable) {
@@ -103,18 +112,14 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             helpers.setValue(dataSourceNew);
         }, [dataSource, helpers])
 
-    const handleRowMode = useCallback(
-        (record: RecordTable & any, rowMode: RowMode) => {
-            const dataSourceNew = dataSource.map(e => e.tableKey !== record.tableKey ? e : { ...record, rowMode });
-            helpers.setValue(dataSourceNew);
-        }, [dataSource, helpers])
+
 
     const handleRowNew = useCallback(
         () => {
 
             let mapedDataSource = mapRecord(dataSource.concat({ ...props.initiallValues, rowMode: RowMode.new }));
             helpers.setValue(mapedDataSource);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [dataSource, helpers])
 
 
@@ -144,7 +149,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                     validationSchema: props.validationSchema
                 })}
                 pagination={{}}
-                footer={() => <EditableRowFooter onNewRow={handleRowNew} />}
+                footer={!(props.showNewAction === false) ? () => <EditableRowFooter onNewRow={handleRowNew} /> : undefined}
             />
 
             <Form.Item

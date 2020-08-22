@@ -25,9 +25,6 @@ export const InputMask: React.FC<Porps> = (props) => {
         var { value } = newState;
         var selection = newState.selection;
 
-        console.log({ newState, oldState, userInput, maskOptions ,lastKeyCode})
-
-
         if (typeof props.mask === "function" && lastKeyCode !== 8) {
             setMask(props.mask(value || ""));
         }

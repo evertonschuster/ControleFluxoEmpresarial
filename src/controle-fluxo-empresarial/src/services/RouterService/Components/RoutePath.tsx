@@ -31,6 +31,8 @@ import FormUser from '../../../pages/Pessoas/Users/FormUser/FormUser';
 import FormCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/FormCondicaoPagamento/FormCondicaoPagamento';
 import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/ListFormaPagamento/ListFormaPagamento';
 import FormFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/FormFormaPagamento/FormFormaPagamento';
+import FormCompra from '../../../pages/Compras/FormCompra/FormCompra';
+import ListCompra from '../../../pages/Compras/ListCompra/ListCompra';
 
 const RoutePath: React.FC = () => {
 
@@ -95,6 +97,10 @@ const RoutePath: React.FC = () => {
             <Route path="/unidade-medida" component={ListUnidadeMedida} exact />
             <Route path="/unidade-medida/edit/:id" component={FormUnidadeMedida} />
             <Route path="/unidade-medida/new" component={FormUnidadeMedida} />
+
+            <Route path="/compras" component={ListCompra} exact />
+            <Route path="/compras/edit/:id" component={FormCompra} />
+            <Route path="/compras/new" component={FormCompra} />
 
 
         </>

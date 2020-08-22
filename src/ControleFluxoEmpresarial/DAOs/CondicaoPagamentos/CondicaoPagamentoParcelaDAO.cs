@@ -25,6 +25,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             entity.Id = reader.GetInt32("Id");
             entity.NumeroDias = reader.GetInt32("NumeroDias");
             entity.Percentual = reader.GetDecimal("Percentual");
+            entity.FormaPagamentoId = reader.GetInt32("FormaPagamentoId");
             entity.FormaPagamento = new FormaPagamento()
             {
                 Id = reader.GetInt32("FormaPagamentoId"),
@@ -60,7 +61,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
                 var sql = $@"INSERT INTO CondicaoPagamentoParcelas ( NumeroDias, Percentual, CondicaoPagamentosId, FormaPagamentoId)
                          VALUES (@NumeroDias, @Percentual, @condicaoPagamentoId, @formaPagamentoId)";
 
-                return base.ExecuteScriptInsert(sql, new { entity.NumeroDias, entity.Percentual, condicaoPagamentoId, formaPagamentoId = entity.FormaPagamento.Id }, commit);
+                return base.ExecuteScriptInsert(sql, new { entity.NumeroDias, entity.Percentual, condicaoPagamentoId, formaPagamentoId = entity.FormaPagamentoId }, commit);
             }
             finally
             {
@@ -89,7 +90,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
                         FormaPagamentoId = @formaPagamentoId
                         WHERE Id = @Id";
 
-            base.ExecuteScript(sql, new { entity.NumeroDias, entity.Percentual, formaPagamentoId = entity.FormaPagamento.Id, entity.Id }, commit);
+            base.ExecuteScript(sql, new { entity.NumeroDias, entity.Percentual, formaPagamentoId = entity.FormaPagamentoId, entity.Id }, commit);
         }
 
         public override PaginationResult<CondicaoPagamentoParcela> GetPagined(PaginationQuery filter)

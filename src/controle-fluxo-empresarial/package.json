@@ -1,7 +1,7 @@
 {
   "name": "controle-fluxo-empresarial",
   "version": "0.1.0",
-  "homepage": "/knk",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "@babel/core": "7.6.0",

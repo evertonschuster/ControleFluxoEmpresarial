@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CondicaoPagamento } from '../../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { CondicaoPagamentoParcela } from '../../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
 import { CondicaoPagamentoParcelaSchema } from '../CondicaoPagamentoSchema';
@@ -17,8 +17,8 @@ const CondicaoPagamentoGeneral: React.FC = () => {
 
     const [field] = useField("parcela");
 
-    const columns: ColumnEditableProps<CondicaoPagamento>[] = [
-        { dataIndex: "id", title: "id" },
+    const columns: ColumnEditableProps<CondicaoPagamento>[] = useMemo(() => [
+        { dataIndex: "id", title: "Código" },
         {
             dataIndex: "numeroDias", title: "Número de Dias", editable: true,
             renderEditable: (text: any, record: any, index: number) => <NumeroDias text={text} record={record} index={index} percelasSource={field.value} />
@@ -41,7 +41,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
                     return <RenderSelectionMode />
                 },
         }
-    ];
+    ], [field.value]);
 
 
 
@@ -64,7 +64,7 @@ const CondicaoPagamentoGeneral: React.FC = () => {
                     <InputNumber name="desconto" label="Desconto (%)" placeholder="0" required />
                 </Col>
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 
@@ -74,9 +74,10 @@ const CondicaoPagamentoGeneral: React.FC = () => {
                 <Col span={24}>
                     <EditableTable columns={columns}
                         initiallValues={{
-                            numeroDias: undefined,
+                            numeroDias: null,
                             percentual: Math.round((100 - ((field.value as CondicaoPagamentoParcela[]) ?? []).reduce((e, a) => e + a.percentual, 0)) * 100) / 100,
-                            formaPagamento: undefined
+                            formaPagamento: null,
+                            formaPagamentoId: null,
                         }}
                         name="parcela"
                         validationSchema={CondicaoPagamentoParcelaSchema}

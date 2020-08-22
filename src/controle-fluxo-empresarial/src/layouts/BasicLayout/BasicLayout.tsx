@@ -27,13 +27,14 @@ const BasicLayout: React.FC<Props> = (props) => {
 
                 <SideMenuApp />
 
-                <Layout  >
+                <Layout >
                     <HeaderApp breadcrumbList={breadcrumb} />
                     <PerfectScrollbar
                         style={{
                             display: "flex",
                             flex: "1",
-                            background: "#F0F2F5"
+                            background: "#F0F2F5",
+                            boxShadow: "0px -2px 5px rgb(245 245 245)" 
                         }} >
                         <ContentApp > {props.children} </ContentApp>
                     </PerfectScrollbar>

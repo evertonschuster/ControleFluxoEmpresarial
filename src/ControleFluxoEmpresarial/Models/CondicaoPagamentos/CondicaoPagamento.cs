@@ -74,7 +74,7 @@ namespace ControleFluxoEmpresarial.Models.CondicaoPagamentos
                 }).WithMessage("Parcela não cadastrada.")
                 .Must(ee =>
                 {
-                    return ee.All(a => ExistsFormaPagamento(a, a.FormaPagamento.Id));
+                    return ee.All(a => ExistsFormaPagamento(a, a.FormaPagamentoId));
                 }).WithMessage("Forma de Pagamento não cadastrada.");
 
         }

@@ -7,21 +7,22 @@ import { RecordTable } from '../../../../components/EditableTable/EditableTable'
 
 export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamentoParcela>({
     numeroDias: Yup.number()
-        .typeError("Informe um número válido.")
-        .integer("Informe um número válido.")
+        .typeError("Código inválido.")
+        .integer("Código inválido.")
         .required("Informe o número de dias.")
         .min(0, "O número de dias deve estar maior que 0."),
     percentual: Yup.number()
-        .typeError("Informe um número válido.")
+        .typeError("Código inválido.")
         .required("Informe o percentual.")
         .min(0.01, "O percentual deve estar maior que 0.")
         .max(100, "O percentual não pode estar maior que 100."),
-    formaPagamento: Yup.object()
-        .shape<FormaPagamento>({
-            id: Yup.number()
-                .integer("Informe um número válido.")
-                .typeError("Informe um número válido.")
-                .required("Informe uma Condição de Pagamento.")
+    formaPagamentoId: Yup.number()
+        .integer("Código inválido.")
+        .typeError("Código inválido.")
+        .required("Informe uma Condição de Pagamento.")
+        .test("", "Código inválido.", function () {
+            let parent = this.parent as CondicaoPagamentoParcela
+            return !!parent.formaPagamento;
         })
 });
 
@@ -32,18 +33,18 @@ export const CondicaoPagamentoSchema = Yup.object().shape<CondicaoPagamento>({
         .max(50, "Condição não deve possuir mais de 50 caracteres.")
         .required('Condição não pode estar vaziu.'),
     juro: Yup.number()
-        .required("Informe um número válido.")
-        .typeError("Informe um número válido.")
+        .required("Código inválido.")
+        .typeError("Código inválido.")
         .min(0, "O valor não pode ser menor que 0.")
         .max(100, "O valor não pode ser maior que 100."),
     multa: Yup.number()
-        .required("Informe um número válido.")
-        .typeError("Informe um número válido.")
+        .required("Código inválido.")
+        .typeError("Código inválido.")
         .min(0, "O valor não pode estar menor que 0.")
         .max(100, "O valor não pode estar maior que 100."),
     desconto: Yup.number()
-        .required("Informe um número válido.")
-        .typeError("Informe um número válido.")
+        .required("Código inválido.")
+        .typeError("Código inválido.")
         .min(0, "O valor não pode estar menor que 0.")
         .max(100, "O valor não pode estar maior que 100."),
     parcela: Yup.array()

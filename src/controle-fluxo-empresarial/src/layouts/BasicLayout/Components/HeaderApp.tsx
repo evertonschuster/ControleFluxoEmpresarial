@@ -23,7 +23,7 @@ const HeaderApp: React.FC<Props> = (props) => {
     }
 
     return (
-        <Header style={{ background: '#fff', padding: 0, userSelect: "none" }}>
+        <Header style={{ background: '#fff', padding: 0, userSelect: "none", boxShadow: "aliceblue" }}>
 
             <Row type="flex" align="middle" gutter={20} >
                 <Col span={18} className="gutter-row">

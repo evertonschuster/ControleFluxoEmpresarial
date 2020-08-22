@@ -2,7 +2,8 @@ import { FormaPagamento } from "./FormaPagamento";
 
 export interface CondicaoPagamentoParcela {
     id?: number;
-    formaPagamento: FormaPagamento,
+    formaPagamentoId: number,
+    formaPagamento?: FormaPagamento,
     numeroDias: number,
     percentual: number,
 }

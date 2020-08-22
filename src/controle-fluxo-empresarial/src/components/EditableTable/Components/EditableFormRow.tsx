@@ -33,4 +33,4 @@ const EditableFormRow: React.FC<Props> = (props) => {
     )
 }
 
-export default memo(EditableFormRow, () => false);
+export default memo(EditableFormRow);

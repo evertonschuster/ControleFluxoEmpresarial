@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.compose
 {
-    public abstract class DAO<TEntity> : BaseDAO<TEntity>, IDAO where TEntity : class, IBaseEntity
+    public abstract class DAO<TEntity, TID> : BaseDAO<TEntity>, IDAO
+                                        where TEntity : class, IBaseEntity
+                                        where TID : new()
     {
         private string TableName { get; }
         private string[] PropertiesId { get; }
@@ -31,7 +33,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             this.Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Delete(object ids, bool commit = true)
+        public void Delete(TID ids, bool commit = true)
         {
             var sql = $@"DELETE FROM {this.TableName} 
                         WHERE {this.PropertiesId.FormatProperty(e => $"{e} = @{e}", "and")}";
@@ -44,9 +46,14 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             this.Delete(entity, commit);
         }
 
-        public TEntity GetByID(object ids)
+        public TEntity GetByID(TID ids)
         {
-            throw new NotImplementedException();
+            var sql = $@"SELECT {this.PropertiesId.FormatProperty()}, {this.Property.FormatProperty()}
+                          FROM {this.TableName} 
+                        WHERE {this.PropertiesId.FormatProperty(e => $"{e} = @{e} ")}";
+
+
+            return base.ExecuteGetFirstOrDefault(sql, parameters: ids);
         }
 
         public PaginationResult<TEntity> GetPagined(PaginationQuery filter)
@@ -54,14 +61,14 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             throw new NotImplementedException();
         }
 
-        public object[] Insert(TEntity entity, bool commit = true)
+        public TID Insert(TEntity entity, bool commit = true)
         {
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} )
                          VALUES ( {this.Property.FormatProperty(e => $"@{e}")} )";
 
             this.ExecuteScriptInsert(sql, entity, commit);
 
-            return null;
+            return new TID() { };
         }
 
         public void Update(TEntity entity, bool commit = true)

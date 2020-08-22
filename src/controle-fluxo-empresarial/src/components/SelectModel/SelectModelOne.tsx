@@ -43,9 +43,9 @@ const SelectModelOne: React.FC<Props> = (props) => {
     const showLabel = props.showLabel ?? true;
     const [field, meta, helpers] = useField(props.name);
     const [, , helpersObject] = useField(props.objectName ?? props.name); //Todo
-    const { setSubmitting } = useFormikContext();
+    const { setSubmitting, isSubmitting } = useFormikContext();
     const showDescription = props.showDescription !== false;
-
+    console.log({ error: meta.error, touched: meta.touched })
     useEffect(() => {
         let id = field.value;
         handleClick(id);
@@ -62,9 +62,11 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     helpersObject.setValue(respose.data)
                 }
             } else {
+                helpersObject.setValue(null)
                 setDescription("");
             }
         } else {
+            helpersObject.setValue(null)
             setDescription("")
         }
     }
@@ -85,7 +87,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
     }, 500);
 
     function onChangeId(value: any | undefined) {
-        helpers.setValue(value);
+        helpers.setValue(value ?? null);
         helpers.setTouched(true);
     }
 
@@ -111,7 +113,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     </Col>
                     <Col span={(props.col?.btnSearch) ?? (showDescription ? 3 : 5)} style={{ textAlign: "center" }} >
                         <WithItemNone showLabel={showLabel} padding={false} >
-                            <Button type="primary" icon="search" onClick={() => setVisible(true)} ></Button>
+                            <Button type="primary" icon={isSubmitting ? "loading" : "search"} onClick={() => setVisible(true)} ></Button>
                         </WithItemNone>
                     </Col>
                     {showDescription && <Col span={(props.col?.inputDescription) ?? 13} >

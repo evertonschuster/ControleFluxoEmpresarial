@@ -79,7 +79,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
             foreach (var servicoId in removeServicoIds)
             {
-                this.FuncionarioServicoDAO.Delete(new { FuncionarioId = entity.Id, ServicoId = servicoId }, false);
+                this.FuncionarioServicoDAO.Delete((servicoId, entity.Id), false);
             }
 
             foreach (var servicoId in insertServicoId)

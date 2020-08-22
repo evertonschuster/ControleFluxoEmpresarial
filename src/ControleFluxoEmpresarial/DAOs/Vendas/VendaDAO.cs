@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Vendas
 {
-    public class VendaDAO : DAO<Venda>
+    public class VendaDAO : DAO<Venda, (string numero, string serie, string modelo)>
     {
-        public VendaDAO(DataBaseConnection context, string tableName, params string[] propertiesIds) : base(context, tableName, propertiesIds)
+        public VendaDAO(DataBaseConnection context) : base(context, "Vendas", new string[] { "numero", "serie", "modelo" })
         {
         }
 

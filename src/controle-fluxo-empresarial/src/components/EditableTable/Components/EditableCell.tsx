@@ -12,20 +12,20 @@ export interface Props {
     renderEditable?: (text: any, record: any, index: number) => React.ReactNode;
     rowIndex: number;
     type?: TypeAttribute;
+    style?: any;
 }
 
 const EditableCell: React.FC<Props> = (props) => {
 
-
     if (props.record === undefined || props.record.rowMode === RowMode.view) {
         return (
-            <td> {props.children} </td>
+            <td style={props.style}> {props.children} </td>
         );
     }
 
     if (isFunction(props.renderEditable)) {
         return (
-            <td>
+            <td style={props.style}>
                 {props.renderEditable(props.record[props.dataIndex], props.record, props.rowIndex)}
             </td>
         );
@@ -33,14 +33,14 @@ const EditableCell: React.FC<Props> = (props) => {
 
     if (props.type === TypeAttribute.number) {
         return (
-            <td>
+            <td style={props.style}>
                 <InputNumber label="" name={props.dataIndex} decimalSeparator=","></InputNumber>
             </td>
         )
     }
 
     return (
-        <td>
+        <td style={props.style}>
             <Input label="" name={props.dataIndex}></Input>
         </td>
     );

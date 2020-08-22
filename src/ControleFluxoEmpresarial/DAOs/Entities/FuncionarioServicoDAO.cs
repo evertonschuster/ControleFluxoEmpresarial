@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Entities
 {
-    public class FuncionarioServicoDAO : DAO<FuncionarioServico>
+    public class FuncionarioServicoDAO : DAO<FuncionarioServico, (int servicoId, int funcionarioId)>
     {
 
         public FuncionarioServicoDAO(DataBaseConnection context) : base(context, "FuncionarioServicos", new string[] { "ServicoId", "FuncionarioId" })
