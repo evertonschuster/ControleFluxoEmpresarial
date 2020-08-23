@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import api from './Api.configure';
 import { IBaseEntity, PaginationResult, PaginationQuery } from '../models/BaseEntity';
 
-export class ApiBase<T extends IBaseEntity<any>> {
+export class ApiBaseGenerics<T extends IBaseEntity<any>, TId> {
 
     EndPoint: string;
 
@@ -19,20 +19,23 @@ export class ApiBase<T extends IBaseEntity<any>> {
         return api.put(`${this.EndPoint}/${t.id}`, t);
     }
 
-    GetById(id: number): Promise<AxiosResponse<T>> {
-        return api.get(`${this.EndPoint}/${id.toString()}`);
+    GetById(id: TId): Promise<AxiosResponse<T>> {
+        return api.get(`${this.EndPoint}/${id}`);
     }
 
-    Excluir(id: number): Promise<AxiosResponse<any>> {
-        return api.delete(`${this.EndPoint}/${id.toString()}`);
+    Excluir(id: TId): Promise<AxiosResponse<any>> {
+        return api.delete(`${this.EndPoint}/${id}`);
     }
 
     GetListPagined(query: PaginationQuery): Promise<AxiosResponse<PaginationResult<T>>> {
         return api.post(`${this.EndPoint}/list`, query);
     }
 
-    Desativar(id: number): Promise<AxiosResponse<any>> {
-        return api.put(`${this.EndPoint}/desativar/${id.toString()}`);
+    Desativar(id: TId): Promise<AxiosResponse<any>> {
+        return api.put(`${this.EndPoint}/desativar/${id}`);
     }
 }
 
+export class ApiBase<T extends IBaseEntity<any>> extends ApiBaseGenerics<T, number> {
+
+}

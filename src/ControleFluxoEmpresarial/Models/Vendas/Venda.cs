@@ -37,6 +37,8 @@ namespace ControleFluxoEmpresarial.Models.Vendas
 
         public DateTime? Situacao { get; set; }
         public DateTime DataCriacao { get; set; }
-        public DateTime DataAtualizacao { get; set; }
+        public DateTime? DataAtualizacao { get; set; }
+        public Guid UserCriacao { get; set; }
+        public Guid? UserAtualizacao { get; set; }
     }
 }

@@ -58,10 +58,18 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
         {
             try
             {
-                var sql = $@"INSERT INTO CondicaoPagamentoParcelas ( NumeroDias, Percentual, CondicaoPagamentosId, FormaPagamentoId)
-                         VALUES (@NumeroDias, @Percentual, @condicaoPagamentoId, @formaPagamentoId)";
+                var sql = $@"INSERT INTO CondicaoPagamentoParcelas ( NumeroDias, Percentual, CondicaoPagamentosId, FormaPagamentoId, DataCriacao, UserCriacao)
+                         VALUES (@NumeroDias, @Percentual, @condicaoPagamentoId, @formaPagamentoId, @DataCriacao, @UserCriacao)";
 
-                return base.ExecuteScriptInsert(sql, new { entity.NumeroDias, entity.Percentual, condicaoPagamentoId, formaPagamentoId = entity.FormaPagamentoId }, commit);
+                return base.ExecuteScriptInsert(sql, new
+                {
+                    entity.NumeroDias,
+                    entity.Percentual,
+                    condicaoPagamentoId,
+                    formaPagamentoId = entity.FormaPagamentoId,
+                    DataCriacao = DateTime.Now,
+                    UserCriacao = this.Context.UserRequest.Id
+                }, commit);
             }
             finally
             {
@@ -87,10 +95,20 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             var sql = $@"UPDATE CondicaoPagamentoParcelas 
                         SET NumeroDias = @NumeroDias,
                         Percentual = @Percentual,
-                        FormaPagamentoId = @formaPagamentoId
+                        FormaPagamentoId = @formaPagamentoId,
+                        DataAtualizacao= @DataAtualizacao,
+                        UserAtualizacao = @UserAtualizacao
                         WHERE Id = @Id";
 
-            base.ExecuteScript(sql, new { entity.NumeroDias, entity.Percentual, formaPagamentoId = entity.FormaPagamentoId, entity.Id }, commit);
+            base.ExecuteScript(sql, new
+            {
+                entity.NumeroDias,
+                entity.Percentual,
+                formaPagamentoId = entity.FormaPagamentoId,
+                DataAtualizacao = DateTime.Now,
+                UserAtualizacao = this.Context.UserRequest.Id,
+                entity.Id
+            }, commit);
         }
 
         public override PaginationResult<CondicaoPagamentoParcela> GetPagined(PaginationQuery filter)

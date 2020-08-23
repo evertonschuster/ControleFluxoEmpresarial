@@ -122,7 +122,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <DatePicker  name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" format="DD/MM/yyyy" />
+                    <DatePicker name="dataNascimento" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "Data Nascimento" : "Data de Fundação"} placeholder="01/01/2001" format="DD/MM/yyyy" />
                 </Col>
 
                 <Col span={6} hidden={fieldTipoPessoa.value === TIPO_PESSOA.Juridica}>
@@ -140,7 +140,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={4}>
-                    <InputCPFCNPJ name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} />
+                    <InputCPFCNPJ name="cpfcpnj" label={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "CPF" : "CNPJ"} placeholder={fieldTipoPessoa.value === TIPO_PESSOA.Fisica ? "000.000.000-00" : "99.999.999/0001-84"} required={fieldNacionalidade.value === NATIONALITY_TYPE.BRASILEIRO} />
                 </Col>
 
                 <Col span={3}>

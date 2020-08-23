@@ -80,6 +80,9 @@ CREATE TABLE Paises (
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
     Situacao TIMESTAMP WITH TIME ZONE,
 
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
+
     CONSTRAINT PK_Paises PRIMARY KEY (Id)
 );
 
@@ -90,7 +93,10 @@ CREATE TABLE Estados (
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
     Situacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
     PaisId INTEGER NOT NULL,
+    
 
     CONSTRAINT PK_Estados PRIMARY KEY (Id),
     CONSTRAINT FK_Estados_Paises_PaisId FOREIGN KEY (PaisId) REFERENCES Paises (Id) 
@@ -103,6 +109,8 @@ CREATE TABLE Cidades (
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
     Situacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
     EstadoId INTEGER NOT NULL,
 
     CONSTRAINT PK_Cidades PRIMARY KEY (Id),
@@ -114,6 +122,8 @@ CREATE TABLE FormaPagamentos (
     Nome  VARCHAR(50) NOT NULL,
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
     Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Forma_Pagamentos PRIMARY KEY (Id)
@@ -127,6 +137,8 @@ CREATE TABLE CondicaoPagamentos (
 	Desconto DECIMAL NOT NULL,
 	DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
     Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Condicao_Pagamentos PRIMARY KEY (Id)
@@ -140,6 +152,8 @@ CREATE TABLE CondicaoPagamentoParcelas (
 	FormaPagamentoId INTEGER NOT NULL,
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 
     CONSTRAINT PK_Condicao_Pagamento_Parcelas PRIMARY KEY (Id),
 	FOREIGN KEY (CondicaoPagamentosId) REFERENCES CondicaoPagamentos (Id) ,
@@ -151,6 +165,8 @@ CREATE TABLE Categorias (
     Nome  VARCHAR(50) NOT NULL,
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
     Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Categorias PRIMARY KEY (Id)
@@ -165,6 +181,8 @@ CREATE TABLE FuncaoFuncionarios (
     Observacao VARCHAR(255) NULL,
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
     Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_FuncaoFuncionarios PRIMARY KEY (Id)
@@ -175,6 +193,8 @@ CREATE TABLE Marcas (
     Nome VARCHAR(50) NOT NULL,
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Marcas PRIMARY KEY (Id)
@@ -185,6 +205,8 @@ CREATE TABLE UnidadesMedida (
     Nome VARCHAR(50) NOT NULL,
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_UnidadesMedida PRIMARY KEY (Id)
@@ -216,6 +238,8 @@ CREATE TABLE Clientes (
 
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Clientes PRIMARY KEY (Id),
@@ -245,6 +269,8 @@ CREATE TABLE Fornecedores (
    
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Fornecedores PRIMARY KEY (Id),
@@ -269,6 +295,8 @@ CREATE TABLE Produtos (
 
 	DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Produtos PRIMARY KEY (Id),
@@ -308,6 +336,8 @@ CREATE TABLE Funcionarios (
 	
   	DataCriacao TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 	
     CONSTRAINT PK_Funcionarios PRIMARY KEY (Id),
@@ -326,6 +356,8 @@ CREATE TABLE Servicos (
 
 	DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao UUID NOT NULL,
+    UserAtualizacao UUID NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
 
     CONSTRAINT PK_Servicos PRIMARY KEY (Id),

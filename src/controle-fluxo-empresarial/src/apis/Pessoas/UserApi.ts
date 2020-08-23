@@ -4,11 +4,11 @@ import LoginUserModel from '../../models/Pessoas/LoginUser';
 import AuthenticatedUser from '../../models/Pessoas/AuthenticatedUser';
 import UserModel from '../../models/Pessoas/UserModel';
 import UserChangePasswordModel from '../../models/Pessoas/UserChangePasswordModel';
-import { ApiBase } from '../Api';
+import { ApiBase, ApiBaseGenerics } from '../Api';
 
 export const endPoint: string = 'api/user';
 
-class Api extends ApiBase<UserModel>{
+class Api extends ApiBaseGenerics<UserModel, string>{
 
     constructor() {
         super(endPoint);
@@ -17,7 +17,7 @@ class Api extends ApiBase<UserModel>{
     TryLoginUser(user: LoginUserModel): Promise<AxiosResponse<AuthenticatedUser>> {
         return api.post(endPoint + "/authorize", user);
     }
-    
+
     ChangePasswordUser(user: UserChangePasswordModel): Promise<AxiosResponse<any>> {
         return api.put(endPoint + "/Change-Password", user);
     }

@@ -20,15 +20,15 @@ const RegisterUserGeneral: React.FC<RouteComponentProps & RouteComponentProps<an
         getUser(props.match.params.id);
     }, [props.match.params.id])
 
-    async function getUser(id: number) {
+    async function getUser(id: string) {
         if (!id) {
             return;
         }
 
         try {
             setLoading(true);
-            let bdestado = await UserApi.GetById(id);
-            setUserModel(bdestado.data);
+            let bdUser = await UserApi.GetById(id);
+            setUserModel(bdUser.data);
         }
         finally {
             setLoading(false);

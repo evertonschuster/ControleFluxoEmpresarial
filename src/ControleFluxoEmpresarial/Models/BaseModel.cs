@@ -18,7 +18,11 @@ namespace ControleFluxoEmpresarial.Models
 
         public DateTime DataCriacao { get; set; }
 
-        public DateTime DataAtualizacao { get; set; }
+        public Guid UserCriacao { get; set; }
+
+        public DateTime? DataAtualizacao { get; set; }
+
+        public Guid? UserAtualizacao { get; set; }
     }
 
 
@@ -37,8 +41,10 @@ namespace ControleFluxoEmpresarial.Models
     public interface IBaseAuditoria
     {
         DateTime DataCriacao { get; set; }
+        Guid UserCriacao { get; set; }
 
-        DateTime DataAtualizacao { get; set; }
+        DateTime? DataAtualizacao { get; set; }
+        Guid? UserAtualizacao { get; set; }
     }
 
 }

@@ -1,17 +1,12 @@
-﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.Architectures.Helper;
+﻿using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
-using ControleFluxoEmpresarial.Models.Cidades;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.simple
 {
@@ -130,25 +125,26 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} {(!this.AutoIncrement ? $", {this.PropertyId} " : "")})
                          VALUES ({this.Property.FormatProperty(e => $"@{e}")}  {(!this.AutoIncrement ? $", @{this.PropertyId} " : "")})";
 
-            if (entity is IBaseAuditoria)
+            if (entity is IBaseAuditoria auditoria)
             {
-                ((IBaseAuditoria)entity).DataCriacao = DateTime.Now;
-                ((IBaseAuditoria)entity).DataAtualizacao = DateTime.Now;
+                auditoria.DataCriacao = DateTime.Now;
+                auditoria.UserCriacao = this.Context.UserRequest.Id;
             }
             return this.ExecuteScriptInsert(sql, entity, commit);
         }
 
         public virtual void Update(TEntity entity, bool commit = true)
         {
-            var property = this.Property.Where(e => e != nameof(IBaseAuditoria.DataCriacao));
+            var property = this.Property.Where(e => e != nameof(IBaseAuditoria.DataCriacao) && e != nameof(IBaseAuditoria.UserCriacao));
 
             var sql = $@"UPDATE {this.TableName} 
                         SET {property.FormatProperty(e => $"{e}=@{e}")}
                         WHERE {this.PropertyId} = @Id";
 
-            if (entity is IBaseAuditoria)
+            if (entity is IBaseAuditoria auditoria)
             {
-                ((IBaseAuditoria)entity).DataAtualizacao = DateTime.Now;
+                auditoria.DataAtualizacao = DateTime.Now;
+                auditoria.UserAtualizacao = this.Context.UserRequest.Id;
             }
             base.ExecuteScript(sql, entity, commit);
         }

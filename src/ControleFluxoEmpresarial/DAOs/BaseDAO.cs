@@ -14,7 +14,7 @@ namespace ControleFluxoEmpresarial.DAOs
     public abstract class BaseDAO<TEntity> : IDAO
     {
         public string[] PropertiesIds { get; }
-        private DataBaseConnection Context { get; }
+        protected DataBaseConnection Context { get; }
         public DbTransaction Transaction { get; set; }
         public DbConnection Connection { get { return this.Context.Database.GetDbConnection(); } }
 

@@ -62,8 +62,9 @@ namespace ControleFluxoEmpresarial.Controllers.Users
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim("Id", user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(356),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

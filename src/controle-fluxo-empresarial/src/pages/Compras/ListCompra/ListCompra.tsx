@@ -28,15 +28,11 @@ const ListCompra: React.FC = () => {
         },
     ];
 
-
-
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Categorias", URL: "/categoria" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}
-                deleteFunction={CompraApi.Excluir.bind(CompraApi)}
-                desativarFunction={CompraApi.Desativar.bind(CompraApi)}
                 columns={columns} />
 
         </FormBasicLayout>

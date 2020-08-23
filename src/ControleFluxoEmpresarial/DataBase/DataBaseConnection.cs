@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Common;
+using ControleFluxoEmpresarial.DTO.Users;
 
 namespace ControleFluxoEmpresarial.DataBase
 {
@@ -25,12 +26,14 @@ namespace ControleFluxoEmpresarial.DataBase
 
     public class DataBaseConnection : DataBaseConnectionApplication, IDisposable
     {
-        public DataBaseConnection(DbContextOptions<DataBaseConnectionApplication> options) : base(options)
+        public DataBaseConnection(DbContextOptions<DataBaseConnectionApplication> options, UserRequest userRequest) : base(options)
         {
+            this.UserRequest = userRequest;
             this.Transaction = this.CreateTransaction();
         }
 
         public DbTransaction Transaction { get; }
+        public UserRequest UserRequest { get; set; }
 
 
         public DbTransaction CreateTransaction()

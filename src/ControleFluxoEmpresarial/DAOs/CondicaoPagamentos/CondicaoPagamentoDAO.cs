@@ -31,9 +31,11 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             entity.Multa = reader.GetDecimal("Multa");
             entity.Juro = reader.GetDecimal("Juro");
             entity.Desconto = reader.GetDecimal("Desconto");
-            entity.DataAtualizacao = reader.GetDateTime("DataAtualizacao");
+            entity.DataAtualizacao = reader.IsDBNull("DataAtualizacao") ? null as DateTime? : reader.GetDateTime("DataAtualizacao");
             entity.DataCriacao = reader.GetDateTime("DataCriacao");
-            entity.Situacao = (reader.IsDBNull("Situacao") ? null as DateTime?: reader.GetDateTime("Situacao"));
+            entity.Situacao = reader.IsDBNull("Situacao") ? null as DateTime? : reader.GetDateTime("Situacao");
+            entity.UserCriacao = reader.GetGuid("UserCriacao");
+            entity.UserAtualizacao = reader.IsDBNull("UserAtualizacao") ? null as Guid? : reader.GetGuid("UserAtualizacao");
 
             return entity;
         }
@@ -71,11 +73,11 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
         {
             try
             {
-                var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao, Situacao)
-                         VALUES (@Nome, @Juro, @Multa, @Desconto, @DataAtualizacao, @DataCriacao, @Situacao)";
+                var sql = $@"INSERT INTO CondicaoPagamentos (Nome, Juro, Multa, Desconto, DataAtualizacao, DataCriacao, Situacao, UserCriacao)
+                         VALUES (@Nome, @Juro, @Multa, @Desconto, @DataAtualizacao, @DataCriacao, @Situacao, @UserCriacao)";
 
-                entity.DataAtualizacao = DateTime.Now;
                 entity.DataCriacao = DateTime.Now;
+                entity.UserCriacao = this.Context.UserRequest.Id;
 
                 var id = base.ExecuteScriptInsert(sql, entity, false);
 
@@ -114,8 +116,9 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                         Juro = @Juro,
                         Multa = @Multa,
                         Desconto = @Desconto,
+                        Situacao = @Situacao ,
                         DataAtualizacao= @DataAtualizacao,
-                        Situacao = @Situacao 
+                        UserAtualizacao = @UserAtualizacao
 
                         WHERE Id = @Id";
 
@@ -139,6 +142,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
             this.Transaction = this.CondicaoPagamentoParcelaDAO.Transaction;
             entity.DataAtualizacao = DateTime.Now;
+            entity.UserAtualizacao = this.Context.UserRequest.Id;
 
             base.ExecuteScript(sql, entity);
 

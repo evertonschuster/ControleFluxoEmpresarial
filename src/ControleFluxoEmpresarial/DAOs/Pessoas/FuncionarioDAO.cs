@@ -101,7 +101,10 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
         public override Funcionario GetByID(int id)
         {
             var funcionario = base.GetByID(id);
-            funcionario.Servicos = this.ServicoDAO.GetInFuncionario(id);
+            if (null != funcionario)
+            {
+                funcionario.Servicos = this.ServicoDAO.GetInFuncionario(id);
+            }
 
             return funcionario;
         }

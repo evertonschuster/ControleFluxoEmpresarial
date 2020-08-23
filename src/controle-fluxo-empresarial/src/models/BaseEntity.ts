@@ -3,13 +3,13 @@ export interface BaseEntity extends IBaseEntity<number> {
 
 export interface IBaseEntity<TId> {
     id?: TId;
-    DataCriacao?: Date;
-    DataAtualizacao?: Date;
+    dataCriacao?: Date;
+    dataAtualizacao?: Date;
 }
 
 export interface IBaseEntity2 {
-    DataCriacao?: Date;
-    DataAtualizacao?: Date;
+    dataCriacao?: Date;
+    dataAtualizacao?: Date;
 }
 
 export interface PaginationQuery {

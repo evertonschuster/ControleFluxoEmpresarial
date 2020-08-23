@@ -1,8 +1,10 @@
-import React, { forwardRef, useImperativeHandle, useEffect } from 'react'
+import React, { forwardRef, useImperativeHandle, useEffect, useState } from 'react'
 import { FormikProps, isFunction, useFormikContext } from 'formik'
 import { Icon, Form, Row, Col, Button, Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { useDebouncedCallback } from '../../../hoc/useDebouncedCallback';
+import { formatDataWithHour } from '../../../utils/FormatNumber';
+import { UserApi } from '../../../apis/Pessoas/UserApi';
 
 export interface Props {
     isLoading?: boolean;
@@ -10,6 +12,7 @@ export interface Props {
     children?: ((props: FormikProps<any>) => React.ReactNode) | React.ReactNode;
     onKeyDown: (event: React.KeyboardEvent<HTMLFormElement>) => void;
     initialValues: any;
+    renderFooter?: (formik: FormikProps<any>) => React.ReactNode | null;
 }
 
 export interface FormikFormRef {
@@ -23,14 +26,21 @@ interface FormData {
 
 const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((props, ref) => {
     const history = useHistory();
-    const formik = useFormikContext();
+    const formik = useFormikContext<any>();
     const keyLocalStorage = `form-chache${history.location.pathname.toLowerCase()}`;
+    const [userCriacao, setUserCriacao] = useState<string | undefined | null>(undefined)
+    const [userAtualizacao, setUserAtualizacao] = useState<string | undefined | null>(undefined)
 
 
     useEffect(() => {
         verefiSavedForm();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        loadUserName()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [formik.values]);
 
     useImperativeHandle(ref, () => ({
         removeSavedFormLocalStorageForm
@@ -47,6 +57,35 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
 
     function removeSavedFormLocalStorageForm() {
         localStorage.removeItem(keyLocalStorage);
+    }
+
+    async function loadUserName() {
+        if (formik?.values?.userCriacao) {
+            let userName = await getUserNameStorage(formik?.values?.userCriacao)
+            setUserCriacao(userName ?? null)
+        } else {
+            setUserCriacao(null)
+        }
+
+        if (formik?.values?.userAtualizacao) {
+            let userName = await getUserNameStorage(formik?.values?.userAtualizacao)
+            setUserAtualizacao(userName ?? null)
+        } else {
+            setUserAtualizacao(null)
+        }
+    }
+
+    async function getUserNameStorage(id: string) {
+        let userName = localStorage.getItem(id);
+
+        if (!userName) {
+            userName = (await UserApi.GetById(id)).data.userName!
+            if (userName) {
+                localStorage.setItem(id, userName)
+            }
+        }
+
+        return userName;
     }
 
     function getFormLocalStorage() {
@@ -73,6 +112,7 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
         saveFormLocalStorage();
         props.onKeyDown(event);
     }
+
 
     function renderLoading(isLoading: boolean) {
 
@@ -101,26 +141,15 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
         return (
             <>
                 <span style={{ textAlign: "end" }} >
-                    Data Criação: {formik.values?.dataCriacao ? new Date(formik.values?.dataCriacao).toLocaleString(undefined, {
-                    day: "numeric",
-                    month: "numeric",
-                    year: "numeric",
-
-                    hour: "numeric",
-                    minute: "numeric"
-                }) : "  /  /"}</span>
+                    Criado por: <span style={{ fontWeight: "bold" }}>{userCriacao ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"}</span>
+                </span>
                 <span style={{ textAlign: "end" }} >
-                    Data Atualização: {formik.values?.dataAtualizacao ? new Date(formik.values.dataAtualizacao)?.toLocaleString(undefined, {
-                    day: "numeric",
-                    month: "numeric",
-                    year: "numeric",
-
-                    hour: "numeric",
-                    minute: "numeric"
-                }) : "  /  /"}</span>
+                    Atualizado por: <span style={{ fontWeight: "bold" }}>{userAtualizacao ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataAtualizacao ? formatDataWithHour(formik.values?.dataAtualizacao) : "  /  /"}</span>
+                </span>
             </>
         )
     }
+
 
     return (
         <Form onKeyUp={onKeyDown} >
@@ -130,20 +159,23 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
                 ? props.children(formik)
                 : props.children}
 
-            < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
-                <Col span={7}
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        paddingRight: 20
-                    }}>
-                    {renderDatas(formik)}
-                </Col>
-                <Col>
-                    <Button type="danger" style={{ marginRight: "10px" }} onClick={() => history.push(props.backPath)}>Cancelar</Button>
-                    <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
-                </Col>
-            </Row>
+            {isFunction(props.renderFooter)
+                ? props.renderFooter(formik)
+                : < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
+                    <Col span={7}
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            paddingRight: 20
+                        }}>
+                        {renderDatas(formik)}
+                    </Col>
+                    <Col>
+                        <Button type="danger" style={{ marginRight: "10px" }} onClick={() => history.push(props.backPath)}>Cancelar</Button>
+                        <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
+                    </Col>
+                </Row>
+            }
         </Form>
     )
 })

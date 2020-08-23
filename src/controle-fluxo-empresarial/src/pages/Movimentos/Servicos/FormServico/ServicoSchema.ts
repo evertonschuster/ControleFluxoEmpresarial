@@ -14,6 +14,7 @@ export const ServicoSchema = Yup.object().shape<Servico>({
         .required("Informe o valor."),
 
     categoriaId: Yup.number()
+        .typeError("Informe a Categoria.")
         .required("Informe a Categoria.")
         .min(0, "Informe a Categoria."),
 

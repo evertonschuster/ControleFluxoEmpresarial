@@ -1,6 +1,6 @@
 import React from 'react'
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api'
-import { Input, DatePicker } from '../../../../components/WithFormItem/withFormItem'
+import { Input, DatePicker, TextArea } from '../../../../components/WithFormItem/withFormItem'
 import { Row, Col } from 'antd'
 import CondicaoPagamentoSelection from './CondicaoPagamentoSelection'
 import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
@@ -66,6 +66,12 @@ const CompraPrincipal: React.FC = () => {
                 </Col>
                 <Col span={3}>
                     <DatePicker name="dataChegada" label="Data Chegada" required />
+                </Col>
+            </Row>
+
+            <Row>
+                <Col span={12}>
+                    <TextArea name="observacao" label="Observações" rows={5} />
                 </Col>
             </Row>
 

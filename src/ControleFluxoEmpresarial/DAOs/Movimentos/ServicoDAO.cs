@@ -104,8 +104,11 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         public override Servico GetByID(int id)
         {
             var servico = base.GetByID(id);
+            if (servico != null)
+            {
+                servico.Funcionarios = this.FuncionarioDAO.GetInServico(id);
+            }
 
-            servico.Funcionarios = this.FuncionarioDAO.GetInServico(id);
 
             return servico;
         }

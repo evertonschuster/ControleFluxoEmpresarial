@@ -25,8 +25,8 @@ export interface Props<T> {
     tableProps: ListItem<T>;
     columns: ColumnProps<T>[];
     keyProp?: string;
-    deleteFunction?: (id: number) => void
-    desativarFunction?: (id: number) => void
+    deleteFunction?: (id: any) => void
+    desativarFunction?: (id: any) => void
 }
 
 const ListForm: React.FC<Props<any>> = (props) => {

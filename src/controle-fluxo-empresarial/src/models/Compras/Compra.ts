@@ -6,6 +6,7 @@ export interface Compra extends IBaseEntity2 {
     modelo?: string | null;
     serie?: string | null;
     fornecedorId?: number | null;
+    observacao?: string | null;
 
     compraProdutos?: CompraProduto[] | null;
     total?: number | null;

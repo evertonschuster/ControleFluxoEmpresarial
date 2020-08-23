@@ -88,6 +88,9 @@ export const ClienteSchema = Yup.object().shape<Cliente>({
         .max(10, "O Número não pode ter mais de 10 caracteres.")
         .required("Informe o Número."),
 
-    condicaoPagamentoId: Yup.number().required("Informe a Condição de pagemento."),
+    condicaoPagamentoId: Yup.number()
+        .nullable()
+        .typeError("Informe a Condição de pagemento.")
+        .required("Informe a Condição de pagemento."),
 
 });

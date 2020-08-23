@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,9 @@ namespace ControleFluxoEmpresarial.Architectures
     {
         public static void AddIdentityConfig(this IServiceCollection services)
         {
+
+            services.AddScoped<UserRequest>();
+
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                .AddEntityFrameworkStores<DataBaseConnectionApplication>()
                .AddDefaultTokenProviders();

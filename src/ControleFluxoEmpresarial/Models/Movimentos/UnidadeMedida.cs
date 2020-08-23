@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Movimentos
 {
-    public class UnidadeMedida : IBaseSituacao, IBaseModel<string>
+    public class UnidadeMedida : IBaseSituacao, IBaseModel<string>, IBaseAuditoria
     {
         public string Id { get; set; }
 
@@ -15,10 +15,13 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
 
         public DateTime DataCriacao { get; set; }
 
-        public DateTime DataAtualizacao { get; set; }
-        
+        public DateTime? DataAtualizacao { get; set; }
+
         public DateTime? Situacao { get; set; }
 
+        public Guid UserCriacao { get; set; }
+
+        public Guid? UserAtualizacao { get; set; }
     }
 
     public class UnidadeMedidaValidator : AbstractValidator<UnidadeMedida>

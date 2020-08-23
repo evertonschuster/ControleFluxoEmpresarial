@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Compra } from '../../../models/Compras/Compra';
 import { useParams } from 'react-router-dom';
-import { FormikHelpers } from 'formik';
+import { FormikHelpers, FormikProps } from 'formik';
 import CompraPrincipal from './components/CompraPrincipal';
+import { formatDataWithHour } from '../../../utils/FormatNumber';
+import { Row, Col } from 'antd';
 
 const FormCompra: React.FC = () => {
 
@@ -26,6 +28,21 @@ const FormCompra: React.FC = () => {
         // catch (e) {
         //     errorBack(formikHelpers, e, ["nome"]);
         // }
+    }
+
+    function renderFooter(formik: FormikProps<Compra>) {
+        return (
+            <Row>
+                <div>
+                    <span style={{ textAlign: "end" }} >
+                        Data Criação: {formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"}
+                    </span>
+                    <span style={{ textAlign: "end" }} >
+                        Data Atualização: {formik.values?.dataAtualizacao ? formatDataWithHour(formik.values?.dataAtualizacao) : "  /  /"}
+                    </span>
+                </div>
+            </Row>
+        )
     }
 
     return (
