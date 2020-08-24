@@ -33,6 +33,9 @@ import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/L
 import FormFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/FormFormaPagamento/FormFormaPagamento';
 import FormCompra from '../../../pages/Compras/FormCompra/FormCompra';
 import ListCompra from '../../../pages/Compras/ListCompra/ListCompra';
+import ListOrdemServico from '../../../pages/OrdemServico/ListOrdemServico/ListOrdemServico';
+import FormAberturaOrdemServico from '../../../pages/OrdemServico/AberturaOrdemServico/FormAberturaOrdemServico';
+import FormAndamentoOrdemServico from '../../../pages/OrdemServico/AndamentoOrdemServico/FormAndamentoOrdemServico';
 
 const RoutePath: React.FC = () => {
 
@@ -102,6 +105,9 @@ const RoutePath: React.FC = () => {
             <Route path="/compras/edit/:id" component={FormCompra} />
             <Route path="/compras/new" component={FormCompra} />
 
+            <Route path="/ordem-servico" component={ListOrdemServico} exact />
+            <Route path="/ordem-servico/new" component={FormAberturaOrdemServico} />
+            <Route path="/ordem-servico/andamento/:id" component={FormAndamentoOrdemServico} />
 
         </>
     );

@@ -29,6 +29,7 @@ export interface Props {
     showDescription?: boolean;
     objectName?: string;
     col?: ICol;
+    disabled?: boolean;
 }
 
 
@@ -45,7 +46,6 @@ const SelectModelOne: React.FC<Props> = (props) => {
     const [, , helpersObject] = useField(props.objectName ?? props.name); //Todo
     const { setSubmitting, isSubmitting } = useFormikContext();
     const showDescription = props.showDescription !== false;
-    console.log({ error: meta.error, touched: meta.touched })
     useEffect(() => {
         let id = field.value;
         handleClick(id);
@@ -105,20 +105,22 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     <Col span={(props.col?.inputId) ?? (showDescription ? 8 : 19)} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
                             {idIsInt ?
-                                <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} />
+                                <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} disabled={props.disabled} />
                                 :
-                                <InputAntd value={meta.value} onChange={(e) => onChangeId(e.target.value)} onBlur={onBlurId} ></InputAntd>
+                                <InputAntd value={meta.value} onChange={(e) => onChangeId(e.target.value)} onBlur={onBlurId} disabled={props.disabled}></InputAntd>
                             }
                         </ItemFormRender>
                     </Col>
-                    <Col span={(props.col?.btnSearch) ?? (showDescription ? 3 : 5)} style={{ textAlign: "center" }} >
-                        <WithItemNone showLabel={showLabel} padding={false} >
-                            <Button type="primary" icon={isSubmitting ? "loading" : "search"} onClick={() => setVisible(true)} ></Button>
-                        </WithItemNone>
-                    </Col>
-                    {showDescription && <Col span={(props.col?.inputDescription) ?? 13} >
+                    {props.disabled ? undefined :
+                        <Col span={(props.col?.btnSearch) ?? (showDescription ? 3 : 5)} style={{ textAlign: "center" }} >
+                            <WithItemNone showLabel={showLabel} padding={false} >
+                                <Button type="primary" icon={isSubmitting ? "loading" : "search"} onClick={() => setVisible(true)} disabled={props.disabled} />
+                            </WithItemNone>
+                        </Col>
+                    }
+                    {showDescription && <Col span={((props.col?.inputDescription) ?? 13) + (props.disabled ? (showDescription ? 3 : 5) : 0)} >
                         <WithItemNone showLabel={showLabel}>
-                            <InputAntd value={description} />
+                            <InputAntd value={description} disabled={props.disabled} />
                         </WithItemNone>
                     </Col>}
                 </Row>

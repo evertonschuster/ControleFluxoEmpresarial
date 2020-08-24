@@ -130,7 +130,6 @@ const ProdutoSelection: React.FC = () => {
             dataIndex: 'total',
             key: 'total',
             render: (_: number, record: CompraProduto) => {
-                console.log("record", record)
                 let total = (record.quantidade! * record.valor!) - record.desconto! + record.ipi!;
 
                 return formatNumber2(total)

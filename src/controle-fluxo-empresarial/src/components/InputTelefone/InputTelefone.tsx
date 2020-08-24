@@ -8,7 +8,8 @@ export interface Props {
     name: string;
     label: string;
     placeholder: string;
-    required?: boolean
+    required?: boolean;
+    disabled?: boolean;
 }
 
 const InputTelefone: React.FC<Props> = (props) => {
@@ -48,6 +49,7 @@ const InputTelefone: React.FC<Props> = (props) => {
                 render={(ref, propRender) => {
                     return (
                         <Input
+                            disabled={props.disabled}
                             ref={(input: any) => ref(input && input.input)}
                             value={meta.value}
                             placeholder={props.placeholder}

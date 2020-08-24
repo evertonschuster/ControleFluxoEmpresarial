@@ -2,7 +2,7 @@ import React, { memo, useMemo, useCallback } from 'react';
 import "./editable-table-style.css"
 import { ColumnProps, TableComponents } from 'antd/lib/table';
 import { Table, Form } from 'antd';
-import { useField } from 'formik';
+import { useField, isFunction } from 'formik';
 import EditableCell from './Components/EditableCell';
 import EditableCellAction from './Components/EditableCellAction';
 import EditableFormRow from './Components/EditableFormRow';
@@ -28,7 +28,7 @@ export interface ColumnEditableProps<T> extends ColumnProps<T> {
 
 export interface Props<T> {
     columns: ColumnEditableProps<T>[];
-    rowKey?: string;
+    rowKey?: string | ((item: T) => string);
     initiallValues: T;
     name: string;
     validationSchema?: any | (() => any);
@@ -44,7 +44,12 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
 
     const [field, meta, helpers] = useField(props.name);
-    const rowKey = useMemo(() => props.rowKey ?? "id", [props.rowKey]);
+    const rowKey = (item: any) => {
+        if (!props.rowKey) {
+            return "id"
+        }
+        return isFunction(props.rowKey) ? props.rowKey(item) : props.rowKey;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataSource = useMemo(() => mapRecord(field.value as any[]), [field.value]);
     const components: TableComponents = useMemo(() => {
@@ -125,7 +130,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
 
     function mapRecord(dataSource: RecordTable[]): RecordTable[] {
         return (dataSource || []).map((e) => {
-            return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? (e as any)[rowKey] ?? Date.now() }
+            return { ...e, rowMode: e.rowMode ?? RowMode.view, tableKey: e.tableKey ?? [rowKey(e)] ?? Date.now() }
         });
     }
 

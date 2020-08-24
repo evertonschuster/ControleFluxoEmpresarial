@@ -85,11 +85,6 @@ const FormCliente: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
             validationSchema={ClienteSchema}
             onSubmit={onSubmit}
         >
-
-            <DatePicker
-                format="DD.MM.YYYY"
-
-            ></DatePicker>
             <GeralForm />
 
         </CrudFormLayout>

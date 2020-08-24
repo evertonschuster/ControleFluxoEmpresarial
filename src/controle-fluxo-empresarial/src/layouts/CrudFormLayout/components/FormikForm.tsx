@@ -171,7 +171,7 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
                         {renderDatas(formik)}
                     </Col>
                     <Col>
-                        <Button type="danger" style={{ marginRight: "10px" }} onClick={() => history.push(props.backPath)}>Cancelar</Button>
+                        <Button type="danger" style={{ marginRight: "10px" }} onClick={() => history.push(props.backPath)}>Voltar</Button>
                         <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
                     </Col>
                 </Row>
