@@ -1,10 +1,11 @@
 import React from 'react'
 import DetalhesOS from './components/DetalhesOS'
-import { Collapse } from 'antd'
+import { Collapse, Row, Col } from 'antd'
 import SelecaoProdutosServicos from './components/SelecaoProdutosServicos';
 import { useField } from 'formik';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { TextArea } from '../../../../components/WithFormItem/withFormItem';
 const { Panel } = Collapse;
 
 const GeralForm: React.FC = () => {
@@ -38,6 +39,15 @@ const GeralForm: React.FC = () => {
             </Panel>
             <Panel header="Produtos e Serviço" key="produtosServicos" disabled={!dataInicio}>
                 <SelecaoProdutosServicos />
+
+                <Row>
+                    <Col span={12} >
+                        <TextArea name="descricaoOrdemServico" label="Descrição do Técnico" rows={3} />
+                    </Col>
+                    <Col span={12} >
+                        <TextArea name="observacaoTecnico" label="Observações do Técnico" rows={3} />
+                    </Col>
+                </Row>
             </Panel>
         </Collapse>
     )
