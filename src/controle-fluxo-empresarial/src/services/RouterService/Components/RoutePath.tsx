@@ -36,6 +36,8 @@ import ListCompra from '../../../pages/Compras/ListCompra/ListCompra';
 import ListOrdemServico from '../../../pages/OrdemServico/ListOrdemServico/ListOrdemServico';
 import FormAberturaOrdemServico from '../../../pages/OrdemServico/AberturaOrdemServico/FormAberturaOrdemServico';
 import FormAndamentoOrdemServico from '../../../pages/OrdemServico/AndamentoOrdemServico/FormAndamentoOrdemServico';
+import ListContaPagar from '../../../pages/ContaPagar/ListContaPagar/ListContaPagar';
+import FromContaPagar from '../../../pages/ContaPagar/FromContaPagar/FromContaPagar';
 
 const RoutePath: React.FC = () => {
 
@@ -108,6 +110,12 @@ const RoutePath: React.FC = () => {
             <Route path="/ordem-servico" component={ListOrdemServico} exact />
             <Route path="/ordem-servico/new" component={FormAberturaOrdemServico} />
             <Route path="/ordem-servico/andamento/:id" component={FormAndamentoOrdemServico} />
+
+            <Route path="/conta-pagar" component={ListContaPagar} exact />
+            <Route path="/conta-pagar/edit/:id" component={FromContaPagar} exact />
+            <Route path="/conta-pagar/new" component={FromContaPagar} exact />
+
+
 
         </>
     );

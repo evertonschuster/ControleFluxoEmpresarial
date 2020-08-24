@@ -16,3 +16,6 @@ Compra:
 - usuario que lançou a nota.
 - Observações
 
+
+Conta a receber
+	Tem form de cadastro?
