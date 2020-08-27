@@ -46,7 +46,7 @@ namespace ControleFluxoEmpresarial.DataBase
                 this.UserManager.CreateAsync(new ApplicationUser()
                 {
                     UserName = "Admin",
-                    Name = "Administrador do sistema",
+                    Name = "Administrador do Sistema",
                     Email = "string@string.com",
                     PhoneNumber = "45988293328"
                 }, "123456");

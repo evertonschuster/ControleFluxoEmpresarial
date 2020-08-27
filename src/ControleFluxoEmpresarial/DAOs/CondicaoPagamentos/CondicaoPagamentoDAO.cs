@@ -35,7 +35,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             entity.DataCriacao = reader.GetDateTime("DataCriacao");
             entity.Situacao = reader.IsDBNull("Situacao") ? null as DateTime? : reader.GetDateTime("Situacao");
             entity.UserCriacao = reader.GetString("UserCriacao");
-            entity.UserAtualizacao = reader.GetString("UserAtualizacao");
+            entity.UserAtualizacao = reader.IsDBNull("UserAtualizacao") ? null : reader.GetString("UserAtualizacao");
 
             return entity;
         }
