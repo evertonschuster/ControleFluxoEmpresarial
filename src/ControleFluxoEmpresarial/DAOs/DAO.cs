@@ -128,7 +128,7 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             if (entity is IBaseAuditoria auditoria)
             {
                 auditoria.DataCriacao = DateTime.Now;
-                auditoria.UserCriacao = this.Context.UserRequest.Id;
+                auditoria.UserCriacao = this.Context.UserRequest.Id.ToString();
             }
             return this.ExecuteScriptInsert(sql, entity, commit);
         }
@@ -144,7 +144,7 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             if (entity is IBaseAuditoria auditoria)
             {
                 auditoria.DataAtualizacao = DateTime.Now;
-                auditoria.UserAtualizacao = this.Context.UserRequest.Id;
+                auditoria.UserAtualizacao = this.Context.UserRequest.Id.ToString();
             }
             base.ExecuteScript(sql, entity, commit);
         }

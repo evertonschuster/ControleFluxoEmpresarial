@@ -1,11 +1,11 @@
 import React from 'react'
-import { ContaPagarApi } from './../../../apis/ContasPagar/ContaPagarApi';
-import { UseListPagined } from '../../../hoc/UseListPagined';
+import { ContaPagarApi } from '../../../../apis/Movimentos/ContasPagar/ContaPagarApi';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
-import ShowSituation from '../../../components/Situation/ShowSituation/ShowSituation';
-import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
-import ListForm from '../../../components/ListForm/ListForm';
-import ContaPagar from '../../../models/ContasPagar/ContaPagar';
+import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
+import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListForm from '../../../../components/ListForm/ListForm';
+import ContaPagar from '../../../../models/Movimentos/ContasPagar/ContaPagar';
 
 const ListContaPagar: React.FC = () => {
 

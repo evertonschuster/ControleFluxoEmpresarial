@@ -63,10 +63,10 @@ namespace ControleFluxoEmpresarial.Models.Cidades
 
         private bool ExistsEstado(Cidade cidade, int id)
         {
-            var estadoDb = this.EstadoDAO.GetByID(id);
+            var estadoDb = this.EstadoDAO.GetByID(cidade.EstadoId);
             var cidadeDb = this.CidadeDAO.GetByID(cidade.Id);
 
-            if (cidade.Id > 0 && estadoDb != null && cidade.Id == cidadeDb.EstadoId)
+            if (cidade.Id > 0 && estadoDb != null && cidade.EstadoId == cidadeDb.EstadoId)
             {
                 return true;
             }

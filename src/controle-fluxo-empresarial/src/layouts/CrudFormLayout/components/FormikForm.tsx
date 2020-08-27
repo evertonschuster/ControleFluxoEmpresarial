@@ -79,7 +79,8 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
         let userName = localStorage.getItem(id);
 
         if (!userName) {
-            userName = (await UserApi.GetById(id)).data.userName!
+            let userData = await UserApi.GetById(id);
+            userName = userData.data.name! ?? userData.data.userName!
             if (userName) {
                 localStorage.setItem(id, userName)
             }
@@ -140,10 +141,11 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
     function renderDatas(formik: FormikProps<any>) {
         return (
             <>
-                <span style={{ textAlign: "end" }} >
+                <span >
                     Criado por: <span style={{ fontWeight: "bold" }}>{userCriacao ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"}</span>
-                </span>
-                <span style={{ textAlign: "end" }} >
+
+                    <span style={{ padding: 15 }} >|</span>
+
                     Atualizado por: <span style={{ fontWeight: "bold" }}>{userAtualizacao ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataAtualizacao ? formatDataWithHour(formik.values?.dataAtualizacao) : "  /  /"}</span>
                 </span>
             </>
@@ -161,18 +163,17 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
 
             {isFunction(props.renderFooter)
                 ? props.renderFooter(formik)
-                : < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
-                    <Col span={7}
+                : < Row type="flex" justify="space-between" style={{ paddingTop: "30px" }}>
+                    <Col
                         style={{
                             display: "flex",
                             flexDirection: "column",
-                            paddingRight: 20
                         }}>
                         {renderDatas(formik)}
                     </Col>
                     <Col>
-                        <Button type="danger" style={{ marginRight: "10px" }} onClick={() => history.push(props.backPath)}>Voltar</Button>
-                        <Button type="primary" onClick={() => formik.submitForm()}>Salvar</Button>
+                        <Button type="primary" onClick={() => formik.submitForm()} style={{ marginRight: "10px", fontWeight: "bold" }}>Salvar</Button>
+                        <Button type="dashed" onClick={() => history.push(props.backPath)} style={{ fontWeight: "bold" }}>Cancelar</Button>
                     </Col>
                 </Row>
             }

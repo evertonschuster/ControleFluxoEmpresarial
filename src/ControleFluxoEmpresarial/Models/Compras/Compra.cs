@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.Models.Compras
         public DateTime DataCriacao { get; set; }
 
         public DateTime? DataAtualizacao { get; set; }
-        public Guid UserCriacao { get; set; }
-        public Guid? UserAtualizacao { get; set; }
+        public string UserCriacao { get; set; }
+        public string? UserAtualizacao { get; set; }
     }
 }

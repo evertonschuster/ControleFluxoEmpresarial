@@ -9,6 +9,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
+import Separator from '../../../../components/Separator/Separator';
 
 const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -88,6 +89,8 @@ const FormFuncaoFuncionario: React.FC<RouteComponentProps & RouteComponentProps<
                 </Col>
             </Row>
 
+            <Separator />
+            
             <Row>
                 <Col span={17}>
                     <TextArea name="descricao" label="Descrição" rows={4} />

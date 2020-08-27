@@ -10,6 +10,7 @@ import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 import SelectModelMoreWithTable from '../../../../../components/SelectModel/SelectModelMoreWithTable';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import Separator from '../../../../../components/Separator/Separator';
 
 const columns: ColumnProps<Funcionario>[] = [
     {
@@ -62,7 +63,8 @@ const GeneralForm: React.FC = () => {
                 </Col>
             </Row>
 
-
+            <Separator />
+            
             <Row>
                 <Col span={12}>
                     <TextArea name="descricao" label="Descrição" rows={3} />

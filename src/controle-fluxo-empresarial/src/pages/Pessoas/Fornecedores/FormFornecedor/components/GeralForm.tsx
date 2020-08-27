@@ -2,7 +2,7 @@ import React from 'react'
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { Input, Select, TextArea } from '../../../../../components/WithFormItem/withFormItem';
-import { Row, Col, Select as SelectAntd } from 'antd';
+import { Row, Col, Select as SelectAntd, Divider } from 'antd';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
 import { useField } from 'formik';
 import { useParams } from 'react-router-dom';
@@ -13,6 +13,7 @@ import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne
 import InputCEP from '../../../../../components/InputCEP/InputCEP';
 import InputTelefone from '../../../../../components/InputTelefone/InputTelefone';
 import InputRG from '../../../../../components/InputRG/InputRG';
+import Separator from '../../../../../components/Separator/Separator';
 
 const GeralForm: React.FC = () => {
 
@@ -48,6 +49,7 @@ const GeralForm: React.FC = () => {
                 </Col>
             </Row>
 
+            <Separator />
 
             <Row>
                 <Col span={5}>
@@ -81,6 +83,8 @@ const GeralForm: React.FC = () => {
                         path="cidade" />
                 </Col>
             </Row>
+
+            <Separator />
 
             <Row>
                 <Col span={4}>
@@ -120,6 +124,8 @@ const GeralForm: React.FC = () => {
                         path="condicao-pagamento" />
                 </Col>
             </Row>
+
+            <Separator />
 
             <Row>
                 <Col span={13}>

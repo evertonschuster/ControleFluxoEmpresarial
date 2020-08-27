@@ -74,7 +74,7 @@ namespace ControleFluxoEmpresarial.Models.Pessoas
             RuleFor(e => e.Cep)
                 .NotEmpty().WithMessage("O Cep não pode ser vazio.")
                 .MaximumLength(9).WithMessage("O Cep não deve possuir mais de 9 caracteres.")
-                .MinimumLength(8).WithMessage("O Cep deve possuir mais de 8 caracteres.");
+                .MinimumLength(9).WithMessage("O Cep deve possuir mais de 8 caracteres.");
 
             RuleFor(e => e.Complemento)
                 .MaximumLength(60).WithMessage("O Complemento não deve possuir mais de 60 caracteres.");

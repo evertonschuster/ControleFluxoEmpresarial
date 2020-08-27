@@ -1,5 +1,5 @@
 import AuthenticatedUser from "../models/Pessoas/AuthenticatedUser";
-import {history} from './../services/RouterService/routing'
+import { history } from './../services/RouterService/routing'
 
 export const TOKEN_KEY = "GestaoPessoalToken";
 
@@ -32,7 +32,7 @@ export function getUserName() {
     let userData = localStorage.getItem(TOKEN_KEY);
     var obj = JSON.parse(userData!);
 
-    return obj?.userName || "";
+    return obj?.name ?? obj?.userName!;
 }
 
 export function verefiIsLogedAndLogaut() {

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Row, Col } from 'antd';
-import { Input, DatePicker, InputNumber } from './../../../../components/WithFormItem/withFormItem';
-import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
-import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api';
-import InputDecimal from '../../../../components/InputDecimal/InputDecimal';
-import { FormaPagamentoApi } from '../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import { Input, DatePicker, InputNumber } from '../../../../../components/WithFormItem/withFormItem';
+import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import { FornecedorApi } from '../../../../../apis/Pessoas/Fornecedor.Api';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
+import { FormaPagamentoApi } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 
 const GeralForm: React.FC = () => {
     return (
@@ -48,7 +48,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="juro" label="Jurus" placeholder="10,20" />
+                    <InputDecimal name="juro" label="Juros" placeholder="10,20" />
                 </Col>
             </Row>
 

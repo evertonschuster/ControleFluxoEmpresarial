@@ -52,6 +52,11 @@ namespace ControleFluxoEmpresarial.DAOs
 
         protected abstract TEntity MapEntity(DbDataReader reader);
 
+        public void Commit()
+        {
+            this.Transaction.Commit();
+        }
+
         protected virtual TEntity ExecuteGetFirstOrDefault(string sql, object parameters = null)
         {
             if (string.IsNullOrEmpty(sql))

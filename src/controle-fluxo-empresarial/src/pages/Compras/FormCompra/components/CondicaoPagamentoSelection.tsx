@@ -6,6 +6,7 @@ import { useField } from 'formik';
 import { ParcelaPagamento } from '../../../../models/CondicaoPagamento/ParcelaPagamento';
 import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { CompraProduto } from '../../../../models/Compras/CompraProduto';
+import Separator from '../../../../components/Separator/Separator';
 
 const CondicaoPagamentoSelection: React.FC = () => {
 
@@ -46,7 +47,9 @@ const CondicaoPagamentoSelection: React.FC = () => {
 
     return (
         <>
-            <Divider>Financeiro</Divider>
+            <Separator />
+            <Separator />
+            <Divider orientation={"left"}>Financeiro</Divider>
             <Row>
                 <Col span={6}>
                     <SelectModelOne

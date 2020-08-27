@@ -1,6 +1,6 @@
-import { IBaseEntity2 } from "../BaseEntity";
-import { Fornecedor } from "../Pessoas/Fornecedor";
-import { FormaPagamento } from './../CondicaoPagamento/FormaPagamento';
+import { IBaseEntity2 } from "../../BaseEntity";
+import { Fornecedor } from "../../Pessoas/Fornecedor";
+import { FormaPagamento } from '../../CondicaoPagamento/FormaPagamento';
 
 export default interface ContaPagar extends IBaseEntity2 {
     numero?: string | null;

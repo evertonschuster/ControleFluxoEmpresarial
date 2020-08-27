@@ -1,0 +1,40 @@
+GERAL
+    Adicionar mais filtros nas listagens
+
+
+COMPRA
+    Ao dar entrada alterar o custo do produto,
+    Quando salva a compra, não pode mais alterars,
+    Para selecionar condição de pagamento, desabilita o restante do form
+    Modelo -> Serie -> Numero 
+    Valor total pela quantidade
+    Desconto tbm por porcentagem (No valor do produto)
+    API tbm por porcentagem (No valor do produto)
+
+    Observação vem depois da contas a pagar
+    Calcular Condição / Limpar 
+    Cancelar Compra com Justificativa(e com senha do usuario)
+    Desconto se pagou em dia(Tirar campo Desconto e valor total)
+
+Venda 
+    Calcular o valor de venda, CMV
+
+Contas a Pagar
+    Data EMissao
+    Gerar processo de pagar
+    Modelo 55
+    Serie 1
+
+    Enquanto preencher form depois de preencher as PK
+    Quando for do compra, so pode alterar (Data vencimento e forma de pagamento)
+
+Observação  
+    Cadastro de Equipamento
+    Numero de serie
+    Observação não é obrigatorio
+
+OS
+    Campo Tecnico
+    Servico e Produto separados
+    No cadastro da OS 
+    Depois que fecha, já lança a venda e contas a receber

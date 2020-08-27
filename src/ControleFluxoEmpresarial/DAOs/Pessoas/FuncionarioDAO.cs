@@ -60,7 +60,8 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
         internal Funcionario GetByCPFCNPJ(string cpfcpnj)
         {
-            var sql = "SELECT * FROM funcionarios WHERE cpfcpnj = @cpfcpnj";
+            var sql = "SELECT * FROM funcionarios " +
+                "WHERE cpfcpnj = @cpfcpnj and situacao is null";
 
             return this.ExecuteGetFirstOrDefault(sql, new { cpfcpnj });
         }
@@ -127,7 +128,10 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
             try
             {
-                this.Transaction.Commit();
+                if (commit)
+                {
+                    this.Transaction.Commit();
+                }
             }
             catch
             {

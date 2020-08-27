@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import ContaPagar from './../../../models/ContasPagar/ContaPagar';
+import ContaPagar from '../../../../models/Movimentos/ContasPagar/ContaPagar';
 import { FormikHelpers } from 'formik';
-import { ContaPagarApi } from '../../../apis/ContasPagar/ContaPagarApi';
-import { errorBack } from '../../../utils/MessageApi';
-import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
+import { ContaPagarApi } from '../../../../apis/Movimentos/ContasPagar/ContaPagarApi';
+import { errorBack } from '../../../../utils/MessageApi';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import { useParams, useHistory } from 'react-router-dom';
 import GeralForm from './componets/GeralForm';
 

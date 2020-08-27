@@ -19,9 +19,9 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
 
         public DateTime? Situacao { get; set; }
 
-        public Guid UserCriacao { get; set; }
+        public string UserCriacao { get; set; }
 
-        public Guid? UserAtualizacao { get; set; }
+        public string? UserAtualizacao { get; set; }
     }
 
     public class UnidadeMedidaValidator : AbstractValidator<UnidadeMedida>

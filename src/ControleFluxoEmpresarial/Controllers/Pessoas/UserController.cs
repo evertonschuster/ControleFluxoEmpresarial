@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using ControleFluxoEmpresarial.Services.Users;
 
 namespace ControleFluxoEmpresarial.Controllers.Users
 {
@@ -21,90 +22,35 @@ namespace ControleFluxoEmpresarial.Controllers.Users
     [ApiController]
     public class UserController : Microsoft.AspNetCore.Mvc.ControllerBase
     {
-        public UserController(UserDAO userDAO)
+        public UserController(UserDAO userDAO, UserService userService)
         {
             UserDAO = userDAO ?? throw new ArgumentNullException(nameof(userDAO));
+            UserService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         public UserDAO UserDAO { get; }
+        public UserService UserService { get; }
 
 
         [HttpPost("authorize")]
         [AllowAnonymous]
         public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
-            if (string.IsNullOrEmpty(model.Password))
-            {
-                throw new BusinessException(new { Password = "Campo senha não foi informado!" });
-            }
-
-            if (string.IsNullOrEmpty(model.UserName))
-            {
-                throw new BusinessException(new { UserName = "Campo usuário não foi informado!" });
-            }
-
-            var login = this.UserDAO.PasswordSignIn(model?.UserName, model.Password);
-
-            if (login == null || !login.Succeeded)
-            {
-                throw new BusinessException(new { userName = "Usuário ou senha inválido!" }, "Usuário ou senha inválido!");
-            }
-
-            var user = this.UserDAO.FindByName(model.UserName);
-            //var user = new ApplicationUser();
-
-            // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("appSettings.Secret");
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
-                    new Claim("Id", user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.UserName.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddDays(356),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            var userToken = new AuthenticatedUser();
-            userToken.Token = tokenHandler.WriteToken(token);
-            userToken.UserName = user.UserName;
-
+            var userToken = this.UserService.Authenticate(model);
             return Ok(userToken);
         }
 
         [HttpPost]
         public IActionResult Insert([FromBody] ApplicationUserModel model)
         {
-            var user = new ApplicationUser()
-            {
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber
-            };
-
-            var response = this.UserDAO.Insert(user, model.Password, model.ConfirmPassword);
+            var response = this.UserService.Insert(model);
             return Ok(response);
         }
 
         [HttpPut]
         public IActionResult Update([FromBody] ApplicationUserModel model)
         {
-            var user = new ApplicationUser()
-            {
-                UserName = model.UserName,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber
-            };
-
-            var userClaim = this.Request.HttpContext.User;
-
-            this.UserDAO.Update(userClaim, user);
+            this.UserService.Update(model);
             return Ok();
         }
 
@@ -129,10 +75,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         [HttpPut("Change-Password")]
         public IActionResult ChangePassword(UserChangePasswordModel model)
         {
-            var user = this.Request.HttpContext.User;
-
-            this.UserDAO.UpdatePassword(user, model.CurrentPassword, model.NewPassword, model.ConfirmPassword);
-
+            this.UserService.ChangePassword(model);
             return Ok();
         }
 

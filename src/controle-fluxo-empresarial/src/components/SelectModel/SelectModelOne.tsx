@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useCallback, useMemo } from 'react';
 import "./select-model-one-style.css";
 import { AxiosResponse } from 'axios';
 import { FormMode } from '../../layouts/BasicLayout/BasicLayoutContext';
@@ -36,7 +36,7 @@ export interface Props {
 const SelectModelOne: React.FC<Props> = (props) => {
 
     const [visible, setVisible] = useState(false);
-    const [description, setDescription] = useState("");
+    const [object, setObject] = useState<any>(null);
     const keyId = props.keyId ?? "id";
     const idIsInt = props.idIsInt ?? true;
     const keyDescription = props.keyDescription ?? "nome";
@@ -50,24 +50,24 @@ const SelectModelOne: React.FC<Props> = (props) => {
         let id = field.value;
         handleClick(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [field.value])
+    }, [field.value, visible])
 
     async function getDesciptionValues(id: number) {
         if (id) {
             let respose = await props.fetchMethod(id);
             if (respose.data) {
-                setDescription(respose.data[keyDescription]);
+                setObject(respose.data);
 
                 if (props.objectName) {
                     helpersObject.setValue(respose.data)
                 }
             } else {
                 helpersObject.setValue(null)
-                setDescription("");
+                setObject(null);
             }
         } else {
             helpersObject.setValue(null)
-            setDescription("")
+            setObject(object)
         }
     }
 
@@ -95,12 +95,32 @@ const SelectModelOne: React.FC<Props> = (props) => {
         helpers.setTouched(true)
     }
 
+    const validateStatus = useMemo(() => {
+        if (meta.error && meta.touched) {
+            return "error"
+        }
+        if (object?.situacao) {
+            return "warning"
+        }
+        return "validating"
+    }, [object?.situacao, meta.error, meta.touched])
+
+    const helpMessage = useMemo(() => {
+        if (meta.error && meta.touched) {
+            return meta.error;
+        }
+        if (object?.situacao) {
+            return props.label.label + " desativado(a).";
+        }
+        return "";
+    }, [meta.error, meta.touched, object?.situacao])
+
     return (
         <>
             <Form.Item
                 className="select-model-one-style-item"
-                validateStatus={meta.error && meta.touched ? "error" : "validating"}
-                help={meta.error && meta.touched ? meta.error : ""}>
+                validateStatus={validateStatus}
+                help={helpMessage}>
                 <Row>
                     <Col span={(props.col?.inputId) ?? (showDescription ? 8 : 19)} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
@@ -120,7 +140,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     }
                     {showDescription && <Col span={((props.col?.inputDescription) ?? 13) + (props.disabled ? (showDescription ? 3 : 5) : 0)} >
                         <WithItemNone showLabel={showLabel}>
-                            <InputAntd value={description} disabled={props.disabled} />
+                            <InputAntd value={object && object[keyDescription]} disabled={true} />
                         </WithItemNone>
                     </Col>}
                 </Row>

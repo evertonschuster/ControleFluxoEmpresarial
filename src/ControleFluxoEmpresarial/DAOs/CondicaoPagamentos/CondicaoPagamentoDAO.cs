@@ -34,8 +34,8 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
             entity.DataAtualizacao = reader.IsDBNull("DataAtualizacao") ? null as DateTime? : reader.GetDateTime("DataAtualizacao");
             entity.DataCriacao = reader.GetDateTime("DataCriacao");
             entity.Situacao = reader.IsDBNull("Situacao") ? null as DateTime? : reader.GetDateTime("Situacao");
-            entity.UserCriacao = reader.GetGuid("UserCriacao");
-            entity.UserAtualizacao = reader.IsDBNull("UserAtualizacao") ? null as Guid? : reader.GetGuid("UserAtualizacao");
+            entity.UserCriacao = reader.GetString("UserCriacao");
+            entity.UserAtualizacao = reader.GetString("UserAtualizacao");
 
             return entity;
         }
@@ -77,7 +77,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                          VALUES (@Nome, @Juro, @Multa, @Desconto, @DataAtualizacao, @DataCriacao, @Situacao, @UserCriacao)";
 
                 entity.DataCriacao = DateTime.Now;
-                entity.UserCriacao = this.Context.UserRequest.Id;
+                entity.UserCriacao = this.Context.UserRequest.Id.ToString();
 
                 var id = base.ExecuteScriptInsert(sql, entity, false);
 
@@ -142,7 +142,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
             this.Transaction = this.CondicaoPagamentoParcelaDAO.Transaction;
             entity.DataAtualizacao = DateTime.Now;
-            entity.UserAtualizacao = this.Context.UserRequest.Id;
+            entity.UserAtualizacao = this.Context.UserRequest.Id.ToString();
 
             base.ExecuteScript(sql, entity);
 

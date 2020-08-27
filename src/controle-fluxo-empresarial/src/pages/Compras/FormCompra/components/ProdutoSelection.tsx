@@ -15,6 +15,7 @@ import { UnidadeMedida } from './../../../../models/Movimentos/UnidadeMedida';
 import { formatNumber2 } from '../../../../utils/FormatNumber'
 import EditableTable, { ColumnEditableProps, RowMode } from '../../../../components/EditableTable/EditableTable'
 import { WithItemNone } from '../../../../hoc/WithFormItem'
+import Separator from '../../../../components/Separator/Separator'
 
 const ProdutoSelection: React.FC = () => {
 
@@ -182,7 +183,9 @@ const ProdutoSelection: React.FC = () => {
 
     return (
         <>
-            <Divider>Produtos</Divider>
+            <Separator />
+            <Separator />
+            <Divider orientation={"left"}>Produtos</Divider>
 
             <InnerForm
                 initialValues={compraProduto}
@@ -221,7 +224,7 @@ const ProdutoSelection: React.FC = () => {
                         <InputDecimal name="quantidade" label="Quantidade" placeholder="10,00" required />
                     </Col>
 
-                    <Col span={2}>
+                    <Col span={3}>
                         <InputDecimal name="valor" label="Valor" placeholder="10,00" required />
                     </Col>
 
@@ -233,7 +236,7 @@ const ProdutoSelection: React.FC = () => {
                         <InputDecimal name="ipi" label="IPI" placeholder="10,00" />
                     </Col>
 
-                    <Col span={3} push={3} >
+                    <Col span={3} push={2} >
                         <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
                             <div className="ant-col ant-form-item-label">
                                 &nbsp;

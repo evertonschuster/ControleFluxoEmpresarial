@@ -8,6 +8,7 @@ import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/Natio
 import { RouteComponentProps } from 'react-router-dom';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './components/GeralForm';
+import { message } from 'antd';
 
 const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -51,7 +52,8 @@ const FormFuncionario: React.FC<RouteComponentProps & RouteComponentProps<any>> 
             if (props.match.params.id) {
                 await FuncionarioApi.Update(Funcionario);
             } else {
-                await FuncionarioApi.Save(Funcionario);
+                let response = await FuncionarioApi.Save(Funcionario);
+                response.data.message && message.info(response.data.message);
             }
             props.history.push("/funcionario")
         }

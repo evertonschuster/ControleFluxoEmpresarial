@@ -1,28 +1,36 @@
 import React, { useState } from 'react'
 import AndamentoOrdemServico from '../../../models/OrdemServicos/AndamentoOrdemServico';
 import { FormikHelpers, FormikProps } from 'formik';
-import { OrdemServicoApi } from '../../../apis/OrdemServicos/OrdemServico';
-import { errorBack } from '../../../utils/MessageApi';
 import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './components/GeralForm';
 import FooterForm from './components/FooterForm';
 import OrdemServico from '../../../models/OrdemServicos/OrdemServico';
+import { OrdemServicoItemType } from '../../../models/OrdemServicos/OrdemServicoItem';
 
-const FormAndamentoOrdemServico: React.FC = () => {
+const FormOrcamentoOrdemServico: React.FC = () => {
     const [ordemSerico, setOrdemSerico] = useState<OrdemServico>({
         id: null,
-        items: []
+        condicaoPagamentoId: 1,
+        items: [
+            {
+                produtoId: 2,
+                produto: { nome: "Parafuso" },
+                quantidade: 1,
+                tipo: OrdemServicoItemType.Produto,
+            },
+            {
+                servicoId: 2,
+                servico: { nome: "Mão de obra" },
+                quantidade: 1,
+                tipo: OrdemServicoItemType.Servico,
+            }
+        ]
     })
 
     const [loading, setLoading] = useState(false);
 
     async function onSubmit(os: AndamentoOrdemServico, formikHelpers: FormikHelpers<AndamentoOrdemServico>) {
-        try {
-            await OrdemServicoApi.Andamento(os);
-        }
-        catch (e) {
-            errorBack(formikHelpers, e);
-        }
+
     }
 
     return (
@@ -36,9 +44,8 @@ const FormAndamentoOrdemServico: React.FC = () => {
             onSubmit={onSubmit}
         >
             <GeralForm />
-
         </CrudFormLayout>
     )
 }
 
-export default FormAndamentoOrdemServico
+export default FormOrcamentoOrdemServico

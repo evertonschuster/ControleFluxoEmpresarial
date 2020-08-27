@@ -31,6 +31,11 @@ namespace ControleFluxoEmpresarial.DataBase
 
         public void Execute()
         {
+            if (this.UserManager.Users.Any())
+            {
+                return;
+            }
+
             SeedUsuario();
         }
 
@@ -40,10 +45,11 @@ namespace ControleFluxoEmpresarial.DataBase
             {
                 this.UserManager.CreateAsync(new ApplicationUser()
                 {
-                    UserName = "string",
+                    UserName = "Admin",
+                    Name = "Administrador do sistema",
                     Email = "string@string.com",
                     PhoneNumber = "45988293328"
-                }, "string");
+                }, "123456");
             }
         }
 

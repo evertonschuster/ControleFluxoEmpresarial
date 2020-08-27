@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
-import api from '../Api.configure';
-import { PaginationQuery, PaginationResult } from '../../models/BaseEntity';
-import ContaPagar from '../../models/ContasPagar/ContaPagar';
+import api from '../../Api.configure';
+import { PaginationQuery, PaginationResult } from '../../../models/BaseEntity';
+import ContaPagar from '../../../models/Movimentos/ContasPagar/ContaPagar';
 
 class Api {
 

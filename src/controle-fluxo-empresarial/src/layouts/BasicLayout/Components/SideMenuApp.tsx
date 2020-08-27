@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Icon, Layout } from "antd";
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import SubMenu from 'antd/lib/menu/SubMenu';
+import OrdemServico from './../../../models/OrdemServicos/OrdemServico';
 
 const SideMenuApp: React.FC = () => {
     const { Sider } = Layout;
@@ -118,7 +119,6 @@ const SideMenuApp: React.FC = () => {
 
                     <SubMenu
                         key="Movimento"
-                        disabled={true}
                         title={
                             <span>
                                 <Icon type="shop" />
@@ -126,13 +126,25 @@ const SideMenuApp: React.FC = () => {
                             </span>
                         }>
 
-                        <Menu.Item key="venda">
-                            <Link to="/venda">Vendas</Link>
+                        <Menu.Item key="vendas">
+                            <Link to="/vendas">Vendas</Link>
                         </Menu.Item>
-                        <Menu.Item key="compra">
-                            <Link to="/compra">Compras</Link>
+                        <Menu.Item key="compras">
+                            <Link to="/compras">Compras</Link>
                         </Menu.Item>
+                        <Menu.Item key="contas-pagar">
+                            <Link to="/contas-pagar">Contas a Pagar</Link>
+                        </Menu.Item>
+                        <SubMenu key="ordem-servico" title={<Link to="/ordem-servico">Ordem Serviço</Link>} >
+                            <Menu.Item key="ordem-servico1">
+                                <Link to="/ordem-servico">Ordem Serviço</Link>
+                            </Menu.Item>
 
+                            <Menu.Item key="ordem-servico2">
+                                <Link to="/ordem-servico/new">Nova Ordem Serviço</Link>
+                            </Menu.Item>
+
+                        </SubMenu>
 
                     </SubMenu>
 

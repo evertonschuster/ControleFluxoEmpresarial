@@ -9,6 +9,7 @@ import { useField } from 'formik';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import InputSituation from '../../../../../components/Situation/InputSituation/InputSituation';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import Separator from '../../../../../components/Separator/Separator';
 
 const FormGeneral: React.FC = () => {
 
@@ -72,8 +73,9 @@ const FormGeneral: React.FC = () => {
                 <Col span={2}>
                     <InputSituation name="situacao" />
                 </Col>
-
             </Row>
+
+            <Separator />
 
             <Row>
                 <Col span={12}>
@@ -85,7 +87,8 @@ const FormGeneral: React.FC = () => {
                 </Col>
             </Row>
 
-
+            <Separator />
+            
             <Row>
                 <Col span={6}>
                     <SelectModelOne

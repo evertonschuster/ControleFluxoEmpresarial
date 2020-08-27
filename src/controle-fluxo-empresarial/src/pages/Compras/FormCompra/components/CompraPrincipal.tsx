@@ -1,7 +1,7 @@
 import React from 'react'
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api'
 import { Input, DatePicker, TextArea } from '../../../../components/WithFormItem/withFormItem'
-import { Row, Col } from 'antd'
+import { Row, Col, Divider } from 'antd'
 import CondicaoPagamentoSelection from './CondicaoPagamentoSelection'
 import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation'
@@ -11,6 +11,7 @@ import { ItemFormRender } from '../../../../hoc/WithFormItem'
 import { useField } from 'formik'
 import { CompraProduto } from '../../../../models/Compras/CompraProduto'
 import { useEffect } from 'react';
+import Separator from '../../../../components/Separator/Separator'
 
 const CompraPrincipal: React.FC = () => {
 
@@ -34,6 +35,8 @@ const CompraPrincipal: React.FC = () => {
 
     return (
         <>
+            <Divider orientation={"left"}>Nota Fiscal</Divider>
+
             <Row>
                 <Col span={2}>
                     <Input name="numero" label="Número" placeholder="1" required />
@@ -60,18 +63,14 @@ const CompraPrincipal: React.FC = () => {
                 </Col>
             </Row>
 
+            <Separator />
+
             <Row>
                 <Col span={3}>
                     <DatePicker name="dataEmissao" label="Data Emissão" required />
                 </Col>
                 <Col span={3}>
                     <DatePicker name="dataChegada" label="Data Chegada" required />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col span={12}>
-                    <TextArea name="observacao" label="Observações" rows={5} />
                 </Col>
             </Row>
 
@@ -94,6 +93,15 @@ const CompraPrincipal: React.FC = () => {
             </Row>
 
             <CondicaoPagamentoSelection />
+
+            <Separator />
+
+            <Row>
+                <Col span={24}>
+                    <TextArea name="observacao" label="Observações" rows={5} />
+                </Col>
+            </Row>
+
         </>
     )
 }

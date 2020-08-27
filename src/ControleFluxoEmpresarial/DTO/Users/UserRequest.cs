@@ -12,19 +12,21 @@ namespace ControleFluxoEmpresarial.DTO.Users
     {
         public UserRequest(IHttpContextAccessor httpContext)
         {
-            var user = httpContext?.HttpContext?.User;
-            if (user == null || !user.Identity.IsAuthenticated)
+            this.User = httpContext?.HttpContext?.User;
+            if (this.User == null || !this.User.Identity.IsAuthenticated)
             {
                 return;
             }
 
 
-            this.Id = Guid.Parse(user.Claims.Where(e => e.Type == "Id").FirstOrDefault().Value);
-            this.Nome = user.Claims.Where(e => e.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            this.Id = Guid.Parse(this.User.Claims.Where(e => e.Type == "Id").FirstOrDefault().Value);
+            this.Nome = this.User.Claims.Where(e => e.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
         }
 
         public Guid Id { get; set; }
 
         public string Nome { get; set; }
+
+        public ClaimsPrincipal User { get; set; }
     }
 }

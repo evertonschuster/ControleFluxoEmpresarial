@@ -13,5 +13,8 @@ namespace ControleFluxoEmpresarial.DTO.Users
 
         [DataMember]
         public string UserName { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
     }
 }

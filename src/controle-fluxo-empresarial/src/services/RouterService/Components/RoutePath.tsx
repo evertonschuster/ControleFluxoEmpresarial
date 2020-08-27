@@ -36,8 +36,9 @@ import ListCompra from '../../../pages/Compras/ListCompra/ListCompra';
 import ListOrdemServico from '../../../pages/OrdemServico/ListOrdemServico/ListOrdemServico';
 import FormAberturaOrdemServico from '../../../pages/OrdemServico/AberturaOrdemServico/FormAberturaOrdemServico';
 import FormAndamentoOrdemServico from '../../../pages/OrdemServico/AndamentoOrdemServico/FormAndamentoOrdemServico';
-import ListContaPagar from '../../../pages/ContaPagar/ListContaPagar/ListContaPagar';
-import FromContaPagar from '../../../pages/ContaPagar/FromContaPagar/FromContaPagar';
+import ListContaPagar from '../../../pages/Movimentos/ContaPagar/ListContaPagar/ListContaPagar';
+import FromContaPagar from '../../../pages/Movimentos/ContaPagar/FromContaPagar/FromContaPagar';
+import FormOrcamentoOrdemServico from '../../../pages/OrdemServico/OrcamentoOrdemServico/FormOrcamentoOrdemServico';
 
 const RoutePath: React.FC = () => {
 
@@ -110,10 +111,11 @@ const RoutePath: React.FC = () => {
             <Route path="/ordem-servico" component={ListOrdemServico} exact />
             <Route path="/ordem-servico/new" component={FormAberturaOrdemServico} />
             <Route path="/ordem-servico/andamento/:id" component={FormAndamentoOrdemServico} />
+            <Route path="/ordem-servico/orcamento/:id" component={FormOrcamentoOrdemServico} />
 
-            <Route path="/conta-pagar" component={ListContaPagar} exact />
-            <Route path="/conta-pagar/edit/:id" component={FromContaPagar} exact />
-            <Route path="/conta-pagar/new" component={FromContaPagar} exact />
+            <Route path="/contas-pagar" component={ListContaPagar} exact />
+            <Route path="/contas-pagar/edit/:id" component={FromContaPagar} exact />
+            <Route path="/contas-pagar/new" component={FromContaPagar} exact />
 
 
 

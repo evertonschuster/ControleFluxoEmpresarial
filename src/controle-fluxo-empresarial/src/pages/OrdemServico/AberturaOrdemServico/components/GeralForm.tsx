@@ -4,6 +4,7 @@ import { Input, TextArea } from '../../../../components/WithFormItem/withFormIte
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi'
 import InputTelefone from '../../../../components/InputTelefone/InputTelefone'
+import Separator from '../../../../components/Separator/Separator'
 
 const GeralForm: React.FC = () => {
     return (
@@ -37,22 +38,24 @@ const GeralForm: React.FC = () => {
                 </Col>
             </Row>
 
+            <Separator />
+
             <Row>
                 <Col span={12}>
-                    <TextArea name="equipamento" label="Equipamento" required rows={4} />
+                    <TextArea name="descricaoEquipamento" label="Equipamento" required rows={4} />
                 </Col>
 
                 <Col span={12}>
-                    <TextArea name="problemaRelatado" label="Problema Relatado" required rows={4} />
+                    <TextArea name="descricaoProblemaRelatado" label="Problema Relatado" required rows={4} />
                 </Col>
             </Row>
             <Row>
                 <Col span={12}>
-                    <TextArea name="acessorios" label="Acessórios" required rows={4} />
+                    <TextArea name="descricaoAcessorios" label="Acessórios" required rows={4} />
                 </Col>
 
                 <Col span={12}>
-                    <TextArea name="observacao" label="Observacões" required rows={4} />
+                    <TextArea name="descricaoObservacao" label="Observacões" required rows={4} />
                 </Col>
             </Row>
         </>

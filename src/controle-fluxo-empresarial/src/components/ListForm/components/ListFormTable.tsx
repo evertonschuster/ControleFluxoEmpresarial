@@ -1,4 +1,4 @@
-import React, { useContext, memo, useState } from 'react';
+import React, { useContext, memo, useState, useMemo } from 'react';
 import { Table, Tooltip, Tag, Modal, notification } from 'antd';
 import { ListItem } from '../ListForm';
 import { ColumnProps, TableRowSelection } from 'antd/lib/table';
@@ -15,6 +15,7 @@ export interface Props<T> {
     deleteFunction?: (id: number) => void;
     desativarFunction?: (id: number) => void;
     keyDescription?: string;
+    hiddenAction?: boolean
 }
 
 const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
@@ -30,27 +31,37 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     const keyDescription = props.keyDescription || "nome";
 
-    const columns = props.columns.concat({
-        title: 'Ações',
-        key: 'action',
-        width: "150px",
-        render: (text: any, record: any, index: number) => (
-            <>
-                <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => { setFormMode(FormMode.Edit); setState(undefined) }}>
-                    <Tooltip placement="top" title="Editar Registro Selecionado."  >
-                        <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
-                    </Tooltip>
-                </Link>
+    const columns = useMemo(() => {
 
-                {props.deleteFunction ?
-                    <Tooltip placement="top" title="Excluir Registro Selecionado." >
-                        <Tag color="red" key={index + "23"} className="custom-cursor-pointer" onClick={() => { setFormMode(FormMode.Delete); showExluir(record) }} >Excluir</Tag>
-                    </Tooltip>
-                    : null}
+        if (props.hiddenAction) {
+            return props.columns
+        }
 
-            </>
-        ),
-    })
+        return props.columns.concat({
+            title: 'Ações',
+            key: 'action',
+            width: "150px",
+            render: (text: any, record: any, index: number) => (
+                <>
+                    <Link to={(props.location.pathname + "/edit/" + record[key]).replace("//", "/")} onClick={() => { setFormMode(FormMode.Edit); setState(undefined) }}>
+                        <Tooltip placement="top" title="Editar Registro Selecionado."  >
+                            <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Editar</Tag>
+                        </Tooltip>
+                    </Link>
+
+                    {props.deleteFunction ?
+                        <Tooltip placement="top" title="Excluir Registro Selecionado." >
+                            <Tag color="red" key={index + "23"} className="custom-cursor-pointer" onClick={() => { setFormMode(FormMode.Delete); showExluir(record) }} >Excluir</Tag>
+                        </Tooltip>
+                        : null}
+
+                </>
+            ),
+        })
+    }, [props, setFormMode, showExluir, setState])
+
+
+
 
     const rowSelection: TableRowSelection<any> = {
         // selections: false,

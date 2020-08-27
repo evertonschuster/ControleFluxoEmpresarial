@@ -16,6 +16,7 @@ import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne
 import InputCEP from '../../../../../components/InputCEP/InputCEP';
 import InputTelefone from '../../../../../components/InputTelefone/InputTelefone';
 import InputRG from '../../../../../components/InputRG/InputRG';
+import Separator from '../../../../../components/Separator/Separator';
 
 const GeralForm: React.FC = () => {
     const columns: ColumnProps<any>[] = [
@@ -72,6 +73,7 @@ const GeralForm: React.FC = () => {
                 </Col>
             </Row>
 
+            <Separator />
 
             <Row>
                 <Col span={5}>
@@ -105,6 +107,8 @@ const GeralForm: React.FC = () => {
                         path="cidade" />
                 </Col>
             </Row>
+
+            <Separator />
 
             <Row>
                 <Col span={4}>
@@ -141,6 +145,8 @@ const GeralForm: React.FC = () => {
                     <InputCPFCNPJ name="cpfcpnj" label="CPF" placeholder="000.000.000-00" required />
                 </Col>
             </Row>
+
+            <Separator />
 
             <Row>
                 <Col span={6}>
@@ -207,6 +213,8 @@ const GeralForm: React.FC = () => {
                 </Col>
             </Row>
 
+            <Separator />
+            
             <Row>
                 <Col span={13}>
                     <TextArea name="observacao" label="Observação" rows={4} />

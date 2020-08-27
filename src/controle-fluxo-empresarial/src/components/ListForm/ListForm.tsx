@@ -25,6 +25,7 @@ export interface Props<T> {
     tableProps: ListItem<T>;
     columns: ColumnProps<T>[];
     keyProp?: string;
+    hiddenAction?: boolean;
     deleteFunction?: (id: any) => void
     desativarFunction?: (id: any) => void
 }
@@ -46,7 +47,7 @@ const ListForm: React.FC<Props<any>> = (props) => {
         }
 
         setFormMode(FormMode.List);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -58,6 +59,7 @@ const ListForm: React.FC<Props<any>> = (props) => {
             <Row>
                 <Col>
                     <ListFormTable
+                        hiddenAction={props.hiddenAction}
                         deleteFunction={props.deleteFunction}
                         desativarFunction={props.desativarFunction}
                         keyProp={props.keyProp}
