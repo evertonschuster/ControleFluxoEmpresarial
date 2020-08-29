@@ -16,6 +16,7 @@ import { formatNumber2 } from '../../../../utils/FormatNumber'
 import EditableTable, { ColumnEditableProps, RowMode } from '../../../../components/EditableTable/EditableTable'
 import { WithItemNone } from '../../../../hoc/WithFormItem'
 import Separator from '../../../../components/Separator/Separator'
+import { FormCompraMode } from '../FormCompra'
 
 const ProdutoSelection: React.FC = () => {
 
@@ -103,6 +104,15 @@ const ProdutoSelection: React.FC = () => {
         {
             align: "right",
             width: 100,
+            key: 'Total Quantidade',
+            title: 'Total Prod',
+            render: (item: CompraProduto) => {
+                return formatNumber2(item.quantidade! * item.valor!)
+            },
+        },
+        {
+            align: "right",
+            width: 100,
             title: 'Desconto',
             dataIndex: 'desconto',
             key: 'desconto',
@@ -150,7 +160,8 @@ const ProdutoSelection: React.FC = () => {
 
     const [compraProduto] = useState<CompraProduto>(initialValues)
     const [field, , helper] = useField<CompraProduto[]>("compraProdutos")
-
+    const [{ value: formMode }] = useField<FormCompraMode>("formMode");
+    const disableForm = formMode == FormCompraMode.PAGAMENTO;
 
     async function onSubmit(values: CompraProduto, formikHelpers: FormikHelpers<CompraProduto>) {
         let containsErrors = false;
@@ -196,6 +207,7 @@ const ProdutoSelection: React.FC = () => {
 
                     <Col span={7}>
                         <SelectModelOne
+                            disabled={disableForm}
                             fetchMethod={ProdutoApi.GetById.bind(ProdutoApi)}
                             name="produtoId"
                             objectName="produto"
@@ -208,6 +220,7 @@ const ProdutoSelection: React.FC = () => {
 
                     <Col span={3}>
                         <SelectModelOne
+                            disabled={disableForm}
                             fetchMethod={UnidadeMedidaApi.GetById.bind(UnidadeMedidaApi)}
                             name="unidadeMedidaId"
                             keyDescription="nome"
@@ -221,19 +234,19 @@ const ProdutoSelection: React.FC = () => {
                     </Col>
 
                     <Col span={2}>
-                        <InputDecimal name="quantidade" label="Quantidade" placeholder="10,00" required />
+                        <InputDecimal name="quantidade" label="Quantidade" placeholder="10,00" required disabled={disableForm} />
                     </Col>
 
                     <Col span={3}>
-                        <InputDecimal name="valor" label="Valor" placeholder="10,00" required />
+                        <InputDecimal name="valor" label="Valor" placeholder="10,00" required disabled={disableForm} />
                     </Col>
 
                     <Col span={2}>
-                        <InputDecimal name="desconto" label="Desconto" placeholder="10,00" />
+                        <InputDecimal name="desconto" label="Desconto" placeholder="10,00" disabled={disableForm} />
                     </Col>
 
                     <Col span={2}>
-                        <InputDecimal name="ipi" label="IPI" placeholder="10,00" />
+                        <InputDecimal name="ipi" label="IPI" placeholder="10,00" disabled={disableForm} />
                     </Col>
 
                     <Col span={3} push={2} >
@@ -245,7 +258,7 @@ const ProdutoSelection: React.FC = () => {
                             <div className="ant-col ant-form-item-control-wrapper">
                                 <div className="ant-form-item-control ">
                                     <span className="ant-form-item-children" style={{ display: "flex", flex: 1, justifyContent: "flex-end" }}>
-                                        <SubmitButton >Adicionar</SubmitButton >
+                                        <SubmitButton disabled={disableForm} >Adicionar</SubmitButton >
                                     </span>
                                 </div>
                             </div>
@@ -259,6 +272,7 @@ const ProdutoSelection: React.FC = () => {
                 <Col>
                     <WithItemNone showLabel={false}>
                         <EditableTable
+                            disabled={disableForm}
                             showNewAction={false}
                             columns={columns}
                             validationSchema={CompraProdutoSchema}

@@ -7,12 +7,18 @@ import CompraPrincipal from './components/CompraPrincipal';
 import { formatDataWithHour } from '../../../utils/FormatNumber';
 import { Row, Col } from 'antd';
 
+export enum FormCompraMode {
+    COMPRA,
+    PAGAMENTO
+}
+
 const FormCompra: React.FC = () => {
 
     const { id } = useParams<{ id: string | undefined }>()
-    const [compra, setCompra] = useState<Compra>({
+    const [compra, setCompra] = useState<Compra & { formMode: FormCompraMode }>({
         compraProdutos: [],
-        total: null
+        total: null,
+        formMode: FormCompraMode.COMPRA
     })
     const [loading, setLoading] = useState(false);
 
@@ -48,7 +54,7 @@ const FormCompra: React.FC = () => {
     return (
         <CrudFormLayout
             isLoading={loading}
-            backPath="/categoria"
+            backPath="/compras"
             breadcrumbList={[{ displayName: "Compra", URL: "/compra" }, { displayName: id ? "Edição da Compra" : "Nova Compra", URL: undefined }]}
             initialValues={compra}
             // validationSchema={CategoriaSchema}

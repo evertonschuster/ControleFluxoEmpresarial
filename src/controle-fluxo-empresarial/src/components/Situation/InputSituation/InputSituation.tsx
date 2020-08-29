@@ -6,6 +6,7 @@ import { useField } from 'formik';
 
 export interface Props {
     name: string;
+    disabled?: boolean;
 }
 
 const InputSituation: React.FC<Props> = (props) => {
@@ -26,9 +27,10 @@ const InputSituation: React.FC<Props> = (props) => {
                 unCheckedChildren="Desabilitado"
                 onClick={onClick}
                 defaultChecked
+                disabled={props.disabled}
                 checked={!meta.value} />
         </ItemFormRender>
     )
 }
 
-export default memo(InputSituation, () => true)
+export default memo(InputSituation)

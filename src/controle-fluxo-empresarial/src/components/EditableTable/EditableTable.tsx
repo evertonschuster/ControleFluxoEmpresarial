@@ -33,6 +33,7 @@ export interface Props<T> {
     name: string;
     validationSchema?: any | (() => any);
     showNewAction?: boolean
+    disabled?: boolean
 }
 
 export interface RecordTable {
@@ -79,13 +80,19 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             helpers.setValue(dataSourceNew);
         }, [dataSource, helpers])
 
-    const columnsAction = useMemo(() => props.columns.concat({
-        key: "Action",
-        title: "Ações",
-        width: "180px",
-        render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [props.columns, handleRowMode]);
+    const columnsAction = useMemo(() => {
+        if (props.disabled === true) {
+            return props.columns;
+        }
+
+        return props.columns.concat({
+            key: "Action",
+            title: "Ações",
+            width: "180px",
+            render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        })
+    }, [props.columns, handleRowMode, props.disabled]);
 
     const columns: ColumnProps<any>[] = useMemo(() => columnsAction.map((col: ColumnEditableProps<any>) => {
         if (!col.editable) {
@@ -154,7 +161,7 @@ const EditableTable: React.FC<Props<any>> = (props) => {
                     validationSchema: props.validationSchema
                 })}
                 pagination={false}
-                footer={!(props.showNewAction === false) ? () => <EditableRowFooter onNewRow={handleRowNew} /> : undefined}
+                footer={!(props.showNewAction === false) && props.disabled !== true ? () => <EditableRowFooter onNewRow={handleRowNew} /> : undefined}
             />
 
             <Form.Item

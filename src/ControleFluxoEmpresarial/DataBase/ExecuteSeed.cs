@@ -31,11 +31,6 @@ namespace ControleFluxoEmpresarial.DataBase
 
         public void Execute()
         {
-            if (this.UserManager.Users.Any())
-            {
-                return;
-            }
-
             SeedUsuario();
         }
 

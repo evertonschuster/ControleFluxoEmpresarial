@@ -18,10 +18,6 @@ const ListCompra: React.FC = () => {
             width: "100px"
         },
         {
-            title: 'Categoria',
-            dataIndex: 'nome',
-        },
-        {
             title: 'Situação',
             dataIndex: 'situacao',
             render: ShowSituation
@@ -29,7 +25,7 @@ const ListCompra: React.FC = () => {
     ];
 
     return (
-        <FormBasicLayout breadcrumbList={[{ displayName: "Categorias", URL: "/categoria" }, { displayName: "Listagem", URL: undefined }]} >
+        <FormBasicLayout breadcrumbList={[{ displayName: "Compras", URL: "/compras" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
                 tableProps={response}

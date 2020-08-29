@@ -13,6 +13,7 @@ export const ProdutoSchema = Yup.object().shape<Produto>({
 
     marcaId: Yup.number()
         .nullable()
+        .typeError("Informe a Marca.")
         .required("Informe a Marca.")
         .min(0, "Informe a Marca."),
 
@@ -38,6 +39,7 @@ export const ProdutoSchema = Yup.object().shape<Produto>({
 
     categoriaId: Yup.number()
         .nullable()
+        .typeError("Informe a Categoria")
         .required("Informe a Categoria.")
         .min(0, "Informe a Categoria."),
 
