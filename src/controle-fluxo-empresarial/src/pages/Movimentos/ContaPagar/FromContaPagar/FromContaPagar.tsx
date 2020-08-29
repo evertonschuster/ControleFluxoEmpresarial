@@ -19,12 +19,13 @@ const FromContaPagar: React.FC = () => {
         fornecedor: null,
         fornecedorId: null,
         juro: null,
-        modelo: null,
+        modelo: "55",
         parcela: null,
-        serie: null,
+        serie: "1",
         valor: null,
         dataPagamento: null,
     })
+    
     const [loading, setLoading] = useState(false);
     const { id } = useParams<{ id: string | undefined }>()
     const history = useHistory()

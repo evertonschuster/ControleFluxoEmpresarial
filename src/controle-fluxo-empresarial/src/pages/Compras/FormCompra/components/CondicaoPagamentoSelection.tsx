@@ -78,12 +78,12 @@ const CondicaoPagamentoSelection: React.FC = () => {
                         errorMessage={{ noSelection: "Selecione uma Condição Pagamento!" }}
                         path="condicao-pagamento" />
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                     <WithItemNone showLabel={true} padding={false} >
                         <Button type="primary" onClick={calcularParcelas} disabled={disabledCalcularParcelas()} >Calcular Parcelas</Button>
                     </WithItemNone>
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                     <WithItemNone showLabel={true} padding={false} >
                         <Button type="danger" onClick={limparParcelas} disabled={formMode === FormCompraMode.COMPRA}>Limpar Parcelas</Button>
                     </WithItemNone>

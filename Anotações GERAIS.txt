@@ -28,12 +28,11 @@ Contas a Pagar
     Enquanto preencher form depois de preencher as PK
     Quando for do compra, so pode alterar (Data vencimento e forma de pagamento)
 
-Observação  
+OS
     Cadastro de Equipamento
     Numero de serie
     Observação não é obrigatorio
 
-OS
     Campo Tecnico
     Servico e Produto separados
     No cadastro da OS 

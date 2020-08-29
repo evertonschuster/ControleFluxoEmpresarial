@@ -67,7 +67,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
             }
         } else {
             helpersObject.setValue(null)
-            setObject(object)
+            setObject(null)
         }
     }
 
