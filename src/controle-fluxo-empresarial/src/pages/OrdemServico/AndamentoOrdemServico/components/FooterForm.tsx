@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Row, Col, Button } from 'antd'
 import { useHistory } from 'react-router-dom';
 import { useField } from 'formik';
+import CondicaoPagamento from './components/CondicaoPagamento';
 
 const FooterForm: React.FC = () => {
     const history = useHistory();
+    const [showCondicaoPagamento, setShowCondicaoPagamento] = useState(false)
+
     const [{ value: dataInicio }, , { setValue: setDataInicio }] = useField("dataInicio");
     const [{ value: dataFinilizacao },] = useField("dataFinilizacao");
 
@@ -13,7 +16,7 @@ const FooterForm: React.FC = () => {
         setDataInicio(new Date())
     }
 
-    return (
+    return (<>
         < Row type="flex" justify="end" style={{ paddingTop: "25px" }}>
             <Col span={7}
                 style={{
@@ -21,15 +24,16 @@ const FooterForm: React.FC = () => {
                     flexDirection: "column",
                     paddingRight: 20
                 }}>
-                {/* {renderDatas(formik)} */}
             </Col>
             <Col>
-                <Button type="danger" style={{ marginRight: "10px" }} onClick={() => history.push("/ordem-servico")}>Voltar</Button>
-                {!dataInicio && <Button type="default" style={{ marginRight: "10px" }} onClick={onIniciarOS} >Iniciar</Button>}
+                <Button type="dashed" style={{ marginRight: "10px" }} onClick={() => history.push("/ordem-servico")}>Voltar</Button>
                 {dataInicio && !dataFinilizacao && <Button type="primary" style={{ marginRight: "10px" }} >Salvar</Button>}
-                {dataInicio && !dataFinilizacao && <Button type="default" style={{ marginRight: "10px" }} >Finalizar</Button>}
+                {dataInicio && !dataFinilizacao && <Button type="default" style={{ marginRight: "10px" }} onClick={() => setShowCondicaoPagamento(true)} >Finalizar</Button>}
+                {!dataInicio && <Button type="primary" style={{ marginRight: "10px" }} onClick={onIniciarOS} >Iniciar</Button>}
             </Col>
-        </Row>)
+        </Row>
+        <CondicaoPagamento visible={showCondicaoPagamento} onCancel={() => setShowCondicaoPagamento(false)} />
+    </>)
 }
 
 export default FooterForm

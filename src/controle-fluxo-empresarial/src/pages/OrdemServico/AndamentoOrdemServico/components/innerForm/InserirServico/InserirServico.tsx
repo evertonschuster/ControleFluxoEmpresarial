@@ -7,29 +7,28 @@ import { SubmitButton } from 'formik-antd'
 import { useField, FormikHelpers } from 'formik'
 import InnerForm from '../../../../../../components/InnerForm/InnerForm'
 import InputDecimal from '../../../../../../components/InputDecimal/InputDecimal'
-import OrdemServicoItem, { OrdemServicoItemType } from '../../../../../../models/OrdemServicos/OrdemServicoItem'
 import SelectModelOne from '../../../../../../components/SelectModel/SelectModelOne'
+import { OrdemServicoServico } from './../../../../../../models/OrdemServicos/OrdemServicoItem';
 
 const InserirServico: React.FC = () => {
 
     const initialValues = useMemo(() => ({
-        tipo: OrdemServicoItemType.Servico,
         id: null,
         quantidade: 1,
         funcionario: null,
         funcionarioId: null,
-    } as OrdemServicoItem), []);
+    } as OrdemServicoServico), []);
 
-    const [{ value: items }, , { setValue: setItems }] = useField<OrdemServicoItem[]>("items");
+    const [{ value: servicos }, , { setValue: setServicos }] = useField<OrdemServicoServico[]>("servicos");
 
-    function onSave(item: OrdemServicoItem, formikHelpers: FormikHelpers<OrdemServicoItem>) {
+    function onSave(item: OrdemServicoServico, formikHelpers: FormikHelpers<OrdemServicoServico>) {
 
-        if (items?.findIndex(e => e.servicoId === item.servicoId) >= 0) {
+        if (servicos?.findIndex(e => e.servicoId === item.servicoId) >= 0) {
             formikHelpers.setFieldError("servicoId", "Serviço já Adicionado.")
             return formikHelpers.setSubmitting(false);
         }
 
-        setItems([...items, item]);
+        setServicos([...servicos, item]);
         formikHelpers.resetForm({ values: initialValues })
     }
 

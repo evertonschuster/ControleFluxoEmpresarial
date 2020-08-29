@@ -1,5 +1,6 @@
-import OrdemServicoItem from "./OrdemServicoItem";
 import { Cliente } from './../Pessoas/Cliente';
+import { OrdemServicoProduto, OrdemServicoServico } from './OrdemServicoItem';
+import ContaReceber from '../Movimentos/ContaReceber';
 
 export default interface OrdemServico {
     id?: number | null;
@@ -13,10 +14,10 @@ export default interface OrdemServico {
 
     dataAbertura?: Date | null;
     dataExecucao?: Date | null;
-    dataExecucaoFim?: Date | null;
-    dataAprovacao?: Date | null;
-    dataRejeitado?: Date | null;
     dataDevolucaoCliente?: Date | null;
 
-    items?: OrdemServicoItem[] | null
+    produtos?: OrdemServicoProduto[] | null;
+    servicos?: OrdemServicoServico[] | null;
+
+    parcelas?: ContaReceber[]
 }

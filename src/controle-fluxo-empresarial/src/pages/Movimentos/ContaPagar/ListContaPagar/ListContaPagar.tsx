@@ -5,7 +5,7 @@ import { ColumnProps } from 'antd/lib/table';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
-import ContaPagar from '../../../../models/Movimentos/ContasPagar/ContaPagar';
+import ContaPagar from '../../../../models/Movimentos/ContaPagar';
 
 const ListContaPagar: React.FC = () => {
 

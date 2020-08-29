@@ -6,29 +6,26 @@ import { SubmitButton } from 'formik-antd'
 import { useField, FormikHelpers } from 'formik'
 import InnerForm from '../../../../../../components/InnerForm/InnerForm'
 import InputDecimal from '../../../../../../components/InputDecimal/InputDecimal'
-import OrdemServicoItem, { OrdemServicoItemType } from '../../../../../../models/OrdemServicos/OrdemServicoItem'
 import SelectModelOne from '../../../../../../components/SelectModel/SelectModelOne'
+import { OrdemServicoProduto } from '../../../../../../models/OrdemServicos/OrdemServicoItem'
 
 const InserirProduto: React.FC = () => {
 
     const initialValues = useMemo(() => ({
-        tipo: OrdemServicoItemType.Produto,
         id: null,
         quantidade: 1,
-        funcionario: null,
-        funcionarioId: null,
-    } as OrdemServicoItem), []);
+    } as OrdemServicoProduto), []);
 
-    const [{ value: items }, , { setValue: setItems }] = useField<OrdemServicoItem[]>("items");
+    const [{ value: produtos }, , { setValue: setProdutos }] = useField<OrdemServicoProduto[]>("produtos");
 
-    function onSave(item: OrdemServicoItem, formikHelpers: FormikHelpers<OrdemServicoItem>) {
+    function onSave(item: OrdemServicoProduto, formikHelpers: FormikHelpers<OrdemServicoProduto>) {
         
-        if (items?.findIndex(e => e.produtoId === item.produtoId) >= 0) {
+        if (produtos?.findIndex(e => e.produtoId === item.produtoId) >= 0) {
             formikHelpers.setFieldError("produtoId", "Produto já Adicionado.")
             return formikHelpers.setSubmitting(false);
         }
 
-        setItems([...items, item]);
+        setProdutos([...produtos, item]);
         formikHelpers.resetForm({ values: initialValues })
     }
 

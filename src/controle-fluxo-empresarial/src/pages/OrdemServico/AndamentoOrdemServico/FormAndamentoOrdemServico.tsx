@@ -11,7 +11,9 @@ import OrdemServico from '../../../models/OrdemServicos/OrdemServico';
 const FormAndamentoOrdemServico: React.FC = () => {
     const [ordemSerico, setOrdemSerico] = useState<OrdemServico>({
         id: null,
-        items: []
+        servicos: [],
+        produtos: [],
+        parcelas: []
     })
 
     const [loading, setLoading] = useState(false);

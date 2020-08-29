@@ -53,7 +53,6 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
                 .Must(ExistCategoria).WithMessage("Categoria não cadastrada.");
 
             RuleFor(e => e.Valor)
-                .NotEmpty().WithMessage("Informe o Valor.")
                 .Must(e => e < 100000000).WithMessage("O Valor deve ser menor que 100000000.")
                 .Must(e => e >= 0).WithMessage("Valor deve ser superior ou igual a 0.");
 

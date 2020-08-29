@@ -1,9 +1,9 @@
 import React from 'react'
-import { Row, Col } from 'antd'
-import { Input, TextArea } from '../../../../components/WithFormItem/withFormItem'
-import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi'
+import { Input, TextArea } from '../../../../components/WithFormItem/withFormItem'
+import { Row, Col } from 'antd'
 import InputTelefone from '../../../../components/InputTelefone/InputTelefone'
+import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
 
 const GeralForm: React.FC = () => {
@@ -31,10 +31,11 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <Input name="dataAbertura" label="Data Abertura" disabled />
+                    <Input name="numeroSerie" label="Número de serie" />
                 </Col>
+
                 <Col span={3}>
-                    <Input name="dataAprovacao" label="Data Aprovação" disabled />
+                    <Input name="dataAbertura" label="Data Abertura" disabled />
                 </Col>
             </Row>
 
@@ -55,7 +56,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={12}>
-                    <TextArea name="descricaoObservacao" label="Observacões" required rows={4} />
+                    <TextArea name="descricaoObservacao" label="Observacões" rows={4} />
                 </Col>
             </Row>
         </>

@@ -5,7 +5,8 @@ import SelecaoProdutosServicos from './components/SelecaoProdutosServicos';
 import { useField } from 'formik';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { TextArea } from '../../../../components/WithFormItem/withFormItem';
+import { TextArea, Input } from '../../../../components/WithFormItem/withFormItem';
+import Separator from '../../../../components/Separator/Separator';
 const { Panel } = Collapse;
 
 const GeralForm: React.FC = () => {
@@ -40,6 +41,8 @@ const GeralForm: React.FC = () => {
             <Panel header="Produtos e Serviço" key="produtosServicos" disabled={!dataInicio}>
                 <SelecaoProdutosServicos />
 
+                <Separator />
+
                 <Row>
                     <Col span={12} >
                         <TextArea name="descricaoOrdemServico" label="Descrição do Técnico" rows={3} />
@@ -48,6 +51,12 @@ const GeralForm: React.FC = () => {
                         <TextArea name="observacaoTecnico" label="Observações do Técnico" rows={3} />
                     </Col>
                 </Row>
+
+                <Row>
+                <Col span={3} push={21}>
+                    <Input name="totalOS" label="Total OS" disabled/>
+                </Col>
+            </Row>
             </Panel>
         </Collapse>
     )

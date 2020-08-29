@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import ContaPagar from '../../../../models/Movimentos/ContasPagar/ContaPagar';
+import ContaPagar from '../../../../models/Movimentos/ContaPagar';
 import { FormikHelpers } from 'formik';
 import { ContaPagarApi } from '../../../../apis/Movimentos/ContasPagar/ContaPagarApi';
 import { errorBack } from '../../../../utils/MessageApi';

@@ -1,15 +1,14 @@
 import React, { useMemo } from 'react'
-import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout'
-import ListForm from '../../../components/ListForm/ListForm'
+import { Badge, Tooltip, Tag } from 'antd'
+import { Cliente } from './../../../models/Pessoas/Cliente';
+import { ColumnProps } from 'antd/lib/table'
+import { formatData } from './../../../utils/FormatNumber';
+import { Link } from 'react-router-dom'
 import { OrdemServicoApi } from '../../../apis/OrdemServicos/OrdemServico'
 import { UseListPagined } from '../../../hoc/UseListPagined'
-import ShowSituation from '../../../components/Situation/ShowSituation/ShowSituation'
-import { ColumnProps } from 'antd/lib/table'
+import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout'
+import ListForm from '../../../components/ListForm/ListForm'
 import OrdemServico from '../../../models/OrdemServicos/OrdemServico'
-import { Cliente } from './../../../models/Pessoas/Cliente';
-import { formatDataWithHour, formatData } from './../../../utils/FormatNumber';
-import { Badge, Tooltip, Tag } from 'antd'
-import { Link } from 'react-router-dom'
 
 
 const ListOrdemServico: React.FC = () => {
@@ -44,8 +43,8 @@ const ListOrdemServico: React.FC = () => {
         {
             align: "center",
             width: 100,
-            title: 'Dt Aprov.',
-            dataIndex: 'dataAprovacao',
+            title: 'Dt. Dev.',
+            dataIndex: 'dataDevolucaoCliente',
             render: (data: Date) => data ? formatData(data) : "-",
         },
         {
@@ -56,17 +55,12 @@ const ListOrdemServico: React.FC = () => {
         {
             title: 'Ações',
             key: 'action',
-            width: "150px",
+            width: "100px",
             render: (text: any, record: any, index: number) => (
                 <>
                     <Link to={("ordem-servico/andamento/" + record.id).replace("//", "/")} >
                         <Tooltip placement="top" title="Visualiza OS Selecionada."  >
-                            <Tag color="green" key={index + "12"} className="custom-cursor-pointer" >Ver</Tag>
-                        </Tooltip>
-                    </Link>
-                    <Link to={("ordem-servico/orcamento/" + record.id).replace("//", "/")} >
-                        <Tooltip placement="top" title="Visualiza OS Selecionada."  >
-                            <Tag color="gold" key={index + "12"} className="custom-cursor-pointer" >Orç.</Tag>
+                            <Tag color="gold" key={index + "12"} className="custom-cursor-pointer" >Ver OS</Tag>
                         </Tooltip>
                     </Link>
                 </>
@@ -137,15 +131,6 @@ const ListOrdemServico: React.FC = () => {
 
         if (item?.dataDevolucaoCliente) {
             return <Badge color={"lime"} text={"Devolvido"} />
-        }
-        if (item?.dataAprovacao) {
-            return <Badge color={"cyan"} text={"Orç. Apr."} />
-        }
-        if (item?.dataRejeitado) {
-            return <Badge color={"red"} text={"Orç. Rej."} />
-        }
-        if (item?.dataExecucaoFim) {
-            return <Badge color={"gold"} text={"Finalizado"} />
         }
         if (item?.dataExecucao) {
             return <Badge color={"geekblue"} text={"Em Exec"} />

@@ -2,13 +2,8 @@ import { Funcionario } from './../Pessoas/Funcionario';
 import { Servico } from './../Movimentos/Servico';
 import { Produto } from './../Movimentos/Produto';
 
-export enum OrdemServicoItemType {
-    Produto,
-    Servico
-}
 
-export default interface OrdemServicoItem {
-    tipo?: OrdemServicoItemType | null;
+export interface OrdemServicoServico {
     quantidade: number | null;
 
     funcionarioId?: number | null;
@@ -16,6 +11,11 @@ export default interface OrdemServicoItem {
 
     servicoId?: number | null;
     servico?: Servico | null;
+}
+
+
+export interface OrdemServicoProduto {
+    quantidade: number | null;
 
     produtoId?: number | null;
     produto?: Produto | null;
