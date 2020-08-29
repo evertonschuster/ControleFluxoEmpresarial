@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { CompraProduto } from '../../../models/Compras/CompraProduto';
-import { UnidadeMedida } from '../../../models/Movimentos/UnidadeMedida';
 
 
 export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({

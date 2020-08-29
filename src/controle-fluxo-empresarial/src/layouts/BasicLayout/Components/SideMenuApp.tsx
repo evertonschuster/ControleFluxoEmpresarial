@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Menu, Icon, Layout } from "antd";
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import SubMenu from 'antd/lib/menu/SubMenu';
-import OrdemServico from './../../../models/OrdemServicos/OrdemServico';
 
 const SideMenuApp: React.FC = () => {
     const { Sider } = Layout;

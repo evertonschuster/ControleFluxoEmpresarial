@@ -4,7 +4,7 @@ import LoginUserModel from '../../models/Pessoas/LoginUser';
 import AuthenticatedUser from '../../models/Pessoas/AuthenticatedUser';
 import UserModel from '../../models/Pessoas/UserModel';
 import UserChangePasswordModel from '../../models/Pessoas/UserChangePasswordModel';
-import { ApiBase, ApiBaseGenerics } from '../Api';
+import { ApiBaseGenerics } from '../Api';
 
 export const endPoint: string = 'api/user';
 

@@ -2,10 +2,7 @@ import React, { useState } from 'react'
 import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Compra } from '../../../models/Compras/Compra';
 import { useParams } from 'react-router-dom';
-import { FormikHelpers, FormikProps } from 'formik';
 import CompraPrincipal from './components/CompraPrincipal';
-import { formatDataWithHour } from '../../../utils/FormatNumber';
-import { Row, Col } from 'antd';
 
 export enum FormCompraMode {
     COMPRA,
@@ -15,14 +12,14 @@ export enum FormCompraMode {
 const FormCompra: React.FC = () => {
 
     const { id } = useParams<{ id: string | undefined }>()
-    const [compra, setCompra] = useState<Compra & { formMode: FormCompraMode }>({
+    const [compra] = useState<Compra & { formMode: FormCompraMode }>({
         compraProdutos: [],
         total: null,
         formMode: FormCompraMode.COMPRA
     })
-    const [loading, setLoading] = useState(false);
+    const [loading] = useState(false);
 
-    async function onSubmit(values: Compra, formikHelpers: FormikHelpers<Compra>) {
+    async function onSubmit() {
         // try {
         //     if (id) {
         //         await CategoriaApi.Update(values);
@@ -36,20 +33,6 @@ const FormCompra: React.FC = () => {
         // }
     }
 
-    function renderFooter(formik: FormikProps<Compra>) {
-        return (
-            <Row>
-                <div>
-                    <span style={{ textAlign: "end" }} >
-                        Data Criação: {formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"}
-                    </span>
-                    <span style={{ textAlign: "end" }} >
-                        Data Atualização: {formik.values?.dataAtualizacao ? formatDataWithHour(formik.values?.dataAtualizacao) : "  /  /"}
-                    </span>
-                </div>
-            </Row>
-        )
-    }
 
     return (
         <CrudFormLayout

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Cliente } from '../../../../models/Pessoas/Cliente';
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi';
 import { ClienteSchema } from './ClienteSchema';
-import { DatePicker } from 'antd';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormikHelpers } from 'formik';
 import { NATIONALITY_TYPE } from '../../../../components/NationalitySelect/NationalitySelect';

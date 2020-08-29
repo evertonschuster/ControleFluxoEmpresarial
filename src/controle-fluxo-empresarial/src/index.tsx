@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'antd/dist/antd.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import "antd/es/input"
+
+
+// import "antd/es/input"
+import 'antd/lib/style/themes/default.less';
+import 'antd/dist/antd.less'
+import './customAntd.less'
+
 import 'formik-antd/es/input/style';
 import './index.css';
 

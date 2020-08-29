@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Row, Col, Table, Divider } from 'antd'
+import { Row, Col, Divider } from 'antd'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi'
 import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi'
@@ -161,7 +161,7 @@ const ProdutoSelection: React.FC = () => {
     const [compraProduto] = useState<CompraProduto>(initialValues)
     const [field, , helper] = useField<CompraProduto[]>("compraProdutos")
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
-    const disableForm = formMode == FormCompraMode.PAGAMENTO;
+    const disableForm = formMode === FormCompraMode.PAGAMENTO;
 
     async function onSubmit(values: CompraProduto, formikHelpers: FormikHelpers<CompraProduto>) {
         let containsErrors = false;

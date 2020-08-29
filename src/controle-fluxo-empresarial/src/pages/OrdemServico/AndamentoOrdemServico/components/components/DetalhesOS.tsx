@@ -4,7 +4,6 @@ import { Input, TextArea } from '../../../../../components/WithFormItem/withForm
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne'
 import { ClienteApi } from '../../../../../apis/Pessoas/ClienteApi'
 import InputTelefone from '../../../../../components/InputTelefone/InputTelefone'
-import { useField } from 'formik';
 
 
 const DetalhesOS: React.FC = () => {

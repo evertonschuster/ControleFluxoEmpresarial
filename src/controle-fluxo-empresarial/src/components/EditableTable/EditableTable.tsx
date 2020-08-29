@@ -90,9 +90,10 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             title: "Ações",
             width: "180px",
             render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
-            // eslint-disable-next-line react-hooks/exhaustive-deps
         })
-    }, [props.columns, handleRowMode, props.disabled]);
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.columns, handleRowMode, props.disabled, ]);
 
     const columns: ColumnProps<any>[] = useMemo(() => columnsAction.map((col: ColumnEditableProps<any>) => {
         if (!col.editable) {

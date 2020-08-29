@@ -58,7 +58,7 @@ const ListFormTable: React.FC<Props<any> & RouteComponentProps> = (props) => {
                 </>
             ),
         })
-    }, [props, setFormMode, showExluir, setState])
+    }, [props, setFormMode, showExluir, setState, key])
 
 
 

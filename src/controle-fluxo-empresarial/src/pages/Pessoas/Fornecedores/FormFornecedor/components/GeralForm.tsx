@@ -2,7 +2,7 @@ import React from 'react'
 import { CidadeApi } from '../../../../../apis/Cidades/CidadeApi';
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { Input, Select, TextArea } from '../../../../../components/WithFormItem/withFormItem';
-import { Row, Col, Select as SelectAntd, Divider } from 'antd';
+import { Row, Col, Select as SelectAntd } from 'antd';
 import { TIPO_PESSOA } from '../../../../../models/Pessoas/Pessoa';
 import { useField } from 'formik';
 import { useParams } from 'react-router-dom';

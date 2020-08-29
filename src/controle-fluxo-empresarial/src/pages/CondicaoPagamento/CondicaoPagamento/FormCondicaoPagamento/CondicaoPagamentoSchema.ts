@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { CondicaoPagamento } from '../../../../models/CondicaoPagamento/CondicaoPagamento';
 import { CondicaoPagamentoParcela } from './../../../../models/CondicaoPagamento/CondicaoPagamentoParcela';
-import { FormaPagamento } from '../../../../models/CondicaoPagamento/FormaPagamento';
 import { RecordTable } from '../../../../components/EditableTable/EditableTable';
 
 

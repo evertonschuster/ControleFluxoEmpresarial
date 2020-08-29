@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AndamentoOrdemServico from '../../../models/OrdemServicos/AndamentoOrdemServico';
-import { FormikHelpers, FormikProps } from 'formik';
+import { FormikHelpers } from 'formik';
 import { OrdemServicoApi } from '../../../apis/OrdemServicos/OrdemServico';
 import { errorBack } from '../../../utils/MessageApi';
 import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
@@ -9,14 +9,14 @@ import FooterForm from './components/FooterForm';
 import OrdemServico from '../../../models/OrdemServicos/OrdemServico';
 
 const FormAndamentoOrdemServico: React.FC = () => {
-    const [ordemSerico, setOrdemSerico] = useState<OrdemServico>({
+    const [ordemSerico] = useState<OrdemServico>({
         id: null,
         servicos: [],
         produtos: [],
         parcelas: []
     })
 
-    const [loading, setLoading] = useState(false);
+    const [loading] = useState(false);
 
     async function onSubmit(os: AndamentoOrdemServico, formikHelpers: FormikHelpers<AndamentoOrdemServico>) {
         try {
