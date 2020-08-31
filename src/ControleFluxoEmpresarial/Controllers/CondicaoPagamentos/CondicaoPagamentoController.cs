@@ -5,9 +5,6 @@ using ControleFluxoEmpresarial.Services.CondicoesPagamento;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 {
@@ -24,7 +21,7 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 
         [AllowAnonymous]
         [HttpGet("calcula-parcela/{condicaoPagamentoId}/{dataBase}/{valor}")]
-        public IActionResult CalculaParcela([FromRoute]int condicaoPagamentoId, [FromRoute] DateTime dataBase, [FromRoute] decimal valor)
+        public IActionResult CalculaParcela([FromRoute] int condicaoPagamentoId, [FromRoute] DateTime dataBase, [FromRoute] decimal valor)
         {
             var parcelas = this.CondicaoPagamentoService.CalculaParcela(condicaoPagamentoId, dataBase, valor);
             return Ok(parcelas);

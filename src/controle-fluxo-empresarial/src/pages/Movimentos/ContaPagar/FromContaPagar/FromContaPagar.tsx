@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import ContaPagar from '../../../../models/Movimentos/ContaPagar';
-import { FormikHelpers } from 'formik';
-import { ContaPagarApi } from '../../../../apis/Movimentos/ContasPagar/ContaPagarApi';
+import { ContaPagarApi } from '../../../../apis/Movimentos/ContaPagarApi';
+import { ContaPagarSchema } from './ContaPagarSchema';
 import { errorBack } from '../../../../utils/MessageApi';
-import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
+import { FormikHelpers } from 'formik';
 import { useParams, useHistory } from 'react-router-dom';
+import ActionForm from './componets/ActionForm';
+import ContaPagar from '../../../../models/Movimentos/ContaPagar';
+import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './componets/GeralForm';
 
 const FromContaPagar: React.FC = () => {
@@ -20,43 +22,44 @@ const FromContaPagar: React.FC = () => {
         fornecedorId: null,
         juro: null,
         modelo: "55",
-        parcela: null,
+        parcela: 1,
         serie: "1",
         valor: null,
         dataPagamento: null,
+        descricao: null,
     })
-    
-    const [loading, setLoading] = useState(false);
-    const { id } = useParams<{ id: string | undefined }>()
+
     const history = useHistory()
+    const [loading, setLoading] = useState(false);
+    const { modelo, serie, numero, fornecedorId, parcela } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, fornecedorId: string | undefined, parcela: string | undefined }>()
 
     useEffect(() => {
-        getContaPagar(id!);
-    }, [id])
+        getContaPagar(modelo!, serie!, numero!, fornecedorId!, parcela!);
+    }, [modelo, serie, numero, fornecedorId, parcela])
 
 
     async function onSubmit(conta: ContaPagar, formikHelpers: FormikHelpers<ContaPagar>) {
         try {
-            if (id) {
+            if (modelo) {
                 await ContaPagarApi.Update(conta);
             } else {
                 await ContaPagarApi.Save(conta);
             }
-            history.push("/conta-pagar")
+            history.push("/contas-pagar")
         }
         catch (e) {
             errorBack(formikHelpers, e);
         }
     }
 
-    async function getContaPagar(id: string) {
+    async function getContaPagar(modelo: string, serie: string, numero: string, fornecedorId: string, parcela: string) {
         try {
-            if (!id) {
+            if (!modelo) {
                 return;
             }
 
             setLoading(true);
-            let bdpais = await ContaPagarApi.GetById(id);
+            let bdpais = await ContaPagarApi.GetById(modelo, serie, numero, fornecedorId, parcela);
             setContaPagar(bdpais.data);
         } catch (e) {
             errorBack(null, e);
@@ -69,10 +72,11 @@ const FromContaPagar: React.FC = () => {
     return (
         <CrudFormLayout
             isLoading={loading}
-            backPath="/cliente"
-            breadcrumbList={[{ displayName: "Clientes", URL: "/cliente" }, { displayName: id ? "Edição do Cliente" : "Novo Cliente", URL: undefined }]}
+            backPath="/contas-pagar"
+            breadcrumbList={[{ displayName: "Conta a Pagar", URL: "/contas-pagar" }, { displayName: modelo ? "Edição de Conta a Pagar" : "Nova Conta a Pagar", URL: undefined }]}
             initialValues={contaPagar}
-            // validationSchema={ClienteSchema}
+            validationSchema={ContaPagarSchema}
+            renderActionFooter={() => <ActionForm />}
             onSubmit={onSubmit}
         >
             <GeralForm />

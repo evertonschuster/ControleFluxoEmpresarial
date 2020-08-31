@@ -1,11 +1,9 @@
 ﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
-using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Services.CondicoesPagamento.models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Services.CondicoesPagamento
 {

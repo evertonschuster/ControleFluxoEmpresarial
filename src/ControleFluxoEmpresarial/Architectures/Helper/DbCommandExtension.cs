@@ -1,13 +1,7 @@
-﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.Entities;
-using ControleFluxoEmpresarial.Models;
+﻿using ControleFluxoEmpresarial.Entities;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Architectures.Helper
 {
@@ -24,7 +18,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
 
             foreach (var property in properties)
             {
-                if (property.GetValue(@params) is IBaseEntity|| typeof(System.Collections.ICollection).IsAssignableFrom(property.PropertyType))
+                if (property.GetValue(@params) is IBaseEntity || typeof(System.Collections.ICollection).IsAssignableFrom(property.PropertyType))
                 {
                     continue;
                 }
@@ -46,7 +40,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 command.Parameters.Add(dbParameter);
             }
         }
-       
+
 
         public static bool HasColumn(this IDataRecord r, string columnName)
         {

@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { useDebouncedCallback } from '../../../hoc/useDebouncedCallback';
 import { formatDataWithHour } from '../../../utils/FormatNumber';
 import { UserApi } from '../../../apis/Pessoas/UserApi';
+import { getUserNameStorage } from '../../../services/UserNameCache';
 
 export interface Props {
     isLoading?: boolean;
@@ -13,6 +14,7 @@ export interface Props {
     onKeyDown: (event: React.KeyboardEvent<HTMLFormElement>) => void;
     initialValues: any;
     renderFooter?: (formik: FormikProps<any>) => React.ReactNode | null;
+    renderActionFooter?: (formik: FormikProps<any>) => React.ReactNode | null;
 }
 
 export interface FormikFormRef {
@@ -73,20 +75,6 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
         } else {
             setUserAtualizacao(null)
         }
-    }
-
-    async function getUserNameStorage(id: string) {
-        let userName = localStorage.getItem(id);
-
-        if (!userName) {
-            let userData = await UserApi.GetById(id);
-            userName = userData.data.name! ?? userData.data.userName!
-            if (userName) {
-                localStorage.setItem(id, userName)
-            }
-        }
-
-        return userName;
     }
 
     function getFormLocalStorage() {
@@ -172,8 +160,13 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
                         {renderDatas(formik)}
                     </Col>
                     <Col>
-                        <Button type="default" onClick={() => history.push(props.backPath)} style={{ marginRight: "10px" }}>Voltar</Button>
-                        <Button type="primary" onClick={() => formik.submitForm()} >Salvar</Button>
+                        {isFunction(props.renderActionFooter) ?
+                            props.renderActionFooter(formik) :
+                            <>
+                                <Button type="default" onClick={() => history.push(props.backPath)} style={{ marginRight: "10px" }}>Voltar</Button>
+                                <Button type="primary" onClick={() => formik.submitForm()} >Salvar</Button>
+                            </>
+                        }
                     </Col>
                 </Row>
             }

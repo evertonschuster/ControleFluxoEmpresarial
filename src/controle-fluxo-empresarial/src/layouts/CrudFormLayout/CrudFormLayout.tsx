@@ -11,6 +11,7 @@ export interface Props extends FormikConfig<any> {
     isLoading?: boolean;
     backPath: string;
     renderFooter?: (formik: FormikProps<any>) => React.ReactNode | null;
+    renderActionFooter?: (formik: FormikProps<any>) => React.ReactNode | null;
     children?: ((props: FormikProps<any>) => React.ReactNode) | React.ReactNode;
 }
 
@@ -43,6 +44,7 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                 <FormikForm
                     ref={childRef}
                     renderFooter={props.renderFooter}
+                    renderActionFooter={props.renderActionFooter}
                     initialValues={props.initialValues}
                     backPath={props.backPath}
                     isLoading={props.isLoading}

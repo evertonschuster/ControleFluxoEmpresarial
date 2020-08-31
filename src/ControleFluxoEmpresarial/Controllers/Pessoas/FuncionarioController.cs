@@ -1,18 +1,12 @@
-﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.DAOs;
-using ControleFluxoEmpresarial.DAOs.Pessoas;
+﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using ControleFluxoEmpresarial.Services.Users;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {

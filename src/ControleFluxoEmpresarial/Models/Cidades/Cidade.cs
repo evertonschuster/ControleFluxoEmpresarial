@@ -1,11 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Cidades;
 using FluentValidation;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Cidades
 {

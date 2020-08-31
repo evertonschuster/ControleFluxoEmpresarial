@@ -9,7 +9,8 @@ export enum FormMode {
     Delete = 3,
     SelectOne = 4,
     SelectMultiple = 5,
-    List = 6
+    List = 6,
+    CancelarEntity = 6,
 }
 
 

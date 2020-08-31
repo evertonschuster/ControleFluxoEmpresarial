@@ -1,9 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Models.Vendas
 {

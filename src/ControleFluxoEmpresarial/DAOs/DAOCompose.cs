@@ -2,23 +2,22 @@
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Filters.DTO;
+using ControleFluxoEmpresarial.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.compose
 {
     public abstract class DAO<TEntity, TID> : BaseDAO<TEntity>, IDAO
-                                        where TEntity : class, IBaseEntity
+                                        where TEntity : class, IBaseEntity, new()
                                         where TID : new()
     {
         private string TableName { get; }
         private string[] PropertiesId { get; }
         public DataBaseConnection Context { get; set; }
-        private List<string> Property
+        protected List<string> Property
         {
             get
             {
@@ -50,21 +49,28 @@ namespace ControleFluxoEmpresarial.DAOs.compose
         {
             var sql = $@"SELECT {this.PropertiesId.FormatProperty()}, {this.Property.FormatProperty()}
                           FROM {this.TableName} 
-                        WHERE {this.PropertiesId.FormatProperty(e => $"{e} = @{e} ")}";
+                        WHERE {this.PropertiesId.FormatProperty(e => $"{e} = @{e} ", " and ")}";
 
 
             return base.ExecuteGetFirstOrDefault(sql, parameters: ids);
         }
 
-        public PaginationResult<TEntity> GetPagined(PaginationQuery filter)
+        public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
         {
-            throw new NotImplementedException();
+            throw new Exception();
+
         }
 
         public TID Insert(TEntity entity, bool commit = true)
         {
             var sql = $@"INSERT INTO {this.TableName} ({this.Property.FormatProperty()} )
                          VALUES ( {this.Property.FormatProperty(e => $"@{e}")} )";
+
+            if (entity is IBaseAuditoria auditoria)
+            {
+                auditoria.DataCriacao = DateTime.Now;
+                auditoria.UserCriacao = Context.UserRequest.Id.ToString();
+            }
 
             this.ExecuteScriptInsert(sql, entity, commit);
 
@@ -73,7 +79,16 @@ namespace ControleFluxoEmpresarial.DAOs.compose
 
         public void Update(TEntity entity, bool commit = true)
         {
-            throw new NotImplementedException();
+            var sql = $@"UPDATE {this.TableName} 
+                        SET {Property.FormatProperty(e => $"{e}=@{e}")}
+                        WHERE {this.PropertiesId.FormatProperty(e => $"{e} = @{e} ", " and ")}";
+
+            if (entity is IBaseAuditoria auditoria)
+            {
+                auditoria.DataAtualizacao = DateTime.Now;
+                auditoria.UserAtualizacao = this.Context.UserRequest.Id.ToString();
+            }
+            base.ExecuteScript(sql, entity, commit);
         }
 
         public abstract void VerifyRelationshipDependence(object ids);
@@ -85,7 +100,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
 
         protected override TEntity MapEntity(DbDataReader reader)
         {
-            var entity = reader.MapEntity(this.Property, this.Property, this.PropertiesId) as TEntity;
+            var entity = reader.MapEntity(new TEntity(), this.Property, this.PropertiesId) as TEntity;
 
             foreach (var property in typeof(TEntity).PropertyIBaseEntity())
             {

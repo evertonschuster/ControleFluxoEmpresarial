@@ -1,14 +1,6 @@
-﻿using ControleFluxoEmpresarial.DAOs.Cidades;
-using ControleFluxoEmpresarial.DAOs.simple;
+﻿using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
-using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Pessoas;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Pessoas
 {
@@ -26,7 +18,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
         {
             var sql = "SELECT * FROM clientes WHERE cpfcpnj = @cpfcpnj";
 
-            return this.ExecuteGetFirstOrDefault(sql, new { cpfcpnj});
+            return this.ExecuteGetFirstOrDefault(sql, new { cpfcpnj });
         }
     }
 }

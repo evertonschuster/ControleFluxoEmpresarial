@@ -416,3 +416,35 @@ CREATE TABLE FuncionarioServicos(
 	FOREIGN KEY (FuncionarioId) REFERENCES Funcionarios (Id)
 );
 
+
+CREATE TABLE ContasPagar (
+    Numero VARCHAR(20) NOT NULL,
+    Modelo VARCHAR(2) NOT NULL,
+    Serie VARCHAR(2) NOT NULL,
+    FornecedorId INTEGER NOT NULL,
+    Parcela INTEGER NOT NULL,
+    Valor DECIMAL(10,2) NOT NULL,
+    Desconto DECIMAL(10,2) NULL,
+    Multa DECIMAL(10,2) NULL,
+    Juro DECIMAL(10,2) NULL,
+    FormaPagamentoId INTEGER NOT NULL,
+    DataVencimento TIMESTAMP WITH TIME ZONE,
+    DataEmissao TIMESTAMP WITH TIME ZONE,
+    Descricao VARCHAR(255) NULL,
+
+    DataCancelamento TIMESTAMP WITH TIME ZONE,
+    UserCancelamento text NULL,
+    JustificativaCancelamento VARCHAR(255) NULL,
+
+    DataCriacao  TIMESTAMP WITH TIME ZONE,
+    DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao text NOT NULL,
+    UserAtualizacao text NULL,
+
+    CONSTRAINT FK_ContasPagar_Fornecedores_FornecedorId FOREIGN KEY (FornecedorId) REFERENCES Fornecedores(Id),
+    CONSTRAINT FK_ContasPagar_FormaPagamentos_FormaPagamentoId FOREIGN KEY (FormaPagamentoId) REFERENCES FormaPagamentos(Id),
+    CONSTRAINT FK_ContasPagar_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_ContasPagar_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_ContasPagar_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT PK_ContasPagar PRIMARY KEY (Numero, Modelo, Serie, FornecedorId, Parcela)
+)

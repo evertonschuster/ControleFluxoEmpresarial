@@ -1,14 +1,10 @@
-﻿using ControleFluxoEmpresarial.Models.Cidades;
+﻿using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Data.Common;
-using ControleFluxoEmpresarial.DTO.Users;
 
 namespace ControleFluxoEmpresarial.DataBase
 {

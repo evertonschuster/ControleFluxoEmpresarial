@@ -1,18 +1,17 @@
-﻿using ControleFluxoEmpresarial.DAOs.Entities;
+﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.DAOs.Entities;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DAOs.simple;
+using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Entities;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
+using ControleFluxoEmpresarial.Models.Pessoas;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.DataBase;
-using ControleFluxoEmpresarial.Models.Pessoas;
-using System.Collections.ObjectModel;
-using ControleFluxoEmpresarial.Filters.DTO;
-using ControleFluxoEmpresarial.Architectures.Helper;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {

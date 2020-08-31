@@ -6,18 +6,32 @@ export default interface ContaPagar extends IBaseEntity2 {
     numero?: string | null;
     modelo?: string | null;
     serie?: string | null;
-    dataEmissao?: Date | null;
-    dataPagamento?: Date | null;
-    dataVencimento?: Date | null;
+    parcela?: number | null;
+    fornecedorId?: number | null;
+    fornecedor?: Fornecedor | null;
+
     valor?: number | null;
     desconto?: number | null;
     multa?: number | null;
     juro?: number | null;
-    parcela?: number | null;
+    descricao?: string | null;
 
-    fornecedorId?: number | null;
-    fornecedor?: Fornecedor | null;
+    dataEmissao?: Date | null;
+    dataPagamento?: Date | null;
+    dataVencimento?: Date | null;
+    dataCancelamento?: Date | null;
 
     formaPagamentoId?: number | null;
     formaPagamento?: FormaPagamento | null;
+}
+
+export interface CancelarContaPagar {
+    numero?: string | null;
+    modelo?: string | null;
+    serie?: string | null;
+    parcela?: number | null;
+    fornecedorId?: number | null;
+
+    justificativa?: string | null;
+    senha?: string | null;
 }

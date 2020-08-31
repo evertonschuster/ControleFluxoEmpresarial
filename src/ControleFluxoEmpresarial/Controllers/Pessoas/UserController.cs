@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.DAOs.Pessoas;
-using ControleFluxoEmpresarial.Filters.DTO;
-using ControleFluxoEmpresarial.Models.Pessoas;
+﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DTO.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Services.Users;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ControleFluxoEmpresarial.Controllers.Users
 {

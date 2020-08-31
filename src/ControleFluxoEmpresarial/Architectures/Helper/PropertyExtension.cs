@@ -1,10 +1,8 @@
 ﻿using ControleFluxoEmpresarial.Entities;
-using ControleFluxoEmpresarial.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Architectures.Helper
 {
@@ -29,6 +27,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 Nullable.GetUnderlyingType(e.PropertyType)?.IsEnum == true ||
                 e.PropertyType == typeof(string) ||
                 e.PropertyType == typeof(decimal) ||
+                e.PropertyType == typeof(decimal?) ||
                 e.PropertyType == typeof(float) ||
                 e.PropertyType == typeof(double) ||
                 e.PropertyType == typeof(Guid) ||

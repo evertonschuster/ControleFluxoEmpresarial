@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ControleFluxoEmpresarial.DAOs;
+﻿using ControleFluxoEmpresarial.DAOs;
+using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
-using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ControleFluxoEmpresarial.Controllers
 {

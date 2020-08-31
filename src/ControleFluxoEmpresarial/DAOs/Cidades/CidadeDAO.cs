@@ -4,10 +4,6 @@ using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Cidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Cidades
 {
@@ -76,7 +72,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 filter.Filter = $"%{filter.Filter.Replace(" ", "%")}%";
                 sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
             }
-            
+
             if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND Cidades.situacao is null";

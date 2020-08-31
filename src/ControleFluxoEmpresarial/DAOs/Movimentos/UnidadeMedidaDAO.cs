@@ -2,16 +2,12 @@
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Models.Movimentos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
 {
     public class UnidadeMedidaDAO : DAO<UnidadeMedida, string>
     {
-        public UnidadeMedidaDAO(DataBaseConnection context) : base(context, "UnidadesMedida", "Id","Nome", false)
+        public UnidadeMedidaDAO(DataBaseConnection context) : base(context, "UnidadesMedida", "Id", "Nome", false)
         {
         }
 

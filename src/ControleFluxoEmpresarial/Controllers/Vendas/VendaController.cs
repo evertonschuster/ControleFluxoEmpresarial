@@ -1,11 +1,7 @@
-﻿using ControleFluxoEmpresarial.DAOs;
-using ControleFluxoEmpresarial.DAOs.Vendas;
+﻿using ControleFluxoEmpresarial.DAOs.Vendas;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.Controllers.Vendas
 {

@@ -1,10 +1,7 @@
-﻿using ControleFluxoEmpresarial.Architectures;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DTO.Users
 {
@@ -20,12 +17,14 @@ namespace ControleFluxoEmpresarial.DTO.Users
 
 
             this.Id = Guid.Parse(this.User.Claims.Where(e => e.Type == "Id").FirstOrDefault().Value);
-            this.Nome = this.User.Claims.Where(e => e.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            this.Nome = this.User.Claims.Where(e => e.Type == ClaimTypes.Name).FirstOrDefault().Value;
+            this.UserNome = this.User.Claims.Where(e => e.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
         }
 
         public Guid Id { get; set; }
 
         public string Nome { get; set; }
+        public string UserNome { get; set; }
 
         public ClaimsPrincipal User { get; set; }
     }

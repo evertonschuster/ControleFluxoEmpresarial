@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -38,7 +35,7 @@ namespace ControleFluxoEmpresarial.Architectures.Middlewares
             }
         }
 
-        private static void HandleExceptionAsync(HttpContext context, BusinessException exception, HttpStatusCode code )
+        private static void HandleExceptionAsync(HttpContext context, BusinessException exception, HttpStatusCode code)
         {
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

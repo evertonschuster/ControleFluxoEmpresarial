@@ -1,30 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
 using ControleFluxoEmpresarial.Architectures;
 using ControleFluxoEmpresarial.Architectures.Middlewares;
 using ControleFluxoEmpresarial.DataBase;
-using ControleFluxoEmpresarial.Models.Pessoas;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Text.Json.Serialization;
 
 namespace ControleFluxoEmpresarial
 {
