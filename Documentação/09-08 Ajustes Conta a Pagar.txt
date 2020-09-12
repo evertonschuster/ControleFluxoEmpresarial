@@ -1,0 +1,8 @@
+Contas a pagar
+    Justificativa 25
+    Vencida linha ficar vermelha
+    Valor da baixa nao editavel
+    parcela anterior sem baixa
+    Cancelar baixa precisa de Justificativa e senha
+    
+    https://s3-sa-east-1.amazonaws.com/pe85007/portal/wp-content/uploads/2019/02/20124106/Como-calcular-juros-e-multas-de-um-boleto-3.pdf?__hstc=119022166.fa017d24c1a3e32ff54416260caaff43.1599606466284.1599606466284.1599606466284.1&__hssc=119022166.1.1599606466285&__hsfp=3675389372&hsCtaTracking=1eda4b6f-22f7-4958-a8e7-258b3489a861%7C2b379813-0120-4207-88e7-9ef63c77cf5c

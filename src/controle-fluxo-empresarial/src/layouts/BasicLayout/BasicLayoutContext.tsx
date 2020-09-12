@@ -10,7 +10,6 @@ export enum FormMode {
     SelectOne = 4,
     SelectMultiple = 5,
     List = 6,
-    CancelarEntity = 6,
 }
 
 

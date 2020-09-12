@@ -3,13 +3,27 @@ import { ContaPagarApi } from '../../../../apis/Movimentos/ContaPagarApi';
 import { ContaPagarSchema } from './ContaPagarSchema';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormikHelpers } from 'formik';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import ActionForm from './componets/ActionForm';
 import ContaPagar from '../../../../models/Movimentos/ContaPagar';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './componets/GeralForm';
 
+export enum FromContaPagarType {
+    Pagar,
+    Cancelar,
+    Editar,
+    Novo,
+    VerCancelada,
+    VerPaga,
+}
+
+export interface FormContaPagarMode {
+    formType: FromContaPagarType
+}
+
 const FromContaPagar: React.FC = () => {
+
     const [contaPagar, setContaPagar] = useState<ContaPagar>({
         numero: null,
         multa: null,
@@ -27,20 +41,26 @@ const FromContaPagar: React.FC = () => {
         valor: null,
         dataPagamento: null,
         descricao: null,
+        dataBaixa: null,
     })
 
     const history = useHistory()
     const [loading, setLoading] = useState(false);
     const { modelo, serie, numero, fornecedorId, parcela } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, fornecedorId: string | undefined, parcela: string | undefined }>()
-
+    const { state } = useLocation<FormContaPagarMode>();
+    const formType = state?.formType ?? FromContaPagarType.Novo;
     useEffect(() => {
         getContaPagar(modelo!, serie!, numero!, fornecedorId!, parcela!);
     }, [modelo, serie, numero, fornecedorId, parcela])
 
 
     async function onSubmit(conta: ContaPagar, formikHelpers: FormikHelpers<ContaPagar>) {
+
         try {
-            if (modelo) {
+            if (formType === FromContaPagarType.Pagar) {
+                await ContaPagarApi.Pagar(conta);
+            }
+            else if (modelo) {
                 await ContaPagarApi.Update(conta);
             } else {
                 await ContaPagarApi.Save(conta);
@@ -60,6 +80,12 @@ const FromContaPagar: React.FC = () => {
 
             setLoading(true);
             let bdpais = await ContaPagarApi.GetById(modelo, serie, numero, fornecedorId, parcela);
+
+            if (formType === FromContaPagarType.Pagar) {
+                bdpais.data.dataBaixa = new Date();
+                bdpais.data.dataPagamento = new Date();
+            }
+
             setContaPagar(bdpais.data);
         } catch (e) {
             errorBack(null, e);
@@ -76,7 +102,7 @@ const FromContaPagar: React.FC = () => {
             breadcrumbList={[{ displayName: "Conta a Pagar", URL: "/contas-pagar" }, { displayName: modelo ? "Edição de Conta a Pagar" : "Nova Conta a Pagar", URL: undefined }]}
             initialValues={contaPagar}
             validationSchema={ContaPagarSchema}
-            renderActionFooter={() => <ActionForm />}
+            renderFooter={() => <ActionForm />}
             onSubmit={onSubmit}
         >
             <GeralForm />

@@ -37,3 +37,8 @@ OS
     Servico e Produto separados
     No cadastro da OS 
     Depois que fecha, já lança a venda e contas a receber
+
+    Depois  q pagou uma parcela, não edita mais
+
+    Nota modelo é 55 pra venda e 56 pra servico
+

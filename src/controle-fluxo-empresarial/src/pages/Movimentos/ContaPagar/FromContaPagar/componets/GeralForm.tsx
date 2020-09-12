@@ -1,15 +1,16 @@
-import React, { useContext, useMemo } from 'react'
+import React from 'react'
 import { FormaPagamentoApi } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
 import { FornecedorApi } from '../../../../../apis/Pessoas/Fornecedor.Api';
 import { Input, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { Row, Col } from 'antd';
 import { useField } from 'formik';
-import BasicLayoutContext, { FormMode } from '../../../../../layouts/BasicLayout/BasicLayoutContext';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
 import { useEffect } from 'react';
 import { getUserNameStorage } from '../../../../../services/UserNameCache';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { FormContaPagarMode, FromContaPagarType } from '../FromContaPagar';
 
 const GeralForm: React.FC = () => {
 
@@ -19,22 +20,23 @@ const GeralForm: React.FC = () => {
     const [{ value: parcela }] = useField("parcela");
     const [{ value: fornecedorId }] = useField("fornecedorId");
     const [{ value: userCancelamento }] = useField("userCancelamento");
-    const { formMode } = useContext(BasicLayoutContext);
+    const { state } = useLocation<FormContaPagarMode>();
+    const formType = state?.formType ?? FromContaPagarType.Novo;
     const [userDescription, setUserDescription] = useState("")
 
-    const disableFormInput: boolean = !(numero && modelo && parcela && serie && fornecedorId) || formMode === FormMode.View;
-    const disableFormCancel: boolean = formMode === FormMode.CancelarEntity;
-    const disableFormEdit: boolean = formMode === FormMode.Edit;
+    const disableFormInput: boolean = !(numero && modelo && parcela && serie && fornecedorId)
+        || (formType === FromContaPagarType.VerCancelada || formType === FromContaPagarType.VerPaga);
+
+    const isFormCancel: boolean = formType === FromContaPagarType.Cancelar;
+    const isFormPay: boolean = formType === FromContaPagarType.Pagar || formType === FromContaPagarType.VerPaga;
+    const isFormEdit: boolean = formType === FromContaPagarType.Editar || isFormPay;
+    const disablePK = formType !== FromContaPagarType.Novo;
 
     useEffect(() => {
         getUserNameStorage(userCancelamento).then(e => {
             setUserDescription(e)
         })
     }, [userCancelamento]);
-
-    const disablePK = useMemo(() => {
-        return formMode !== FormMode.New;
-    }, [formMode])
 
     return (
         <>
@@ -67,19 +69,19 @@ const GeralForm: React.FC = () => {
 
             <Row>
                 <Col span={3}>
-                    <InputDecimal name="valor" label="Valor" placeholder="10,20" disabled={disableFormInput || disableFormCancel || disableFormEdit} required />
+                    <InputDecimal name="valor" label="Valor" placeholder="10,20" disabled={disableFormInput || isFormCancel || isFormEdit} required />
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="desconto" label="Desconto" placeholder="10,20" disabled={disableFormInput || disableFormCancel} />
+                    <InputDecimal name="desconto" label="Desconto" placeholder="10,20" disabled={disableFormInput || isFormCancel} />
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="multa" label="Multa" placeholder="10,20" disabled={disableFormInput || disableFormCancel} />
+                    <InputDecimal name="multa" label="Multa" placeholder="10,20" disabled={disableFormInput || isFormCancel} />
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="juro" label="Juros" placeholder="10,20" disabled={disableFormInput || disableFormCancel} />
+                    <InputDecimal name="juro" label="Juros" placeholder="10,20" disabled={disableFormInput || isFormCancel} />
                 </Col>
 
             </Row>
@@ -87,7 +89,7 @@ const GeralForm: React.FC = () => {
             <Row>
                 <Col span={7}>
                     <SelectModelOne
-                        disabled={disableFormInput || disableFormCancel}
+                        disabled={disableFormInput || isFormCancel}
                         fetchMethod={FormaPagamentoApi.GetById.bind(FormaPagamentoApi)}
                         name="formaPagamentoId"
                         keyDescription="nome"
@@ -99,17 +101,28 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <DatePicker name="dataEmissao" label="Data Emissão" disabled={disableFormInput || disableFormCancel || disableFormEdit} fast={false} required />
+                    <DatePicker name="dataEmissao" label="Data Emissão" disabled={disableFormInput || isFormCancel || isFormEdit} fast={false} required />
                 </Col>
 
                 <Col span={3}>
-                    <DatePicker name="dataVencimento" label="Data Vencimento" disabled={disableFormInput || disableFormCancel} fast={false} required />
+                    <DatePicker name="dataVencimento" label="Data Vencimento" disabled={disableFormInput || isFormCancel} fast={false} required />
                 </Col>
+
+                {isFormPay && <Col span={3}>
+                    <DatePicker name="dataPagamento" label="Data Pagamento" disabled={disableFormInput} required />
+                </Col>}
+                {isFormPay && <Col span={3}>
+                    <DatePicker name="dataBaixa" label="Data Baixa" disabled={true} />
+                </Col>}
+                {isFormPay && <Col span={3}>
+                    <InputNumber name="valorBaixa" label="Valor Baixa" disabled={true} />
+                </Col>}
+
             </Row>
 
             <Row>
                 <Col span={12}>
-                    <TextArea name="descricao" label="Descrição" rows={4} disabled={disableFormInput || disableFormCancel} fast={false} />
+                    <TextArea name="descricao" label="Descrição" rows={4} disabled={disableFormInput || isFormCancel} fast={false} />
                 </Col>
             </Row>
             {userCancelamento &&

@@ -26,5 +26,9 @@ class Api {
     Cancelar(conta: CancelarContaPagar): Promise<AxiosResponse<any>> {
         return api.put(`${this.EndPoint}/cancelar/(${conta.modelo}:${conta.serie}:${conta.numero}:${conta.fornecedorId}:${conta.parcela})`, conta);
     }
+
+    Pagar(conta: ContaPagar): Promise<AxiosResponse<any>> {
+        return api.put(`${this.EndPoint}/pagar/(${conta.modelo}:${conta.serie}:${conta.numero}:${conta.fornecedorId}:${conta.parcela})`, conta);
+    }
 }
 export const ContaPagarApi = new Api();

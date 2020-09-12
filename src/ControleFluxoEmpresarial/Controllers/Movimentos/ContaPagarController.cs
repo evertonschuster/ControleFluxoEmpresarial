@@ -5,6 +5,7 @@ using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Services.Movimentos;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {
@@ -65,7 +66,6 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
             return Ok();
         }
 
-        //DELETE: api/ApiWithActions/5
         [HttpPut("cancelar/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
         public virtual IActionResult Cancelar([FromRoute] ContaPagarId id, CancelarContaPagar cancelarContaPagar)
         {
@@ -78,6 +78,27 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
             this.ContaPagarService.Cancelar(cancelarContaPagar);
 
             return Ok();
+        }
+
+        [HttpPut("pagar/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
+        public virtual IActionResult Pagar([FromRoute] ContaPagarId id, ContaPagar contaPagar)
+        {
+            contaPagar.Modelo = id.Modelo;
+            contaPagar.Serie = id.Serie;
+            contaPagar.Numero = id.Numero;
+            contaPagar.FornecedorId = id.FornecedorId;
+            contaPagar.Parcela = id.Parcela;
+
+            this.ContaPagarService.Pagar(contaPagar);
+
+            return Ok();
+        }
+
+        [HttpGet("calcular-valor-baixa/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
+        public virtual IActionResult CalcularValorBaixa([FromRoute] ContaPagarId id, DateTime? dataBase = null, decimal? desconto = null, decimal? multa = null, decimal? juro = null)
+        {
+            var valor = this.ContaPagarService.CalcularValor(id);
+            return Ok(valor);
         }
 
         [HttpPost("list")]

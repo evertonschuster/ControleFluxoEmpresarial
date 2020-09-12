@@ -18,6 +18,7 @@ export default interface ContaPagar extends IBaseEntity2 {
 
     dataEmissao?: Date | null;
     dataPagamento?: Date | null;
+    dataBaixa?: Date | null;
     dataVencimento?: Date | null;
     dataCancelamento?: Date | null;
 
