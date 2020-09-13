@@ -1,153 +1,20 @@
-import React, { useMemo, useState } from 'react'
-import { Row, Col, Divider } from 'antd'
-import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
-import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi'
-import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi'
-import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
-import { ColumnProps } from 'antd/lib/table'
+import React, { useMemo, useRef, useState } from 'react'
 import { CompraProduto } from '../../../../models/Compras/CompraProduto'
-import { FormikHelpers, useField } from 'formik'
 import { CompraProdutoSchema } from '../CompraProdutoSchema'
-import { SubmitButton } from 'formik-antd'
-import InnerForm from '../../../../components/InnerForm/InnerForm'
-import { Produto } from '../../../../models/Movimentos/Produto'
-import { UnidadeMedida } from './../../../../models/Movimentos/UnidadeMedida';
-import { formatNumber2 } from '../../../../utils/FormatNumber'
-import EditableTable, { ColumnEditableProps, RowMode } from '../../../../components/EditableTable/EditableTable'
-import { WithItemNone } from '../../../../hoc/WithFormItem'
-import Separator from '../../../../components/Separator/Separator'
 import { FormCompraMode } from '../FormCompra'
+import { FormikHelpers, useField } from 'formik'
+import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi'
+import { Row, Col, Divider } from 'antd'
+import { SubmitButton } from 'formik-antd'
+import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi'
+import { WithItemNone } from '../../../../hoc/WithFormItem'
+import InnerForm from '../../../../components/InnerForm/InnerForm'
+import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
+import ListDetailsProduto, { ListHandle } from './ListDetailsProduto'
+import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
+import Separator from '../../../../components/Separator/Separator'
 
 const ProdutoSelection: React.FC = () => {
-
-    const columns: ColumnProps<CompraProduto>[] = useMemo(() => [
-        {
-            title: 'Código',
-            width: 100,
-            dataIndex: 'produto',
-            key: 'produto-codigo',
-            render: (produto: Produto) => {
-                return produto?.id
-            },
-        },
-        {
-            title: 'Produto',
-            dataIndex: 'produto',
-            key: 'produto',
-            editable: true,
-            render: (produto: Produto) => {
-                return produto?.nome
-            },
-            renderEditable: (text, record) => {
-                if (record.rowMode === RowMode.new) {
-                    return (<SelectModelOne
-                        fetchMethod={ProdutoApi.GetById.bind(ProdutoApi)}
-                        name="produtoId"
-                        objectName="produto"
-                        keyDescription="nome"
-                        required={true}
-                        showLabel={false}
-                        label={{ title: "Seleção de Produto", label: "Produto" }}
-                        errorMessage={{ noSelection: "Selecione um Produto!" }}
-                        path="Produto" />)
-                }
-
-                return record.produto?.nome;
-            },
-        },
-        {
-            width: 200,
-            title: 'Unidade Medida',
-            dataIndex: 'unidadeMedida',
-            key: 'unidadeMedida',
-            editable: true,
-            render: (unidadeMed: UnidadeMedida) => {
-                return unidadeMed?.nome
-            },
-            renderEditable: () => <SelectModelOne
-                fetchMethod={UnidadeMedidaApi.GetById.bind(UnidadeMedidaApi)}
-                name="unidadeMedidaId"
-                keyDescription="nome"
-                objectName="unidadeMedida"
-                required={true}
-                showLabel={false}
-                idIsInt={false}
-                showDescription={false}
-                label={{ title: "Seleção de Unidade de Medida", label: "Unidade de Medida" }}
-                errorMessage={{ noSelection: "Selecione uma Unidade de Medida!" }}
-                path="unidade-medida" />
-        },
-        {
-            align: "right",
-            dataIndex: 'quantidade',
-            width: 100,
-            editable: true,
-            key: 'quantidade',
-            title: 'Quantidade',
-            render: (quantidade: number) => {
-                return formatNumber2(quantidade)
-            },
-            renderEditable: () => <InputDecimal name="quantidade" placeholder="10,00" required />
-        },
-        {
-            align: "right",
-            width: 100,
-            dataIndex: 'valor',
-            editable: true,
-            key: 'valor',
-            title: 'Valor',
-            render: (valor: number) => {
-                return formatNumber2(valor)
-            },
-            renderEditable: () => <InputDecimal name="valor" placeholder="10,00" required />
-        },
-        {
-            align: "right",
-            width: 100,
-            key: 'Total Quantidade',
-            title: 'Total Prod',
-            render: (item: CompraProduto) => {
-                return formatNumber2(item.quantidade! * item.valor!)
-            },
-        },
-        {
-            align: "right",
-            width: 100,
-            title: 'Desconto',
-            dataIndex: 'desconto',
-            key: 'desconto',
-            editable: true,
-            render: (desconto: number) => {
-                return desconto ? formatNumber2(desconto) : "-"
-            },
-            renderEditable: () => <InputDecimal name="desconto" placeholder="10,00" required />
-        },
-        {
-            align: "right",
-            width: 100,
-            title: 'IPI',
-            dataIndex: 'ipi',
-            key: 'ipi',
-            editable: true,
-            render: (ipi: number) => {
-                return ipi ? formatNumber2(ipi) : "-"
-            },
-            renderEditable: () => <InputDecimal name="ipi" placeholder="10,00" required />
-        },
-        {
-            align: "right",
-            width: 100,
-            title: 'Total',
-            dataIndex: 'total',
-            key: 'total',
-            render: (_: number, record: CompraProduto) => {
-                let total = (record.quantidade! * record.valor!) - record.desconto! + record.ipi!;
-
-                return formatNumber2(total)
-            }
-        },
-
-    ] as ColumnEditableProps<CompraProduto>[], [])
 
     const initialValues: CompraProduto = useMemo(() => ({
         produtoId: null,
@@ -155,17 +22,18 @@ const ProdutoSelection: React.FC = () => {
         ipi: null,
         quantidade: null,
         unidadeMedidaId: null,
-        valor: null,
+        valorUnitario: null,
+        custoUnitario: null,
     }), [])
 
     const [compraProduto] = useState<CompraProduto>(initialValues)
-    const [field, , helper] = useField<CompraProduto[]>("compraProdutos")
+    const [{ value: produtos }] = useField<CompraProduto[]>("compraProdutos")
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
     const disableForm = formMode === FormCompraMode.PAGAMENTO;
+    const childRef = useRef<ListHandle>(null);
 
     async function onSubmit(values: CompraProduto, formikHelpers: FormikHelpers<CompraProduto>) {
         let containsErrors = false;
-
 
         if (!values.produto) {
             formikHelpers.setFieldError("produtoId", "Produto inválido.")
@@ -177,7 +45,7 @@ const ProdutoSelection: React.FC = () => {
             containsErrors = true;
         }
 
-        if (field?.value?.findIndex(e => e.produtoId === values.produtoId) >= 0) {
+        if (produtos?.findIndex(e => e.produtoId === values.produto?.id) >= 0) {
             formikHelpers.setFieldError("produtoId", "Produto já Adicionado.")
             containsErrors = true;
         }
@@ -186,9 +54,9 @@ const ProdutoSelection: React.FC = () => {
             return formikHelpers.setSubmitting(false);
         }
 
-
         formikHelpers.resetForm({ values: initialValues })
-        helper.setValue(field.value.concat(values))
+        let newProdutos = produtos.concat(values);
+        childRef.current?.refeshValues(newProdutos);
     }
 
 
@@ -238,7 +106,7 @@ const ProdutoSelection: React.FC = () => {
                     </Col>
 
                     <Col span={3}>
-                        <InputDecimal name="valor" label="Valor" placeholder="10,00" required disabled={disableForm} />
+                        <InputDecimal name="valorUnitario" label="Valor" placeholder="10,00" required disabled={disableForm} />
                     </Col>
 
                     <Col span={2}>
@@ -271,14 +139,7 @@ const ProdutoSelection: React.FC = () => {
             <Row>
                 <Col>
                     <WithItemNone showLabel={false}>
-                        <EditableTable
-                            disabled={disableForm}
-                            showNewAction={false}
-                            columns={columns}
-                            validationSchema={CompraProdutoSchema}
-                            name="compraProdutos"
-                            initiallValues={initialValues}
-                            rowKey="produtoId" />
+                        <ListDetailsProduto initialValues={initialValues} disabled={disableForm} ref={childRef} />
                     </WithItemNone>
                 </Col>
             </Row>

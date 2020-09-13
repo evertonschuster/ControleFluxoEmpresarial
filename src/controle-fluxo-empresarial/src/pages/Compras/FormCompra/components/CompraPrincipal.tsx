@@ -25,7 +25,7 @@ const CompraPrincipal: React.FC = () => {
 
     useEffect(() => {
         let totalSoma = compraProdutos.reduce((acumulador, prod) => {
-            let total = (prod.quantidade! * prod.valor!) - prod.desconto! + prod.ipi!;
+            let total = (prod.quantidade! * prod.valorUnitario!) - prod.desconto! + prod.ipi!;
             return acumulador + total;
         }, 0) ?? 0;
 
@@ -52,6 +52,7 @@ const CompraPrincipal: React.FC = () => {
                     <SelectModelOne
                         fetchMethod={FornecedorApi.GetById.bind(FornecedorApi)}
                         name="fornecedorId"
+                        objectName="fornecedor"
                         keyDescription="nome"
                         required={true}
                         disabled={disableForm}
@@ -61,7 +62,7 @@ const CompraPrincipal: React.FC = () => {
                 </Col>
 
                 <Col span={2}>
-                    <InputSituation name="situacao" disabled={disableForm} />
+                    <InputSituation name="situacao" disabled={true} />
                 </Col>
             </Row>
 
@@ -91,7 +92,7 @@ const CompraPrincipal: React.FC = () => {
                 </Col>
 
                 <Col span={3} push={12}>
-                    <InputDecimal name="total" label="TotalNota" placeholder="21,50" disabled />
+                    <InputDecimal name="total" label="Total da Nota" placeholder="21,50" disabled />
                 </Col>
             </Row>
 

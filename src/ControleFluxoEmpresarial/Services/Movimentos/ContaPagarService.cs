@@ -4,8 +4,6 @@ using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Models.Movimentos;
-using ControleFluxoEmpresarial.Models.Pessoas;
-using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace ControleFluxoEmpresarial.Services.Movimentos

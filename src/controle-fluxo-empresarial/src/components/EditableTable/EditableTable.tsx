@@ -32,8 +32,9 @@ export interface Props<T> {
     initiallValues: T;
     name: string;
     validationSchema?: any | (() => any);
-    showNewAction?: boolean
-    disabled?: boolean
+    showNewAction?: boolean;
+    disabled?: boolean;
+    afterChangedValues?: (values: any) => void;
 }
 
 export interface RecordTable {
@@ -91,9 +92,9 @@ const EditableTable: React.FC<Props<any>> = (props) => {
             width: "180px",
             render: (text: any, record: RecordTable, index: number) => <EditableCellAction index={index} record={record} handleRowMode={handleRowMode} handleRemove={handleRemove} />
         })
-        
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.columns, handleRowMode, props.disabled, ]);
+    }, [props.columns, handleRowMode, props.disabled,]);
 
     const columns: ColumnProps<any>[] = useMemo(() => columnsAction.map((col: ColumnEditableProps<any>) => {
         if (!col.editable) {
@@ -117,12 +118,18 @@ const EditableTable: React.FC<Props<any>> = (props) => {
         (values: RecordTable & any) => {
             const dataSourceNew = dataSource.map(e => e.tableKey !== values.tableKey ? e : { ...values, rowMode: RowMode.view });
             helpers.setValue(dataSourceNew);
+
+            setTimeout(() => {
+                props.afterChangedValues && props.afterChangedValues(dataSourceNew);
+            }, 3);
+
         }, [dataSource, helpers]);
 
     const handleRemove = useCallback(
         (values: RecordTable & any) => {
             const dataSourceNew = dataSource.filter(e => e.tableKey !== values.tableKey);
             helpers.setValue(dataSourceNew);
+            props.afterChangedValues && props.afterChangedValues(dataSourceNew);
         }, [dataSource, helpers])
 
 

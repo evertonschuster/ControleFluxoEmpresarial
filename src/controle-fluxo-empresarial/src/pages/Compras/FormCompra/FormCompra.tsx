@@ -3,17 +3,27 @@ import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout';
 import { Compra } from '../../../models/Compras/Compra';
 import { useParams } from 'react-router-dom';
 import CompraPrincipal from './components/CompraPrincipal';
+import { CompraSchema } from './CompraSchema';
 
 export enum FormCompraMode {
-    COMPRA,
-    PAGAMENTO
+    COMPRA, //Cadastrando Produtos
+    PAGAMENTO //Gerando parcelas
 }
 
 const FormCompra: React.FC = () => {
 
     const { id } = useParams<{ id: string | undefined }>()
     const [compra] = useState<Compra & { formMode: FormCompraMode }>({
+        numero: null,
+        serie: null,
+        modelo: null,
+        fornecedorId: null,
+
+        dataChegada: null,
+        dataEmissao: null,
+
         compraProdutos: [],
+        parcelas: null,
         total: null,
         formMode: FormCompraMode.COMPRA
     })
@@ -40,7 +50,7 @@ const FormCompra: React.FC = () => {
             backPath="/compras"
             breadcrumbList={[{ displayName: "Compra", URL: "/compra" }, { displayName: id ? "Edição da Compra" : "Nova Compra", URL: undefined }]}
             initialValues={compra}
-            // validationSchema={CategoriaSchema}
+            validationSchema={CompraSchema}
             onSubmit={onSubmit}
         >
             <CompraPrincipal />

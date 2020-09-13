@@ -1,6 +1,5 @@
 import { IBaseEntity2 } from './../BaseEntity';
 import { Produto } from './../Movimentos/Produto';
-import { FormaPagamento } from './../CondicaoPagamento/FormaPagamento';
 import { UnidadeMedida } from './../Movimentos/UnidadeMedida';
 
 export interface CompraProduto extends IBaseEntity2{
@@ -12,7 +11,8 @@ export interface CompraProduto extends IBaseEntity2{
     unidadeMedidaId?: string | null;
 
     quantidade?: number | null;
-    valor?: number | null;
+    valorUnitario?: number | null;
     desconto?: number | null;
     ipi?: number | null;
+    custoUnitario?: number | null;
 }

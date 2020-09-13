@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { CompraProduto } from '../../../models/Compras/CompraProduto';
 
-
 export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
     produtoId: Yup.number()
         .nullable()
@@ -22,7 +21,7 @@ export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
         .typeError("Informe a Quantidade.")
         .required("Informe a Quantidade."),
 
-    valor: Yup.number()
+    valorUnitario: Yup.number()
         .nullable()
         .typeError("Informe o Valor.")
         .required("Informe o Valor."),

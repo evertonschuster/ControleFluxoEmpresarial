@@ -1,9 +1,11 @@
 export const formatNumber2 = Intl.NumberFormat(undefined, {
-    minimumFractionDigits: 2
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
 }).format;
 
 export const formatNumber4 = Intl.NumberFormat(undefined, {
-    minimumFractionDigits: 4
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4
 });
 
 export const formatDataWithHour = (data: Date) => {

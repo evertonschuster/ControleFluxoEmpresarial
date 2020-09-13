@@ -3,12 +3,13 @@ import { CondicaoPagamentoApi } from '../../../../apis/CondicaoPagamento/Condica
 import { FormCompraMode } from '../FormCompra';
 import { ParcelaPagamento } from '../../../../models/CondicaoPagamento/ParcelaPagamento';
 import { Row, Col, Divider, Button } from 'antd';
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { WithItemNone } from '../../../../hoc/WithFormItem';
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
 import Separator from '../../../../components/Separator/Separator';
 import ShowCondicaoPagamentoParcelas from '../../../../components/ShowCondicaoPagamentoParcelas/ShowCondicaoPagamentoParcelas';
 import { CompraProduto } from '../../../../models/Compras/CompraProduto';
+import { message } from 'antd';
 
 const CondicaoPagamentoSelection: React.FC = () => {
 
@@ -16,11 +17,17 @@ const CondicaoPagamentoSelection: React.FC = () => {
     const [{ value: condicaoPagamentoId }] = useField<number>("condicaoPagamentoId");
     const [{ value: formMode }, , { setValue: setFormMode }] = useField<FormCompraMode>("formMode");
     const [{ value: compraProdutos }, ,] = useField<CompraProduto[]>("compraProdutos")
+    const [{ value: parcelas }, { error: parcelasError }, { setValue: setParcelas }] = useField<ParcelaPagamento[] | null>("parcelas")
 
     const [loading, setLoading] = useState(false)
-    const [parcelas, setParcelas] = useState<ParcelaPagamento[]>([])
+    const formik = useFormikContext();
 
     async function calcularParcelas() {
+        await formik.submitForm()
+        if (!formik.isValid) {
+            message.error("Formulário inválido, por favor corrija para continuar.")
+            return
+        }
 
         setFormMode(FormCompraMode.PAGAMENTO)
         try {
@@ -37,8 +44,12 @@ const CondicaoPagamentoSelection: React.FC = () => {
     }
 
     function limparParcelas() {
-        setParcelas([])
+        setParcelas(null)
         setFormMode(FormCompraMode.COMPRA)
+
+        setTimeout(() => {
+            formik.submitForm()
+        }, 1000);
     }
 
     function disabledCalcularParcelas() {
@@ -50,7 +61,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
             return true;
         }
 
-        if (parcelas.length > 0) {
+        if (parcelas && parcelas.length > 0) {
             return true;
         }
 
@@ -69,7 +80,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
             <Row>
                 <Col span={6}>
                     <SelectModelOne
-                        disabled={parcelas.length > 0}
+                        disabled={!!parcelas && parcelas.length > 0}
                         fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
                         keyDescription="nome"
@@ -95,8 +106,9 @@ const CondicaoPagamentoSelection: React.FC = () => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        error={loading ? "" : parcelasError}
                         loading={loading}
-                        dataSource={parcelas} />
+                        dataSource={parcelas ?? []} />
                 </Col>
             </Row>
         </>

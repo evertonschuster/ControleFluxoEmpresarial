@@ -1,7 +1,7 @@
 import { FormaPagamento } from './../../models/CondicaoPagamento/FormaPagamento';
 import { formatNumber2, formatData } from './../../utils/FormatNumber';
 import { ParcelaPagamento } from '../../models/CondicaoPagamento/ParcelaPagamento';
-import { Row, Col } from 'antd';
+import { Row, Col, Form } from 'antd';
 import { WithItemNone } from '../../hoc/WithFormItem';
 import React, { useMemo, memo } from 'react'
 import Table, { ColumnProps } from 'antd/lib/table'
@@ -11,6 +11,7 @@ interface Props {
     loading?: boolean;
     hiddenDesconto?: boolean;
     hiddenTotal?: boolean;
+    error?: string;
 }
 
 const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
@@ -84,6 +85,12 @@ const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
                         size="small"
                         bordered
                         pagination={false} />
+
+                    <Form.Item
+                        validateStatus="error"
+                        help={prop.error}
+                    ></Form.Item>
+
                 </WithItemNone>
             </Col>
         </Row>
