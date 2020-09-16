@@ -29,7 +29,7 @@ namespace ControleFluxoEmpresarial.Services.CondicoesPagamento
                 DataVencimento = dataBase.AddDays(condicaoPagamentoParcela.NumeroDias),
                 FormaPagamento = condicaoPagamentoParcela.FormaPagamento,
                 FormaPagamentoId = condicaoPagamentoParcela.FormaPagamentoId,
-                NumeroParcela = numero
+                Parcela = numero
             };
 
             return parcela;
@@ -48,7 +48,7 @@ namespace ControleFluxoEmpresarial.Services.CondicoesPagamento
                 DataVencimento = dataBase.AddDays(condicaoPagamentoParcela.NumeroDias),
                 FormaPagamento = condicaoPagamentoParcela.FormaPagamento,
                 FormaPagamentoId = condicaoPagamentoParcela.FormaPagamentoId,
-                NumeroParcela = numero
+                Parcela = numero
             };
 
             return parcela;

@@ -15,23 +15,24 @@ import { FormCompraMode } from '../FormCompra'
 
 const CompraPrincipal: React.FC = () => {
 
-    const [{ value: compraProdutos }, ,] = useField<CompraProduto[]>("compraProdutos")
+    const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos")
     const [{ value: frete }, ,] = useField<number>("frete")
     const [{ value: seguro }, ,] = useField<number>("seguro")
-    const [{ value: outrasDispesas }, ,] = useField<number>("outrasDispesas")
+    const [{ value: outrasDespesas }, ,] = useField<number>("outrasDespesas")
     const [, , { setValue: setTotal }] = useField<number>("total");
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
-    const disableForm = formMode == FormCompraMode.PAGAMENTO;
+
+    const disableForm = formMode === FormCompraMode.PAGAMENTO || formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
 
     useEffect(() => {
-        let totalSoma = compraProdutos.reduce((acumulador, prod) => {
+        let totalSoma = produtos.reduce((acumulador, prod) => {
             let total = (prod.quantidade! * prod.valorUnitario!) - prod.desconto! + prod.ipi!;
             return acumulador + total;
         }, 0) ?? 0;
 
-        totalSoma += (frete ?? 0) + (seguro ?? 0) + (outrasDispesas ?? 0)
+        totalSoma += (frete ?? 0) + (seguro ?? 0) + (outrasDespesas ?? 0)
         setTotal(totalSoma)
-    }, [compraProdutos, frete, seguro, outrasDispesas])
+    }, [produtos, frete, seguro, outrasDespesas])
 
 
     return (
@@ -88,7 +89,7 @@ const CompraPrincipal: React.FC = () => {
                     <InputDecimal name="seguro" label="Seguro" placeholder="21,50" disabled={disableForm} />
                 </Col>
                 <Col span={3}>
-                    <InputDecimal name="outrasDispesas" label="Outras despesas" placeholder="21,50" disabled={disableForm} />
+                    <InputDecimal name="outrasDespesas" label="Outras despesas" placeholder="21,50" disabled={disableForm} />
                 </Col>
 
                 <Col span={3} push={12}>
@@ -102,7 +103,7 @@ const CompraPrincipal: React.FC = () => {
 
             <Row>
                 <Col span={12}>
-                    <TextArea name="observacao" label="Observações" rows={5} />
+                    <TextArea name="observacao" label="Observações" rows={5}  disabled={disableForm}/>
                 </Col>
             </Row>
 

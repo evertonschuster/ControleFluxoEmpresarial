@@ -5,7 +5,7 @@ namespace ControleFluxoEmpresarial.Services.CondicoesPagamento.models
 {
     public class ParcelaPagamento
     {
-        public int NumeroParcela { get; set; }
+        public int Parcela { get; set; }
 
         public decimal Valor { get; set; }
         public decimal Desconto { get; set; }

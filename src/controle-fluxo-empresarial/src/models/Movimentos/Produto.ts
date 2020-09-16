@@ -6,7 +6,7 @@ export interface Produto {
     quantidade?: number | null;
     quantidadeMinima?: number | null;
     valorCompra?: number | null;
-    taxa?: number | null;
+    percentualLucro?: number | null;
     valorVenda?: number | null;
     categoriaId?: number | null;
     unidadeMedidaId?: string | null;

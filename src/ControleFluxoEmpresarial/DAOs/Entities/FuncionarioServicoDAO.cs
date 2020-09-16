@@ -1,6 +1,7 @@
 ﻿using ControleFluxoEmpresarial.DAOs.compose;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Entities;
+using ControleFluxoEmpresarial.Filters.DTO;
 using System.Collections.Generic;
 
 namespace ControleFluxoEmpresarial.DAOs.Entities
@@ -10,6 +11,11 @@ namespace ControleFluxoEmpresarial.DAOs.Entities
 
         public FuncionarioServicoDAO(DataBaseConnection context) : base(context, "FuncionarioServicos", new string[] { "ServicoId", "FuncionarioId" })
         {
+        }
+
+        public override PaginationResult<FuncionarioServico> GetPagined(PaginationQuery filter)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override void VerifyRelationshipDependence(object ids)

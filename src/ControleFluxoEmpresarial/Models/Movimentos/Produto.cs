@@ -32,6 +32,8 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
 
         public decimal ValorVenda { get; set; }
 
+        public decimal PercentualLucro { get; set; }
+
         public decimal Quantidade { get; set; }
 
     }

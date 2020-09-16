@@ -21,7 +21,7 @@ const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
             {
                 align: "right",
                 width: 150,
-                dataIndex: "numeroParcela",
+                dataIndex: "parcela",
                 title: "Número da Parcela"
             },
             {

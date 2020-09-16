@@ -13,7 +13,7 @@ import Separator from '../../../../../components/Separator/Separator';
 
 const FormGeneral: React.FC = () => {
 
-    const [, , helperTaxa] = useField<number>("taxa");
+    const [, , helperPercentualLucro] = useField<number>("percentualLucro");
     const [, metaValorVenda, helperValorVenda] = useField<number>("valorVenda");
     const [, metaValorCompra] = useField<number>("valorCompra");
     const [valorVendaAtencao, setValorVendaAtencao] = useState(true);
@@ -25,7 +25,7 @@ const FormGeneral: React.FC = () => {
     const calculeValorTaxa = useDebouncedCallback((value: number | string | undefined = 0) => {
         let valorVenda = value as number;
         let taxa = (valorVenda - metaValorCompra.value) / (metaValorCompra.value) * 100;
-        helperTaxa.setValue(taxa);
+        helperPercentualLucro.setValue(taxa);
     }, 100)
 
     const calculeValorVenda = useDebouncedCallback((value: number | string | undefined = 0) => {
@@ -124,7 +124,7 @@ const FormGeneral: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <InputDecimal name="taxa" label="Margem de lucro (%)" placeholder="15,50" onChange={calculeValorVenda} />
+                    <InputDecimal name="percentualLucro" label="Margem de lucro (%)" placeholder="15,50" onChange={calculeValorVenda} />
                 </Col>
 
 

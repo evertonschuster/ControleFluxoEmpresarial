@@ -1,12 +1,14 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DAOs.compose;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Compras;
 using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace ControleFluxoEmpresarial.DAOs.Movimentos
@@ -56,6 +58,26 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
 
             return this.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM ContasPagar", new { filter.Filter, byInt, byData }, filter);
+        }
+
+        public List<ContaPagar> GetByCompraId(CompraId compraId)
+        {
+            var sql = $@"SELECT contaspagar.numero, contaspagar.modelo, contaspagar.serie, contaspagar.fornecedorid, contaspagar.parcela, contaspagar.valor, 
+			                    contaspagar.desconto, contaspagar.multa, contaspagar.juro, contaspagar.valorbaixa, contaspagar.formapagamentoid, 
+			                    contaspagar.datavencimento, contaspagar.dataemissao, contaspagar.descricao, contaspagar.databaixa, contaspagar.datapagamento, 
+			                    contaspagar.userbaixa, contaspagar.datacancelamento, contaspagar.usercancelamento, contaspagar.justificativacancelamento, 
+			                    contaspagar.datacriacao, contaspagar.dataatualizacao, contaspagar.usercriacao, contaspagar.useratualizacao,
+
+			                    formapagamentos.id as ""formapagamento.id"", formapagamentos.nome as ""formapagamento.nome"", formapagamentos.situacao as ""formapagamento.situacao"", 
+                                formapagamentos.datacriacao as ""formapagamento.datacriacao"", formapagamentos.dataatualizacao as ""formapagamento.dataatualizacao"", 
+			                    formapagamentos.usercriacao as ""formapagamento.usercriacao"", formapagamentos.useratualizacao as ""formapagamento.useratualizacao""
+
+
+                        FROM public.contaspagar
+                            INNER JOIN public.formapagamentos ON formapagamentos.id = contaspagar.formapagamentoid
+                        WHERE Modelo = @Modelo and Serie = @Serie and Numero = @Numero and FornecedorId = @FornecedorId";
+
+            return this.ExecuteGetAll(sql, compraId);
         }
 
         public override void VerifyRelationshipDependence(object ids)

@@ -37,6 +37,19 @@ export const CompraSchema = Yup.object().shape<Compra>({
             return form.dataEmissao! <= form.dataChegada!
         }),
 
+
+    frete: Yup.number()
+        .nullable()
+        .min(0, "Frete não pode ser negativo"),
+
+    seguro: Yup.number()
+        .nullable()
+        .min(0, "Seguro não pode ser negativo"),
+
+    outrasDespesas: Yup.number()
+        .nullable()
+        .min(0, "Outras Despesas não pode ser negativo"),
+
     parcelas: Yup.mixed()
         .nullable()
         .when("formMode", {

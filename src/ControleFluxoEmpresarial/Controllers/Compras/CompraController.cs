@@ -1,4 +1,7 @@
-﻿using ControleFluxoEmpresarial.DTO.Compras;
+﻿using ControleFluxoEmpresarial.DAOs.Compras;
+using ControleFluxoEmpresarial.DTO.Compras;
+using ControleFluxoEmpresarial.Filters.DTO;
+using ControleFluxoEmpresarial.Models.Compras;
 using ControleFluxoEmpresarial.Services.Compras;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +14,31 @@ namespace ControleFluxoEmpresarial.Controllers.Compras
     [ApiController]
     public class CompraController : ControllerBase
     {
+        public CompraService CompraService { get; set; }
+
         public CompraController(CompraService compraService)
         {
-            CompraService = compraService ?? throw new ArgumentNullException(nameof(compraService));
+            CompraService = compraService;
         }
 
-        public CompraService CompraService { get; set; }
+        [HttpGet("({modelo}:{serie}:{numero}:{fornecedorId})")]
+        public virtual IActionResult Get([FromRoute] CompraId id)
+        {
+            var entity = this.CompraService.GetByID(id);
+            if (entity == null)
+            {
+                return Ok();
+            }
+
+            return Ok(entity);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Compra compra)
+        {
+            this.CompraService.LancarCompra(compra);
+            return Ok();
+        }
 
         [HttpPost("calcular-valor-ratiado")]
         public IActionResult CalcularValorRatiado([FromBody] CalcularValorRatiadoDTO dto)
@@ -24,5 +46,17 @@ namespace ControleFluxoEmpresarial.Controllers.Compras
             var result = this.CompraService.CalcularValorRatiado(dto.Produtos, dto.Frete, dto.Seguro, dto.OutrasDespesas);
             return Ok(result);
         }
+
+
+        [HttpPost("list")]
+        public new IActionResult GetListPagined(PaginationQuery filter)
+        {
+            return Ok(this.CompraService.GetPagined(filter));
+        }
+
+
+        //Cancelar 
+        //Validar se tem estoque que pode ser cancelado
+        //Se uma parcela ja for dado baixa n pode, precisa cancelar a baixa
     }
 }

@@ -16,16 +16,21 @@ const CondicaoPagamentoSelection: React.FC = () => {
     const [{ value: total }, ,] = useField<number>("total");
     const [{ value: condicaoPagamentoId }] = useField<number>("condicaoPagamentoId");
     const [{ value: formMode }, , { setValue: setFormMode }] = useField<FormCompraMode>("formMode");
-    const [{ value: compraProdutos }, ,] = useField<CompraProduto[]>("compraProdutos")
+    const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos")
     const [{ value: parcelas }, { error: parcelasError }, { setValue: setParcelas }] = useField<ParcelaPagamento[] | null>("parcelas")
 
+    const disableForm = formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
     const [loading, setLoading] = useState(false)
     const formik = useFormikContext();
 
     async function calcularParcelas() {
-        await formik.submitForm()
+        let result = await formik.validateForm() as any
+
         if (!formik.isValid) {
             message.error("Formulário inválido, por favor corrija para continuar.")
+            let errors = Object.keys(result).map(e => <span>{`[${e}]: ${result[e]}`} <br /></span>);
+            message.error({ content: errors })
+
             return
         }
 
@@ -44,20 +49,24 @@ const CondicaoPagamentoSelection: React.FC = () => {
     }
 
     function limparParcelas() {
-        setParcelas(null)
-        setFormMode(FormCompraMode.COMPRA)
+        setParcelas(null);
+        setFormMode(FormCompraMode.COMPRA);
 
         setTimeout(() => {
-            formik.submitForm()
-        }, 1000);
+            formik.validateForm();
+        }, 500);
     }
 
     function disabledCalcularParcelas() {
+        if (disableForm) {
+            return true;
+        }
+
         if (!condicaoPagamentoId) {
             return true;
         }
 
-        if (compraProdutos.length <= 0) {
+        if (produtos.length <= 0) {
             return true;
         }
 
@@ -80,7 +89,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
             <Row>
                 <Col span={6}>
                     <SelectModelOne
-                        disabled={!!parcelas && parcelas.length > 0}
+                        disabled={(!!parcelas && parcelas.length > 0) || disableForm}
                         fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
                         keyDescription="nome"
@@ -96,7 +105,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
                 </Col>
                 <Col span={3}>
                     <WithItemNone showLabel={true} padding={false} >
-                        <Button type="danger" onClick={limparParcelas} disabled={formMode === FormCompraMode.COMPRA}>Limpar Parcelas</Button>
+                        <Button type="danger" onClick={limparParcelas} disabled={formMode === FormCompraMode.COMPRA || disableForm}>Limpar Parcelas</Button>
                     </WithItemNone>
                 </Col>
             </Row>

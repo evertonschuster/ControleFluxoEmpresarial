@@ -325,6 +325,7 @@ CREATE TABLE Produtos (
 	ValorCompra  DECIMAL(10,2) NOT NULL,
 	ValorVenda  DECIMAL(10,2) NOT NULL,
 	Quantidade  DECIMAL(10,2) NOT NULL,
+	PercentualLucro  DECIMAL(10,2) NOT NULL,
 	Observacao VARCHAR(255) NULL,
 	Descricao VARCHAR(255) NULL,
 	Situacao TIMESTAMP WITH TIME ZONE,
@@ -453,4 +454,67 @@ CREATE TABLE ContasPagar (
     CONSTRAINT FK_ContasPagar_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_ContasPagar_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT PK_ContasPagar PRIMARY KEY (Numero, Modelo, Serie, FornecedorId, Parcela)
+);
+
+
+CREATE TABLE Compras (
+    Numero VARCHAR(20) NOT NULL,
+    Modelo VARCHAR(2) NOT NULL,
+    Serie VARCHAR(2) NOT NULL,
+    FornecedorId INTEGER NOT NULL,
+
+    DataEmissao TIMESTAMP WITH TIME ZONE NOT NULL,
+    DataChegada TIMESTAMP WITH TIME ZONE NOT NULL,
+
+    CondicaoPagamentoId INTEGER NOT NULL,
+    Frete DECIMAL(10,2) NULL,
+    Seguro DECIMAL(10,2) NULL,
+    OutrasDespesas DECIMAL(10,2) NULL,
+    Observacoes VARCHAR(255) NULL,
+   
+    DataCancelamento TIMESTAMP WITH TIME ZONE,
+    UserCancelamento text NULL,
+    JustificativaCancelamento VARCHAR(255) NULL,
+
+    DataCriacao  TIMESTAMP WITH TIME ZONE,
+    DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao text NOT NULL,
+    UserAtualizacao text NULL,
+
+    CONSTRAINT FK_Compra_Fornecedores_FornecedorId FOREIGN KEY (FornecedorId) REFERENCES Fornecedores(Id),
+    CONSTRAINT FK_Compra_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_Compra_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_Compra_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_Compra_CondicaoPagamento_CondicaoPagamentoId FOREIGN KEY (CondicaoPagamentoId) REFERENCES CondicaoPagamentos (Id),
+    CONSTRAINT PK_Compra PRIMARY KEY (Numero, Modelo, Serie, FornecedorId)
+);
+
+
+CREATE TABLE CompraProdutos (
+    Numero VARCHAR(20) NOT NULL,
+    Modelo VARCHAR(2) NOT NULL,
+    Serie VARCHAR(2) NOT NULL,
+    FornecedorId INTEGER NOT NULL,
+
+	ProdutoId INTEGER NOT NULL,
+	UnidadeMedidaId  VARCHAR(3) NOT NULL,
+   
+	Quantidade DECIMAL(10,2) NOT NULL,
+	ValorUnitario DECIMAL(10,2) NOT NULL,
+	Desconto DECIMAL(10,2) NULL,
+	IPI DECIMAL(10,2) NULL,
+	CustoUnitario DECIMAL(10,2) NOT NULL,
+
+    CONSTRAINT FK_CompraProduto_compra FOREIGN KEY (Numero, Modelo, Serie, FornecedorId) REFERENCES Compras(Numero, Modelo, Serie, FornecedorId),
+	CONSTRAINT FK_CompraProduto_UnidadesMedida_UnidadeMedidaId FOREIGN KEY (UnidadeMedidaId) REFERENCES UnidadesMedida (Id),
+	CONSTRAINT FK_CompraProduto_Produtos_ProdutoId FOREIGN KEY (ProdutoId) REFERENCES Produtos (Id),
+    CONSTRAINT PK_CompraProduto PRIMARY KEY (Numero, Modelo, Serie, FornecedorId, ProdutoId)
 )
+
+
+
+
+
+
+
+

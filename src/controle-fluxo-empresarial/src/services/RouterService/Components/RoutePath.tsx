@@ -104,8 +104,9 @@ const RoutePath: React.FC = () => {
             <Route path="/unidade-medida/new" component={FormUnidadeMedida} />
 
             <Route path="/compras" component={ListCompra} exact />
-            <Route path="/compras/edit/:id" component={FormCompra} />
             <Route path="/compras/new" component={FormCompra} />
+            <Route path="/compras/view/:modelo/:serie/:numero/:fornecedorId" component={FormCompra} />
+            <Route path="/compras/cancel/:modelo/:serie/:numero/:fornecedorId" component={FormCompra} />
 
             <Route path="/ordem-servico" component={ListOrdemServico} exact />
             <Route path="/ordem-servico/new" component={FormAberturaOrdemServico} />

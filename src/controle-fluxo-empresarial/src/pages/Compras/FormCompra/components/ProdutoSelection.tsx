@@ -27,9 +27,10 @@ const ProdutoSelection: React.FC = () => {
     }), [])
 
     const [compraProduto] = useState<CompraProduto>(initialValues)
-    const [{ value: produtos }] = useField<CompraProduto[]>("compraProdutos")
+    const [{ value: produtos }] = useField<CompraProduto[]>("produtos")
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
-    const disableForm = formMode === FormCompraMode.PAGAMENTO;
+
+    const disableForm = formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
     const childRef = useRef<ListHandle>(null);
 
     async function onSubmit(values: CompraProduto, formikHelpers: FormikHelpers<CompraProduto>) {
@@ -58,7 +59,6 @@ const ProdutoSelection: React.FC = () => {
         let newProdutos = produtos.concat(values);
         childRef.current?.refeshValues(newProdutos);
     }
-
 
     return (
         <>

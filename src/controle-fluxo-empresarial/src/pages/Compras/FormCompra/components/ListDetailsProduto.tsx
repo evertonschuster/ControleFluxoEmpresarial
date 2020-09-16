@@ -10,12 +10,14 @@ import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi'
 import { UnidadeMedida } from '../../../../models/Movimentos/UnidadeMedida'
 import { UnidadeMedidaApi } from '../../../../apis/Movimentos/UnidadeMedidaApi'
 import { useDebouncedCallback } from './../../../../hoc/useDebouncedCallback';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useField } from 'formik'
 import EditableTable, { ColumnEditableProps, RowMode } from '../../../../components/EditableTable/EditableTable'
 import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
 import React, { forwardRef, useImperativeHandle, useMemo } from 'react'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
+import { FormCompraMode } from '../FormCompra'
+import BasicLayoutContext, { FormMode } from '../../../../layouts/BasicLayout/BasicLayoutContext'
 
 export interface Props {
     disabled: boolean;
@@ -182,19 +184,24 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
         },
 
     ] as ColumnEditableProps<CompraProduto>[], [])
-    const [{ value: produtos }, , { setValue: setProdutos }] = useField<CompraProduto[]>("compraProdutos");
+    const [{ value: produtos }, , { setValue: setProdutos }] = useField<CompraProduto[]>("produtos");
     const [{ value: frete }] = useField<number>("frete")
     const [{ value: seguro }] = useField<number>("seguro")
-    const [{ value: outrasDispesas }] = useField<number>("outrasDispesas")
+    const [{ value: outrasDespesas }] = useField<number>("outrasDespesas")
+    const { formMode } = useContext(BasicLayoutContext);
 
     const refeshValuesDebounce = useDebouncedCallback((produtos: CompraProduto[]) => {
         refeshValues(produtos)
     }, 500)
 
     useEffect(() => {
+        if (formMode === FormMode.View) {
+            return;
+        }
+
         setFormLoading();
         refeshValuesDebounce(produtos);
-    }, [frete, seguro, outrasDispesas])
+    }, [frete, seguro, outrasDespesas])
 
     async function refeshValues(produtos: CompraProduto[]) {
         try {
@@ -202,7 +209,7 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
             let list = produtos.map(e => ({ ...e, custoUnitario: null }));
             setProdutos(list);
 
-            let response = await CompraApi.CalcularValorRatiado(produtos, frete, seguro, outrasDispesas);
+            let response = await CompraApi.CalcularValorRatiado(produtos, frete, seguro, outrasDespesas);
             setProdutos(response.data);
         }
         catch (e) {
@@ -227,7 +234,7 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
             showNewAction={false}
             columns={columns}
             validationSchema={CompraProdutoSchema}
-            name="compraProdutos"
+            name="produtos"
             initiallValues={props.initialValues}
             afterChangedValues={refeshValues}
             rowKey={(itme) => itme.produtoId + ""} />

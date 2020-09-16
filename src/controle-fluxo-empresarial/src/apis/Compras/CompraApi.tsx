@@ -3,10 +3,15 @@ import api from '../Api.configure';
 import { PaginationQuery, PaginationResult } from '../../models/BaseEntity';
 import { Compra } from '../../models/Compras/Compra';
 import { CompraProduto } from '../../models/Compras/CompraProduto';
+import { CancelarCompra } from '../../models/Compras/CancelarCompra';
 
 class Api {
 
     EndPoint: string = "api/compras";
+
+    Cancelar(compra: CancelarCompra): Promise<AxiosResponse<any>> {
+        return api.post(`${this.EndPoint}/cancelar/(${compra.modelo}:${compra.serie}:${compra.numero}:${compra.fornecedorId})`);
+    }
 
     Save(t: Compra): Promise<AxiosResponse<any>> {
         return api.post(this.EndPoint, t);
@@ -16,8 +21,8 @@ class Api {
         return api.put(`${this.EndPoint}/${t.numero}`, t);
     }
 
-    GetById(id: number): Promise<AxiosResponse<Compra>> {
-        return api.get(`${this.EndPoint}/${id.toString()}`);
+    GetById(modelo: string, serie: string, numero: string, fornecedorId: string): Promise<AxiosResponse<Compra>> {
+        return api.get(`${this.EndPoint}/(${modelo}:${serie}:${numero}:${fornecedorId})`);
     }
 
     Excluir(id: number): Promise<AxiosResponse<any>> {

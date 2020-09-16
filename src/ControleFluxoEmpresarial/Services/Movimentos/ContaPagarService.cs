@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
+using ControleFluxoEmpresarial.DAOs.Compras;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DTO.Movimentos;
@@ -10,16 +11,18 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
 {
     public class ContaPagarService : IService
     {
-        public ContaPagarService(ContaPagarDAO dAO, UserDAO userDAO, UserRequest userRequest)
+        public ContaPagarService(ContaPagarDAO dAO, UserDAO userDAO, UserRequest userRequest, CompraDAO compraDAO)
         {
             ContaPagarDAO = dAO ?? throw new ArgumentNullException(nameof(dAO));
             UserDAO = userDAO ?? throw new ArgumentNullException(nameof(userDAO));
+            CompraDAO = compraDAO ?? throw new ArgumentNullException(nameof(compraDAO));
             UserRequest = userRequest ?? throw new ArgumentNullException(nameof(userRequest));
         }
 
-        public ContaPagarDAO ContaPagarDAO { get; set; }
         public UserDAO UserDAO { get; set; }
+        public CompraDAO CompraDAO { get; set; }
         public UserRequest UserRequest { get; set; }
+        public ContaPagarDAO ContaPagarDAO { get; set; }
 
         public ContaPagarId Insert(ContaPagar entity, bool commit = true)
         {
@@ -61,8 +64,22 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             this.ContaPagarDAO.Update(entity, commit);
         }
 
+        //se Possuir uma compra, não pode cancelar
         public void Cancelar(CancelarContaPagar model)
         {
+            var compra = this.CompraDAO.GetByID(new DTO.Compras.CompraId()
+            {
+                Serie = model.Serie,
+                Modelo = model.Modelo,
+                Numero = model.Numero,
+                FornecedorId = model.FornecedorId
+            });
+
+            if(compra != null)
+            {
+                throw new BusinessException(new { Numero = "Não é possível cancelar uma conta a pagar lançada por uma compra" });
+            }
+
             var result = this.UserDAO.PasswordSignIn(this.UserRequest.UserNome, model.Senha);
             if (!result.Succeeded)
             {

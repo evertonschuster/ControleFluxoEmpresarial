@@ -1,12 +1,18 @@
-﻿using ControleFluxoEmpresarial.Models.Movimentos;
+﻿using ControleFluxoEmpresarial.Entities;
+using ControleFluxoEmpresarial.Models.Movimentos;
 
 namespace ControleFluxoEmpresarial.Models.Compras
 {
-    public class ProdutoCompra
+    public class CompraProduto : IBaseEntity
     {
+        public string Modelo { get; set; }
+        public string Serie { get; set; }
+        public string Numero { get; set; }
+        public int FornecedorId { get; set; }
+
         public int ProdutoId { get; set; }
 
-        public Produto  Produto { get; set; }
+        public Produto Produto { get; set; }
 
         public string UnidadeMedidaId { get; set; }
 
