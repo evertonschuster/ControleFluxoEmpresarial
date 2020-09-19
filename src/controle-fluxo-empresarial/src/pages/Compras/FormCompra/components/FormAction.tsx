@@ -8,6 +8,7 @@ import { formatDataWithHour } from '../../../../utils/FormatNumber';
 import { FormCompraMode } from '../FormCompra';
 import CancelationForm from './CancelationForm';
 
+
 const FormAction: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const formik = useFormikContext<any>();
@@ -30,10 +31,10 @@ const FormAction: React.FC = () => {
         }
 
         if (formik?.values?.userCancelamento) {
-            let userName = await getUserNameStorage(formik?.values?.userCriacao)
-            setUserCriacao(userName ?? null)
+            let userName = await getUserNameStorage(formik?.values?.userCancelamento)
+            setUserCancelamento(userName ?? null)
         } else {
-            setUserCriacao(null)
+            setUserCancelamento(null)
         }
     }
 
@@ -41,11 +42,9 @@ const FormAction: React.FC = () => {
         return (
             <>
                 <span >
-                    Criado por: <span style={{ fontWeight: "bold" }}>{userCriacao ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"}</span>
-                </span>
-
-                <span >
-                   | Cancelado por: <span style={{ fontWeight: "bold" }}>{userCriacao ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"}</span>
+                    Criado por: <span style={{ fontWeight: "bold" }}>{userCriacao ?? "__"}</span> às <span style={{ fontWeight: "bold", paddingRight: 2 }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"} </span>
+                        |
+                    Cancelado por: <span style={{ fontWeight: "bold" }}>{userCancelamento ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCancelamento!) : "  /  /"}</span>
                 </span>
             </>
         )

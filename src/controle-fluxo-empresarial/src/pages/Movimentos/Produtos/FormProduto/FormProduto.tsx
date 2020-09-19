@@ -11,19 +11,19 @@ import FormGeneral from './components/FormGeneral';
 
 const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
     const [produto, setProduto] = useState<Produto>({
-        nome: undefined,
-        categoriaId: undefined,
-        quantidade: undefined,
-        quantidadeMinima: undefined,
-        valorCompra: undefined,
-        valorVenda: undefined,
-        taxa: undefined,
-        unidadeMedidaId: undefined,
-        codigoBarras: undefined,
-        referencia: undefined,
-        marcaId: undefined,
-        descricao: undefined,
-        observacao: undefined
+        nome: null,
+        categoriaId: null,
+        quantidade: null,
+        quantidadeMinima: null,
+        valorCompra: null,
+        valorVenda: null,
+        percentualLucro: null,
+        unidadeMedidaId: null,
+        codigoBarras: null,
+        referencia: null,
+        marcaId: null,
+        descricao: null,
+        observacao: null
     });
     const [loading, setLoading] = useState(false);
 
@@ -72,7 +72,7 @@ const FormProduto: React.FC<RouteComponentProps & RouteComponentProps<any>> = (p
 
             let valorVenda = bdProduto.data.valorVenda ?? 0;
             let valorCompra = bdProduto.data.valorCompra ?? 0;
-            setProduto({ ...bdProduto.data, taxa: (valorVenda - valorCompra) / (valorCompra) * 100 });
+            setProduto({ ...bdProduto.data, percentualLucro: (valorVenda - valorCompra) / (valorCompra) * 100 });
         } catch (e) {
             errorBack(null, e);
         } finally {

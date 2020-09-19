@@ -17,10 +17,7 @@ export const CancelarCompraSchema = Yup.object().shape<CancelarCompra>({
     fornecedorId: Yup.number()
         .nullable()
         .typeError("Informe o fornecedor.")
-        .required("Informe o fornecedor.")
-        .test("conta-pagar-fornecedor", "Informe o fornecedor.", function () {
-            return this.parent.fornecedor
-        }),
+        .required("Informe o fornecedor."),
 
     justificativa: Yup.string()
         .nullable()

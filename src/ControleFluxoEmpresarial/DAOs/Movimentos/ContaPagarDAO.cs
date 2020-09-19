@@ -60,7 +60,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             return this.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM ContasPagar", new { filter.Filter, byInt, byData }, filter);
         }
 
-        public List<ContaPagar> GetByCompraId(CompraId compraId)
+        public List<ContaPagar> ListByCompraId(CompraId compraId)
         {
             var sql = $@"SELECT contaspagar.numero, contaspagar.modelo, contaspagar.serie, contaspagar.fornecedorid, contaspagar.parcela, contaspagar.valor, 
 			                    contaspagar.desconto, contaspagar.multa, contaspagar.juro, contaspagar.valorbaixa, contaspagar.formapagamentoid, 

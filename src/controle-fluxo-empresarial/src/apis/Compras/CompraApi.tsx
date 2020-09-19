@@ -10,7 +10,7 @@ class Api {
     EndPoint: string = "api/compras";
 
     Cancelar(compra: CancelarCompra): Promise<AxiosResponse<any>> {
-        return api.post(`${this.EndPoint}/cancelar/(${compra.modelo}:${compra.serie}:${compra.numero}:${compra.fornecedorId})`);
+        return api.post(`${this.EndPoint}/cancelar/(${compra.modelo}:${compra.serie}:${compra.numero}:${compra.fornecedorId})`, compra);
     }
 
     Save(t: Compra): Promise<AxiosResponse<any>> {

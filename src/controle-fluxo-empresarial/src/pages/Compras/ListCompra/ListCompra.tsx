@@ -1,15 +1,15 @@
 import React from 'react'
-import ShowSituation from '../../../components/Situation/ShowSituation/ShowSituation';
 import { CompraApi } from '../../../apis/Compras/CompraApi';
 import { UseListPagined } from '../../../hoc/UseListPagined';
 import { Compra } from '../../../models/Compras/Compra';
 import { ColumnProps } from 'antd/lib/table';
 import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../components/ListForm/ListForm';
-import { formatData, formatDataWithHour, formatNumber2 } from './../../../utils/FormatNumber';
+import { formatData,  formatNumber2 } from './../../../utils/FormatNumber';
 import { Produto } from './../../../models/Movimentos/Produto';
 import { CompraProduto } from '../../../models/Compras/CompraProduto';
 import CompraActions from './components/CompraActions';
+import ShowSituation from './components/ShowSituation';
 
 const ListCompra: React.FC = () => {
     const response = UseListPagined({ getListPagined: CompraApi.GetListPagined.bind(CompraApi) });
@@ -73,8 +73,8 @@ const ListCompra: React.FC = () => {
         },
         {
             title: 'Situação',
-            dataIndex: 'situacao',
-            render: ShowSituation
+            key: 'situacao',
+            render: (record) => <ShowSituation {...record} />
         },
         {
             title: 'Ações',

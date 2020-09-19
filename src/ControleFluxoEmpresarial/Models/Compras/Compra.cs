@@ -102,7 +102,7 @@ namespace ControleFluxoEmpresarial.Models.Compras
 
             RuleFor(e => e.Numero)
                 .NotEmpty().WithMessage("Informe o número.")
-                .MaximumLength(20).WithMessage("Número só pode ter 2 caracteres.")
+                .MaximumLength(6).WithMessage("Número só pode ter 6 caracteres.")
                 .Must(VerifyId).WithMessage("Compra já cadastrada.");
 
             RuleFor(e => e.FornecedorId)

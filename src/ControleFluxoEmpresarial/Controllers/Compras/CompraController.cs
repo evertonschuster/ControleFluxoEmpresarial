@@ -55,8 +55,12 @@ namespace ControleFluxoEmpresarial.Controllers.Compras
         }
 
 
-        //Cancelar 
-        //Validar se tem estoque que pode ser cancelado
-        //Se uma parcela ja for dado baixa n pode, precisa cancelar a baixa
+        [HttpPost("cancelar/({modelo}:{serie}:{numero}:{fornecedorId})")]
+        public virtual IActionResult Cancelar([FromRoute] CompraId id, [FromBody] CancelarCompra model)
+        {
+            this.CompraService.CancelarCompra(model);
+            return Ok();
+        }
+
     }
 }

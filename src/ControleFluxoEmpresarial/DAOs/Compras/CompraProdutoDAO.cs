@@ -26,7 +26,7 @@ namespace ControleFluxoEmpresarial.DAOs.Compras
             throw new NotImplementedException();
         }
 
-        internal List<CompraProduto> GetByCompraId(CompraId compraId)
+        internal List<CompraProduto> ListByCompraId(CompraId compraId)
         {
             var sql = $@"SELECT compraprodutos.numero, compraprodutos.modelo, compraprodutos.serie, compraprodutos.fornecedorid, compraprodutos.produtoid, 
 		                        compraprodutos.unidademedidaid, compraprodutos.quantidade, compraprodutos.valorunitario, compraprodutos.desconto, 

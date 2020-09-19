@@ -20,7 +20,7 @@ const CancelationForm: React.FC<Props> = (props) => {
     const innerForm = useRef<FormikProps<CancelarCompra>>(null);
     const history = useHistory();
     const [loading, setLoading] = useState(false)
-    
+
     const initialValues: CancelarCompra = {
         fornecedorId: Number.parseInt(fornecedorId!),
         modelo: modelo,
@@ -29,13 +29,13 @@ const CancelationForm: React.FC<Props> = (props) => {
         justificativa: null,
         senha: null,
     }
-    
+
 
     async function onSubmit(values: CancelarCompra, formikHelpers: FormikHelpers<CancelarCompra>) {
         try {
             setLoading(true);
             await CompraApi.Cancelar(values);
-            history.push("/contas-pagar")
+            history.push("/compras")
         }
         catch (e) {
             errorBack(formikHelpers, e);
@@ -51,6 +51,8 @@ const CancelationForm: React.FC<Props> = (props) => {
             <span style={{ fontSize: 20 }}>Cancelamento de Compra</span>
         </>
     )
+
+    console.log(innerForm.current)
 
     return (
         <InnerForm

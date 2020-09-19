@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CompraProduto } from '../../../../models/Compras/CompraProduto'
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api'
 import { Input, DatePicker, TextArea } from '../../../../components/WithFormItem/withFormItem'
@@ -12,16 +12,19 @@ import ProdutoSelection from './ProdutoSelection'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
 import { FormCompraMode } from '../FormCompra'
+import { getUserNameStorage } from '../../../../services/UserNameCache'
 
 const CompraPrincipal: React.FC = () => {
 
-    const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos")
     const [{ value: frete }, ,] = useField<number>("frete")
     const [{ value: seguro }, ,] = useField<number>("seguro")
-    const [{ value: outrasDespesas }, ,] = useField<number>("outrasDespesas")
     const [, , { setValue: setTotal }] = useField<number>("total");
+    const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos")
+    const [{ value: outrasDespesas }, ,] = useField<number>("outrasDespesas")
+    const [{ value: userCancelamento }, ,] = useField<string>("userCancelamento")
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
 
+    const [userCancelamentoStr, setUserCancelamentoStr] = useState<string | undefined | null>(undefined)
     const disableForm = formMode === FormCompraMode.PAGAMENTO || formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
 
     useEffect(() => {
@@ -34,6 +37,19 @@ const CompraPrincipal: React.FC = () => {
         setTotal(totalSoma)
     }, [produtos, frete, seguro, outrasDespesas])
 
+    useEffect(() => {
+        loadUserName()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userCancelamento]);
+
+    async function loadUserName() {
+        if (userCancelamento) {
+            let userName = await getUserNameStorage(userCancelamento)
+            setUserCancelamentoStr(userName ?? null)
+        } else {
+            setUserCancelamentoStr(null)
+        }
+    }
 
     return (
         <>
@@ -103,9 +119,20 @@ const CompraPrincipal: React.FC = () => {
 
             <Row>
                 <Col span={12}>
-                    <TextArea name="observacao" label="Observações" rows={5}  disabled={disableForm}/>
+                    <TextArea name="observacao" label="Observações" rows={5} disabled={disableForm} />
                 </Col>
             </Row>
+
+            {userCancelamento && <>
+                <Row>
+                    <Col span={12}>
+                        <TextArea name="justificativaCancelamento" label="Justificativa Cancelamento" rows={5} disabled={true} />
+                    </Col>
+                    <Col span={5}>
+                        <Input name="userCancelamento" label="Cancelado por" disabled={true} value={userCancelamentoStr ?? ""} />
+                    </Col>
+                </Row>
+            </>}
 
         </>
     )
