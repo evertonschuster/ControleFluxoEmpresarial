@@ -1,11 +1,8 @@
-﻿using ControleFluxoEmpresarial.DAOs.Compras;
-using ControleFluxoEmpresarial.DTO.Compras;
-using ControleFluxoEmpresarial.Filters.DTO;
+﻿using ControleFluxoEmpresarial.DTO.Compras;
 using ControleFluxoEmpresarial.Models.Compras;
 using ControleFluxoEmpresarial.Services.Compras;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace ControleFluxoEmpresarial.Controllers.Compras
 {
@@ -49,13 +46,14 @@ namespace ControleFluxoEmpresarial.Controllers.Compras
 
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
+        public IActionResult GetListPagined(CompraPaginationQuery filter)
         {
             return Ok(this.CompraService.GetPagined(filter));
         }
 
 
         [HttpPost("cancelar/({modelo}:{serie}:{numero}:{fornecedorId})")]
+
         public virtual IActionResult Cancelar([FromRoute] CompraId id, [FromBody] CancelarCompra model)
         {
             this.CompraService.CancelarCompra(model);

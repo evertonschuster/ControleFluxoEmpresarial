@@ -2,6 +2,7 @@
 using ControleFluxoEmpresarial.DAOs.compose;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.DTO.Compras;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
@@ -19,7 +20,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         {
         }
 
-        public override PaginationResult<ContaPagar> GetPagined(PaginationQuery filter)
+        public override PaginationResult<ContaPagar> GetPagined(IPaginationQuery filter)
         {
             var sql = @$"SELECT {this.Property.FormatProperty(e => $"ContasPagar.{e}")}, 
                             {typeof(Fornecedor).Property().FormatProperty(e => $"Fornecedores.{e} as \"Fornecedor.{e}\"")},
@@ -29,11 +30,11 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                             INNER JOIN formapagamentos ON formapagamentos.id =  ContasPagar.FormaPagamentoId
                         WHERE 1 = 1";
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND ContasPagar.DataCancelamento is null";
             }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND ContasPagar.DataCancelamento is not null";
             }

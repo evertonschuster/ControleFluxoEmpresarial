@@ -7,7 +7,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {
     [Route("api/unidades-medida")]
     [ApiController]
-    public class UnidadeMedidaController : ControllerBase<UnidadeMedida, PaginationQuery, string>
+    public class UnidadeMedidaController : ControllerBase<UnidadeMedida, IPaginationQuery, string>
     {
         public UnidadeMedidaController(UnidadeMedidaDAO dAO) : base(dAO)
         {

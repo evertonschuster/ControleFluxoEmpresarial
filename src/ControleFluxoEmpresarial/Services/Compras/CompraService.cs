@@ -10,7 +10,6 @@ using ControleFluxoEmpresarial.Services.Compras.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace ControleFluxoEmpresarial.Services.Compras
 {
@@ -147,7 +146,7 @@ namespace ControleFluxoEmpresarial.Services.Compras
             this.CompraDAO.Update(compra);
         }
 
-        internal PaginationResult<Compra> GetPagined(PaginationQuery filter)
+        internal PaginationResult<Compra> GetPagined(IPaginationQuery filter)
         {
             var result = this.CompraDAO.GetPagined(filter);
             foreach (var compra in result.Result)

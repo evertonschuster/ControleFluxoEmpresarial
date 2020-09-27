@@ -41,6 +41,7 @@ api.interceptors.response.use((response) => {
 
         if ((error.response!.data!.code === 422 || error.response.status === 422) ||
             (error.response!.data!.code === 409 || error.response.status === 409) ||
+            (error.response!.data!.code === 428 || error.response.status === 428) ||
             (error.response!.data!.code === 400 || error.response.status === 400)) {
             return Promise.reject(new ValidationError(error.response));
         }

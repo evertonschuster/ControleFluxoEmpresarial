@@ -64,7 +64,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
 
 
 
-        public PaginationResult<ApplicationUser> GetPagined(PaginationQuery filter)
+        public PaginationResult<ApplicationUser> GetPagined(IPaginationQuery filter)
         {
             var listUser = this.UserManager.Users
                 .Where(e => string.IsNullOrEmpty(filter.Filter) || e.UserName.Contains(filter.Filter)).ToList();

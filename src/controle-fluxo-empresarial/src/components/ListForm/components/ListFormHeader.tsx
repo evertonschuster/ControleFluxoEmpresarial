@@ -1,4 +1,4 @@
-import React, { memo, useState, useContext } from 'react';
+import React, { memo, useState, useContext, ReactNode } from 'react';
 import { Input, Col, Button } from 'antd';
 import { ListItem } from '../ListForm';
 import { SITUACAO } from '../../../models/BaseEntity';
@@ -9,6 +9,7 @@ import SelectFilterSituation from '../../Situation/SelectFilterSituation/SelectF
 
 export interface Props<T> {
     tableProps: ListItem<T>;
+    filterAdvancedHeader?: ReactNode
 }
 
 const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
@@ -21,6 +22,9 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
     //#endregion
 
+    if (props.tableProps.isAdvancedFilter && props.filterAdvancedHeader) {
+        return <>{props.filterAdvancedHeader}</>
+    }
 
     return (
         <>
@@ -43,13 +47,16 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
                     }} />
             </Col>
 
+            <Col span={8} push={2} style={{ textAlign: "right" }}>
+                <div style={{ flexDirection: "row" }}>
+                    {props.filterAdvancedHeader && <Button type="default" style={{ marginRight: 16 }} onClick={() => props.tableProps.setAdvancedFilter!(true)}>Filtro Avançado</Button>}
 
-            <Col span={3} push={7} style={{ textAlign: "right" }}>
-                <Button type="primary">
-                    <Link to={(props.location.pathname + "/new").replace("//", "/")} onClick={() => setFormMode(FormMode.New)}>
-                        Adicionar
+                    <Button type="primary">
+                        <Link to={(props.location.pathname + "/new").replace("//", "/")} onClick={() => setFormMode(FormMode.New)}>
+                            Adicionar
                         </Link>
-                </Button>
+                    </Button>
+                </div>
             </Col>
 
         </>

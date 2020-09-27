@@ -8,6 +8,8 @@ import ActionForm from './componets/ActionForm';
 import ContaPagar from '../../../../models/Movimentos/ContaPagar';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './componets/GeralForm';
+import { message, Modal } from 'antd';
+import { idText } from 'typescript';
 
 export enum FromContaPagarType {
     Pagar,
@@ -69,6 +71,29 @@ const FromContaPagar: React.FC = () => {
         }
         catch (e) {
             errorBack(formikHelpers, e);
+
+
+            if (e.code != 428) {
+                return;
+            }
+
+            Modal.confirm({
+                content: e.errors["parcela"],
+                okText: "Confirmar",
+                cancelText: "Cancelar",
+                onOk: async () => {
+                    try {
+
+                        await ContaPagarApi.Pagar({ ...conta, confirmPagamento: true } as ContaPagar);
+                        history.push("/contas-pagar")
+
+                    }
+                    catch (e) {
+                        errorBack(formikHelpers, e);
+                    }
+                }
+            })
+
         }
     }
 

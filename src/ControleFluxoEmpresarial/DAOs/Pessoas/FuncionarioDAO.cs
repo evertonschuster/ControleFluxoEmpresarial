@@ -4,6 +4,7 @@ using ControleFluxoEmpresarial.DAOs.Entities;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
@@ -141,7 +142,7 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
             return id;
         }
 
-        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        public override (string query, object @params) GetQueryListPagined(IPaginationQuery filter)
         {
             var sql = $@" SELECT funcionarios.Id, funcionarios.EstadoCivil, funcionarios.Sexo, funcionarios.Nacionalidade, funcionarios.IsBrasileiro, funcionarios.DataNascimento, 
 	                        funcionarios.Cnh, funcionarios.DataValidadeCNH, funcionarios.FuncaoFuncionarioId, funcionarios.Salario, funcionarios.DataAdmissao, 
@@ -172,11 +173,11 @@ namespace ControleFluxoEmpresarial.DAOs.Pessoas
                 sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
             }
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND funcionarios.situacao is null";
             }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND funcionarios.situacao is not null";
             }

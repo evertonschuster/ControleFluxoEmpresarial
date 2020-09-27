@@ -57,7 +57,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
+        public new IActionResult GetListPagined(IPaginationQuery filter)
         {
             return Ok(this.UserDAO.GetPagined(filter));
         }

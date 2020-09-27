@@ -4,6 +4,7 @@ using ControleFluxoEmpresarial.DAOs.Entities;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
@@ -128,7 +129,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
         }
 
-        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        public override (string query, object @params) GetQueryListPagined(IPaginationQuery filter)
         {
             var sql = $@" SELECT Servicos.Id, Servicos.Nome, Servicos.Valor, Servicos.CategoriaId, Servicos.Descricao, 
                         Servicos.Observacao, Servicos.DataCriacao, Servicos.DataAtualizacao, Servicos.Situacao,
@@ -155,11 +156,11 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             }
 
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND Servicos.situacao is null";
             }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND Servicos.situacao is not null";
             }

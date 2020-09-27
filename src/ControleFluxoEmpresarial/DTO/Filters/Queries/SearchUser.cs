@@ -2,7 +2,7 @@
 
 namespace ControleFluxoEmpresarial.DTO.Filters.Queries
 {
-    public class SearchUser : PaginationQuery
+    public class SearchUser : PaginationQuery<SituacaoType?>
     {
     }
 }

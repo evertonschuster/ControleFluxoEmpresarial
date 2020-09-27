@@ -9,7 +9,7 @@ using System;
 namespace ControleFluxoEmpresarial.Controllers
 {
     //[AllowAnonymous]
-    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseModel<int> where TPaginationQuery : PaginationQuery
+    public class ControllerBase<TEntity, TPaginationQuery> : ControllerBase<TEntity, TPaginationQuery, int> where TEntity : IBaseModel<int> where TPaginationQuery : IPaginationQuery
     {
         public ControllerBase(IDAO<TEntity, int> dao) : base(dao)
         {
@@ -17,7 +17,7 @@ namespace ControleFluxoEmpresarial.Controllers
     }
 
     [Authorize]
-    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseModel<TId> where TPaginationQuery : PaginationQuery
+    public abstract class ControllerBase<TEntity, TPaginationQuery, TId> : ControllerBase where TEntity : IBaseModel<TId> where TPaginationQuery : IPaginationQuery
     {
         protected ControllerBase(IDAO<TEntity, TId> dao)
         {

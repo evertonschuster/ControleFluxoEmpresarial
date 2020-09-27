@@ -81,7 +81,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
         }
 
         [HttpPut("pagar/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
-        public virtual IActionResult Pagar([FromRoute] ContaPagarId id, ContaPagar contaPagar)
+        public virtual IActionResult Pagar([FromRoute] ContaPagarId id, PagarContaPagar contaPagar)
         {
             contaPagar.Modelo = id.Modelo;
             contaPagar.Serie = id.Serie;
@@ -102,7 +102,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
         }
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery filter)
+        public new IActionResult GetListPagined(IPaginationQuery filter)
         {
             return Ok(this.DAO.GetPagined(filter));
         }

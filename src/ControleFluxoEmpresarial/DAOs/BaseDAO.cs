@@ -161,7 +161,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
         protected abstract void AddParameterValues(DbCommand command, object parameters);
 
-        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, string sqlTotalItem, object @params = null, PaginationQuery filter = default)
+        protected virtual PaginationResult<TEntity> ExecuteGetPaginated(string sql, string sqlTotalItem, object @params = null, IPaginationQuery filter = default)
         {
             if (string.IsNullOrEmpty(sql))
             {
@@ -183,6 +183,7 @@ namespace ControleFluxoEmpresarial.DAOs
 
             try
             {
+                this.AddParameterValues(commandCount, @params);
                 commandCount.CommandText = sqlTotalItem;
                 commandCount.CommandType = CommandType.Text;
 

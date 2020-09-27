@@ -1,10 +1,6 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Compras;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DTO.Compras
 {

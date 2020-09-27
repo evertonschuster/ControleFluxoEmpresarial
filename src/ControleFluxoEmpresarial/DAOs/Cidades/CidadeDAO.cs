@@ -2,6 +2,7 @@
 using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Cidades;
 
@@ -50,7 +51,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
             }
         }
 
-        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        public override (string query, object @params) GetQueryListPagined(IPaginationQuery filter)
         {
             var sql = $@"SELECT Cidades.Id, Cidades.Nome, Cidades.DDD, Cidades.EstadoId, Cidades.Situacao,
 				        Estados.Id as ""Estado.Id"", Estados.Nome as ""Estado.Nome"", Estados.UF as ""Estado.UF"", Estados.Situacao as ""Estado.Situacao""
@@ -73,13 +74,16 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
             }
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if (filter is PaginationQuery<SituacaoType> filterSituacao)
             {
-                sql += " AND Cidades.situacao is null";
-            }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
-            {
-                sql += " AND Cidades.situacao is not null";
+                if (filterSituacao.Situacao == SituacaoType.Habilitado)
+                {
+                    sql += " AND Cidades.situacao is null";
+                }
+                if (filterSituacao.Situacao == SituacaoType.Desabilitado)
+                {
+                    sql += " AND Cidades.situacao is not null";
+                }
             }
 
             return (sql, new { id = byId, filter.Filter });

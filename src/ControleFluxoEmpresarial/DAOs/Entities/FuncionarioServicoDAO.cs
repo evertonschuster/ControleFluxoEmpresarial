@@ -13,7 +13,7 @@ namespace ControleFluxoEmpresarial.DAOs.Entities
         {
         }
 
-        public override PaginationResult<FuncionarioServico> GetPagined(PaginationQuery filter)
+        public override PaginationResult<FuncionarioServico> GetPagined(IPaginationQuery filter)
         {
             throw new System.NotImplementedException();
         }

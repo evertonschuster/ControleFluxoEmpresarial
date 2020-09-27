@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ControleFluxoEmpresarial.DTO.Compras
+﻿namespace ControleFluxoEmpresarial.DTO.Compras
 {
     public class ProdutoCompraId
     {

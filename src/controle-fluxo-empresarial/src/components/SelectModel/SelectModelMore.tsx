@@ -22,6 +22,8 @@ export interface Props {
     showLabel?: boolean;
     showDescription?: boolean;
     ObjectName?: string;
+    padding?: boolean;
+    placeholder?: string
 }
 
 
@@ -90,8 +92,9 @@ const SelectModelMore: React.FC<Props> = (props) => {
                 <Row>
 
                     <Col md={21} >
-                        <ItemFormRender showLabel={showLabel} required={required} label={props.label.label}>
+                        <ItemFormRender showLabel={showLabel} required={required} label={props.label.label} padding={props.padding}>
                             <Select
+                                placeholder={props.placeholder}
                                 filterOption={false}
                                 loading={response.isLoading}
                                 onSearch={onSearch}

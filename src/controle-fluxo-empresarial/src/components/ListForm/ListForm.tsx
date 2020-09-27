@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect } from 'react';
+import React, { FunctionComponent, memo, ReactNode, useContext, useEffect } from 'react';
 import { Row, Col } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { PaginationQuery } from '../../models/BaseEntity';
@@ -16,8 +16,10 @@ export interface TableProps<T> {
 export interface ListItem<T> {
     requestResult: TableProps<T>;
     isLoading: boolean;
+    isAdvancedFilter?: boolean;
     filterRequest: PaginationQuery;
-    setFilterRequest: (values: PaginationQuery) => void
+    setFilterRequest: (values: PaginationQuery | any) => void
+    setAdvancedFilter?: React.Dispatch<React.SetStateAction<boolean | undefined>>,
     reflesh: () => void;
 }
 
@@ -28,6 +30,8 @@ export interface Props<T> {
     hiddenAction?: boolean;
     deleteFunction?: (id: any) => void
     desativarFunction?: (id: any) => void
+    filterAdvancedHeader?: ReactNode
+    filterSimpleHeader?: ReactNode
 }
 
 const ListForm: React.FC<Props<any>> = (props) => {
@@ -53,7 +57,10 @@ const ListForm: React.FC<Props<any>> = (props) => {
     return (
         <>
             <Row style={{ paddingBottom: "20px" }}>
-                <ListFormHeader tableProps={props.tableProps} />
+                {props.filterSimpleHeader ?
+                    <>{props.filterSimpleHeader}</> :
+                    <ListFormHeader tableProps={props.tableProps} filterAdvancedHeader={props.filterAdvancedHeader} />
+                }
             </Row>
 
             <Row>

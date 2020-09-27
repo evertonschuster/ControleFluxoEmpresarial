@@ -30,7 +30,7 @@ const ProdutoSelection: React.FC = () => {
     const [{ value: produtos }] = useField<CompraProduto[]>("produtos")
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
 
-    const disableForm = formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
+    const disableForm = formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO || formMode === FormCompraMode.PAGAMENTO;
     const childRef = useRef<ListHandle>(null);
 
     async function onSubmit(values: CompraProduto, formikHelpers: FormikHelpers<CompraProduto>) {

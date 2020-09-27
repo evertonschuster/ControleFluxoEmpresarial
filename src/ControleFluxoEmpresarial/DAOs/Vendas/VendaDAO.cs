@@ -12,7 +12,7 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
         {
         }
 
-        public override PaginationResult<Venda> GetPagined(PaginationQuery filter)
+        public override PaginationResult<Venda> GetPagined(IPaginationQuery filter)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using ControleFluxoEmpresarial.Services.CondicoesPagamento;
@@ -10,7 +11,7 @@ namespace ControleFluxoEmpresarial.Controllers.CondicaoPagamentos
 {
     [Route("api/condicao-pagamento")]
     [ApiController]
-    public class CondicaoPagamentoController : ControllerBase<CondicaoPagamento, PaginationQuery>
+    public class CondicaoPagamentoController : ControllerBase<CondicaoPagamento, PaginationQuery<SituacaoType?>>
     {
         public CondicaoPagamentoController(CondicaoPagamentoDAO dAO, CondicaoPagamentoService condicaoPagamentoService) : base(dAO)
         {

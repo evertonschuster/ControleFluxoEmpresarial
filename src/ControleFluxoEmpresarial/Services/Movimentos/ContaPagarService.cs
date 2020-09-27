@@ -6,6 +6,8 @@ using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ControleFluxoEmpresarial.Services.Movimentos
 {
@@ -75,7 +77,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 FornecedorId = model.FornecedorId
             });
 
-            if(compra != null)
+            if (compra != null)
             {
                 throw new BusinessException(new { Numero = "Não é possível cancelar uma conta a pagar lançada por uma compra" });
             }
@@ -99,25 +101,27 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             this.ContaPagarDAO.Update(entity);
         }
 
-        public void Pagar(ContaPagar model, bool commit = true)
+        public void Pagar(PagarContaPagar model, bool commit = true)
         {
-            if (model.DataBaixa == null)
-            {
-                throw new BusinessException(new { DataBaixa = "Data Baixa inválida." });
-            }
-            if (model.DataPagamento == null)
-            {
-                throw new BusinessException(new { DataPagamento = "Data Pagamento inválida." });
-            }
-
             var entity = this.ContaPagarDAO.GetByID(model.GetId());
             if (entity == null)
             {
                 throw new BusinessException(new { Parcela = "Conta a pagar não cadastrada." });
             }
 
-            model.UserBaixa = this.ContaPagarDAO.Context.UserRequest.Id.ToString();
-            this.ContaPagarDAO.Update(model, commit);
+            CheckParcelaConfirmacao(model, model.Parcela);
+
+            entity.Desconto = model.Desconto;
+            entity.Multa = model.Multa;
+            entity.Juro = model.Juro;
+            entity.FormaPagamentoId = model.FormaPagamentoId;
+            entity.DataVencimento = model.DataVencimento;
+            entity.DataPagamento = model.DataPagamento;
+            entity.Descricao = model.Descricao;
+
+            entity.DataBaixa = DateTime.Now;
+            entity.UserBaixa = this.ContaPagarDAO.Context.UserRequest.Id.ToString();
+            this.ContaPagarDAO.Update(entity, commit);
         }
 
         public decimal CalcularValor(ContaPagarId id, DateTime? dataBase = null, decimal? desconto = null, decimal? multa = null, decimal? juro = null)
@@ -141,5 +145,43 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             return entity.Valor + (multa ?? 0) + (juro ?? 0);
         }
 
+
+
+        private void CheckParcelaConfirmacao(PagarContaPagar contaPagar, int numeroParcela)
+        {
+            if (numeroParcela == 1 || contaPagar.ConfirmPagamento)
+            {
+                return;
+            }
+
+            var id = contaPagar.GetId();
+            var parcelasPendentes = new List<int>(numeroParcela);
+
+            for (int i = 1; i < numeroParcela; i++)
+            {
+                id.Parcela = i;
+                var parcela = this.ContaPagarDAO.GetByID(id);
+                if (parcela.DataPagamento == null)
+                {
+                    parcelasPendentes.Add(i);
+                }
+            }
+
+            if (parcelasPendentes.Count == 0)
+            {
+                return;
+            }
+
+            if (parcelasPendentes.Count == 1)
+            {
+                throw new BusinessException(new { Parcela = $"A parcela {parcelasPendentes.First()} é anterior a esta e não está baixada, para baxair esta parcela confirme.", },
+                        codeError: System.Net.HttpStatusCode.PreconditionRequired);
+            }
+
+            var str = parcelasPendentes.Aggregate("", (e, a) => $"{e}{a}, ");
+
+            throw new BusinessException(new { Parcela = $"As parcelas {str} são anteriores a esta e não estão baixadas, para baxair esta parcela confirme.", },
+                        codeError: System.Net.HttpStatusCode.PreconditionRequired);
+        }
     }
 }

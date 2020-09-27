@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Filters.DTO;
@@ -12,7 +13,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {
     [Route("api/funcionarios")]
     [ApiController]
-    public class FuncionarioController : ControllerBase<Funcionario, PaginationQuery>
+    public class FuncionarioController : ControllerBase<Funcionario, PaginationQuery<SituacaoType?>>
     {
         public UserService UserService { get; set; }
         public FuncionarioController(FuncionarioDAO dAO, UserService userService) : base(dAO)

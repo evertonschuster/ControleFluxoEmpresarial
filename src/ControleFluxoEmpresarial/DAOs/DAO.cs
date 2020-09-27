@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models;
 using System;
@@ -81,7 +82,7 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             return base.ExecuteGetFirstOrDefault(sql, parameters: new { id });
         }
 
-        public virtual (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        public virtual (string query, object @params) GetQueryListPagined(IPaginationQuery filter)
         {
             var sql = $@"SELECT {this.PropertyId}, {this.Property.FormatProperty()}
                           FROM {this.TableName} 
@@ -102,11 +103,11 @@ namespace ControleFluxoEmpresarial.DAOs.simple
                 sql += $" AND ({this.TableName}.{this.NameProperty} ilike @Filter {sqlId}) ";
             }
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND situacao is null";
             }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND situacao is not null";
             }
@@ -114,7 +115,7 @@ namespace ControleFluxoEmpresarial.DAOs.simple
             return (sql, new { id = byId, filter.Filter });
         }
 
-        public virtual PaginationResult<TEntity> GetPagined(PaginationQuery filter)
+        public virtual PaginationResult<TEntity> GetPagined(IPaginationQuery filter)
         {
             var (query, @params) = this.GetQueryListPagined(filter);
             return base.ExecuteGetPaginated(query, $"SELECT  COUNT(*) AS TotalItem FROM {this.TableName}", @params, filter);

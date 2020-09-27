@@ -71,14 +71,14 @@ export const WithItemNone: React.FC<PropsItemForm> = (props) => {
     const showLabel = props.showLabel ?? true;
 
     return (
-        <div className={`ant-row ant-form-item ant-form-item-with-help ${props.padding === true || props.padding === undefined ? "form-custom-item" : ""}`}>
+        <div className={`ant-row ant-form-item ant-form-item-with-help ${props.padding || props.padding === undefined ? "form-custom-item" : ""}`}>
             {showLabel ? <div className="ant-col ant-form-item-label">
                 <span>&nbsp;</span >
             </div > : ""
             }
 
             <div className="ant-col ant-form-item-control-wrapper">
-                <div className="ant-form-item-control ">
+                <div className={showLabel ? "ant-form-item-control" : ""}>
                     <span className="ant-form-item-children">
 
                         {props.children}
@@ -95,7 +95,7 @@ export const ItemFormRender: React.FC<PropsItemForm> = (props) => {
     const showLabel = props.showLabel ?? true;
 
     return (
-        <div className="ant-row ant-form-item ant-form-item-with-help form-custom-item">
+        <div className={`ant-row ant-form-item ant-form-item-with-help ${props.padding || props.padding === undefined ? "form-custom-item" : ""}`}>
             {showLabel ?
                 <div className="ant-col ant-form-item-label">
                     <label className={props.required ? "ant-form-item-required" : ""}>{props.label ?? <>&nbsp;</>}</label>
@@ -104,7 +104,7 @@ export const ItemFormRender: React.FC<PropsItemForm> = (props) => {
             }
 
             <div className="ant-col ant-form-item-control-wrapper">
-                <div className="ant-form-item-control ">
+                <div className={showLabel ? "ant-form-item-control" : ""}>
                     <span className="ant-form-item-children">
 
                         {props.children}

@@ -5,7 +5,7 @@ namespace ControleFluxoEmpresarial.DAOs
 {
     public interface IDAO<TEntity, TId> : IDAO where TEntity : IBaseModel<TId>
     {
-        PaginationResult<TEntity> GetPagined(PaginationQuery filter);
+        PaginationResult<TEntity> GetPagined(IPaginationQuery filter);
 
         TEntity GetByID(TId id);
 

@@ -108,7 +108,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas
             }, commit);
         }
 
-        public override PaginationResult<CondicaoPagamentoParcela> GetPagined(PaginationQuery filter)
+        public override PaginationResult<CondicaoPagamentoParcela> GetPagined(IPaginationQuery filter)
         {
             var sql = $@"SELECT CondicaoPagamentoParcelas.*,  formapagamentos.nome as ""formapagamentos.nome""
                         FROM CondicaoPagamentoParcelas

@@ -31,7 +31,7 @@ namespace ControleFluxoEmpresarial.Architectures.Middlewares
             }
             catch (BusinessException ex)
             {
-                HandleExceptionAsync(context, ex, HttpStatusCode.UnprocessableEntity);
+                HandleExceptionAsync(context, ex, ex.CodeError ?? HttpStatusCode.UnprocessableEntity);
             }
         }
 

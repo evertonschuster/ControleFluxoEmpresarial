@@ -1,18 +1,20 @@
 import React from 'react'
-import { CompraApi } from '../../../apis/Compras/CompraApi';
-import { UseListPagined } from '../../../hoc/UseListPagined';
-import { Compra } from '../../../models/Compras/Compra';
 import { ColumnProps } from 'antd/lib/table';
-import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
-import ListForm from '../../../components/ListForm/ListForm';
-import { formatData,  formatNumber2 } from './../../../utils/FormatNumber';
-import { Produto } from './../../../models/Movimentos/Produto';
+import { Compra } from '../../../models/Compras/Compra';
+import { CompraApi } from '../../../apis/Compras/CompraApi';
 import { CompraProduto } from '../../../models/Compras/CompraProduto';
+import { formatData, formatNumber2 } from './../../../utils/FormatNumber';
+import { Produto } from './../../../models/Movimentos/Produto';
+import { UseListPagined } from '../../../hoc/UseListPagined';
 import CompraActions from './components/CompraActions';
+import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout';
+import ListFilterAdvanced from './components/ListFilterAdvanced';
+import ListForm from '../../../components/ListForm/ListForm';
 import ShowSituation from './components/ShowSituation';
+import ListFilter from './components/ListFilter';
 
 const ListCompra: React.FC = () => {
-    const response = UseListPagined({ getListPagined: CompraApi.GetListPagined.bind(CompraApi) });
+    const requestProps = UseListPagined({ getListPagined: CompraApi.GetListPagined.bind(CompraApi) });
 
     const columns: ColumnProps<Compra>[] = [
         {
@@ -30,7 +32,7 @@ const ListCompra: React.FC = () => {
             width: 80
         },
         {
-            title: 'Numero',
+            title: 'Número',
             dataIndex: 'numero',
             key: 'numero',
             align: "right",
@@ -84,12 +86,15 @@ const ListCompra: React.FC = () => {
         }
     ];
 
+
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Compras", URL: "/compras" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
+                filterAdvancedHeader={<ListFilterAdvanced tableProps={requestProps} />}
+                filterSimpleHeader={<ListFilter tableProps={requestProps} />}
                 hiddenAction
-                tableProps={response}
+                tableProps={requestProps}
                 columns={columns} />
 
         </FormBasicLayout>

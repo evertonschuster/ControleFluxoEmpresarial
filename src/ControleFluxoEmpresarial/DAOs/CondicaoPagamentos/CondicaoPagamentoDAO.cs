@@ -2,6 +2,7 @@
 using ControleFluxoEmpresarial.DAOs.CondicaoPagamentoParcelas;
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using System;
@@ -146,7 +147,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         }
 
-        public override PaginationResult<CondicaoPagamento> GetPagined(PaginationQuery filter)
+        public override PaginationResult<CondicaoPagamento> GetPagined(IPaginationQuery filter)
         {
             var sql = $@"SELECT *
                           FROM CondicaoPagamentos 
@@ -164,11 +165,11 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
                 sql += $" AND nome ilike @Filter {sqlId} ";
             }
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND CondicaoPagamentos.situacao is null";
             }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND CondicaoPagamentos.situacao is not null";
             }

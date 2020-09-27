@@ -1,6 +1,7 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DAOs.simple;
 using ControleFluxoEmpresarial.DataBase;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 
@@ -16,7 +17,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         {
         }
 
-        public override (string query, object @params) GetQueryListPagined(PaginationQuery filter)
+        public override (string query, object @params) GetQueryListPagined(IPaginationQuery filter)
         {
             var sql = $@"SELECT Produtos.Id, Produtos.Nome, Produtos.UnidadeMedidaId, Produtos.CodigoBarras, Produtos.Referencia, Produtos.Descricao, 
                                 Produtos.Observacao, Produtos.MarcaId, Produtos.CategoriaId, Produtos.QuantidadeMinima, Produtos.ValorCompra, Produtos.ValorVenda, 
@@ -48,11 +49,11 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                 sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
             }
 
-            if (filter.Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
             {
                 sql += " AND Produtos.situacao is null";
             }
-            if (filter.Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
             {
                 sql += " AND Produtos.situacao is not null";
             }

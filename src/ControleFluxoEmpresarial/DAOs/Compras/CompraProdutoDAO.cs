@@ -5,8 +5,6 @@ using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Compras;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DAOs.Compras
 {
@@ -16,7 +14,7 @@ namespace ControleFluxoEmpresarial.DAOs.Compras
         {
         }
 
-        public override PaginationResult<CompraProduto> GetPagined(PaginationQuery filter)
+        public override PaginationResult<CompraProduto> GetPagined(IPaginationQuery filter)
         {
             throw new NotImplementedException();
         }

@@ -55,7 +55,7 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             return base.ExecuteGetFirstOrDefault(sql, parameters: ids);
         }
 
-        public abstract PaginationResult<TEntity> GetPagined(PaginationQuery filter);
+        public abstract PaginationResult<TEntity> GetPagined(IPaginationQuery filter);
 
         public TID Insert(TEntity entity, bool commit = true)
         {

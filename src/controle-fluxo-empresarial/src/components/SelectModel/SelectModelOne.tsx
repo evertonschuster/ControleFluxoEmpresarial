@@ -18,7 +18,7 @@ export interface ICol {
 export interface Props {
     path: string;
     errorMessage: ErrorMessage;
-    label: Label;
+    label: Label & { placeholder?: string };
     name: string;
     keyId?: string;
     idIsInt?: boolean;
@@ -125,9 +125,9 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     <Col span={(props.col?.inputId) ?? (showDescription ? 8 : 19)} >
                         <ItemFormRender showLabel={showLabel} label={props.label.label} required={required}>
                             {idIsInt ?
-                                <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} disabled={props.disabled} />
+                                <InputNumber min={0} value={meta.value} onChange={onChangeId} onBlur={onBlurId} style={{ width: "inherit" }} disabled={props.disabled} placeholder={props.label.placeholder} />
                                 :
-                                <InputAntd value={meta.value} onChange={(e) => onChangeId(e.target.value)} onBlur={onBlurId} disabled={props.disabled}></InputAntd>
+                                <InputAntd value={meta.value} onChange={(e) => onChangeId(e.target.value)} onBlur={onBlurId} disabled={props.disabled} placeholder={props.label.placeholder} />
                             }
                         </ItemFormRender>
                     </Col>
@@ -140,7 +140,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     }
                     {showDescription && <Col span={((props.col?.inputDescription) ?? 13) + (props.disabled ? (showDescription ? 3 : 5) : 0)} >
                         <WithItemNone showLabel={showLabel}>
-                            <InputAntd value={object && object[keyDescription]} disabled={true} />
+                            <InputAntd value={object && object[keyDescription]} disabled={true}   placeholder={props.label.placeholder}/>
                         </WithItemNone>
                     </Col>}
                 </Row>
