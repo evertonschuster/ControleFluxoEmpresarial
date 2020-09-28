@@ -18,11 +18,11 @@ export interface RequestResult {
 
 }
 
-export function UseListPagined(props: Props<any>): RequestResult {
+export function UseListPagined(props: Props<any>, initialFilter?: any): RequestResult {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isAdvancedFilter, setAdvancedFilter] = useState(false)
-    const [filterRequest, setFilterRequest] = useState<PaginationQuery>({ pageSize: 10, currentPage: 1, situacao: SITUACAO.HABILITADO })
+    const [filterRequest, setFilterRequest] = useState<PaginationQuery>(initialFilter ?? { pageSize: 10, currentPage: 1, situacao: SITUACAO.HABILITADO })
     const [responseBack, setResponseBack] = useState<TableProps<any>>(
         {
             current: 0,

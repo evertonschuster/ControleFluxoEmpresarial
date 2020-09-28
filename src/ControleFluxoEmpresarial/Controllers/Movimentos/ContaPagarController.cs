@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Movimentos;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.DTO.Filters.Queries;
 using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.Filters.DTO;
@@ -66,6 +67,14 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
             return Ok();
         }
 
+        [HttpPut("ativar/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
+        public virtual IActionResult Ativar([FromRoute] ContaPagarId id)
+        {
+            this.ContaPagarService.Ativar(id);
+
+            return Ok();
+        }
+
         [HttpPut("cancelar/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
         public virtual IActionResult Cancelar([FromRoute] ContaPagarId id, CancelarContaPagar cancelarContaPagar)
         {
@@ -102,7 +111,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
         }
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(IPaginationQuery filter)
+        public new IActionResult GetListPagined(PaginationQuery<SituacaoType?> filter)
         {
             return Ok(this.DAO.GetPagined(filter));
         }

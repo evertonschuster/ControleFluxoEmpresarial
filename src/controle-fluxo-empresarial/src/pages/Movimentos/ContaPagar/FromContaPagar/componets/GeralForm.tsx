@@ -25,7 +25,7 @@ const GeralForm: React.FC = () => {
     const [userDescription, setUserDescription] = useState("")
 
     const disableFormInput: boolean = !(numero && modelo && parcela && serie && fornecedorId)
-        || (formType === FromContaPagarType.VerCancelada || formType === FromContaPagarType.VerPaga);
+        || (formType === FromContaPagarType.VerCancelada || formType === FromContaPagarType.VerPaga || formType === FromContaPagarType.Ativar);
 
     const isFormCancel: boolean = formType === FromContaPagarType.Cancelar;
     const isFormPay: boolean = formType === FromContaPagarType.Pagar || formType === FromContaPagarType.VerPaga;

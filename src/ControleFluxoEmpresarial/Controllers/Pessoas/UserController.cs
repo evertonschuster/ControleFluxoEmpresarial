@@ -1,4 +1,5 @@
 ﻿using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Services.Users;
@@ -57,7 +58,7 @@ namespace ControleFluxoEmpresarial.Controllers.Users
         }
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(IPaginationQuery filter)
+        public new IActionResult GetListPagined(PaginationQuery<SituacaoType?> filter)
         {
             return Ok(this.UserDAO.GetPagined(filter));
         }

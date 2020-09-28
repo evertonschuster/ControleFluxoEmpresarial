@@ -30,5 +30,9 @@ class Api {
     Pagar(conta: ContaPagar): Promise<AxiosResponse<any>> {
         return api.put(`${this.EndPoint}/pagar/(${conta.modelo}:${conta.serie}:${conta.numero}:${conta.fornecedorId}:${conta.parcela})`, conta);
     }
+
+    Ativar(conta: ContaPagar): Promise<AxiosResponse<any>> {
+        return api.put(`${this.EndPoint}/ativar/(${conta.modelo}:${conta.serie}:${conta.numero}:${conta.fornecedorId}:${conta.parcela})`, conta);
+    }
 }
 export const ContaPagarApi = new Api();

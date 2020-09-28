@@ -14,6 +14,7 @@ import { idText } from 'typescript';
 export enum FromContaPagarType {
     Pagar,
     Cancelar,
+    Ativar,
     Editar,
     Novo,
     VerCancelada,
@@ -61,6 +62,9 @@ const FromContaPagar: React.FC = () => {
         try {
             if (formType === FromContaPagarType.Pagar) {
                 await ContaPagarApi.Pagar(conta);
+            }
+            if (formType === FromContaPagarType.Ativar) {
+                await ContaPagarApi.Ativar(conta);
             }
             else if (modelo) {
                 await ContaPagarApi.Update(conta);

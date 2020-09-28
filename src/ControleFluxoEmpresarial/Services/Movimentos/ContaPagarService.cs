@@ -66,6 +66,29 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             this.ContaPagarDAO.Update(entity, commit);
         }
 
+        internal void Ativar(ContaPagarId id)
+        {
+            var compra = this.CompraDAO.GetByID(new DTO.Compras.CompraId()
+            {
+                Serie = id.Serie,
+                Modelo = id.Modelo,
+                Numero = id.Numero,
+                FornecedorId = id.FornecedorId
+            });
+
+            if (compra != null)
+            {
+                throw new BusinessException(new { Numero = "Não é possível Ativar uma conta a pagar lançada por uma compra" });
+            }
+
+            var conta = this.ContaPagarDAO.GetByID(id);
+
+            conta.DataCancelamento = null;
+            conta.UserCancelamento = null;
+
+            this.ContaPagarDAO.Update(conta);
+        }
+
         //se Possuir uma compra, não pode cancelar
         public void Cancelar(CancelarContaPagar model)
         {

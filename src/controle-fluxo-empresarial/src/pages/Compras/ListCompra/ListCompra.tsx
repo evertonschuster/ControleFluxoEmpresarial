@@ -14,7 +14,7 @@ import ShowSituation from './components/ShowSituation';
 import ListFilter from './components/ListFilter';
 
 const ListCompra: React.FC = () => {
-    const requestProps = UseListPagined({ getListPagined: CompraApi.GetListPagined.bind(CompraApi) });
+    const requestProps = UseListPagined({ getListPagined: CompraApi.GetListPagined.bind(CompraApi) }, { pageSize: 10, currentPage: 1 });
 
     const columns: ColumnProps<Compra>[] = [
         {
@@ -85,7 +85,6 @@ const ListCompra: React.FC = () => {
             render: (text: any, record: Compra, index: number) => <CompraActions record={record} index={index} />,
         }
     ];
-
 
     return (
         <FormBasicLayout breadcrumbList={[{ displayName: "Compras", URL: "/compras" }, { displayName: "Listagem", URL: undefined }]} >

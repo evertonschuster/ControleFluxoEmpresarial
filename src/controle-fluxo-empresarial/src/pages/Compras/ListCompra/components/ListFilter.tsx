@@ -52,7 +52,7 @@ const ListFormHeader: React.FC<Props<any> & RouteComponentProps> = (props) => {
 
             <Col span={6} style={{ textAlign: "right" }}>
                 <div style={{ flexDirection: "row" }}>
-                    <Button type="default" style={{ marginRight: 16 }} onClick={() => props.tableProps.setAdvancedFilter!(true)}>Filtro Avançado</Button>
+                    <Button type="default" style={{ marginRight: 16 }} onClick={() => { props.tableProps.setAdvancedFilter!(true); setSituacao([]) }}>Filtro Avançado</Button>
 
                     <Button type="primary">
                         <Link to={("compras/new").replace("//", "/")} onClick={() => setFormMode(FormMode.New)}>

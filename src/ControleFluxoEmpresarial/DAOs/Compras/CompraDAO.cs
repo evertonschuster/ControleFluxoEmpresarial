@@ -25,7 +25,7 @@ namespace ControleFluxoEmpresarial.DAOs.Compras
                 {
                     return condition;
                 }
-                return $" {sql} AND {condition} ";
+                return $" {sql} OR {condition} ";
             }
 
             if (filter.Situacao?.Count > 0)
@@ -52,6 +52,10 @@ namespace ControleFluxoEmpresarial.DAOs.Compras
                 }
 
                 sql = $" AND ({sql}) ";
+            }
+            else
+            {
+                sql = $" AND (compras.datacancelamento is NULL) ";
             }
 
 
