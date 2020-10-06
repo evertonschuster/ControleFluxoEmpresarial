@@ -11,6 +11,7 @@ import SelectModelMore from '../../../../components/SelectModel/SelectModelMore'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
 import { CompraApi } from '../../../../apis/Compras/CompraApi';
 import SelectionGenericsFormik from './components/SelectionGenericsFormik';
+import { FormikHelpers, useFormikContext } from 'formik';
 
 export interface Props<T> {
     tableProps: ListItem<T>;
@@ -26,7 +27,6 @@ export enum situationFilter {
 
 const ListFilterAdvanced: React.FC<Props<Compra>> = (props) => {
 
-
     useEffect(() => {
         props.tableProps.setFilterRequest({
             currentPage: props.tableProps.filterRequest.currentPage,
@@ -40,7 +40,7 @@ const ListFilterAdvanced: React.FC<Props<Compra>> = (props) => {
         };
     }, [])
 
-    function onSearch(form: any) {
+    function onSearch(form: any, formik: FormikHelpers<any>) {
         props.tableProps.setFilterRequest({
             currentPage: props.tableProps.filterRequest.currentPage,
             pageSize: props.tableProps.filterRequest.pageSize,
@@ -49,6 +49,8 @@ const ListFilterAdvanced: React.FC<Props<Compra>> = (props) => {
             dataCompraFim: form?.comprado && form?.comprado![1],
             produtosId: form?.produtosId?.map((e: any) => e.id)
         })
+
+        formik.setSubmitting(false);
     }
 
     return (

@@ -10,6 +10,8 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
 
         public string UnidadeMedidaId { get; set; }
 
+        public UnidadeMedida UnidadeMedida { get; set; }
+
         public string CodigoBarras { get; set; }
 
         public string Referencia { get; set; }

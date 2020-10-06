@@ -7,15 +7,6 @@ export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
         .typeError("Código inválido")
         .required("Informe o Produto."),
 
-    unidadeMedidaId: Yup.string()
-        .nullable()
-        .typeError("Código inválido")
-        .required("Informe a Unidade de medida.")
-        .test("unidade-medida-invalida", "Código inválido", function () {
-            let form = this.parent as CompraProduto
-            return form.unidadeMedida ? true : false
-        }),
-
     quantidade: Yup.number()
         .nullable()
         .typeError("Informe a Quantidade.")

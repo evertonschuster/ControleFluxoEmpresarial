@@ -33,6 +33,8 @@ namespace ControleFluxoEmpresarial.Models.Compras
 
         public decimal? Frete { get; set; }
 
+        public bool ConhecimentoFrete { get; set; }
+
         public decimal? Seguro { get; set; }
 
         public decimal? OutrasDespesas { get; set; }
@@ -75,19 +77,17 @@ namespace ControleFluxoEmpresarial.Models.Compras
         public CompraDAO CompraDAO { get; set; }
         public FornecedorDAO FornecedorDAO { get; set; }
         public ProdutoDAO ProdutoDAO { get; set; }
-        public UnidadeMedidaDAO UnidadeMedidaDAO { get; set; }
         public FormaPagamentoDAO FormaPagamentoDAO { get; set; }
         public ContaPagarDAO ContaPagarDAO { get; set; }
 
 
-        public CompraValidator(CompraDAO compraDAO, FornecedorDAO fornecedorDAO, ProdutoDAO produtoDAO, UnidadeMedidaDAO unidadeMedidaDAO,
+        public CompraValidator(CompraDAO compraDAO, FornecedorDAO fornecedorDAO, ProdutoDAO produtoDAO,
             FormaPagamentoDAO formaPagamentoDAO, ContaPagarDAO contaPagarDAO)
         {
             this.CompraDAO = compraDAO;
             this.ProdutoDAO = produtoDAO;
             this.FornecedorDAO = fornecedorDAO;
             this.ContaPagarDAO = contaPagarDAO;
-            this.UnidadeMedidaDAO = unidadeMedidaDAO;
             this.FormaPagamentoDAO = formaPagamentoDAO;
 
 
@@ -132,24 +132,24 @@ namespace ControleFluxoEmpresarial.Models.Compras
 
             RuleFor(e => e.Produtos)
                 .Must(e => e.Count > 0).WithMessage("Adicine produtos a compra.")
-                .Must(e => e.Select(a => a.ProdutoId).Distinct().Count() == e.Count()).WithMessage("Existem produtos repetidos na compra");
+                .Must(e => e.Select(a => a.ProdutoId).Distinct().Count() == e.Count()).WithMessage("Existem produtos repetidos na compra.");
 
             RuleForEach(e => e.Produtos)
                 .Must(e => ExistProduto(e.ProdutoId)).WithMessage("Produto não cadastrado.")
-                .Must(e => ExistUnidadeMedida(e.UnidadeMedidaId)).WithMessage("Unidade de Medida não cadastrada.")
                 .Must(e => e.Quantidade > 0).WithMessage("Quantidade inválida.")
                 .Must(e => e.ValorUnitario > 0).WithMessage("Valor inválido.")
                 .Must(e => e.Desconto >= 0 || e.Desconto == null).WithMessage("Desconto inválido.")
                 .Must(e => e.IPI > 0 || e.IPI == null).WithMessage("IPI inválido.");
 
             RuleFor(e => e.Parcelas)
-                .Must(e => e.Count > 0).WithMessage("Adicione parcelas a compra.")
+                .NotEmpty().WithMessage("Adicione parcelas a compra.")
                 .Must(VerifyValues).WithMessage("Soma das parcelas não confere com o valor da compra.");
 
             RuleForEach(e => e.Parcelas)
-                .Must(e => e.Parcela >= 0).WithMessage("Parcelas inválida")
+                .NotEmpty().WithMessage("Informe as parcelas.")
+                .Must(e => e.Parcela >= 0).WithMessage("Parcelas inválida.")
                 .Must(e => ExistFormaPagamento(e.FormaPagamentoId)).WithMessage("Forma de pagamento não cadastrada.")
-                .Must(e => e.DataVencimento != null).WithMessage("Data de Vencimento inválida")
+                .Must(e => e.DataVencimento != null).WithMessage("Data de Vencimento inválida.")
                 .Must((c, p) => !ExistParcela(c, p)).WithMessage((c, p) => $"Parcela {p.Parcela} já cadastrada.");
 
         }
@@ -178,9 +178,9 @@ namespace ControleFluxoEmpresarial.Models.Compras
         private bool VerifyValues(Compra compra, List<ContaPagar> parcela)
         {
             var totalCompra = compra.Produtos.Sum(e => (e.Quantidade * e.ValorUnitario) - (e.Desconto ?? 0) + (e.IPI ?? 0));
-            totalCompra += (compra.Frete ?? 0) + (compra.Seguro ?? 0) + (compra.OutrasDespesas ?? 0);
+            totalCompra += (compra.Seguro ?? 0) + (compra.OutrasDespesas ?? 0) + (compra.ConhecimentoFrete ? (compra.Frete ?? 0) : 0);
 
-            var totalParcelas = compra.Parcelas.Sum(e => e.Valor);
+            var totalParcelas = compra.Parcelas?.Sum(e => e.Valor);
 
             return totalParcelas == totalCompra;
         }
@@ -188,12 +188,6 @@ namespace ControleFluxoEmpresarial.Models.Compras
         private bool ExistProduto(int id)
         {
             var findProduto = this.ProdutoDAO.GetByID(id);
-            return findProduto != null && findProduto.Situacao == null;
-        }
-
-        private bool ExistUnidadeMedida(string id)
-        {
-            var findProduto = this.UnidadeMedidaDAO.GetByID(id);
             return findProduto != null && findProduto.Situacao == null;
         }
 

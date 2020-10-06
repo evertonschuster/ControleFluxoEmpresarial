@@ -24,9 +24,9 @@ const CondicaoPagamentoSelection: React.FC = () => {
     const formik = useFormikContext();
 
     async function calcularParcelas() {
-        let result = await formik.validateForm() as any
+        let result = await formik.validateForm() as any;
 
-        if (!formik.isValid) {
+        if (Object.keys(result).length > 0) {
             message.error("Formulário inválido, por favor corrija para continuar.")
             let errors = Object.keys(result).map(e => <span>{`[${e}]: ${result[e]}`} <br /></span>);
             message.error({ content: errors })
@@ -41,7 +41,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
             setParcelas(parcelas)
         }
         catch (error) {
-            setParcelas([])
+            setParcelas(null)
         }
         finally {
             setLoading(false);

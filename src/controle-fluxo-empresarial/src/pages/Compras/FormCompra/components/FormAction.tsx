@@ -44,7 +44,7 @@ const FormAction: React.FC = () => {
                 <span >
                     Criado por: <span style={{ fontWeight: "bold" }}>{userCriacao ?? "__"}</span> às <span style={{ fontWeight: "bold", paddingRight: 2 }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCriacao) : "  /  /"} </span>
                         |
-                    Cancelado por: <span style={{ fontWeight: "bold" }}>{userCancelamento ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCriacao ? formatDataWithHour(formik.values?.dataCancelamento!) : "  /  /"}</span>
+                    Cancelado por: <span style={{ fontWeight: "bold" }}>{userCancelamento ?? "__"}</span> às <span style={{ fontWeight: "bold" }}>{formik.values?.dataCancelamento ? formatDataWithHour(formik.values?.dataCancelamento!) : "  /  /"}</span>
                 </span>
             </>
         )

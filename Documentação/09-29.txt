@@ -1,0 +1,18 @@
+09-29
+Compra
+    Remover seleção da unidade de medida
+    Situação da compra (o )
+    Conhecimento de frete(marcado n soma no TOTAL DA NOTA)
+
+    Custo Unit. somente custo, listagem
+    Salvar sem parcelas
+
+
+contas-pagar
+    cancelar baixa, com justificativa
+    Parcela pulada so confirmar senha
+    Contagem da listagem conforme o filtro
+    Ativar uma conta com senha
+
+R$7,00
+1

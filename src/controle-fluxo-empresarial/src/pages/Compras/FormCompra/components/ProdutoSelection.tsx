@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from 'react'
 import { CompraProduto } from '../../../../models/Compras/CompraProduto'
 import { CompraProdutoSchema } from '../CompraProdutoSchema'
 import { FormCompraMode } from '../FormCompra'
-import { FormikHelpers, useField } from 'formik'
+import { FormikHelpers, FormikProps, useField } from 'formik'
 import { ProdutoApi } from '../../../../apis/Movimentos/ProdutoApi'
 import { Row, Col, Divider } from 'antd'
 import { SubmitButton } from 'formik-antd'
@@ -13,6 +13,8 @@ import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
 import ListDetailsProduto, { ListHandle } from './ListDetailsProduto'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
+import { useEffect } from 'react';
+import { Input } from '../../../../components/WithFormItem/withFormItem'
 
 const ProdutoSelection: React.FC = () => {
 
@@ -32,6 +34,13 @@ const ProdutoSelection: React.FC = () => {
 
     const disableForm = formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO || formMode === FormCompraMode.PAGAMENTO;
     const childRef = useRef<ListHandle>(null);
+    const formik = useRef<FormikProps<any>>(null);
+
+    useEffect(() => {
+        if (formMode == FormCompraMode.PAGAMENTO) {
+            formik.current?.setErrors({});
+        }
+    }, [formMode])
 
     async function onSubmit(values: CompraProduto, formikHelpers: FormikHelpers<CompraProduto>) {
         let containsErrors = false;
@@ -41,15 +50,11 @@ const ProdutoSelection: React.FC = () => {
             containsErrors = true;
         }
 
-        if (!values.unidadeMedida) {
-            formikHelpers.setFieldError("unidadeMedidaId", "Unidade de Medida inválido.")
-            containsErrors = true;
-        }
-
         if (produtos?.findIndex(e => e.produtoId === values.produto?.id) >= 0) {
             formikHelpers.setFieldError("produtoId", "Produto já Adicionado.")
             containsErrors = true;
         }
+    
 
         if (containsErrors) {
             return formikHelpers.setSubmitting(false);
@@ -67,6 +72,7 @@ const ProdutoSelection: React.FC = () => {
             <Divider orientation={"left"}>Produtos</Divider>
 
             <InnerForm
+                innerRef={formik}
                 initialValues={compraProduto}
                 onSubmit={onSubmit}
                 validationSchema={CompraProdutoSchema}
@@ -87,18 +93,7 @@ const ProdutoSelection: React.FC = () => {
                     </Col>
 
                     <Col span={3}>
-                        <SelectModelOne
-                            disabled={disableForm}
-                            fetchMethod={UnidadeMedidaApi.GetById.bind(UnidadeMedidaApi)}
-                            name="unidadeMedidaId"
-                            keyDescription="nome"
-                            objectName="unidadeMedida"
-                            required={true}
-                            idIsInt={false}
-                            showDescription={false}
-                            label={{ title: "Seleção de Unidade de Medida", label: "Unidade de Medida" }}
-                            errorMessage={{ noSelection: "Selecione uma Unidade de Medida!" }}
-                            path="unidade-medida" />
+                        <Input name="produto.unidadeMedidaId" label="Unidade de Medida" disabled fast={false}/>
                     </Col>
 
                     <Col span={2}>

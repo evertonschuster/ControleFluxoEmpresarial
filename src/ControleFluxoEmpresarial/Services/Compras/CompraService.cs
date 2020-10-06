@@ -177,15 +177,11 @@ namespace ControleFluxoEmpresarial.Services.Compras
                     Desconto = produto.Desconto,
                     Quantidade = produto.Quantidade,
                     IPI = produto.IPI,
-                    UnidadeMedida = produto.UnidadeMedida,
-                    UnidadeMedidaId = produto.UnidadeMedida.Id,
-                    CustoUnitario = custoUnitario
+                    CustoUnitario = custoUnitario,
                 };
 
                 result.Add(prodCompra);
             }
-
-            Console.WriteLine("teste da MAE");
 
             return result;
         }

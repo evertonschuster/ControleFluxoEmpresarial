@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { Compra } from './../../../models/Compras/Compra';
-import { FormCompraMode } from './FormCompra';
 
 export const CompraSchema = Yup.object().shape<Compra>({
     modelo: Yup.string()
@@ -54,7 +53,7 @@ export const CompraSchema = Yup.object().shape<Compra>({
         .nullable()
         .when("formMode", {
             is: 1,
-            then: Yup.array().required("Infome as parcelas.")
+            then: Yup.array().required("Calcule as parcelas.")
         }),
 
     observacao: Yup.string()

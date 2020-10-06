@@ -8,19 +8,19 @@ export interface Compra extends IBaseEntity2 {
     serie?: string | null;
     dataEmissao?: Date | null;
     dataChegada?: Date | null;
+    conhecimentoFrete?: boolean | null;
 
-    
     frete?: number | null;
     seguro?: number | null;
     outrasDespesas?: number | null;
-    
+
     fornecedorId?: number | null;
     observacao?: string | null;
-    
+
     produtos?: CompraProduto[] | null;
     parcelas?: ParcelaPagamento[] | null;
     total?: number | null;
-    
+
     dataCancelamento?: Date | null;
     userCancelamento?: string | null;
 }

@@ -471,6 +471,7 @@ CREATE TABLE Compras (
     Seguro DECIMAL(10,2) NULL,
     OutrasDespesas DECIMAL(10,2) NULL,
     Observacoes VARCHAR(255) NULL,
+    ConhecimentoFrete BOOLEAN NOT NULL,
    
     DataCancelamento TIMESTAMP WITH TIME ZONE,
     UserCancelamento text NULL,
@@ -497,7 +498,6 @@ CREATE TABLE CompraProdutos (
     FornecedorId INTEGER NOT NULL,
 
 	ProdutoId INTEGER NOT NULL,
-	UnidadeMedidaId  VARCHAR(3) NOT NULL,
    
 	Quantidade DECIMAL(10,2) NOT NULL,
 	ValorUnitario DECIMAL(10,2) NOT NULL,
@@ -506,7 +506,6 @@ CREATE TABLE CompraProdutos (
 	CustoUnitario DECIMAL(10,2) NOT NULL,
 
     CONSTRAINT FK_CompraProduto_compra FOREIGN KEY (Numero, Modelo, Serie, FornecedorId) REFERENCES Compras(Numero, Modelo, Serie, FornecedorId),
-	CONSTRAINT FK_CompraProduto_UnidadesMedida_UnidadeMedidaId FOREIGN KEY (UnidadeMedidaId) REFERENCES UnidadesMedida (Id),
 	CONSTRAINT FK_CompraProduto_Produtos_ProdutoId FOREIGN KEY (ProdutoId) REFERENCES Produtos (Id),
     CONSTRAINT PK_CompraProduto PRIMARY KEY (Numero, Modelo, Serie, FornecedorId, ProdutoId)
 )

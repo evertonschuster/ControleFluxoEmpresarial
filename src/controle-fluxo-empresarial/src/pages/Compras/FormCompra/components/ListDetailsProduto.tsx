@@ -68,29 +68,17 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
         {
             width: 150,
             title: 'Und. Med.',
-            dataIndex: 'unidadeMedida',
-            key: 'unidadeMedida',
+            dataIndex: 'produto',
+            key: 'unidadeMedidaId',
             editable: true,
-            render: (unidadeMed: UnidadeMedida) => {
-                return unidadeMed?.id
-            },
-            renderEditable: () => <SelectModelOne
-                fetchMethod={UnidadeMedidaApi.GetById.bind(UnidadeMedidaApi)}
-                name="unidadeMedidaId"
-                keyDescription="nome"
-                objectName="unidadeMedida"
-                required={true}
-                showLabel={false}
-                idIsInt={false}
-                showDescription={false}
-                label={{ title: "Seleção de Unidade de Medida", label: "Unidade de Medida" }}
-                errorMessage={{ noSelection: "Selecione uma Unidade de Medida!" }}
-                path="unidade-medida" />
+            render: (unidadeMed: Produto) => {
+                return unidadeMed.unidadeMedidaId
+            }
         },
         {
             align: "right",
             dataIndex: 'quantidade',
-            width: 130,
+            width: 90,
             editable: true,
             key: 'quantidade',
             title: 'Qtde.',
@@ -117,7 +105,7 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
             title: 'Custo Unit.',
             dataIndex: 'custoUnitario',
             key: 'custoUnitario',
-            render: (custo: number) => {
+            render: (custo: number, item: CompraProduto) => {
                 if (custo === null) {
                     return <Spin size="small" />
                 }
@@ -126,14 +114,14 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
                     return "-";
                 }
 
-                return custo ? formatNumber2(custo) : "-"
+                return custo ? formatNumber2(custo - item.valorUnitario!) : "-"
             },
         },
         {
             align: "right",
             width: 100,
             key: 'Total Quantidade',
-            title: 'Total Prod',
+            title: 'Valor Prod',
             render: (item: CompraProduto) => {
                 if (!item.custoUnitario) {
                     return <Spin size="small" />
@@ -227,6 +215,7 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
     useImperativeHandle(ref, () => ({
         refeshValues
     }));
+    
 
     return (
         <EditableTable

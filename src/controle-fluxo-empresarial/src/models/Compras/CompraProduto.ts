@@ -7,9 +7,6 @@ export interface CompraProduto extends IBaseEntity2{
     produto?: Produto | null;
     produtoId?: number | null;
 
-    unidadeMedida?: UnidadeMedida | null;
-    unidadeMedidaId?: string | null;
-
     quantidade?: number | null;
     valorUnitario?: number | null;
     desconto?: number | null;

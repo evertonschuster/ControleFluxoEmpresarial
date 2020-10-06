@@ -14,10 +14,6 @@ namespace ControleFluxoEmpresarial.Models.Compras
 
         public Produto Produto { get; set; }
 
-        public string UnidadeMedidaId { get; set; }
-
-        public UnidadeMedida UnidadeMedida { get; set; }
-
         public decimal Quantidade { get; set; }
 
         public decimal ValorUnitario { get; set; }

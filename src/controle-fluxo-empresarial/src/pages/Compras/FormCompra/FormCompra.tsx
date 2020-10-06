@@ -25,6 +25,7 @@ const FormCompra: React.FC = () => {
         serie: null,
         modelo: null,
         fornecedorId: null,
+        conhecimentoFrete: true,
 
         dataChegada: null,
         dataEmissao: null,

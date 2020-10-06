@@ -50,7 +50,17 @@ const SelectModelOne: React.FC<Props> = (props) => {
         let id = field.value;
         handleClick(id);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [field.value, visible])
+    }, [field.value])
+
+    useEffect(() => {
+        if (visible) {
+            return;
+        }
+
+        let id = field.value;
+        handleClick(id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [visible])
 
     async function getDesciptionValues(id: number) {
         if (id) {
@@ -140,7 +150,7 @@ const SelectModelOne: React.FC<Props> = (props) => {
                     }
                     {showDescription && <Col span={((props.col?.inputDescription) ?? 13) + (props.disabled ? (showDescription ? 3 : 5) : 0)} >
                         <WithItemNone showLabel={showLabel}>
-                            <InputAntd value={object && object[keyDescription]} disabled={true}   placeholder={props.label.placeholder}/>
+                            <InputAntd value={object && object[keyDescription]} disabled={true} placeholder={props.label.placeholder} />
                         </WithItemNone>
                     </Col>}
                 </Row>

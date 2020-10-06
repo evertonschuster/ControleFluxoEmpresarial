@@ -52,8 +52,6 @@ const CancelationForm: React.FC<Props> = (props) => {
         </>
     )
 
-    console.log(innerForm.current)
-
     return (
         <InnerForm
             innerRef={innerForm}

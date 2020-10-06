@@ -8,10 +8,6 @@ namespace ControleFluxoEmpresarial.Services.Compras.Models
 
         public Produto Produto { get; set; }
 
-        public string UnidadeMedidaId { get; set; }
-
-        public UnidadeMedida UnidadeMedida { get; set; }
-
         public int Quantidade { get; set; }
 
         public decimal ValorUnitario { get; set; }
@@ -21,3 +17,4 @@ namespace ControleFluxoEmpresarial.Services.Compras.Models
         public decimal? IPI { get; set; }
     }
 }
+   

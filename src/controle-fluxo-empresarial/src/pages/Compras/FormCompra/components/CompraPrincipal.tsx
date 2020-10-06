@@ -1,28 +1,31 @@
 import React, { useState } from 'react'
 import { CompraProduto } from '../../../../models/Compras/CompraProduto'
+import { FormCompraMode } from '../FormCompra'
+import { Fornecedor } from '../../../../models/Pessoas/Fornecedor'
 import { FornecedorApi } from '../../../../apis/Pessoas/Fornecedor.Api'
-import { Input, DatePicker, TextArea } from '../../../../components/WithFormItem/withFormItem'
+import { getUserNameStorage } from '../../../../services/UserNameCache'
+import { Input, DatePicker, TextArea, Switch } from '../../../../components/WithFormItem/withFormItem'
 import { Row, Col, Divider } from 'antd'
 import { useEffect } from 'react';
 import { useField } from 'formik'
 import CondicaoPagamentoSelection from './CondicaoPagamentoSelection'
 import InputDecimal from '../../../../components/InputDecimal/InputDecimal'
-import InputSituation from '../../../../components/Situation/InputSituation/InputSituation'
 import ProdutoSelection from './ProdutoSelection'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
-import { FormCompraMode } from '../FormCompra'
-import { getUserNameStorage } from '../../../../services/UserNameCache'
 
 const CompraPrincipal: React.FC = () => {
 
-    const [{ value: frete }, ,] = useField<number>("frete")
-    const [{ value: seguro }, ,] = useField<number>("seguro")
+    const [{ value: frete }, ,] = useField<number>("frete");
+    const [{ value: seguro }, ,] = useField<number>("seguro");
     const [, , { setValue: setTotal }] = useField<number>("total");
-    const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos")
-    const [{ value: outrasDespesas }, ,] = useField<number>("outrasDespesas")
-    const [{ value: userCancelamento }, ,] = useField<string>("userCancelamento")
     const [{ value: formMode }] = useField<FormCompraMode>("formMode");
+    const [{ value: fornecedor }] = useField<Fornecedor>("fornecedor");
+    const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos");
+    const [{ value: outrasDespesas }, ,] = useField<number>("outrasDespesas");
+    const [{ value: userCancelamento }, ,] = useField<string>("userCancelamento");
+    const [{ value: conhecimentoFrete }] = useField<boolean>("conhecimentoFrete");
+    const [, , { setValue: setCondicaoPagamentoId }] = useField<number>("condicaoPagamentoId");
 
     const [userCancelamentoStr, setUserCancelamentoStr] = useState<string | undefined | null>(undefined)
     const disableForm = formMode === FormCompraMode.PAGAMENTO || formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
@@ -33,9 +36,15 @@ const CompraPrincipal: React.FC = () => {
             return acumulador + total;
         }, 0) ?? 0;
 
-        totalSoma += (frete ?? 0) + (seguro ?? 0) + (outrasDespesas ?? 0)
+        totalSoma += (seguro ?? 0) + (outrasDespesas ?? 0) + (conhecimentoFrete ? (frete ?? 0) : 0)
         setTotal(totalSoma)
-    }, [produtos, frete, seguro, outrasDespesas])
+    }, [produtos, frete, seguro, outrasDespesas, conhecimentoFrete])
+
+    useEffect(() => {
+        if (fornecedor) {
+            setCondicaoPagamentoId(fornecedor.condicaoPagamentoId!);
+        }
+    }, [fornecedor])
 
     useEffect(() => {
         loadUserName()
@@ -78,9 +87,6 @@ const CompraPrincipal: React.FC = () => {
                         path="Fornecedor" />
                 </Col>
 
-                <Col span={2}>
-                    <InputSituation name="situacao" disabled={true} />
-                </Col>
             </Row>
 
             <Separator />
@@ -107,8 +113,11 @@ const CompraPrincipal: React.FC = () => {
                 <Col span={3}>
                     <InputDecimal name="outrasDespesas" label="Outras despesas" placeholder="21,50" disabled={disableForm} />
                 </Col>
+                <Col span={2}>
+                    <Switch name="conhecimentoFrete" label="Conhecimento de frete" disabled={disableForm} checkedChildren="Sim" unCheckedChildren="Não" />
+                </Col>
 
-                <Col span={3} push={12}>
+                <Col span={3} push={10}>
                     <InputDecimal name="total" label="Total da Nota" placeholder="21,50" disabled />
                 </Col>
             </Row>
