@@ -1,18 +1,19 @@
 import React from 'react'
-import { ContaPagarApi } from '../../../../apis/Movimentos/ContaPagarApi';
-import { UseListPagined } from '../../../../hoc/UseListPagined';
 import { ColumnProps } from 'antd/lib/table';
+import { ContaPagarApi } from '../../../../apis/Movimentos/ContaPagarApi';
+import { formatData } from '../../../../utils/FormatNumber';
+import { formatNumber2 } from './../../../../utils/FormatNumber';
+import { Fornecedor } from './../../../../models/Pessoas/Fornecedor';
+import { UseListPagined } from '../../../../hoc/UseListPagined';
+import ContaPagar from '../../../../models/Movimentos/ContaPagar';
+import FilterSimpleHeader, { SituacaoContaPagar } from './components/FilterSimpleHeader';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
-import ContaPagar from '../../../../models/Movimentos/ContaPagar';
-import { formatData } from '../../../../utils/FormatNumber';
-import ShowSituation from './components/ShowSituation';
-import { Fornecedor } from './../../../../models/Pessoas/Fornecedor';
 import RecordAction from './components/RecordAction';
-import { formatNumber2 } from './../../../../utils/FormatNumber';
+import ShowSituation from './components/ShowSituation';
 
 const ListContaPagar: React.FC = () => {
-    const response = UseListPagined({ getListPagined: ContaPagarApi.GetListPagined.bind(ContaPagarApi) });
+    const response = UseListPagined({ getListPagined: ContaPagarApi.GetListPagined.bind(ContaPagarApi) }, { situacao: [SituacaoContaPagar.PENDENTE] });
 
     const columns: ColumnProps<ContaPagar>[] = [
         {
@@ -80,6 +81,7 @@ const ListContaPagar: React.FC = () => {
         <FormBasicLayout breadcrumbList={[{ displayName: "Contas a Pagar", URL: "/conta-pagar" }, { displayName: "Listagem", URL: undefined }]} >
 
             <ListForm
+                filterSimpleHeader={<FilterSimpleHeader tableProps={response} />}
                 hiddenAction
                 keyProp={"dataCriacao"}
                 tableProps={response}

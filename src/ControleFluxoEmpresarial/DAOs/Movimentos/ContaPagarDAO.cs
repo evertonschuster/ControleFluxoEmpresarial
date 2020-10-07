@@ -20,8 +20,10 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         {
         }
 
-        public override PaginationResult<ContaPagar> GetPagined(IPaginationQuery filter)
+        public override PaginationResult<ContaPagar> GetPagined(IPaginationQuery genericsFilter)
         {
+            var filter = genericsFilter as PaginationQuery<List<SituacaoContaPagarType>>;
+
             var sql = @$"SELECT {this.Property.FormatProperty(e => $"ContasPagar.{e}")}, 
                             {typeof(Fornecedor).Property().FormatProperty(e => $"Fornecedores.{e} as \"Fornecedor.{e}\"")},
                             {typeof(FormaPagamento).Property().FormatProperty(e => $"formapagamentos.{e} as \"FormaPagamento.{e}\"")}
@@ -29,14 +31,29 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                             INNER JOIN Fornecedores ON Fornecedores.id =  ContasPagar.FornecedorId
                             INNER JOIN formapagamentos ON formapagamentos.id =  ContasPagar.FormaPagamentoId
                         WHERE 1 = 1";
+            var sqlWhereSituacao = "";
+            var sqlWhere = "";
 
-            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Habilitado)
+            if (filter.Situacao.Contains(SituacaoContaPagarType.CANCELADA))
             {
-                sql += " AND ContasPagar.DataCancelamento is null";
+                sqlWhereSituacao += " OR ContasPagar.DataCancelamento is not null";
             }
-            if ((filter as PaginationQuery<SituacaoType?>).Situacao == DTO.Filters.SituacaoType.Desabilitado)
+            if (filter.Situacao.Contains(SituacaoContaPagarType.PAGA))
             {
-                sql += " AND ContasPagar.DataCancelamento is not null";
+                sqlWhereSituacao += " OR ContasPagar.datapagamento is not null";
+            }
+            if (filter.Situacao.Contains(SituacaoContaPagarType.PENDENTE))
+            {
+                sqlWhereSituacao += " OR ContasPagar.datapagamento is null" +
+                                    " AND ContasPagar.DataCancelamento is null";
+            }
+
+
+            if (filter.Situacao.Contains(SituacaoContaPagarType.VENCIDA))
+            {
+                sqlWhereSituacao += " OR (to_char(ContasPagar.datavencimento, 'DD/MM/YYYY') <=  to_char(now(), 'DD/MM/YYYY') " +
+                                            " AND ContasPagar.DataCancelamento is null" +
+                                            " AND  ContasPagar.datapagamento is null )";
             }
 
             var byInt = filter.Filter.ConvertValue<int?>();
@@ -44,21 +61,24 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             {
                 if (filter.Filter.Length > 2)
                 {
-                    sql += " AND ContasPagar.Numero = @Filter";
+                    sqlWhere += " AND ContasPagar.Numero = @Filter";
                 }
                 else
                 {
-                    sql += " AND (ContasPagar.Numero = @Filter OR ContasPagar.Modelo = @Filter OR ContasPagar.Serie = @Filter OR ContasPagar.Parcela = @byInt)";
+                    sqlWhere += " AND (ContasPagar.Numero = @Filter OR ContasPagar.Modelo = @Filter OR ContasPagar.Serie = @Filter OR ContasPagar.Parcela = @byInt)";
                 }
             }
 
             if (DateTime.TryParse(filter.Filter, new CultureInfo("pt-BR"), DateTimeStyles.None, out var byData))
             {
-                sql += " AND (to_char(ContasPagar.DataEmissao, 'DD/MM/YYYY') = @filter OR to_char(ContasPagar.DataVencimento, 'DD/MM/YYYY') = @filter )";
+                sqlWhere += " AND (to_char(ContasPagar.DataEmissao, 'DD/MM/YYYY') = @filter OR to_char(ContasPagar.DataVencimento, 'DD/MM/YYYY') = @filter )";
             }
 
-
-            return this.ExecuteGetPaginated(sql, "SELECT  COUNT(*) AS TotalItem FROM ContasPagar", new { filter.Filter, byInt, byData }, filter);
+            if (!string.IsNullOrEmpty(sqlWhereSituacao))
+            {
+                sqlWhere = $" AND (1<>1 {sqlWhereSituacao}) " + sqlWhere;
+            }
+            return this.ExecuteGetPaginated(sql + sqlWhere, "SELECT  COUNT(*) AS TotalItem FROM ContasPagar WHERE 1=1 " + sqlWhere, new { filter.Filter, byInt, byData }, filter);
         }
 
         public List<ContaPagar> ListByCompraId(CompraId compraId)

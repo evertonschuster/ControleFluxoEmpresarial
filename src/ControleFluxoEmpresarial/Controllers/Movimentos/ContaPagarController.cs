@@ -7,6 +7,7 @@ using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Services.Movimentos;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace ControleFluxoEmpresarial.Controllers.Movimentos
 {
@@ -125,7 +126,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
         }
 
         [HttpPost("list")]
-        public IActionResult GetListPagined(PaginationQuery<SituacaoType?> filter)
+        public IActionResult GetListPagined(PaginationQuery<List<SituacaoContaPagarType>> filter)
         {
             return Ok(this.DAO.GetPagined(filter));
         }

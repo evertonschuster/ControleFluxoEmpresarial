@@ -11,6 +11,10 @@ import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
+import { isDate } from 'util';
+import { formatData, formatDataWithHour } from './../../../../../utils/FormatNumber';
+import { useDebouncedCallback } from './../../../../../hoc/useDebouncedCallback';
+import moment from 'moment';
 
 const GeralForm: React.FC = () => {
 
@@ -24,6 +28,8 @@ const GeralForm: React.FC = () => {
     const [{ value: multa }] = useField("multa");
     const [{ value: desconto }] = useField("desconto");
     const [, , { setValue: setValorBaixa }] = useField("valorBaixa");
+    const [{ value: dataPagamento }] = useField("dataPagamento");
+    const [{ value: dataVencimento }] = useField("dataVencimento");
 
     const [{ value: fornecedorId }] = useField("fornecedorId");
     const [{ value: userCancelamento }] = useField("userCancelamento");
@@ -49,11 +55,29 @@ const GeralForm: React.FC = () => {
         })
     }, [userCancelamento]);
 
-    useEffect(() => {
-        if (formType === FromContaPagarType.Pagar) {
-            setValorBaixa(valor - (juro + multa + desconto))
+
+    const atualizaBaixa = useDebouncedCallback((dataPagamento, dataVencimento, valor, desconto) => {
+
+        let datePagamento = new Date(Date.parse(dataPagamento));
+        let dateVencimento = new Date(Date.parse(dataVencimento));
+
+        var data1 = moment(datePagamento);
+        var data2 = moment(dateVencimento);
+        var diferencaDias = data1.diff(data2, 'days');
+
+
+        if (diferencaDias <= 0) {
+            return setValorBaixa(valor - desconto)
         }
-    }, [juro, valor, multa, desconto])
+
+        setValorBaixa(valor + multa + juro )
+    }, 100);
+
+    useEffect(() => {
+        if (formType === FromContaPagarType.Pagar && dataVencimento && dataPagamento) {
+            atualizaBaixa(dataPagamento, dataVencimento, valor, desconto);
+        }
+    }, [juro, multa, desconto, dataVencimento, dataPagamento])
     return (
         <>
             <Row>
@@ -131,7 +155,7 @@ const GeralForm: React.FC = () => {
                     <DatePicker name="dataBaixa" label="Data Baixa" disabled={true} />
                 </Col>}
                 {isFormPay && <Col span={3}>
-                    <InputNumber name="valorBaixa" label="Valor Baixa" disabled={true} />
+                    <InputDecimal name="valorBaixa" label="Valor Baixa" disabled={true} placeholder=""/>
                 </Col>}
 
             </Row>
