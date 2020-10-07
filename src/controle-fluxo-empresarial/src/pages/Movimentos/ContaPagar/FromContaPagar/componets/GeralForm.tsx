@@ -1,16 +1,16 @@
 import React from 'react'
 import { FormaPagamentoApi } from '../../../../../apis/CondicaoPagamento/FormaPagamentoApi';
+import { FormContaPagarMode, FromContaPagarType } from '../FromContaPagar';
 import { FornecedorApi } from '../../../../../apis/Pessoas/Fornecedor.Api';
+import { getUserNameStorage } from '../../../../../services/UserNameCache';
 import { Input, DatePicker, InputNumber, TextArea } from '../../../../../components/WithFormItem/withFormItem';
 import { Row, Col } from 'antd';
+import { useEffect } from 'react';
 import { useField } from 'formik';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
-import { useEffect } from 'react';
-import { getUserNameStorage } from '../../../../../services/UserNameCache';
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { FormContaPagarMode, FromContaPagarType } from '../FromContaPagar';
 
 const GeralForm: React.FC = () => {
 
@@ -18,17 +18,28 @@ const GeralForm: React.FC = () => {
     const [{ value: numero }] = useField("numero");
     const [{ value: modelo }] = useField("modelo");
     const [{ value: parcela }] = useField("parcela");
+
+    const [{ value: juro }] = useField("juro");
+    const [{ value: valor }] = useField("valor");
+    const [{ value: multa }] = useField("multa");
+    const [{ value: desconto }] = useField("desconto");
+    const [, , { setValue: setValorBaixa }] = useField("valorBaixa");
+
     const [{ value: fornecedorId }] = useField("fornecedorId");
     const [{ value: userCancelamento }] = useField("userCancelamento");
+
     const { state } = useLocation<FormContaPagarMode>();
     const formType = state?.formType ?? FromContaPagarType.Novo;
     const [userDescription, setUserDescription] = useState("")
 
     const disableFormInput: boolean = !(numero && modelo && parcela && serie && fornecedorId)
-        || (formType === FromContaPagarType.VerCancelada || formType === FromContaPagarType.VerPaga || formType === FromContaPagarType.Ativar);
+        || (formType === FromContaPagarType.VerCancelada
+            || formType === FromContaPagarType.VerPaga
+            || formType === FromContaPagarType.CancelarBaixa
+            || formType === FromContaPagarType.Ativar);
 
     const isFormCancel: boolean = formType === FromContaPagarType.Cancelar;
-    const isFormPay: boolean = formType === FromContaPagarType.Pagar || formType === FromContaPagarType.VerPaga;
+    const isFormPay: boolean = formType === FromContaPagarType.Pagar || formType === FromContaPagarType.VerPaga || formType === FromContaPagarType.CancelarBaixa;
     const isFormEdit: boolean = formType === FromContaPagarType.Editar || isFormPay;
     const disablePK = formType !== FromContaPagarType.Novo;
 
@@ -38,6 +49,11 @@ const GeralForm: React.FC = () => {
         })
     }, [userCancelamento]);
 
+    useEffect(() => {
+        if (formType === FromContaPagarType.Pagar) {
+            setValorBaixa(valor - (juro + multa + desconto))
+        }
+    }, [juro, valor, multa, desconto])
     return (
         <>
             <Row>

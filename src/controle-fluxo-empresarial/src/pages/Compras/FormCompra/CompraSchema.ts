@@ -34,6 +34,10 @@ export const CompraSchema = Yup.object().shape<Compra>({
         .test("data-Chegada", "Data de Chegada não pode ser anterior a data de emissão", function () {
             let form = this.parent as Compra;
             return form.dataEmissao! <= form.dataChegada!
+        })
+        .test("data-Chegada-2", "Data de Chegada não pode ser futura", function () {
+            let form = this.parent as Compra;
+            return form.dataChegada! <= new Date();
         }),
 
 

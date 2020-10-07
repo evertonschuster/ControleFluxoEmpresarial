@@ -6,6 +6,7 @@ import { useDebouncedCallback } from '../../../hoc/useDebouncedCallback';
 import { formatDataWithHour } from '../../../utils/FormatNumber';
 import { UserApi } from '../../../apis/Pessoas/UserApi';
 import { getUserNameStorage } from '../../../services/UserNameCache';
+import { useFormLocalStorage } from '../../../services/CacheFormService';
 
 export interface Props {
     isLoading?: boolean;
@@ -21,18 +22,12 @@ export interface FormikFormRef {
     removeSavedFormLocalStorageForm: () => void;
 }
 
-interface FormData {
-    ceatedDate: Date;
-    formData: any,
-}
-
 const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((props, ref) => {
     const history = useHistory();
     const formik = useFormikContext<any>();
-    const keyLocalStorage = `form-chache${history.location.pathname.toLowerCase()}`;
     const [userCriacao, setUserCriacao] = useState<string | undefined | null>(undefined)
     const [userAtualizacao, setUserAtualizacao] = useState<string | undefined | null>(undefined)
-
+    const { saveFormStorage, removeCurrentFormStorage, getCurrentFormStorage } = useFormLocalStorage();
 
     useEffect(() => {
         verefiSavedForm();
@@ -45,21 +40,14 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
     }, [formik.values]);
 
     useImperativeHandle(ref, () => ({
-        removeSavedFormLocalStorageForm
+        removeSavedFormLocalStorageForm: removeCurrentFormStorage
     }));
 
     const saveFormLocalStorage = useDebouncedCallback(() => {
-        var values: FormData = {
-            ceatedDate: new Date(),
-            formData: formik.values,
-        };
-
-        localStorage.setItem(keyLocalStorage, JSON.stringify(values))
+        saveFormStorage(formik.values)
     }, 600);
 
-    function removeSavedFormLocalStorageForm() {
-        localStorage.removeItem(keyLocalStorage);
-    }
+
 
     async function loadUserName() {
         if (formik?.values?.userCriacao) {
@@ -78,12 +66,13 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
     }
 
     function getFormLocalStorage() {
-        var savedForm = JSON.parse(localStorage.getItem(keyLocalStorage) ?? "") as FormData;
-        formik.setValues({ ...props.initialValues, ...savedForm.formData });
+        var savedForm = getCurrentFormStorage();
+        formik.setValues({ ...props.initialValues, ...savedForm!.formData });
     }
 
     function verefiSavedForm() {
-        if (!localStorage.getItem(keyLocalStorage)) {
+
+        if (!getCurrentFormStorage()) {
             return;
         }
 
@@ -91,7 +80,7 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
             title: "Recuperação de formulário",
             content: "Existem dados não salvos, deseja recuperar?",
             onOk: getFormLocalStorage,
-            onCancel: removeSavedFormLocalStorageForm,
+            onCancel: removeCurrentFormStorage,
             cancelText: "Remover",
             okText: "Recuperar"
         })

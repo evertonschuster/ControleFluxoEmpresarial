@@ -85,17 +85,33 @@ const RecordAction: React.FC<Props> = (props) => {
     }
 
     function renderPagoOptions() {
-        return (<Link to={{
-            pathname: `contas-pagar/view/${idUrl}`,
-            state: {
-                formType: FromContaPagarType.VerPaga
-            }
-        }}
-            onClick={() => { setFormMode(FormMode.View); }}>
-            <Tooltip placement="top" title="Visualiza Registro Selecionado." >
-                <Tag color="gold" key={props.index + "23"} className="custom-cursor-pointer" >Ver</Tag>
-            </Tooltip>
-        </Link>);
+        return (
+            <>
+                <Link to={{
+                    pathname: `contas-pagar/view/${idUrl}`,
+                    state: {
+                        formType: FromContaPagarType.VerPaga
+                    }
+                }}
+                    onClick={() => { setFormMode(FormMode.View); }}>
+                    <Tooltip placement="top" title="Visualiza Registro Selecionado." >
+                        <Tag color="gold" key={props.index + "23"} className="custom-cursor-pointer" >Ver</Tag>
+                    </Tooltip>
+                </Link>
+
+
+                <Link to={{
+                    pathname: `contas-pagar/view/${idUrl}`,
+                    state: {
+                        formType: FromContaPagarType.CancelarBaixa
+                    }
+                }}
+                    onClick={() => { setFormMode(FormMode.View); }}>
+                    <Tooltip placement="top" title="Visualiza Registro Selecionado." >
+                        <Tag color="blue" key={props.index + "23"} className="custom-cursor-pointer" >Cancelar Baixa</Tag>
+                    </Tooltip>
+                </Link>
+            </>);
     }
 
     return (<>

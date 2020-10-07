@@ -40,6 +40,10 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
         public string UserCancelamento { get; set; }
         public string JustificativaCancelamento { get; set; }
 
+        public DateTime? DataCancelamentoBaixa { get; set; }
+        public string UserCancelamentoBaixa { get; set; }
+        public string JustificativaCancelamentoBaixa { get; set; }
+
 
         public DateTime? DataBaixa { get; set; }
         public DateTime? DataPagamento { get; set; }

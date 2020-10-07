@@ -22,12 +22,14 @@ namespace ControleFluxoEmpresarial.DTO.Movimentos
 
         public decimal? Juro { get; set; }
 
+        public decimal? ValorBaixa { get; set; }
+
         public int FormaPagamentoId { get; set; }
         public FormaPagamento FormaPagamento { get; set; }
 
         public string Descricao { get; set; }
 
-        public bool ConfirmPagamento { get; set; }
+        public string Senha { get; set; }
 
         public DateTime DataVencimento { get; set; }
 

@@ -10,6 +10,9 @@ import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './componets/GeralForm';
 import { message, Modal } from 'antd';
 import { idText } from 'typescript';
+import ConfirmPassword from './componets/ConfirmPassword';
+import ReactDOM from 'react-dom';
+
 
 export enum FromContaPagarType {
     Pagar,
@@ -19,6 +22,7 @@ export enum FromContaPagarType {
     Novo,
     VerCancelada,
     VerPaga,
+    CancelarBaixa
 }
 
 export interface FormContaPagarMode {
@@ -47,7 +51,9 @@ const FromContaPagar: React.FC = () => {
         dataBaixa: null,
     })
 
-    const history = useHistory()
+    const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const { modelo, serie, numero, fornecedorId, parcela } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, fornecedorId: string | undefined, parcela: string | undefined }>()
     const { state } = useLocation<FormContaPagarMode>();
@@ -63,7 +69,7 @@ const FromContaPagar: React.FC = () => {
             if (formType === FromContaPagarType.Pagar) {
                 await ContaPagarApi.Pagar(conta);
             }
-            if (formType === FromContaPagarType.Ativar) {
+            else if (formType === FromContaPagarType.Ativar) {
                 await ContaPagarApi.Ativar(conta);
             }
             else if (modelo) {
@@ -81,23 +87,8 @@ const FromContaPagar: React.FC = () => {
                 return;
             }
 
-            Modal.confirm({
-                content: e.errors["parcela"],
-                okText: "Confirmar",
-                cancelText: "Cancelar",
-                onOk: async () => {
-                    try {
-
-                        await ContaPagarApi.Pagar({ ...conta, confirmPagamento: true } as ContaPagar);
-                        history.push("/contas-pagar")
-
-                    }
-                    catch (e) {
-                        errorBack(formikHelpers, e);
-                    }
-                }
-            })
-
+            setShowModal(true);
+            setErrors(e.errors)
         }
     }
 
@@ -135,6 +126,11 @@ const FromContaPagar: React.FC = () => {
             onSubmit={onSubmit}
         >
             <GeralForm />
+            <ConfirmPassword
+                showModal={showModal}
+                setShowModal={setShowModal}
+                conta={contaPagar}
+                errors={errors} />
 
         </CrudFormLayout>
     )

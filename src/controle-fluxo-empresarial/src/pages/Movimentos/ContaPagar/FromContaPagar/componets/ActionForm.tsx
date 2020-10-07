@@ -2,15 +2,17 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useFormikContext, FormikProps } from 'formik';
 import { useHistory } from 'react-router-dom';
 import Button from 'antd/lib/button';
-import CancelationForm from './CancelationForm';
+import ConfirmationForm from './ConfirmationForm';
 import { FromContaPagarType, FormContaPagarMode } from '../FromContaPagar';
 import { Row, Col } from 'antd';
 import ContaPagar from '../../../../../models/Movimentos/ContaPagar';
 import { formatDataWithHour } from '../../../../../utils/FormatNumber';
 import { getUserNameStorage } from '../../../../../services/UserNameCache';
+import { ContaPagarApi } from '../../../../../apis/Movimentos/ContaPagarApi';
 
 const ActionForm: React.FC = () => {
-    const [showModal, setShowModal] = useState(false);
+    const [showCancelamentoModal, setShowCancelamentoModal] = useState(false);
+    const [showCancelamentoBaixaModal, setShowCancelamentoBaixaModal] = useState(false);
     const formik = useFormikContext<any>();
     const history = useHistory<FormContaPagarMode>();
     const [userCriacao, setUserCriacao] = useState<string | undefined | null>(undefined)
@@ -21,6 +23,7 @@ const ActionForm: React.FC = () => {
     const formPay = history.location.state?.formType === FromContaPagarType.Pagar;
     const formEdit = history.location.state?.formType === FromContaPagarType.Editar;
     const formAtivar = history.location.state?.formType === FromContaPagarType.Ativar;
+    const formCancelBaixa = history.location.state?.formType === FromContaPagarType.CancelarBaixa;
     const formNew = history.location.state?.formType === undefined;
 
 
@@ -89,8 +92,22 @@ const ActionForm: React.FC = () => {
 
                 {formPay && <Button type="primary" onClick={() => formik.submitForm()} >Pagar</Button>}
                 {formAtivar && <Button type="primary" onClick={() => formik.submitForm()} >Ativar Novamente</Button>}
-                {formCancel && <Button type="danger" onClick={() => { setShowModal(true) }} >Cancelar Conta a Pagar</Button>}
-                <CancelationForm setShowModal={setShowModal} showModal={showModal} />
+                {formCancelBaixa && <Button type="primary" onClick={() => { setShowCancelamentoBaixaModal(true) }} >Cancelar Baixa</Button>}
+                {formCancel && <Button type="danger" onClick={() => { setShowCancelamentoModal(true) }} >Cancelar Conta a Pagar</Button>}
+
+                <ConfirmationForm
+                    setShowModal={setShowCancelamentoModal}
+                    showModal={showCancelamentoModal}
+                    apiAction={ContaPagarApi.Cancelar.bind(ContaPagarApi)}
+                    title="Cancelamento da Conta a Pagar"
+                    okText="Cancelar Conta a Pagar" />
+
+                <ConfirmationForm
+                    setShowModal={setShowCancelamentoBaixaModal}
+                    showModal={showCancelamentoBaixaModal}
+                    apiAction={ContaPagarApi.CancelarBaixa.bind(ContaPagarApi)}
+                    title="Cancelamento da Baixa da Conta a Pagar"
+                    okText="Cancelar Baixa Conta a Pagar" />
             </Col>
         </Row>
     )

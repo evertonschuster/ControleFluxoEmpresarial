@@ -21,8 +21,8 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
         try {
-            childRef.current?.removeSavedFormLocalStorageForm();
             await props.onSubmit(values, formikHelpers);
+            childRef.current?.removeSavedFormLocalStorageForm();
         } catch (e) {
             errorBack(formikHelpers, e)
             throw e;

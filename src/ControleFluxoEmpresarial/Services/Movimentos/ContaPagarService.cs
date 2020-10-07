@@ -124,7 +124,33 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             this.ContaPagarDAO.Update(entity);
         }
 
-        public void Pagar(PagarContaPagar model, bool commit = true)
+        internal void CancelarBaixa(CancelarContaPagar model)
+        {
+            var entity = this.ContaPagarDAO.GetByID(model.GetId());
+            if (entity == null)
+            {
+                throw new BusinessException(new { Parcela = "Conta a pagar não cadastrada." });
+            }
+
+            var login = UserDAO.PasswordSignIn(this.UserRequest.UserNome, model.Senha);
+            if (!login.Succeeded)
+            {
+                throw new BusinessException(new { senha = "Senha inválida" });
+            }
+
+            entity.DataBaixa = null;
+            entity.UserBaixa = null;
+            entity.DataPagamento = null;
+            entity.ValorBaixa = null;
+
+            entity.JustificativaCancelamentoBaixa = model.Justificativa;
+            entity.UserCancelamentoBaixa = this.UserRequest.Id.ToString();
+            entity.DataCancelamentoBaixa = DateTime.Now;
+
+            this.ContaPagarDAO.Update(entity);
+        }
+
+        public void Pagar(PagarContaPagar model)
         {
             var entity = this.ContaPagarDAO.GetByID(model.GetId());
             if (entity == null)
@@ -137,14 +163,15 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             entity.Desconto = model.Desconto;
             entity.Multa = model.Multa;
             entity.Juro = model.Juro;
+            entity.ValorBaixa = model.ValorBaixa;
             entity.FormaPagamentoId = model.FormaPagamentoId;
             entity.DataVencimento = model.DataVencimento;
             entity.DataPagamento = model.DataPagamento;
             entity.Descricao = model.Descricao;
 
             entity.DataBaixa = DateTime.Now;
-            entity.UserBaixa = this.ContaPagarDAO.Context.UserRequest.Id.ToString();
-            this.ContaPagarDAO.Update(entity, commit);
+            entity.UserBaixa = this.UserRequest.Id.ToString();
+            this.ContaPagarDAO.Update(entity);
         }
 
         public decimal CalcularValor(ContaPagarId id, DateTime? dataBase = null, decimal? desconto = null, decimal? multa = null, decimal? juro = null)
@@ -172,9 +199,20 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
 
         private void CheckParcelaConfirmacao(PagarContaPagar contaPagar, int numeroParcela)
         {
-            if (numeroParcela == 1 || contaPagar.ConfirmPagamento)
+            if (numeroParcela == 1)
             {
                 return;
+            }
+
+            if (!string.IsNullOrEmpty(contaPagar.Senha))
+            {
+                var login = UserDAO.PasswordSignIn(this.UserRequest.UserNome, contaPagar.Senha);
+                if (login.Succeeded)
+                {
+                    return;
+                }
+
+                throw new BusinessException(new { senha = "Senha inválida" });
             }
 
             var id = contaPagar.GetId();

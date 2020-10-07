@@ -477,6 +477,10 @@ CREATE TABLE Compras (
     UserCancelamento text NULL,
     JustificativaCancelamento VARCHAR(255) NULL,
 
+    DataCancelamentoBaixa TIMESTAMP WITH TIME ZONE,
+    UserCancelamentoBaixa text NULL,
+    JustificativaCancelamentoBaixa VARCHAR(255) NULL,
+
     DataCriacao  TIMESTAMP WITH TIME ZONE,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
     UserCriacao text NOT NULL,

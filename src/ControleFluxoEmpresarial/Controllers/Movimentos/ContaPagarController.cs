@@ -89,6 +89,20 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
             return Ok();
         }
 
+        [HttpPut("cancelar-baixa/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
+        public virtual IActionResult CancelarBaixa([FromRoute] ContaPagarId id, CancelarContaPagar cancelarContaPagar)
+        {
+            cancelarContaPagar.Modelo = id.Modelo;
+            cancelarContaPagar.Serie = id.Serie;
+            cancelarContaPagar.Numero = id.Numero;
+            cancelarContaPagar.FornecedorId = id.FornecedorId;
+            cancelarContaPagar.Parcela = id.Parcela;
+
+            this.ContaPagarService.CancelarBaixa(cancelarContaPagar);
+
+            return Ok();
+        }
+
         [HttpPut("pagar/({modelo}:{serie}:{numero}:{fornecedorId}:{parcela})")]
         public virtual IActionResult Pagar([FromRoute] ContaPagarId id, PagarContaPagar contaPagar)
         {
@@ -111,7 +125,7 @@ namespace ControleFluxoEmpresarial.Controllers.Movimentos
         }
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery<SituacaoType?> filter)
+        public IActionResult GetListPagined(PaginationQuery<SituacaoType?> filter)
         {
             return Ok(this.DAO.GetPagined(filter));
         }

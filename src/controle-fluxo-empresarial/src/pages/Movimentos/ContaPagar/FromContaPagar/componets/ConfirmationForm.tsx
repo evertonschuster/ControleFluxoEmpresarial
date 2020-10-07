@@ -8,13 +8,17 @@ import { Modal, Icon, Row, Col } from 'antd';
 import { TextArea, Input } from '../../../../../components/WithFormItem/withFormItem';
 import { useParams, useHistory } from 'react-router-dom';
 import InnerForm from '../../../../../components/InnerForm/InnerForm';
+import { useFormLocalStorage } from '../../../../../services/CacheFormService';
 
 export interface Props {
     showModal: boolean;
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+    title: string;
+    okText: string;
+    apiAction: (values: CancelarContaPagar) => Promise<any>
 }
 
-const CancelationForm: React.FC<Props> = (props) => {
+const ConfirmationForm: React.FC<Props> = (props) => {
 
     const { modelo, serie, numero, fornecedorId, parcela } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, fornecedorId: string | undefined, parcela: string | undefined }>()
     const innerForm = useRef<FormikProps<CancelarContaPagar>>(null);
@@ -29,12 +33,15 @@ const CancelationForm: React.FC<Props> = (props) => {
     }
     const history = useHistory();
     const [loading, setLoading] = useState(false)
+    const { removeCurrentFormStorage } = useFormLocalStorage();
+
 
     async function onSubmit(values: CancelarContaPagar, formikHelpers: FormikHelpers<CancelarContaPagar>) {
         try {
             setLoading(true);
-            await ContaPagarApi.Cancelar(values);
-            history.push("/contas-pagar")
+            await props.apiAction(values);
+            removeCurrentFormStorage();
+            history.push("/contas-pagar");
         }
         catch (e) {
             errorBack(formikHelpers, e);
@@ -47,7 +54,7 @@ const CancelationForm: React.FC<Props> = (props) => {
     const renderTitle = (
         <>
             <Icon type="exclamation-circle" style={{ color: "red", fontSize: 20, paddingRight: 10 }} />
-            <span style={{ fontSize: 20 }}>Cancelamento do Conta a pagar</span>
+            <span style={{ fontSize: 20 }}>{props.title}</span>
         </>
     )
 
@@ -62,10 +69,10 @@ const CancelationForm: React.FC<Props> = (props) => {
                 title={renderTitle}
                 destroyOnClose={true}
                 visible={props.showModal}
-                okText="Cancelar Conta a Pagar"
+                okText={props.okText}
                 okType={"danger"}
                 okButtonProps={{ loading: loading }}
-                onOk={innerForm.current?.submitForm}
+                onOk={() => innerForm.current?.submitForm()}
                 onCancel={() => props.setShowModal(false)}
                 cancelButtonProps={{ loading: loading }}
             >
@@ -85,4 +92,4 @@ const CancelationForm: React.FC<Props> = (props) => {
     )
 }
 
-export default CancelationForm
+export default ConfirmationForm
