@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { InserirProdutoSchema } from './InserirProdutoSchema'
+import { OrdemServicoProduto } from '../../../../../../models/OrdemServicos/OrdemServicoItem'
 import { ProdutoApi } from '../../../../../../apis/Movimentos/ProdutoApi'
 import { Row, Col } from 'antd'
 import { SubmitButton } from 'formik-antd'
@@ -7,7 +8,6 @@ import { useField, FormikHelpers } from 'formik'
 import InnerForm from '../../../../../../components/InnerForm/InnerForm'
 import InputDecimal from '../../../../../../components/InputDecimal/InputDecimal'
 import SelectModelOne from '../../../../../../components/SelectModel/SelectModelOne'
-import { OrdemServicoProduto } from '../../../../../../models/OrdemServicos/OrdemServicoItem'
 
 const InserirProduto: React.FC = () => {
 

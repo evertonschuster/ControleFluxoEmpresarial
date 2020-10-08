@@ -40,10 +40,6 @@ namespace ControleFluxoEmpresarial.DAOs.compose
             base.ExecuteScript(sql, ids, commit);
         }
 
-        public void Delete(TEntity entity, bool commit = true)
-        {
-            this.Delete(entity, commit);
-        }
 
         public TEntity GetByID(TID ids)
         {

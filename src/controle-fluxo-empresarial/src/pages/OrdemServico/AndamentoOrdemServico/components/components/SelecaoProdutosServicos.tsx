@@ -1,17 +1,16 @@
 import React, { useMemo } from 'react'
+import { ColumnProps } from 'antd/lib/table'
+import { formatNumber2 } from '../../../../../utils/FormatNumber'
+import { OrdemServicoItemServicoSchema, OrdemServicoItemProdutoSchema } from '../../OrdemServicoItemSchema'
+import { OrdemServicoProduto } from '../../../../../models/OrdemServicos/OrdemServicoItem'
+import { OrdemServicoServico } from './../../../../../models/OrdemServicos/OrdemServicoItem';
 import { Row, Col } from 'antd'
-import InputDecimal from '../../../../../components/InputDecimal/InputDecimal'
 import { WithItemNone } from '../../../../../hoc/WithFormItem'
 import EditableTable, { ColumnEditableProps } from '../../../../../components/EditableTable/EditableTable'
-import { formatNumber2 } from '../../../../../utils/FormatNumber'
-import { ColumnProps } from 'antd/lib/table'
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal'
 import InserirProduto from '../innerForm/InserirProduto/InserirProduto'
-import { OrdemServicoProduto } from '../../../../../models/OrdemServicos/OrdemServicoItem'
 import InserirServico from '../innerForm/InserirServico/InserirServico'
-import { OrdemServicoItemServicoSchema, OrdemServicoItemProdutoSchema } from '../../OrdemServicoItemSchema'
-import { OrdemServicoServico } from './../../../../../models/OrdemServicos/OrdemServicoItem';
 import Separator from './../../../../../components/Separator/Separator';
-import { Input } from '../../../../../components/WithFormItem/withFormItem'
 
 const SelecaoProdutosServicos: React.FC = () => {
     const columnsProduto: ColumnProps<OrdemServicoProduto>[] = useMemo(() => [
@@ -27,7 +26,7 @@ const SelecaoProdutosServicos: React.FC = () => {
         {
             title: 'Produto',
             dataIndex: 'items',
-            key: 'produto-servico-nome',
+            key: 'produto-servico-nome1',
             render: (text, item: OrdemServicoProduto) => {
                 return item?.produto?.nome
             },
@@ -79,7 +78,7 @@ const SelecaoProdutosServicos: React.FC = () => {
         {
             title: 'Serviço',
             dataIndex: 'items',
-            key: 'produto-servico-nome',
+            key: 'produto-servico-nome1',
             render: (text, item: OrdemServicoServico) => {
                 return item?.servico?.nome
             },
@@ -87,7 +86,7 @@ const SelecaoProdutosServicos: React.FC = () => {
         {
             title: 'Funcionário',
             dataIndex: 'items',
-            key: 'produto-servico-nome',
+            key: 'produto-servico-nome2',
             render: (text, item: OrdemServicoServico) => {
                 return item?.funcionario?.nome
             },
@@ -134,6 +133,7 @@ const SelecaoProdutosServicos: React.FC = () => {
                     <WithItemNone showLabel={false}>
                         <EditableTable
                             showNewAction={false}
+                            rowKey={(item) => item.produtoId}
                             columns={columnsProduto}
                             validationSchema={OrdemServicoItemProdutoSchema}
                             name="produtos"
@@ -151,6 +151,7 @@ const SelecaoProdutosServicos: React.FC = () => {
                     <WithItemNone showLabel={false}>
                         <EditableTable
                             showNewAction={false}
+                            rowKey={(item) => item.servicoId}
                             columns={columnsServico}
                             validationSchema={OrdemServicoItemServicoSchema}
                             name="servicos"

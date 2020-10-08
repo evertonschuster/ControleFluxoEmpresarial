@@ -83,6 +83,7 @@ const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
                         dataSource={prop.dataSource}
                         columns={columns}
                         size="small"
+                        rowKey="parcela"
                         bordered
                         pagination={false} />
 

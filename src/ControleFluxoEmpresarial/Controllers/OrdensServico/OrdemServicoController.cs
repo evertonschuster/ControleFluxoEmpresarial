@@ -1,0 +1,97 @@
+﻿using ControleFluxoEmpresarial.DTO.Filters;
+using ControleFluxoEmpresarial.DTO.Filters.Queries;
+using ControleFluxoEmpresarial.DTO.OrdensServico;
+using ControleFluxoEmpresarial.Filters.DTO;
+using ControleFluxoEmpresarial.Models.OrdensServico;
+using ControleFluxoEmpresarial.Services.OrdensServico;
+using Microsoft.AspNetCore.Mvc;
+using System;
+
+namespace ControleFluxoEmpresarial.Controllers.OrdensServico
+{
+    [Route("api/ordem-servico")]
+    [ApiController]
+    public class OrdemServicoController : ControllerBase
+    {
+        public OrdemServicoController(OrdemServicoService service)
+        {
+            Service = service ?? throw new ArgumentNullException(nameof(service));
+        }
+
+        public OrdemServicoService Service { get; set; }
+
+        // GET: api/Default/5
+        [HttpGet("{id}")]
+        public virtual IActionResult Get(int id)
+        {
+            var entity = this.Service.GetByID(id);
+            if (entity == null)
+            {
+                return Ok();
+            }
+
+            return Ok(entity);
+        }
+
+        // POST: api/Default
+        [HttpPost("new")]
+        public virtual IActionResult Post([FromBody] AbrirOrdemServico entity)
+        {
+            var id = this.Service.Insert(entity);
+            return Ok(new CreateResult(id));
+        }
+
+        //// PUT: api/Default/5
+        [HttpPut("iniciar/{id}")]
+        public virtual IActionResult Iniciar([FromRoute] int id)
+        {
+            var data = this.Service.Iniciar(id);
+            return Ok(data);
+        }
+
+        [HttpPut("salvar-andamento/{id}")]
+        public virtual IActionResult SalvarAndamento([FromRoute] int id, [FromBody] AndamentoOrdemServico ordem)
+        {
+            ordem.Id = id;
+            this.Service.SalvarAndamento(ordem);
+            return Ok();
+        }
+
+        [HttpPut("finalizar/{id}")]
+        public virtual IActionResult Finalizar([FromRoute] int id, [FromBody] OrdemServico ordem)
+        {
+            ordem.Id = id;
+            this.Service.Finalizar(ordem);
+            return Ok();
+        }
+
+        //// DELETE: api/ApiWithActions/5
+        //[HttpDelete("{id}")]
+        //public virtual IActionResult Delete(TId id)
+        //{
+        //    this.Service.VerifyRelationshipDependence(id);
+        //    this.Service.Delete(id);
+        //    return Ok();
+        //}
+
+        //// DELETE: api/ApiWithActions/5
+        //[HttpPut("desativar/{id}")]
+        //public virtual IActionResult Desativar(TId id)
+        //{
+        //    var entity = this.Service.GetByID(id);
+        //    if (entity is IBaseSituacao)
+        //    {
+        //        ((IBaseSituacao)entity).Situacao = DateTime.Now;
+        //        this.Service.Update(entity);
+
+        //    }
+        //    return Ok();
+        //}
+
+        [HttpPost("list")]
+        public new IActionResult GetListPagined(PaginationQuery<SituacaoOrdemServicoType?> filter)
+        {
+            return Ok(this.Service.GetPagined(filter));
+        }
+    }
+}

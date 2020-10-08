@@ -1,7 +1,7 @@
 import React from 'react'
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
 import { Modal, Row, Col, Button } from 'antd';
-import { useField } from 'formik';
+import { useField, useFormik, useFormikContext } from 'formik';
 import { useState } from 'react';
 import { WithItemNone } from '../../../../../hoc/WithFormItem';
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne';
@@ -18,13 +18,15 @@ export interface Props {
 const CondicaoPagamento: React.FC<Props> = (props) => {
 
     const [loading, setLoading] = useState(false)
-    const [{ value: parcelas }, , { setValue: setParcelas }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelas");
+    const { submitForm } = useFormikContext();
+    const [{ value: totalOS }, ,] = useField("totalOS");
     const [{ value: condicaoPagamentoId }, ,] = useField("condicaoPagamentoId");
+    const [{ value: parcelas }, , { setValue: setParcelas }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelas");
 
     async function calcularParcelas() {
         try {
             setLoading(true);
-            let parcelas = (await CondicaoPagamentoApi.CalculaParcela(condicaoPagamentoId, new Date(), 100)).data;
+            let parcelas = (await CondicaoPagamentoApi.CalculaParcela(condicaoPagamentoId, new Date(), totalOS)).data;
             setParcelas(parcelas)
         }
         catch (error) {
@@ -40,7 +42,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     }
 
     function disabledCalcularParcelas() {
-        if (parcelas.length > 0) {
+        if (parcelas?.length > 0) {
             return true
         }
 
@@ -48,7 +50,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     }
 
     function disabledLimparParcelas() {
-        if (parcelas.length > 0) {
+        if (parcelas?.length > 0) {
             return false;
         }
 
@@ -64,6 +66,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
         <Modal
             title="Condição de Pagamento"
             onCancel={onCancel}
+            onOk={() => submitForm()}
             width="90%"
             cancelText="Voltar"
             okText="Salvar e Finalizar"
@@ -74,7 +77,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                 </Col>
                 <Col span={6}>
                     <SelectModelOne
-                        disabled={parcelas.length > 0}
+                        disabled={parcelas?.length > 0}
                         fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
                         keyDescription="nome"

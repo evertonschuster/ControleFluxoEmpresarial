@@ -30,6 +30,7 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 e.PropertyType == typeof(decimal?) ||
                 e.PropertyType == typeof(float) ||
                 e.PropertyType == typeof(double) ||
+                e.PropertyType == typeof(int?) ||
                 e.PropertyType == typeof(Guid) ||
                 e.PropertyType == typeof(Guid?) ||
                 e.PropertyType == typeof(DateTime) ||

@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import OrdemServico from '../../../models/OrdemServicos/OrdemServico';
 import { OrdemServicoProduto } from '../../../models/OrdemServicos/OrdemServicoItem';
 import { OrdemServicoServico } from './../../../models/OrdemServicos/OrdemServicoItem';
 
@@ -17,4 +18,18 @@ export const OrdemServicoItemServicoSchema = Yup.object().shape<OrdemServicoServ
         .typeError("Informe a quantidade")
         .min(1, "Quantidade inválida")
         .required("Informe a quantidade."),
+})
+
+export const OrdemServicoItemSchema = Yup.object().shape<OrdemServico>({
+    descricaoObservacaoTecnico: Yup.string()
+        .nullable()
+        .max(255, "Observação não deve ter mais de 255 caracteres."),
+
+    descricaoTecnico: Yup.string()
+        .nullable()
+        .max(255, "Observação não deve ter mais de 255 caracteres."),
+
+    condicaoPagamentoId: Yup.number()
+        .nullable()
+        .required("Informe a Condição de pagamento")
 })

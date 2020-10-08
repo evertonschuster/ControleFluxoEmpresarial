@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Cliente } from '../../../../models/Pessoas/Cliente'
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi'
 import { Input, TextArea } from '../../../../components/WithFormItem/withFormItem'
 import { Row, Col } from 'antd'
+import { useField } from 'formik';
 import InputTelefone from '../../../../components/InputTelefone/InputTelefone'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
 
 const GeralForm: React.FC = () => {
+
+    const [{ value: cliente }] = useField<Cliente>("cliente")
+    const [, , { setValue: setContato }] = useField<string>("contato")
+    const [, , { setValue: setTelefone }] = useField<string>("telefone")
+
+    useEffect(() => {
+        if (cliente) {
+            setContato(cliente.apelido?.length! > 1 ? cliente.apelido! : cliente.nome!);
+            setTelefone(cliente.telefone!);
+        }
+        else {
+            setContato("");
+            setTelefone("");
+        }
+    }, [cliente])
+
     return (
         <>
             <Row>
@@ -18,6 +36,7 @@ const GeralForm: React.FC = () => {
                         fetchMethod={ClienteApi.GetById.bind(ClienteApi)}
                         name="clienteId"
                         keyDescription="nome"
+                        objectName="cliente"
                         required={true}
                         label={{ title: "Seleção de Cliente", label: "Cliente" }}
                         errorMessage={{ noSelection: "Selecione um Cliente!" }}
@@ -52,7 +71,7 @@ const GeralForm: React.FC = () => {
             </Row>
             <Row>
                 <Col span={12}>
-                    <TextArea name="descricaoAcessorios" label="Acessórios" required rows={4} />
+                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} />
                 </Col>
 
                 <Col span={12}>

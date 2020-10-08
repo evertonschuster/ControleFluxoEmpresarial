@@ -43,20 +43,20 @@ const DetalhesOS: React.FC = () => {
 
             <Row>
                 <Col span={12}>
-                    <TextArea name="equipamento" label="Equipamento" required rows={4} disabled />
+                    <TextArea name="descricaoEquipamento" label="Equipamento" required rows={4} disabled />
                 </Col>
 
                 <Col span={12}>
-                    <TextArea name="problemaRelatado" label="Problema Relatado" required rows={4} disabled />
+                    <TextArea name="descricaoProblemaRelatado" label="Problema Relatado" required rows={4} disabled />
                 </Col>
             </Row>
             <Row>
                 <Col span={12}>
-                    <TextArea name="acessorios" label="Acessórios" required rows={4} disabled />
+                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} disabled />
                 </Col>
 
                 <Col span={12}>
-                    <TextArea name="observacao" label="Observacões OS" required rows={4} disabled />
+                    <TextArea name="descricaoObservacao" label="Observacões OS" required rows={4} disabled />
                 </Col>
             </Row>
         </>

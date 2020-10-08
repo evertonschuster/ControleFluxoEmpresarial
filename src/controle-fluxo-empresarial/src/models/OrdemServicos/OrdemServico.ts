@@ -11,6 +11,8 @@ export default interface OrdemServico {
 
     descricaoEquipamento?: string | null;
     descricaoProblemaRelatado?: string | null;
+    descricaoTecnico?: string | null;
+    descricaoObservacaoTecnico?: string | null;
 
     dataAbertura?: Date | null;
     dataExecucao?: Date | null;
@@ -19,5 +21,5 @@ export default interface OrdemServico {
     produtos?: OrdemServicoProduto[] | null;
     servicos?: OrdemServicoServico[] | null;
 
-    parcelas?: ContaReceber[]
+    parcelas?: ContaReceber[];
 }
