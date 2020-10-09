@@ -3,6 +3,7 @@ using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Vendas;
 using System;
+using System.Collections.Generic;
 
 namespace ControleFluxoEmpresarial.DAOs.Vendas
 {
@@ -47,6 +48,15 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
             var entity = this.ExecuteGetFirstOrDefault(sql);
             var numero = Int64.Parse(entity?.Numero ?? "0") + 1;
             return numero.ToString();
+        }
+
+        public List<Venda> GetByOSID(int OSId)
+        {
+            var sql = @"SELECT * 
+                        FROM Vendas
+                        WHERE ordemservicoid = @OSId";
+
+            return base.ExecuteGetAll(sql, new { OSId });
         }
     }
 }

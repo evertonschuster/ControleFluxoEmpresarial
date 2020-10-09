@@ -1,12 +1,15 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.OrdensServico;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.DAOs.Vendas;
 using ControleFluxoEmpresarial.DTO.OrdensServico;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Models.OrdensServico;
 using ControleFluxoEmpresarial.Models.Vendas;
+using ControleFluxoEmpresarial.Services.Users;
 using ControleFluxoEmpresarial.Services.Vendas;
 using System;
 using System.Collections.Generic;
@@ -19,9 +22,11 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
         public OrdemServicoService(OrdemServicoDAO dAO, UserRequest userRequest,
             OrdemServicoProdutoDAO ordemServicoProdutoDAO, ProdutoDAO produtoDAO,
             OrdemServicoServicoDAO ordemServicoServicoDAO, ServicoDAO servicoDAO,
-            VendaService vendaService)
+            VendaService vendaService, VendaDAO vendaDAO, UserDAO userDAO)
         {
             this.DAO = dAO ?? throw new ArgumentNullException(nameof(dAO));
+            this.UserDAO = userDAO ?? throw new ArgumentNullException(nameof(userDAO));
+            this.VendaDAO = vendaDAO ?? throw new ArgumentNullException(nameof(vendaDAO));
             this.ServicoDAO = servicoDAO ?? throw new ArgumentNullException(nameof(servicoDAO));
             this.ProdutoDAO = produtoDAO ?? throw new ArgumentNullException(nameof(produtoDAO));
             this.UserRequest = userRequest ?? throw new ArgumentNullException(nameof(userRequest));
@@ -30,10 +35,12 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
             this.OrdemServicoProdutoDAO = ordemServicoProdutoDAO ?? throw new ArgumentNullException(nameof(ordemServicoProdutoDAO));
         }
 
+        public VendaDAO VendaDAO { get; set; }
         public OrdemServicoDAO DAO { get; set; }
         public ServicoDAO ServicoDAO { get; set; }
         public ProdutoDAO ProdutoDAO { get; set; }
         public UserRequest UserRequest { get; set; }
+        public UserDAO UserDAO { get; set; }
         public VendaService VendaService { get; set; }
         public OrdemServicoServicoDAO OrdemServicoServicoDAO { get; set; }
         public OrdemServicoProdutoDAO OrdemServicoProdutoDAO { get; set; }
@@ -47,6 +54,34 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
             (entity.ParcelasProduto, entity.ParcelasServico) = this.VendaService.getParcelasCompra(id, "55", "65");
 
             return entity;
+        }
+
+        public void Cancelar(CancelarOrdemServico cancelar)
+        {
+            var compra = this.VendaDAO.GetByOSID(cancelar.Id)?.Where(e => e.DataCancelamento != null).ToList();
+            if (compra?.Count > 0)
+            {
+                throw new BusinessException(new { Id = "Não é possível desativar, pois existe venda(s) ativa(s)." });
+            }
+            if (cancelar.Justificativa.Length < 20)
+            {
+                throw new BusinessException(new { Justificativa = "Justificativa deve ter mais de 20 caracteres." });
+            }
+            if (cancelar.Justificativa.Length > 255)
+            {
+                throw new BusinessException(new { Justificativa = "Justificativa deve ter menos de 255 caracteres." });
+            }
+            if (!this.UserDAO.PasswordSignIn(this.UserRequest.UserNome, cancelar.Senha).Succeeded)
+            {
+                throw new BusinessException(new { Senha = "Senha inválida." });
+            }
+
+            var OS = this.DAO.GetByID(cancelar.Id);
+            OS.DataCancelamento = DateTime.Now;
+            OS.UserCancelamento = this.UserRequest.Id.ToString();
+            OS.JustificativaCancelamento = cancelar.Justificativa;
+
+            this.DAO.Update(OS);
         }
 
         public void Finalizar(OrdemServico os)

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { Badge, Tooltip, Tag } from 'antd'
 import { Cliente } from './../../../models/Pessoas/Cliente';
 import { ColumnProps } from 'antd/lib/table'
@@ -9,10 +9,13 @@ import { UseListPagined } from '../../../hoc/UseListPagined'
 import FormBasicLayout from '../../../layouts/FormBasicLayout/FormBasicLayout'
 import ListForm from '../../../components/ListForm/ListForm'
 import OrdemServico from '../../../models/OrdemServicos/OrdemServico'
+import ListFilter, { situationOrdemServico } from './components/ListFilter';
+import BasicLayoutContext, { FormMode } from '../../../layouts/BasicLayout/BasicLayoutContext';
 
 
 const ListOrdemServico: React.FC = () => {
-    const response = UseListPagined({ getListPagined: OrdemServicoApi.GetListPagined.bind(OrdemServicoApi) }, { situacao: null });
+    const response = UseListPagined({ getListPagined: OrdemServicoApi.GetListPagined.bind(OrdemServicoApi) }, { situacao: [situationOrdemServico.EM_EXECUCAO, situationOrdemServico.PENDENTE] },);
+    const { setFormMode } = useContext(BasicLayoutContext);
 
     const columns = useMemo(() => [
         {
@@ -55,7 +58,7 @@ const ListOrdemServico: React.FC = () => {
         {
             title: 'Ações',
             key: 'action',
-            width: "100px",
+            width: "150px",
             render: (text: any, record: OrdemServico, index: number) => {
                 if (record.dataDevolucaoCliente) {
                     return (
@@ -67,11 +70,18 @@ const ListOrdemServico: React.FC = () => {
                 }
 
                 return (
-                    <Link to={("ordem-servico/andamento/" + record.id).replace("//", "/")} >
-                        <Tooltip placement="top" title="Visualiza OS Selecionada."  >
-                            <Tag color="gold" key={index + "12"} className="custom-cursor-pointer" >Ver OS</Tag>
-                        </Tooltip>
-                    </Link>)
+                    <>
+                        <Link to={("ordem-servico/andamento/" + record.id).replace("//", "/")} >
+                            <Tooltip placement="top" title="Visualiza OS Selecionada."  >
+                                <Tag color="gold" key={index + "12"} className="custom-cursor-pointer" >Ver OS</Tag>
+                            </Tooltip>
+                        </Link>
+                        {!record.dataCancelamento && <Link to={("ordem-servico/delete/" + record.id).replace("//", "/")} onClick={() => setFormMode(FormMode.Delete)}>
+                            <Tooltip placement="top" title="Visualiza OS Selecionada."  >
+                                <Tag color="red" key={index + "12"} className="custom-cursor-pointer" >Cancelar</Tag>
+                            </Tooltip>
+                        </Link>}
+                    </>)
             },
         }
     ] as ColumnProps<OrdemServico>[], []);
@@ -79,6 +89,9 @@ const ListOrdemServico: React.FC = () => {
 
     function renderSituation(item: OrdemServico) {
 
+        if (item.dataCancelamento) {
+            return <Badge color={"red"} text={"Cancelada"} />
+        }
         if (item?.dataDevolucaoCliente) {
             return <Badge color={"lime"} text={"Devolvido"} />
         }
@@ -98,6 +111,7 @@ const ListOrdemServico: React.FC = () => {
 
             <ListForm
                 hiddenAction
+                filterSimpleHeader={<ListFilter tableProps={response} />}
                 tableProps={response}
                 columns={columns} />
 

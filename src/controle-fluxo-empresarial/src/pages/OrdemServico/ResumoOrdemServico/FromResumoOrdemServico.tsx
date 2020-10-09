@@ -4,6 +4,7 @@ import { OrdemServicoApi } from '../../../apis/OrdemServicos/OrdemServico'
 import CrudFormLayout from '../../../layouts/CrudFormLayout/CrudFormLayout'
 import OrdemServico from '../../../models/OrdemServicos/OrdemServico'
 import { errorBack } from '../../../utils/MessageApi'
+import FooterForm from './components/FooterForm'
 import GeralForm from './components/GeralForm'
 
 const FromResumoOrdemServico:React.FC = () => {
@@ -49,7 +50,7 @@ const FromResumoOrdemServico:React.FC = () => {
             backPath="/ordem-servico"
             breadcrumbList={[{ displayName: "Ordem de Serviço", URL: "/ordem-servico" }, { displayName: "Ordem de Serviço", URL: undefined }]}
             initialValues={ordemSerico}
-            // renderFooter={() => <FooterForm />}
+            renderFooter={() => <FooterForm />}
             onSubmit={onSubmit}
         >
             <GeralForm />

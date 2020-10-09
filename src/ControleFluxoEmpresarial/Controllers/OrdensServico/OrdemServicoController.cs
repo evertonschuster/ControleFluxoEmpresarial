@@ -6,6 +6,7 @@ using ControleFluxoEmpresarial.Models.OrdensServico;
 using ControleFluxoEmpresarial.Services.OrdensServico;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace ControleFluxoEmpresarial.Controllers.OrdensServico
 {
@@ -66,8 +67,22 @@ namespace ControleFluxoEmpresarial.Controllers.OrdensServico
         }
 
 
+        /// <summary>
+        /// So pode cancelar se n tiver venda
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ordem"></param>
+        /// <returns></returns>
+        [HttpPut("cancelar/{id}")]
+        public virtual IActionResult Cancelar([FromRoute] int id, [FromBody] CancelarOrdemServico os)
+        {
+            os.Id = id;
+            this.Service.Cancelar(os);
+            return Ok();
+        }
+
         [HttpPost("list")]
-        public IActionResult GetListPagined(PaginationQuery<SituacaoOrdemServicoType?> filter)
+        public IActionResult GetListPagined(PaginationQuery<List<SituacaoOrdemServicoType>> filter)
         {
             return Ok(this.Service.GetPagined(filter));
         }

@@ -16,6 +16,7 @@ export default interface OrdemServico {
 
     dataAbertura?: Date | null;
     dataExecucao?: Date | null;
+    dataCancelamento?: Date | null;
     dataDevolucaoCliente?: Date | null;
 
     produtos?: OrdemServicoProduto[] | null;

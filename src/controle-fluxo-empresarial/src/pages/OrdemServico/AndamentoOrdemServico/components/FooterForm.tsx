@@ -14,6 +14,7 @@ const FooterForm: React.FC = () => {
     let { id } = useParams<{ id: string }>();
     const [showCondicaoPagamento, setShowCondicaoPagamento] = useState(false)
 
+    const [{ value: dataCancelamento }] = useField("dataCancelamento");
     const [{ value: dataExecucao }, , { setValue: setDataExecucao }] = useField("dataExecucao");
     const [{ value: dataFinilizacao },] = useField("dataFinilizacao");
     const { setSubmitting, values, setFieldTouched, errors } = useFormikContext<OrdemServico>();
@@ -72,9 +73,9 @@ const FooterForm: React.FC = () => {
             </Col>
             <Col>
                 <Button type="dashed" style={{ marginRight: "10px" }} onClick={() => history.push("/ordem-servico")}>Voltar</Button>
-                {dataExecucao && !dataFinilizacao && <Button type="primary" style={{ marginRight: "10px" }} onClick={() => onSalvarAndamento()} >Salvar</Button>}
-                {dataExecucao && !dataFinilizacao && <Button type="default" style={{ marginRight: "10px" }} onClick={() => onFinalizar()} >Finalizar</Button>}
-                {!dataExecucao && <Button type="primary" style={{ marginRight: "10px" }} onClick={onIniciarOS} >Iniciar</Button>}
+                {dataExecucao && !dataFinilizacao && !dataCancelamento && <Button type="primary" style={{ marginRight: "10px" }} onClick={() => onSalvarAndamento()} >Salvar</Button>}
+                {dataExecucao && !dataFinilizacao && !dataCancelamento && <Button type="default" style={{ marginRight: "10px" }} onClick={() => onFinalizar()} >Finalizar</Button>}
+                {!dataExecucao && !dataCancelamento && <Button type="primary" style={{ marginRight: "10px" }} onClick={onIniciarOS} >Iniciar</Button>}
             </Col>
         </Row>
         <CondicaoPagamento visible={showCondicaoPagamento} onCancel={() => setShowCondicaoPagamento(false)} />

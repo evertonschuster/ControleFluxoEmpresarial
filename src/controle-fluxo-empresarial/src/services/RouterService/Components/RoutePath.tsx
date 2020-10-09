@@ -111,8 +111,9 @@ const RoutePath: React.FC = () => {
 
             <Route path="/ordem-servico" component={ListOrdemServico} exact />
             <Route path="/ordem-servico/new" component={FormAberturaOrdemServico} />
-            <Route path="/ordem-servico/andamento/:id" component={FormAndamentoOrdemServico} />
             <Route path="/ordem-servico/view/:id" component={FromResumoOrdemServico} />
+            <Route path="/ordem-servico/delete/:id" component={FromResumoOrdemServico} />
+            <Route path="/ordem-servico/andamento/:id" component={FormAndamentoOrdemServico} />
 
             <Route path="/contas-pagar" component={ListContaPagar} exact strict/>
             <Route path="/contas-pagar/edit/:modelo/:serie/:numero/:fornecedorId/:parcela" component={FromContaPagar} exact />

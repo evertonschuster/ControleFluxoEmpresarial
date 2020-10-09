@@ -4,6 +4,7 @@ import { AxiosResponse } from "axios";
 import OrdemServico from "./../../models/OrdemServicos/OrdemServico"
 import AberturaOrdemServico from "../../models/OrdemServicos/AberturaOrdemServico";
 import AndamentoOrdemServico from "../../models/OrdemServicos/AndamentoOrdemServico";
+import { CancelarOrdemServico } from "../../models/OrdemServicos/CancelarOrdemServico";
 
 class Api {
 
@@ -16,6 +17,9 @@ class Api {
     getById(id: string): Promise<AxiosResponse<OrdemServico>> {
         return api.get(`${this.EndPoint}/${id}`);
 
+    }
+    Cancelar(os: CancelarOrdemServico): Promise<AxiosResponse<any>> {
+        return api.put(`${this.EndPoint}/cancelar/${os.id}`, os);
     }
 
     Iniciar(id: string): Promise<AxiosResponse<Date>> {

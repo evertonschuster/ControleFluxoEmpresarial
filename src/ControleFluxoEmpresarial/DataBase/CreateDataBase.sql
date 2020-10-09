@@ -529,9 +529,14 @@ CREATE TABLE OrdensServico (
     DescricaoObservacaoTecnico VARCHAR(255) NULL,
     NumeroSerie VARCHAR(50) NULL,
     CondicaoPagamentoId INTEGER NULL,
+    
     DataAbertura TIMESTAMP WITH TIME ZONE NOT NULL,
-    DataExecucao TIMESTAMP WITH TIME ZONE,
-    DataDevolucaoCliente TIMESTAMP WITH TIME ZONE,
+    DataExecucao TIMESTAMP WITH TIME ZONE NULL,
+    DataDevolucaoCliente TIMESTAMP WITH TIME ZONE NULL,
+    
+    DataCancelamento TIMESTAMP WITH TIME ZONE NULL,
+    JustificativaCancelamento VARCHAR(255) NULL,
+    UserCancelamento text NULL,
 
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,
@@ -542,7 +547,8 @@ CREATE TABLE OrdensServico (
 	FOREIGN KEY (ClienteId) REFERENCES Clientes (Id) ,
 	FOREIGN KEY (CondicaoPagamentoId) REFERENCES CondicaoPagamentos (Id) ,
     CONSTRAINT FK_OrdensServico_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
-    CONSTRAINT FK_OrdensServico_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
+    CONSTRAINT FK_OrdensServico_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_OrdensServico_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id")
 )
 
 
@@ -602,7 +608,6 @@ CREATE TABLE Vendas (
     ClienteId INTEGER NOT NULL,
     CondicaoPagamentoId INTEGER NOT NULL,
     OrdemServicoId INTEGER NOT NULL,
-
 
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,

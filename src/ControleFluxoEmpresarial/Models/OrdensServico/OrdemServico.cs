@@ -32,6 +32,10 @@ namespace ControleFluxoEmpresarial.Models.OrdensServico
         public DateTime? DataExecucao { get; set; }
         public DateTime? DataDevolucaoCliente { get; set; }
 
+        public DateTime? DataCancelamento { get; set; }
+        public string UserCancelamento { get; set; }
+        public string JustificativaCancelamento { get; set; }
+
         public List<OrdemServicoProduto> Produtos { get; set; } = new List<OrdemServicoProduto>();
         public List<OrdemServicoServico> Servicos { get; set; } = new List<OrdemServicoServico>();
 
