@@ -1,6 +1,6 @@
 import React from 'react'
 import { CondicaoPagamentoApi } from '../../../../../apis/CondicaoPagamento/CondicaoPagamentoApi';
-import { Modal, Row, Col, Button } from 'antd';
+import { Modal, Row, Col, Button, Divider } from 'antd';
 import { useField, useFormik, useFormikContext } from 'formik';
 import { useState } from 'react';
 import { WithItemNone } from '../../../../../hoc/WithFormItem';
@@ -9,6 +9,8 @@ import ShowCondicaoPagamentoParcelas from '../../../../../components/ShowCondica
 import ContaReceber from './../../../../../models/Movimentos/ContaReceber';
 import { ParcelaPagamento } from '../../../../../models/CondicaoPagamento/ParcelaPagamento';
 import { Input } from '../../../../../components/WithFormItem/withFormItem';
+import Separator from '../../../../../components/Separator/Separator';
+import { OrdemServicoProduto, OrdemServicoServico } from '../../../../../models/OrdemServicos/OrdemServicoItem';
 
 export interface Props {
     visible?: boolean;
@@ -19,18 +21,27 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
 
     const [loading, setLoading] = useState(false)
     const { submitForm } = useFormikContext();
-    const [{ value: totalOS }, ,] = useField("totalOS");
+    const [{ value: produtos }] = useField<OrdemServicoProduto[]>("produtos");
+    const [{ value: servicos }] = useField<OrdemServicoServico[]>("servicos");
     const [{ value: condicaoPagamentoId }, ,] = useField("condicaoPagamentoId");
-    const [{ value: parcelas }, , { setValue: setParcelas }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelas");
+    const [{ value: parcelasProduto }, , { setValue: setParcelasProduto }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelasProduto");
+    const [{ value: parcelasServico }, , { setValue: setParcelasServico }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelasServico");
 
     async function calcularParcelas() {
+        let totalProduto = produtos.reduce((a, e) => a + (e.quantidade! * e.valor!), 0);
+        let totalServico = servicos.reduce((a, e) => a + (e.quantidade! * e.servico?.valor!), 0);
+
         try {
             setLoading(true);
-            let parcelas = (await CondicaoPagamentoApi.CalculaParcela(condicaoPagamentoId, new Date(), totalOS)).data;
-            setParcelas(parcelas)
+            let parcelas = (await CondicaoPagamentoApi.CalculaParcela(condicaoPagamentoId, new Date(), totalProduto)).data;
+            setParcelasProduto(parcelas)
+
+            parcelas = (await CondicaoPagamentoApi.CalculaParcela(condicaoPagamentoId, new Date(), totalServico)).data;
+            setParcelasServico(parcelas)
         }
         catch (error) {
-            setParcelas([])
+            setParcelasProduto([]);
+            setParcelasServico([]);
         }
         finally {
             setLoading(false);
@@ -38,11 +49,12 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     }
 
     function limparParcelas() {
-        setParcelas([])
+        setParcelasProduto([])
+        setParcelasServico([])
     }
 
     function disabledCalcularParcelas() {
-        if (parcelas?.length > 0) {
+        if (parcelasProduto?.length > 0 || parcelasServico?.length > 0) {
             return true
         }
 
@@ -50,7 +62,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     }
 
     function disabledLimparParcelas() {
-        if (parcelas?.length > 0) {
+        if (parcelasProduto?.length > 0 || parcelasServico?.length > 0) {
             return false;
         }
 
@@ -68,6 +80,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
             onCancel={onCancel}
             onOk={() => submitForm()}
             width="90%"
+            zIndex={50}
             cancelText="Voltar"
             okText="Salvar e Finalizar"
             visible={props.visible}>
@@ -77,7 +90,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                 </Col>
                 <Col span={6}>
                     <SelectModelOne
-                        disabled={parcelas?.length > 0}
+                        disabled={parcelasProduto?.length > 0 || parcelasServico?.length > 0}
                         fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
                         keyDescription="nome"
@@ -100,11 +113,25 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
 
             <Row>
                 <Col>
+                    <Separator />
+                    <Divider orientation="left" >Contas a Receber de Produtos</Divider>
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
                         loading={loading}
-                        dataSource={parcelas ?? []} />
+                        dataSource={parcelasProduto ?? []} />
+                </Col>
+            </Row>
+
+            <Row>
+                <Col>
+                    <Separator />
+                    <Divider orientation="left" >Contas a Receber de Serviços</Divider>
+                    <ShowCondicaoPagamentoParcelas
+                        hiddenDesconto
+                        hiddenTotal
+                        loading={loading}
+                        dataSource={parcelasServico ?? []} />
                 </Col>
             </Row>
         </Modal>

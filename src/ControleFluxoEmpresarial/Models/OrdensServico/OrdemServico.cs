@@ -35,7 +35,8 @@ namespace ControleFluxoEmpresarial.Models.OrdensServico
         public List<OrdemServicoProduto> Produtos { get; set; } = new List<OrdemServicoProduto>();
         public List<OrdemServicoServico> Servicos { get; set; } = new List<OrdemServicoServico>();
 
-        public List<ContaPagar> Parcelas { get; set; } = new List<ContaPagar>();
+        public List<ContaReceber> ParcelasProduto { get; set; } = new List<ContaReceber>();
+        public List<ContaReceber> ParcelasServico { get; set; } = new List<ContaReceber>();
     }
 
 
@@ -73,9 +74,6 @@ namespace ControleFluxoEmpresarial.Models.OrdensServico
 
             RuleFor(e => e.Servicos)
                 .Must(e => e.Count > 0).WithMessage("Informe os serviços.");
-
-            RuleFor(e => e.Parcelas)
-                .NotEmpty().WithMessage("Infome as parcelas.");
 
         }
         private bool ExistCondicaoPagamento(OrdemServico os, int? id)

@@ -20,7 +20,7 @@ namespace ControleFluxoEmpresarial.Controllers.Vendas
         [HttpGet("({numero}:{serie}:{modelo})")]
         public virtual IActionResult Get(string numero, string serie, string modelo)
         {
-            var entity = this.DAO.GetByID((numero, serie, modelo));
+            var entity = this.DAO.GetByID(new VendaId() { Numero = numero, Serie = serie, Modelo = modelo });
 
             return Ok(entity);
         }

@@ -7,7 +7,6 @@ import AndamentoOrdemServico from "../../models/OrdemServicos/AndamentoOrdemServ
 
 class Api {
 
-
     EndPoint: string = "api/ordem-servico";
 
     GetListPagined(query: PaginationQuery): Promise<AxiosResponse<PaginationResult<OrdemServico>>> {

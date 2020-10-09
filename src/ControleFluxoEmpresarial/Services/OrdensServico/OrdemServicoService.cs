@@ -6,6 +6,8 @@ using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Models.OrdensServico;
+using ControleFluxoEmpresarial.Models.Vendas;
+using ControleFluxoEmpresarial.Services.Vendas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,14 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
     {
         public OrdemServicoService(OrdemServicoDAO dAO, UserRequest userRequest,
             OrdemServicoProdutoDAO ordemServicoProdutoDAO, ProdutoDAO produtoDAO,
-            OrdemServicoServicoDAO ordemServicoServicoDAO, ServicoDAO servicoDAO)
+            OrdemServicoServicoDAO ordemServicoServicoDAO, ServicoDAO servicoDAO,
+            VendaService vendaService)
         {
             this.DAO = dAO ?? throw new ArgumentNullException(nameof(dAO));
             this.ServicoDAO = servicoDAO ?? throw new ArgumentNullException(nameof(servicoDAO));
             this.ProdutoDAO = produtoDAO ?? throw new ArgumentNullException(nameof(produtoDAO));
             this.UserRequest = userRequest ?? throw new ArgumentNullException(nameof(userRequest));
+            this.VendaService = vendaService ?? throw new ArgumentNullException(nameof(vendaService));
             this.OrdemServicoServicoDAO = ordemServicoServicoDAO ?? throw new ArgumentNullException(nameof(ordemServicoServicoDAO));
             this.OrdemServicoProdutoDAO = ordemServicoProdutoDAO ?? throw new ArgumentNullException(nameof(ordemServicoProdutoDAO));
         }
@@ -30,9 +34,9 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
         public ServicoDAO ServicoDAO { get; set; }
         public ProdutoDAO ProdutoDAO { get; set; }
         public UserRequest UserRequest { get; set; }
+        public VendaService VendaService { get; set; }
         public OrdemServicoServicoDAO OrdemServicoServicoDAO { get; set; }
         public OrdemServicoProdutoDAO OrdemServicoProdutoDAO { get; set; }
-        public ContaReceberDAO ContaReceberDAO { get; set; }
 
         public OrdemServico GetByID(int id)
         {
@@ -40,41 +44,59 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
             entity.Servicos = this.OrdemServicoServicoDAO.GetInOrdemServico(id) ?? new List<OrdemServicoServico>();
             entity.Produtos = this.OrdemServicoProdutoDAO.GetInOrdemServico(id) ?? new List<OrdemServicoProduto>();
 
+            (entity.ParcelasProduto, entity.ParcelasServico) = this.VendaService.getParcelasCompra(id, "55", "65");
+
             return entity;
         }
 
         public void Finalizar(OrdemServico os)
         {
-            var totalParcela = os.Parcelas?.Sum(e => e.Valor);
-            var totalOS = os.Servicos?.Sum(e => e.Quantidade * e.Valor);
-            totalOS += os.Produtos?.Sum(e => e.Quantidade * e.Valor);
+            var totalParcela = os.ParcelasProduto?.Sum(e => e.Valor)
+                + os.ParcelasServico?.Sum(e => e.Valor);
+            var totalOS = os.Servicos?.Sum(e => e.Quantidade * e.Valor)
+                + os.Produtos?.Sum(e => e.Quantidade * e.Valor);
 
 
             if (os.Servicos.Count == 0)
             {
                 throw new BusinessException(new { Servicos = "Informe um serviço." });
             }
-            if (os.Parcelas.Count == 0)
+            if (os.ParcelasServico.Count == 0)
             {
-                throw new BusinessException(new { Parcelas = "Informe as parcelas." });
+                throw new BusinessException(new { Parcelas = "Informe as parcelas do Serviço." });
+            }
+            if (os.Produtos.Count > 0 && os.ParcelasProduto.Count == 0)
+            {
+                throw new BusinessException(new { Parcelas = "Informe as parcelas dos Produtos." });
             }
 
-            if (totalParcela != totalOS)
+
+            var produtoVenda = os.Produtos.Select(e => new VendaProduto()
             {
-                throw new BusinessException(new { Parcelas = "Soma das parcelas não confere com o valor da Ordem de Serviço." });
+                Valor = e.Valor,
+                ProdutoId = e.ProdutoId,
+                Quantidade = e.Quantidade,
+            }).ToList();
+
+            if (produtoVenda.Count > 0)
+            {
+                this.VendaService.VendaProduto(os.Id, "55", "1", os.ClienteId, os.CondicaoPagamentoId.Value, produtoVenda, os.ParcelasProduto, "Lançada apartir de OS", false);
             }
 
-            foreach (var produto in os.Produtos)
+            var servicoVenda = os.Servicos.Select(e => new VendaServico()
             {
-                var produtoDb = this.ProdutoDAO.GetByID(produto.ProdutoId);
-                produtoDb.Quantidade -= produto.Quantidade;
-                if (produtoDb.Quantidade < 0)
-                {
-                    throw new BusinessException(new { Produto = $"Estoque do produto \"{produtoDb.Nome}\" é insuficiente." });
-                }
-                this.ProdutoDAO.Update(produtoDb, false);
+                Valor = e.Valor,
+                ServicoId = e.ServicoId,
+                Quantidade = e.Quantidade,
+                FuncionarioId = e.FuncionarioId,
+            }).ToList();
+            if (servicoVenda.Count > 0)
+            {
+                this.VendaService.VendaServico(os.Id, "65", "1", os.ClienteId, os.CondicaoPagamentoId.Value, servicoVenda, os.ParcelasServico, "Lançada apartir de OS", false);
             }
 
+            os.DataDevolucaoCliente = DateTime.Now;
+            this.Update(os);
         }
 
         public int Insert(AbrirOrdemServico model)
@@ -111,12 +133,31 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
 
         public void SalvarAndamento(AndamentoOrdemServico model)
         {
-            var entity = this.GetByID(model.Id);
+            var os = new OrdemServico()
+            {
+                Id = model.Id,
+                DescricaoTecnico = model.DescricaoTecnico,
+                CondicaoPagamentoId = model.CondicaoPagamentoId,
+                DescricaoObservacaoTecnico = model.DescricaoObservacaoTecnico,
+                Servicos = model.Servicos,
+                Produtos = model.Produtos
+            };
 
+            this.Update(os);
+        }
+
+        public PaginationResult<OrdemServico> GetPagined<TSituacaoType>(PaginationQuery<TSituacaoType> filter)
+        {
+            return this.DAO.GetPagined(filter);
+        }
+
+
+        private void Update(OrdemServico model)
+        {
+            var entity = this.GetByID(model.Id);
 
             foreach (var servico in model.Servicos)
             {
-                servico.Valor = this.ServicoDAO.GetByID(servico.ServicoId).Valor;
                 servico.OrdemServicoId = model.Id;
 
                 if (entity.Servicos.Any(e => e.ServicoId == servico.ServicoId))
@@ -168,13 +209,9 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
             entity.DescricaoTecnico = model.DescricaoTecnico;
             entity.CondicaoPagamentoId = model.CondicaoPagamentoId;
             entity.DescricaoObservacaoTecnico = model.DescricaoObservacaoTecnico;
+            entity.DataDevolucaoCliente = model.DataDevolucaoCliente;
 
             this.DAO.Update(entity);
-        }
-
-        public PaginationResult<OrdemServico> GetPagined<TSituacaoType>(PaginationQuery<TSituacaoType> filter)
-        {
-            return this.DAO.GetPagined(filter);
         }
     }
 }

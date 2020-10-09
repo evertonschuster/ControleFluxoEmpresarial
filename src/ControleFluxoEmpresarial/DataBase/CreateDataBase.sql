@@ -586,3 +586,126 @@ CREATE TABLE OrdemServicoProdutos (
 	CONSTRAINT FK_OrdemServicoProdutos_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_OrdemServicoProdutos_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
 )
+
+
+
+
+CREATE TABLE Vendas (
+
+    Numero VARCHAR(20) NOT NULL,
+    Modelo VARCHAR(2) NOT NULL,
+    Serie VARCHAR(2) NOT NULL,
+    Descricao  VARCHAR(255) NULL,
+    DataEmissao TIMESTAMP WITH TIME ZONE NOT NULL,
+    DataCancelamento TIMESTAMP WITH TIME ZONE ,
+
+    ClienteId INTEGER NOT NULL,
+    CondicaoPagamentoId INTEGER NOT NULL,
+    OrdemServicoId INTEGER NOT NULL,
+
+
+    DataCriacao  TIMESTAMP WITH TIME ZONE ,
+    DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao text NOT NULL,
+    UserAtualizacao text NULL,
+
+    CONSTRAINT PK_Vendas PRIMARY KEY (Numero, Modelo, Serie),
+	FOREIGN KEY (ClienteId) REFERENCES Clientes (Id) ,
+	FOREIGN KEY (OrdemServicoId) REFERENCES OrdensServico (Id) ,
+	FOREIGN KEY (CondicaoPagamentoId) REFERENCES CondicaoPagamentos (Id) ,
+
+	CONSTRAINT FK_Vendas_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_Vendas_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
+)
+
+CREATE TABLE VendaServicos (
+
+    VendaNumero VARCHAR(20) NOT NULL,
+    VendaModelo VARCHAR(2) NOT NULL,
+    VendaSerie VARCHAR(2) NOT NULL,
+
+    ServicoId INTEGER NOT NULL,
+    FuncionarioId INTEGER NOT NULL,
+    Quantidade DECIMAL NOT NULL,
+    Valor DECIMAL NOT NULL,
+    
+    DataCriacao  TIMESTAMP WITH TIME ZONE ,
+    DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao text NOT NULL,
+    UserAtualizacao text NULL,
+
+    CONSTRAINT PK_VendaServicos PRIMARY KEY (VendaNumero, VendaModelo, VendaSerie, ServicoId),
+	FOREIGN KEY (ServicoId) REFERENCES Servicos (Id) ,
+    FOREIGN KEY (FuncionarioId) REFERENCES Funcionarios (Id),
+	FOREIGN KEY (VendaNumero, VendaModelo, VendaSerie) REFERENCES Vendas (Numero, Modelo, Serie) ,
+
+	CONSTRAINT FK_VendaServicos_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_VendaServicos_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
+)
+
+CREATE TABLE VendaProdutos (
+
+    VendaNumero VARCHAR(20) NOT NULL,
+    VendaModelo VARCHAR(2) NOT NULL,
+    VendaSerie VARCHAR(2) NOT NULL,
+
+    ProdutoId INTEGER NOT NULL,
+    Quantidade DECIMAL NOT NULL,
+    Valor DECIMAL NOT NULL,
+    
+    DataCriacao  TIMESTAMP WITH TIME ZONE ,
+    DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao text NOT NULL,
+    UserAtualizacao text NULL,
+
+    CONSTRAINT PK_VendaProdutos PRIMARY KEY (VendaNumero, VendaModelo, VendaSerie, ProdutoId),
+	FOREIGN KEY (ProdutoId) REFERENCES Produtos (Id) ,
+	FOREIGN KEY (VendaNumero, VendaModelo, VendaSerie) REFERENCES Vendas (Numero, Modelo, Serie) ,
+
+	CONSTRAINT FK_VendaProdutos_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_VendaProdutos_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
+)
+
+
+CREATE TABLE ContasReceber (
+    Numero VARCHAR(20) NOT NULL,
+    Modelo VARCHAR(2) NOT NULL,
+    Serie VARCHAR(2) NOT NULL,
+    Parcela INTEGER NOT NULL,
+    
+    ClienteId INTEGER NOT NULL,
+    Valor DECIMAL(10,2) NOT NULL,
+    Desconto DECIMAL(10,2) NULL,
+    Multa DECIMAL(10,2) NULL,
+    Juro DECIMAL(10,2) NULL,
+    ValorBaixa DECIMAL(10,2) NULL,
+    FormaPagamentoId INTEGER NOT NULL,
+    DataVencimento TIMESTAMP WITH TIME ZONE,
+    DataEmissao TIMESTAMP WITH TIME ZONE,
+    Descricao VARCHAR(255) NULL,
+
+    DataBaixa TIMESTAMP WITH TIME ZONE,
+    DataPagamento TIMESTAMP WITH TIME ZONE,
+    UserBaixa text NULL,
+
+    DataCancelamento TIMESTAMP WITH TIME ZONE,
+    UserCancelamento text NULL,
+    JustificativaCancelamento VARCHAR(255) NULL,
+
+    DataCancelamentoBaixa TIMESTAMP WITH TIME ZONE,
+    UserCancelamentoBaixa text NULL,
+    JustificativaCancelamentoBaixa VARCHAR(255) NULL,
+
+    DataCriacao  TIMESTAMP WITH TIME ZONE,
+    DataAtualizacao TIMESTAMP WITH TIME ZONE,
+    UserCriacao text NOT NULL,
+    UserAtualizacao text NULL,
+
+    CONSTRAINT FK_ContasReceber_Clientes_ClienteId FOREIGN KEY (ClienteId) REFERENCES Clientes(Id),
+    CONSTRAINT FK_ContasReceber_FormaPagamentos_FormaPagamentoId FOREIGN KEY (FormaPagamentoId) REFERENCES FormaPagamentos(Id),
+    CONSTRAINT FK_ContasReceber_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_ContasReceber_AspNetUsers_UserBaixa FOREIGN KEY (UserBaixa) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_ContasReceber_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT FK_ContasReceber_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id"),
+    CONSTRAINT PK_ContasReceber PRIMARY KEY (Numero, Modelo, Serie, Parcela)
+)

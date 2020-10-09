@@ -9,15 +9,19 @@ import FooterForm from './components/FooterForm';
 import OrdemServico from '../../../models/OrdemServicos/OrdemServico';
 import { useParams } from 'react-router-dom';
 import { OrdemServicoItemSchema } from './OrdemServicoItemSchema';
+import { useHistory } from 'react-router-dom';
+import { message } from 'antd';
 
 const FormAndamentoOrdemServico: React.FC = () => {
     const [ordemSerico, setOrdemSerico] = useState<OrdemServico>({
         id: null,
         servicos: [],
         produtos: [],
-        parcelas: []
+        parcelasServico: [],
+        parcelasProduto: []
     })
 
+    const history = useHistory();
     const [loading, setLoading] = useState(false);
     let { id } = useParams<{ id: string }>();
 
@@ -45,6 +49,8 @@ const FormAndamentoOrdemServico: React.FC = () => {
     async function onSubmit(os: AndamentoOrdemServico, formikHelpers: FormikHelpers<AndamentoOrdemServico>) {
         try {
             await OrdemServicoApi.Finalizar(os);
+            message.success("Ordem de Serviço Finalizada!")
+            history.push("/ordem-servico")
         }
         catch (e) {
             errorBack(formikHelpers, e);

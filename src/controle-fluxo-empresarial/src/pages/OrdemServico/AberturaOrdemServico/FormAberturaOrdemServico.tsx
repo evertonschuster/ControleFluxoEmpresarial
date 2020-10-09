@@ -27,7 +27,6 @@ const FormAberturaOrdemServico: React.FC = () => {
         try {
             await OrdemServicoApi.New(os);
             history.push("/ordem-servico")
-
         }
         catch (e) {
             errorBack(formikHelpers, e);

@@ -1,16 +1,11 @@
 import React, { useMemo } from 'react'
 import { ColumnProps } from 'antd/lib/table'
-import { formatNumber2 } from '../../../../../utils/FormatNumber'
-import { OrdemServicoItemServicoSchema, OrdemServicoItemProdutoSchema } from '../../OrdemServicoItemSchema'
-import { OrdemServicoProduto } from '../../../../../models/OrdemServicos/OrdemServicoItem'
-import { OrdemServicoServico } from './../../../../../models/OrdemServicos/OrdemServicoItem';
+import { formatNumber2 } from '../../../../utils/FormatNumber'
+import { OrdemServicoProduto, OrdemServicoServico } from '../../../../models/OrdemServicos/OrdemServicoItem'
 import { Row, Col } from 'antd'
-import { WithItemNone } from '../../../../../hoc/WithFormItem'
-import EditableTable, { ColumnEditableProps } from '../../../../../components/EditableTable/EditableTable'
-import InputDecimal from '../../../../../components/InputDecimal/InputDecimal'
-import InserirProduto from '../innerForm/InserirProduto/InserirProduto'
-import InserirServico from '../innerForm/InserirServico/InserirServico'
-import Separator from './../../../../../components/Separator/Separator';
+import { WithItemNone } from '../../../../hoc/WithFormItem'
+import EditableTable, { ColumnEditableProps } from '../../../../components/EditableTable/EditableTable'
+import Separator from '../../../../components/Separator/Separator'
 
 const SelecaoProdutosServicos: React.FC = () => {
     const columnsProduto: ColumnProps<OrdemServicoProduto>[] = useMemo(() => [
@@ -41,7 +36,6 @@ const SelecaoProdutosServicos: React.FC = () => {
             render: (quantidade: number) => {
                 return formatNumber2(quantidade)
             },
-            renderEditable: () => <InputDecimal name="quantidade" placeholder="10,00" required />
         },
         {
             align: "right",
@@ -101,7 +95,6 @@ const SelecaoProdutosServicos: React.FC = () => {
             render: (quantidade: number) => {
                 return formatNumber2(quantidade)
             },
-            renderEditable: () => <InputDecimal name="quantidade" placeholder="10,00" required />
         },
         {
             align: "right",
@@ -127,15 +120,14 @@ const SelecaoProdutosServicos: React.FC = () => {
 
     return (
         <>
-            <InserirProduto />
             <Row>
                 <Col>
                     <WithItemNone showLabel={false}>
                         <EditableTable
+                            disabled
                             showNewAction={false}
                             rowKey={(item) => item.produtoId}
                             columns={columnsProduto}
-                            validationSchema={OrdemServicoItemProdutoSchema}
                             name="produtos"
                             initiallValues={{}}
                         />
@@ -145,15 +137,14 @@ const SelecaoProdutosServicos: React.FC = () => {
 
             <Separator />
 
-            <InserirServico />
             <Row>
                 <Col>
                     <WithItemNone showLabel={false}>
                         <EditableTable
+                            disabled
                             showNewAction={false}
                             rowKey={(item) => item.servicoId}
                             columns={columnsServico}
-                            validationSchema={OrdemServicoItemServicoSchema}
                             name="servicos"
                             initiallValues={{}}
                         />

@@ -56,15 +56,23 @@ const ListOrdemServico: React.FC = () => {
             title: 'Ações',
             key: 'action',
             width: "100px",
-            render: (text: any, record: any, index: number) => (
-                <>
+            render: (text: any, record: OrdemServico, index: number) => {
+                if (record.dataDevolucaoCliente) {
+                    return (
+                        <Link to={("ordem-servico/view/" + record.id).replace("//", "/")} >
+                            <Tooltip placement="top" title="Visualiza OS Selecionada."  >
+                                <Tag color="gold" key={index + "12"} className="custom-cursor-pointer" >Ver OS</Tag>
+                            </Tooltip>
+                        </Link>)
+                }
+
+                return (
                     <Link to={("ordem-servico/andamento/" + record.id).replace("//", "/")} >
                         <Tooltip placement="top" title="Visualiza OS Selecionada."  >
                             <Tag color="gold" key={index + "12"} className="custom-cursor-pointer" >Ver OS</Tag>
                         </Tooltip>
-                    </Link>
-                </>
-            ),
+                    </Link>)
+            },
         }
     ] as ColumnProps<OrdemServico>[], []);
 

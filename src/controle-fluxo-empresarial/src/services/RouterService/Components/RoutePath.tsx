@@ -38,6 +38,7 @@ import ListProduto from '../../../pages/Movimentos/Produtos/ListProduto/ListProd
 import ListServico from './../../../pages/Movimentos/Servicos/ListServico/ListServico';
 import ListUnidadeMedida from './../../../pages/Movimentos/UnidadeMedida/ListUnidadeMedida/ListUnidadeMedida';
 import ListUser from '../../../pages/Pessoas/Users/ListUser/ListUser';
+import FromResumoOrdemServico from '../../../pages/OrdemServico/ResumoOrdemServico/FromResumoOrdemServico';
 
 const RoutePath: React.FC = () => {
 
@@ -111,6 +112,7 @@ const RoutePath: React.FC = () => {
             <Route path="/ordem-servico" component={ListOrdemServico} exact />
             <Route path="/ordem-servico/new" component={FormAberturaOrdemServico} />
             <Route path="/ordem-servico/andamento/:id" component={FormAndamentoOrdemServico} />
+            <Route path="/ordem-servico/view/:id" component={FromResumoOrdemServico} />
 
             <Route path="/contas-pagar" component={ListContaPagar} exact strict/>
             <Route path="/contas-pagar/edit/:modelo/:serie/:numero/:fornecedorId/:parcela" component={FromContaPagar} exact />

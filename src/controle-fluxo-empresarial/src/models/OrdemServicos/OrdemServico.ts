@@ -6,7 +6,7 @@ export default interface OrdemServico {
     id?: number | null;
     clienteId?: number | null;
     cliente?: Cliente | null;
-    
+
     condicaoPagamentoId?: number | null;
 
     descricaoEquipamento?: string | null;
@@ -21,5 +21,6 @@ export default interface OrdemServico {
     produtos?: OrdemServicoProduto[] | null;
     servicos?: OrdemServicoServico[] | null;
 
-    parcelas?: ContaReceber[];
+    parcelasProduto?: ContaReceber[];
+    parcelasServico?: ContaReceber[];
 }

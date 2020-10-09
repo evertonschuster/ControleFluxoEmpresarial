@@ -28,6 +28,7 @@ const InserirServico: React.FC = () => {
             return formikHelpers.setSubmitting(false);
         }
 
+        item.valor = item.servico?.valor;
         setServicos([...servicos, item]);
         formikHelpers.resetForm({ values: initialValues })
     }

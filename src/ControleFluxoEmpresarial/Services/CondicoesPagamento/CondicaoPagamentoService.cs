@@ -57,6 +57,10 @@ namespace ControleFluxoEmpresarial.Services.CondicoesPagamento
 
         public List<ParcelaPagamento> CalculaParcela(int condicaoPagamentoId, DateTime dataBase, decimal valorDataBase)
         {
+            if (valorDataBase <= 0)
+            {
+                return new List<ParcelaPagamento>();
+            }
             var condicaoPagamento = this.DAO.GetByID(condicaoPagamentoId);
             return this.CalculaParcela(condicaoPagamento, dataBase, valorDataBase);
         }

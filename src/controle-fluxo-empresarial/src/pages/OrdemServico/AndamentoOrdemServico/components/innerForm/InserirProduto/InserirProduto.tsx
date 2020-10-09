@@ -13,18 +13,21 @@ const InserirProduto: React.FC = () => {
 
     const initialValues = useMemo(() => ({
         id: null,
+        valor: null,
         quantidade: 1,
     } as OrdemServicoProduto), []);
 
     const [{ value: produtos }, , { setValue: setProdutos }] = useField<OrdemServicoProduto[]>("produtos");
 
     function onSave(item: OrdemServicoProduto, formikHelpers: FormikHelpers<OrdemServicoProduto>) {
-        
+
         if (produtos?.findIndex(e => e.produtoId === item.produtoId) >= 0) {
             formikHelpers.setFieldError("produtoId", "Produto já Adicionado.")
             return formikHelpers.setSubmitting(false);
         }
 
+        debugger;
+        item.valor = item.produto?.valorVenda!;
         setProdutos([...produtos, item]);
         formikHelpers.resetForm({ values: initialValues })
     }
@@ -61,7 +64,7 @@ const InserirProduto: React.FC = () => {
 
                         <div className="ant-col ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <span className="ant-form-item-children" style={{ display: "flex", flex: 1, justifyContent: "flex-end", paddingTop: 4  }}>
+                                <span className="ant-form-item-children" style={{ display: "flex", flex: 1, justifyContent: "flex-end", paddingTop: 4 }}>
                                     <SubmitButton >Adicionar</SubmitButton >
                                 </span>
                             </div>

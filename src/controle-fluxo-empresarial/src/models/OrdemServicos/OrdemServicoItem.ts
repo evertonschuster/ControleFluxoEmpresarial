@@ -5,6 +5,7 @@ import { Produto } from './../Movimentos/Produto';
 
 export interface OrdemServicoServico {
     quantidade: number | null;
+    valor?: number | null;
 
     funcionarioId?: number | null;
     funcionario?: Funcionario | null,
@@ -16,6 +17,7 @@ export interface OrdemServicoServico {
 
 export interface OrdemServicoProduto {
     quantidade: number | null;
+    valor?: number | null;
 
     produtoId?: number | null;
     produto?: Produto | null;

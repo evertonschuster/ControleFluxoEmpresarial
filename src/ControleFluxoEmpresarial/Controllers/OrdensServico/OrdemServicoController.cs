@@ -65,31 +65,9 @@ namespace ControleFluxoEmpresarial.Controllers.OrdensServico
             return Ok();
         }
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public virtual IActionResult Delete(TId id)
-        //{
-        //    this.Service.VerifyRelationshipDependence(id);
-        //    this.Service.Delete(id);
-        //    return Ok();
-        //}
-
-        //// DELETE: api/ApiWithActions/5
-        //[HttpPut("desativar/{id}")]
-        //public virtual IActionResult Desativar(TId id)
-        //{
-        //    var entity = this.Service.GetByID(id);
-        //    if (entity is IBaseSituacao)
-        //    {
-        //        ((IBaseSituacao)entity).Situacao = DateTime.Now;
-        //        this.Service.Update(entity);
-
-        //    }
-        //    return Ok();
-        //}
 
         [HttpPost("list")]
-        public new IActionResult GetListPagined(PaginationQuery<SituacaoOrdemServicoType?> filter)
+        public IActionResult GetListPagined(PaginationQuery<SituacaoOrdemServicoType?> filter)
         {
             return Ok(this.Service.GetPagined(filter));
         }
