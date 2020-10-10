@@ -4,8 +4,8 @@ using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.Vendas;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Models.Movimentos;
-using ControleFluxoEmpresarial.Models.OrdensServico;
 using ControleFluxoEmpresarial.Models.Vendas;
+using ControleFluxoEmpresarial.Services.Movimentos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +19,17 @@ namespace ControleFluxoEmpresarial.Services.Vendas
         public UserRequest UserRequest { get; set; }
         public VendaProdutoDAO VendaProdutoDAO { get; set; }
         public VendaServicoDAO VendaServicoDAO { get; set; }
-        public ContasReceberDAO ContasReceberDAO { get; set; }
-        public VendaService(VendaDAO vendaDAO, ProdutoDAO produtoDAO, UserRequest userRequest, VendaProdutoDAO vendaProdutoDAO, VendaServicoDAO vendaServicoDAO, ContasReceberDAO contasReceberDAO)
+        public ContaReceberService ContaReceberService { get; set; }
+        public VendaService(VendaDAO vendaDAO, ProdutoDAO produtoDAO, UserRequest userRequest, 
+                VendaProdutoDAO vendaProdutoDAO, VendaServicoDAO vendaServicoDAO,
+                ContaReceberService contaReceberService)
         {
             VendaDAO = vendaDAO ?? throw new ArgumentNullException(nameof(vendaDAO));
             ProdutoDAO = produtoDAO ?? throw new ArgumentNullException(nameof(produtoDAO));
             UserRequest = userRequest ?? throw new ArgumentNullException(nameof(userRequest));
             VendaProdutoDAO = vendaProdutoDAO ?? throw new ArgumentNullException(nameof(vendaProdutoDAO));
             VendaServicoDAO = vendaServicoDAO ?? throw new ArgumentNullException(nameof(vendaServicoDAO));
-            ContasReceberDAO = contasReceberDAO ?? throw new ArgumentNullException(nameof(contasReceberDAO));
+            ContaReceberService = contaReceberService ?? throw new ArgumentNullException(nameof(contaReceberService));
         }
 
 
@@ -67,7 +69,7 @@ namespace ControleFluxoEmpresarial.Services.Vendas
 
         public (List<ContaReceber> contasProduto, List<ContaReceber> contasServico) getParcelasCompra(int id, string modeloProduto, string modeloServico)
         {
-            var parcelas = this.ContasReceberDAO.GetByOSID(id);
+            var parcelas = this.ContaReceberService.GetByOSID(id);
 
             return (parcelas?.Where(e => e.Modelo == modeloProduto).ToList(),
                     parcelas?.Where(e => e.Modelo == modeloServico).ToList());
@@ -152,7 +154,7 @@ namespace ControleFluxoEmpresarial.Services.Vendas
                 contaReceber.Descricao = venda.Descricao;
                 contaReceber.DataEmissao = DateTime.Now;
 
-                this.ContasReceberDAO.Insert(contaReceber, false);
+                this.ContaReceberService.Insert(contaReceber, false);
             }
         }
 

@@ -1,18 +1,19 @@
 ﻿using ControleFluxoEmpresarial.DAOs.CondicaoPagamentos;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
-using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
 using FluentValidation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ControleFluxoEmpresarial.DTO.Movimentos
 {
-    public class PagarContaPagar
+    public class ReceberContaReceber
     {
         public string Modelo { get; set; }
         public string Serie { get; set; }
         public string Numero { get; set; }
-        public int FornecedorId { get; set; }
         public int Parcela { get; set; }
 
 
@@ -35,11 +36,10 @@ namespace ControleFluxoEmpresarial.DTO.Movimentos
 
         public DateTime? DataPagamento { get; set; }
 
-        public ContaPagarId GetId()
+        public ContaReceberId GetId()
         {
-            return new ContaPagarId()
+            return new ContaReceberId()
             {
-                FornecedorId = this.FornecedorId,
                 Modelo = this.Modelo,
                 Numero = this.Numero,
                 Parcela = this.Parcela,
@@ -48,16 +48,14 @@ namespace ControleFluxoEmpresarial.DTO.Movimentos
         }
     }
 
-    public class PagarContaPagarValidator : AbstractValidator<PagarContaPagar>
+    public class ReceberContaReceberValidator : AbstractValidator<ReceberContaReceber>
     {
-        public ContaPagarDAO ContaPagarDAO { get; set; }
-        public FornecedorDAO FornecedorDAO { get; set; }
+        public ContaReceberDAO ContaReceberDAO { get; set; }
         public FormaPagamentoDAO FormaPagamentoDAO { get; set; }
 
-        public PagarContaPagarValidator(ContaPagarDAO contaPagarDAO, FornecedorDAO fornecedorDAO, FormaPagamentoDAO formaPagamentoDAO)
+        public ReceberContaReceberValidator(ContaReceberDAO contaReceberDAO, FormaPagamentoDAO formaPagamentoDAO)
         {
-            this.ContaPagarDAO = contaPagarDAO;
-            this.FornecedorDAO = fornecedorDAO;
+            this.ContaReceberDAO = contaReceberDAO;
             this.FormaPagamentoDAO = formaPagamentoDAO;
 
             RuleFor(e => e.Modelo)
@@ -71,10 +69,6 @@ namespace ControleFluxoEmpresarial.DTO.Movimentos
             RuleFor(e => e.Numero)
                 .NotEmpty().WithMessage("Informe o número.")
                 .MaximumLength(20).WithMessage("Número só pode ter 2 caracteres.");
-
-            RuleFor(e => e.FornecedorId)
-                .NotEmpty().WithMessage("Informe o fornecedor.")
-                .Must(ExistFornecedor).WithMessage("Fornecedor não cadastrado.");
 
             RuleFor(e => e.Parcela)
                 .GreaterThan(0).WithMessage("Parcela deve ser superior a 0.")
@@ -109,29 +103,17 @@ namespace ControleFluxoEmpresarial.DTO.Movimentos
 
 
 
-        private bool CheckDataVencimento(PagarContaPagar contaPagar, DateTime dataVencimento)
+        private bool CheckDataVencimento(ReceberContaReceber contaReceber, DateTime dataVencimento)
         {
-            var contaPagarDB = this.ContaPagarDAO.GetByID(contaPagar.GetId());
-            return dataVencimento.Date >= contaPagarDB.DataEmissao.Date;
+            var contaReceberDB = this.ContaReceberDAO.GetByID(contaReceber.GetId());
+            return dataVencimento.Date >= contaReceberDB.DataEmissao.Date;
         }
 
-        private bool ExistFornecedor(PagarContaPagar contaPagar, int id)
-        {
-            var findFornecedor = this.FornecedorDAO.GetByID(id);
-            var contaPagarDB = this.ContaPagarDAO.GetByID(contaPagar.GetId());
-            if (contaPagarDB != null && findFornecedor != null && contaPagar.FornecedorId == contaPagarDB.FornecedorId)
-            {
-                return true;
-            }
-
-            return findFornecedor != null && findFornecedor.Situacao == null;
-        }
-
-        private bool ExistFormaPagamento(PagarContaPagar contaPagar, int id)
+        private bool ExistFormaPagamento(ReceberContaReceber contaReceber, int id)
         {
             var findFormaPagamento = this.FormaPagamentoDAO.GetByID(id);
-            var contaPagarDB = this.ContaPagarDAO.GetByID(contaPagar.GetId());
-            if (contaPagarDB != null && findFormaPagamento != null && contaPagar.FormaPagamentoId == contaPagarDB.FormaPagamentoId)
+            var contaReceberDB = this.ContaReceberDAO.GetByID(contaReceber.GetId());
+            if (contaReceberDB != null && findFormaPagamento != null && contaReceber.FormaPagamentoId == contaReceberDB.FormaPagamentoId)
             {
                 return true;
             }

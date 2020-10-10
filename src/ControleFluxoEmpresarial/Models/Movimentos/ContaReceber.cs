@@ -1,5 +1,7 @@
-﻿using ControleFluxoEmpresarial.Entities;
+﻿using ControleFluxoEmpresarial.DTO.Movimentos;
+using ControleFluxoEmpresarial.Entities;
 using ControleFluxoEmpresarial.Models.CondicaoPagamentos;
+using ControleFluxoEmpresarial.Models.Pessoas;
 using System;
 
 namespace ControleFluxoEmpresarial.Models.Movimentos
@@ -11,12 +13,23 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
         public string Numero { get; set; }
         public int Parcela { get; set; }
         public int ClienteId { get; set; }
+        public Cliente Cliente { get; set; }
 
         public decimal Valor { get; set; }
         public decimal? Desconto { get; set; }
         public decimal? Multa { get; set; }
         public decimal? Juro { get; set; }
 
+        public ContaReceberId GetId()
+        {
+            return new ContaReceberId()
+            {
+                Modelo = this.Modelo,
+                Serie = this.Serie,
+                Numero = this.Numero,
+                Parcela = this.Parcela,
+            };
+        }
 
         public string Descricao { get; set; }
 

@@ -2,10 +2,10 @@ import { Modal } from 'antd';
 import { FormikHelpers, FormikProps, useFormik } from 'formik';
 import React from 'react'
 import { useHistory } from 'react-router-dom';
-import { ContaPagarApi } from '../../../../../apis/Movimentos/ContaPagarApi';
+import { ContaReceberApi } from '../../../../../apis/Movimentos/ContaReceberApi';
 import InnerForm from '../../../../../components/InnerForm/InnerForm';
 import { Input } from '../../../../../components/WithFormItem/withFormItem';
-import ContaPagar from '../../../../../models/Movimentos/ContaPagar';
+import ContaReceber from '../../../../../models/Movimentos/ContaReceber';
 import { errorBack } from '../../../../../utils/MessageApi';
 import { useRef } from 'react';
 import * as Yup from 'yup';
@@ -14,7 +14,7 @@ import { useFormLocalStorage } from '../../../../../services/CacheFormService';
 
 export interface Props {
     errors: any;
-    conta: ContaPagar;
+    conta: ContaReceber;
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
     showModal: boolean
 }
@@ -25,11 +25,11 @@ const ConfirmPassword: React.FC<Props> = (props) => {
     const formikRef = useRef<FormikProps<any>>(null);
     const { removeCurrentFormStorage } = useFormLocalStorage();
 
-    async function onSubmit(values: ContaPagar, formikHelpers: FormikHelpers<ContaPagar>) {
+    async function onSubmit(values: ContaReceber, formikHelpers: FormikHelpers<ContaReceber>) {
         try {
-            await ContaPagarApi.Pagar(values);
+            await ContaReceberApi.Receber(values);
             removeCurrentFormStorage();
-            history.push("/contas-pagar");
+            history.push("/contas-receber");
         }
         catch (e) {
             errorBack(formikHelpers, e);
@@ -54,7 +54,7 @@ const ConfirmPassword: React.FC<Props> = (props) => {
                     {props.errors["parcela"]}
 
                     <Separator />
-                    <Input name="senha" label="Senha" type="password" />
+                    <Input name="senha" label="Senha" type="password"/>
                 </InnerForm >
             </Modal>
         </>

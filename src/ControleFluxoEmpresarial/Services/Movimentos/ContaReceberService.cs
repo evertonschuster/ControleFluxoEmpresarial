@@ -1,37 +1,41 @@
-﻿using ControleFluxoEmpresarial.Architectures.Exceptions;
-using ControleFluxoEmpresarial.DAOs.Compras;
+﻿
+
+using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
+using ControleFluxoEmpresarial.DAOs.Vendas;
 using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.DTO.Users;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 
 namespace ControleFluxoEmpresarial.Services.Movimentos
 {
-    public class ContaPagarService : IService
+    public class ContaReceberService : IService
     {
-        public ContaPagarService(ContaPagarDAO dAO, UserDAO userDAO, UserRequest userRequest, CompraDAO compraDAO)
+        public UserDAO UserDAO { get; set; }
+        public VendaDAO VendaDAO { get; set; }
+        public UserRequest UserRequest { get; set; }
+        public ContaReceberDAO ContaReceberDAO { get; set; }
+
+        public ContaReceberService(UserDAO userDAO, UserRequest userRequest, ContaReceberDAO contaReceberDAO, VendaDAO vendaDAO)
         {
-            ContaPagarDAO = dAO ?? throw new ArgumentNullException(nameof(dAO));
             UserDAO = userDAO ?? throw new ArgumentNullException(nameof(userDAO));
-            CompraDAO = compraDAO ?? throw new ArgumentNullException(nameof(compraDAO));
+            VendaDAO = vendaDAO ?? throw new ArgumentNullException(nameof(vendaDAO));
             UserRequest = userRequest ?? throw new ArgumentNullException(nameof(userRequest));
+            ContaReceberDAO = contaReceberDAO ?? throw new ArgumentNullException(nameof(contaReceberDAO));
         }
 
-        public UserDAO UserDAO { get; set; }
-        public CompraDAO CompraDAO { get; set; }
-        public UserRequest UserRequest { get; set; }
-        public ContaPagarDAO ContaPagarDAO { get; set; }
 
-        public ContaPagarId Insert(ContaPagar entity, bool commit = true)
+        public ContaReceberId Insert(ContaReceber entity, bool commit = true)
         {
-            var findContaPagar = this.ContaPagarDAO.GetByID(entity.GetId());
+            var findContaPagar = this.ContaReceberDAO.GetByID(entity.GetId());
             if (findContaPagar != null)
             {
-                throw new BusinessException(new { Parcela = "Conta a Pagar já cadastrada." });
+                throw new BusinessException(new { Parcela = "Conta a Receber já cadastrada." });
             }
             entity.DataBaixa = null;
             entity.DataPagamento = null;
@@ -41,18 +45,16 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             entity.JustificativaCancelamento = null;
             entity.DataCancelamento = null;
 
-            var id = this.ContaPagarDAO.Insert(entity, commit);
-            return id;
+            return this.ContaReceberDAO.Insert(entity, commit);
         }
 
-        public void Update(ContaPagar entity, bool commit = true)
+        public void Update(ContaReceber entity)
         {
-            var dbEntity = this.ContaPagarDAO.GetByID(entity.GetId());
+            var dbEntity = this.ContaReceberDAO.GetByID(entity.GetId());
             if (dbEntity == null)
             {
-                throw new BusinessException(new { Parcela = "Conta a Pagar não cadastrada." });
+                throw new BusinessException(new { Parcela = "Conta a Receber não cadastrada." });
             }
-
             if (dbEntity.Valor != entity.Valor)
             {
                 throw new BusinessException(new { Valor = "Não pode alterar o valor." });
@@ -63,17 +65,17 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 throw new BusinessException(new { DataEmissao = "Não pode alterar a data de emissão." });
             }
 
-            this.ContaPagarDAO.Update(entity, commit);
+            this.ContaReceberDAO.Update(entity);
+
         }
 
-        internal void Ativar(ContaPagarId id)
+        public void Ativar(ContaReceberId id)
         {
-            var compra = this.CompraDAO.GetByID(new DTO.Compras.CompraId()
+            var compra = this.VendaDAO.GetByID(new VendaId
             {
                 Serie = id.Serie,
                 Modelo = id.Modelo,
                 Numero = id.Numero,
-                FornecedorId = id.FornecedorId
             });
 
             if (compra != null)
@@ -81,23 +83,21 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 throw new BusinessException(new { Numero = "Não é possível Ativar uma conta a pagar lançada por uma compra" });
             }
 
-            var conta = this.ContaPagarDAO.GetByID(id);
+            var conta = this.ContaReceberDAO.GetByID(id);
 
             conta.DataCancelamento = null;
             conta.UserCancelamento = null;
 
-            this.ContaPagarDAO.Update(conta);
+            this.ContaReceberDAO.Update(conta);
         }
 
-        //se Possuir uma compra, não pode cancelar
-        public void Cancelar(CancelarContaPagar model)
+        public void Cancelar(CancelarContaReceber model)
         {
-            var compra = this.CompraDAO.GetByID(new DTO.Compras.CompraId()
+            var compra = this.VendaDAO.GetByID(new VendaId()
             {
                 Serie = model.Serie,
                 Modelo = model.Modelo,
                 Numero = model.Numero,
-                FornecedorId = model.FornecedorId
             });
 
             if (compra != null)
@@ -111,7 +111,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 throw new BusinessException(new { Senha = "Senha inválido" });
             }
 
-            var entity = this.ContaPagarDAO.GetByID(model.GetId());
+            var entity = this.ContaReceberDAO.GetByID(model.GetId());
             if (entity == null)
             {
                 throw new BusinessException(new { Parcela = "Conta a pagar não cadastrada." });
@@ -121,12 +121,12 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             entity.UserCancelamento = this.UserRequest.Id.ToString();
             entity.DataCancelamento = DateTime.Now;
 
-            this.ContaPagarDAO.Update(entity);
+            this.ContaReceberDAO.Update(entity);
         }
 
-        internal void CancelarBaixa(CancelarContaPagar model)
+        public void CancelarBaixa(CancelarContaReceber model)
         {
-            var entity = this.ContaPagarDAO.GetByID(model.GetId());
+            var entity = this.ContaReceberDAO.GetByID(model.GetId());
             if (entity == null)
             {
                 throw new BusinessException(new { Parcela = "Conta a pagar não cadastrada." });
@@ -147,62 +147,47 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             entity.UserCancelamentoBaixa = this.UserRequest.Id.ToString();
             entity.DataCancelamentoBaixa = DateTime.Now;
 
-            this.ContaPagarDAO.Update(entity);
+            this.ContaReceberDAO.Update(entity);
         }
 
-        public void Pagar(PagarContaPagar model)
+        public void Receber(ReceberContaReceber contaReceber)
         {
-            var entity = this.ContaPagarDAO.GetByID(model.GetId());
-            if (entity == null)
+            var dbEntity = this.ContaReceberDAO.GetByID(contaReceber.GetId());
+            if (dbEntity == null)
             {
-                throw new BusinessException(new { Parcela = "Conta a pagar não cadastrada." });
+                throw new BusinessException(new { Parcela = "Conta a Receber não cadastrada." });
             }
 
-            if(entity.DataEmissao > model.DataPagamento)
-            {
-                throw new BusinessException(new { DataPagamento = "Data de Pagamento inválida." });
-            }
+            CheckParcelaConfirmacao(contaReceber, contaReceber.Parcela);
+           
+            dbEntity.Desconto = contaReceber.Desconto;
+            dbEntity.Multa = contaReceber.Multa;
+            dbEntity.Juro = contaReceber.Juro;
+            dbEntity.ValorBaixa = contaReceber.ValorBaixa;
+            dbEntity.FormaPagamentoId = contaReceber.FormaPagamentoId;
+            dbEntity.DataVencimento = contaReceber.DataVencimento;
+            dbEntity.DataPagamento = contaReceber.DataPagamento;
+            dbEntity.Descricao = contaReceber.Descricao;
 
-            CheckParcelaConfirmacao(model, model.Parcela);
+            dbEntity.DataBaixa = DateTime.Now;
+            dbEntity.UserBaixa = this.UserRequest.Id.ToString();
 
-            entity.Desconto = model.Desconto;
-            entity.Multa = model.Multa;
-            entity.Juro = model.Juro;
-            entity.ValorBaixa = model.ValorBaixa;
-            entity.FormaPagamentoId = model.FormaPagamentoId;
-            entity.DataVencimento = model.DataVencimento;
-            entity.DataPagamento = model.DataPagamento;
-            entity.Descricao = model.Descricao;
-
-            entity.DataBaixa = DateTime.Now;
-            entity.UserBaixa = this.UserRequest.Id.ToString();
-            this.ContaPagarDAO.Update(entity);
+            this.ContaReceberDAO.Update(dbEntity);
         }
 
-        public decimal CalcularValor(ContaPagarId id, DateTime? dataBase = null, decimal? desconto = null, decimal? multa = null, decimal? juro = null)
+        public object CalcularValor(ContaReceberId id)
         {
-            var entity = this.ContaPagarDAO.GetByID(id);
-            dataBase ??= entity.DataVencimento;
-            desconto ??= entity.Desconto;
-            multa ??= entity.Multa;
-            juro ??= entity.Juro;
+            throw new NotImplementedException();
+        }
 
-            if (entity.DataPagamento != null)
-            {
-                return entity.ValorBaixa ?? 0;
-            }
-
-            if (dataBase >= DateTime.Now)
-            {
-                return entity.Valor - (desconto ?? 0);
-            }
-
-            return entity.Valor + (multa ?? 0) + (juro ?? 0);
+        public List<ContaReceber> GetByOSID(int id)
+        {
+            return this.ContaReceberDAO.GetByOSID(id);
         }
 
 
 
-        private void CheckParcelaConfirmacao(PagarContaPagar contaPagar, int numeroParcela)
+        private void CheckParcelaConfirmacao(ReceberContaReceber contaPagar, int numeroParcela)
         {
             if (numeroParcela == 1)
             {
@@ -226,7 +211,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             for (int i = 1; i < numeroParcela; i++)
             {
                 id.Parcela = i;
-                var parcela = this.ContaPagarDAO.GetByID(id);
+                var parcela = this.ContaReceberDAO.GetByID(id);
                 if (parcela.DataPagamento == null)
                 {
                     parcelasPendentes.Add(i);

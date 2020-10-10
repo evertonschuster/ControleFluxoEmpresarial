@@ -131,9 +131,14 @@ const SideMenuApp: React.FC = () => {
                         <Menu.Item key="compras">
                             <Link to="/compras">Compras</Link>
                         </Menu.Item>
+                        
                         <Menu.Item key="contas-pagar">
                             <Link to="/contas-pagar">Contas a Pagar</Link>
                         </Menu.Item>
+                        <Menu.Item key="contas-receber">
+                            <Link to="/contas-receber">Contas a Receber</Link>
+                        </Menu.Item>
+
                         <SubMenu key="ordem-servico" title={<Link to="/ordem-servico">Ordem Serviço</Link>} >
                             <Menu.Item key="ordem-servico1">
                                 <Link to="/ordem-servico">Ordem Serviço</Link>

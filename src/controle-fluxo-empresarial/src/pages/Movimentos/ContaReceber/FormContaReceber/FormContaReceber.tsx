@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { ContaPagarApi } from '../../../../apis/Movimentos/ContaPagarApi';
-import { ContaPagarSchema } from './ContaPagarSchema';
+import { ContaReceberApi } from '../../../../apis/Movimentos/ContaReceberApi';
+import { ContaReceberSchema } from './ContaReceberSchema';
 import { errorBack } from '../../../../utils/MessageApi';
 import { FormikHelpers } from 'formik';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 import ActionForm from './componets/ActionForm';
-import ContaPagar from '../../../../models/Movimentos/ContaPagar';
+import ConfirmPassword from './componets/ConfirmPassword';
+import ContaReceber from '../../../../models/Movimentos/ContaReceber';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import GeralForm from './componets/GeralForm';
-import ConfirmPassword from './componets/ConfirmPassword';
 
 
-export enum FromContaPagarType {
-    Pagar,
+export enum FromContaReceberType {
+    Receber,
     Cancelar,
     Ativar,
     Editar,
@@ -22,13 +22,13 @@ export enum FromContaPagarType {
     CancelarBaixa
 }
 
-export interface FormContaPagarMode {
-    formType: FromContaPagarType
+export interface FormContaReceberMode {
+    formType: FromContaReceberType
 }
 
-const FromContaPagar: React.FC = () => {
+const FormContaReceber: React.FC = () => {
 
-    const [contaPagar, setContaPagar] = useState<ContaPagar>({
+    const [ContaReceber, setContaReceber] = useState<ContaReceber>({
         numero: null,
         multa: null,
         dataEmissao: null,
@@ -36,8 +36,8 @@ const FromContaPagar: React.FC = () => {
         desconto: null,
         formaPagamento: null,
         formaPagamentoId: null,
-        fornecedor: null,
-        fornecedorId: null,
+        cliente: null,
+        clienteId: null,
         juro: null,
         modelo: "55",
         parcela: 1,
@@ -52,29 +52,29 @@ const FromContaPagar: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const { modelo, serie, numero, fornecedorId, parcela } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, fornecedorId: string | undefined, parcela: string | undefined }>()
-    const { state } = useLocation<FormContaPagarMode>();
-    const formType = state?.formType ?? FromContaPagarType.Novo;
+    const { modelo, serie, numero, parcela } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, parcela: string | undefined }>()
+    const { state } = useLocation<FormContaReceberMode>();
+    const formType = state?.formType ?? FromContaReceberType.Novo;
     useEffect(() => {
-        getContaPagar(modelo!, serie!, numero!, fornecedorId!, parcela!);
-    }, [modelo, serie, numero, fornecedorId, parcela])
+        getContaReceber(modelo!, serie!, numero!, parcela!);
+    }, [modelo, serie, numero, parcela])
 
 
-    async function onSubmit(conta: ContaPagar, formikHelpers: FormikHelpers<ContaPagar>) {
+    async function onSubmit(conta: ContaReceber, formikHelpers: FormikHelpers<ContaReceber>) {
 
         try {
-            if (formType === FromContaPagarType.Pagar) {
-                await ContaPagarApi.Pagar(conta);
+            if (formType === FromContaReceberType.Receber) {
+                await ContaReceberApi.Receber(conta);
             }
-            else if (formType === FromContaPagarType.Ativar) {
-                await ContaPagarApi.Ativar(conta);
+            else if (formType === FromContaReceberType.Ativar) {
+                await ContaReceberApi.Ativar(conta);
             }
             else if (modelo) {
-                await ContaPagarApi.Update(conta);
+                await ContaReceberApi.Update(conta);
             } else {
-                await ContaPagarApi.Save(conta);
+                await ContaReceberApi.Save(conta);
             }
-            history.push("/contas-pagar")
+            history.push("/contas-receber")
         }
         catch (e) {
             errorBack(formikHelpers, e);
@@ -89,21 +89,21 @@ const FromContaPagar: React.FC = () => {
         }
     }
 
-    async function getContaPagar(modelo: string, serie: string, numero: string, fornecedorId: string, parcela: string) {
+    async function getContaReceber(modelo: string, serie: string, numero: string, parcela: string) {
         try {
             if (!modelo) {
                 return;
             }
 
             setLoading(true);
-            let bdpais = await ContaPagarApi.GetById(modelo, serie, numero, fornecedorId, parcela);
+            let bdpais = await ContaReceberApi.GetById(modelo, serie, numero, parcela);
 
-            if (formType === FromContaPagarType.Pagar) {
+            if (formType === FromContaReceberType.Receber) {
                 bdpais.data.dataBaixa = new Date();
                 bdpais.data.dataPagamento = new Date();
             }
 
-            setContaPagar(bdpais.data);
+            setContaReceber(bdpais.data);
         } catch (e) {
             errorBack(null, e);
         } finally {
@@ -115,10 +115,10 @@ const FromContaPagar: React.FC = () => {
     return (
         <CrudFormLayout
             isLoading={loading}
-            backPath="/contas-pagar"
-            breadcrumbList={[{ displayName: "Conta a Pagar", URL: "/contas-pagar" }, { displayName: modelo ? "Edição de Conta a Pagar" : "Nova Conta a Pagar", URL: undefined }]}
-            initialValues={contaPagar}
-            validationSchema={ContaPagarSchema}
+            backPath="/contas-receber"
+            breadcrumbList={[{ displayName: "Conta a Receber", URL: "/contas-receber" }, { displayName: modelo ? "Edição de Conta a Receber" : "Nova Conta a Receber", URL: undefined }]}
+            initialValues={ContaReceber}
+            validationSchema={ContaReceberSchema}
             renderFooter={() => <ActionForm />}
             onSubmit={onSubmit}
         >
@@ -126,11 +126,11 @@ const FromContaPagar: React.FC = () => {
             <ConfirmPassword
                 showModal={showModal}
                 setShowModal={setShowModal}
-                conta={contaPagar}
+                conta={ContaReceber}
                 errors={errors} />
 
         </CrudFormLayout>
     )
 }
 
-export default FromContaPagar
+export default FormContaReceber
