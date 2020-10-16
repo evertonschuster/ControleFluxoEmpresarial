@@ -25,7 +25,12 @@ export const CompraSchema = Yup.object().shape<Compra>({
     dataEmissao: Yup.date()
         .nullable()
         .typeError("Data inválida.")
-        .required("Informe uma data."),
+        .required("Informe uma data.")
+        .test("data-emissao-compra", "A data não pode ser futura.", function () {
+            let form = this.parent as Compra;
+
+            return form.dataEmissao! <= new Date();
+        }),
 
     dataChegada: Yup.date()
         .nullable()

@@ -10,12 +10,14 @@ export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
     quantidade: Yup.number()
         .nullable()
         .typeError("Informe a Quantidade.")
-        .required("Informe a Quantidade."),
-
-    valorUnitario: Yup.number()
+        .required("Informe a Quantidade.")
+        .min(0.001, "Informe a Quantidade."),
+        
+        valorUnitario: Yup.number()
         .nullable()
         .typeError("Informe o Valor.")
-        .required("Informe o Valor."),
+        .required("Informe o Valor.")
+        .min(0.001, "Informe o Valor."),
 
     desconto: Yup.number()
         .nullable()

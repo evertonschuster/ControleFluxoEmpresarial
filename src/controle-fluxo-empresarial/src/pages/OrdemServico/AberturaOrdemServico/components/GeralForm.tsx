@@ -50,7 +50,7 @@ const GeralForm: React.FC = () => {
                 </Col>
 
                 <Col span={3}>
-                    <Input name="numeroSerie" label="Número de serie" />
+                    <Input name="numeroSerie" label="Número de série" />
                 </Col>
 
                 <Col span={3}>

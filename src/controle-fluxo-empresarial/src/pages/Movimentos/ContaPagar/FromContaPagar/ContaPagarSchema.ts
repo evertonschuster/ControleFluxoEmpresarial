@@ -53,13 +53,17 @@ export const ContaPagarSchema = Yup.object().shape<ContaPagar>({
     dataEmissao: Yup.date()
         .nullable()
         .typeError("Data inválida.")
-        .required("Infome a data de emissão."),
+        .required("Infome a data de emissão.")
+        .test("Data-emissao-contaPagar", "Data de Emissão não pode ser futura.", function () {
+            let form = this.parent as ContaPagar;
+            return form.dataEmissao! <= new Date()
+        }),
 
     dataVencimento: Yup.date()
         .nullable()
         .typeError("Data inválida.")
         .required("Infome a data de vencimento.")
-        .test("data-pagamento-vencimento", "Data de vencimento inferioar da data de Emissão", function () {
+        .test("data-pagamento-vencimento", "Data de vencimento inferioar da data de Emissão.", function () {
             let form = this.parent as ContaPagar;
             return form.dataEmissao! <= form.dataVencimento!
         }),

@@ -43,10 +43,22 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
         {
             var sql = @"SELECT *
                         FROM Vendas
-                        ORDER BY Numero DESC";
+                        ORDER BY Numero::int DESC";
 
             var entity = this.ExecuteGetFirstOrDefault(sql);
             var numero = Int64.Parse(entity?.Numero ?? "0") + 1;
+
+
+            //Precisa ver se não existe uma conta a receber com este numero lançada manualmente
+            var sqlContaReceber = @"SELECT 1 FROM contasreceber
+                                    WHERE	contasreceber.numero = @numero
+                                    LIMIT 1";
+
+            while (this.ExecuteExist(sqlContaReceber, new { numero }))
+            {
+                numero++;
+            }
+
             return numero.ToString();
         }
 

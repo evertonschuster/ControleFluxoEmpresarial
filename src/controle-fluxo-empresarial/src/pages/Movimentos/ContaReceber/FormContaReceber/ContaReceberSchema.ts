@@ -64,6 +64,7 @@ export const ContaReceberSchema = Yup.object().shape<ContaReceber>({
 
             form.dataEmissao!.setHours(0,0,0,0)
             form.dataVencimento!.setHours(0,0,0,0)
+            
             return form.dataEmissao! <= form.dataVencimento!
         }),
 

@@ -1,0 +1,37 @@
+Ordem Serviço
+    Telefone e contato n pertence a OS
+    Serviço antes de produto
+
+    Equipamento crud
+
+
+    Quando finalizado exibir listagem das vendas
+    Quando finalizado, exibir as vendas lançadas
+
+    Garantia, habilita seleção da OS
+    Listagem add numero telefone, Numero OS
+
+
+Conta a Receber
+    Cancelar baixa n pode
+
+
+vendas
+    Cliente,
+    Data venda
+
+
+Conta Receber 
+    Numero (Nota), parcela antes do Cliente
+    Ordenar pelo Numero, e Vencidas
+    DataEmissao
+    Ultimas lançadas
+    Modelo (Mod)
+    Remover (Dt.)
+    (Vencimento) Venc
+    (Pagamento) pag
+    Numericos a direita 
+
+    Dt. Pagamento X Vlr. Parcela
+
+    Não é possível cancelar uma conta a pagar lançada por uma compra (Venda)

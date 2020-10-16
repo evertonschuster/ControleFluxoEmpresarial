@@ -82,7 +82,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
             width="90%"
             zIndex={50}
             cancelText="Voltar"
-            okText="Salvar e Finalizar"
+            okText="Finalizar"
             visible={props.visible}>
             <Row>
                 <Col span={3}>

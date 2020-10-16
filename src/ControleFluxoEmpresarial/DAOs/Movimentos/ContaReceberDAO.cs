@@ -49,7 +49,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
             if (filter.Situacao.Contains(SituacaoContaReceberType.VENCIDA))
             {
-                sqlWhereSituacao += " OR (to_char(ContasReceber.datavencimento, 'DD/MM/YYYY') <=  to_char(now(), 'DD/MM/YYYY') " +
+                sqlWhereSituacao += " OR (to_date(to_char(ContasReceber.datavencimento, 'DD/MM/YYYY'), 'DD/MM/YYYY') <=  to_date(to_char(now(), 'DD/MM/YYYY'), 'DD/MM/YYYY') " +
                                             " AND ContasReceber.DataCancelamento is null" +
                                             " AND  ContasReceber.datapagamento is null )";
             }
