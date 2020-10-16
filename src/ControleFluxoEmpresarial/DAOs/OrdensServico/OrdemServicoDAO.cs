@@ -42,7 +42,7 @@ namespace ControleFluxoEmpresarial.DAOs.OrdensServico
                             OrdensServico.DescricaoObservacaoTecnico, OrdensServico.NumeroSerie, OrdensServico.DataAbertura, OrdensServico.DataExecucao, OrdensServico.dataCancelamento,
                             OrdensServico.DataDevolucaoCliente, OrdensServico.DataCriacao, OrdensServico.UserCriacao, OrdensServico.DataAtualizacao, OrdensServico.UserAtualizacao,
 
-                            clientes.id as ""cliente.id"", clientes.nome as ""cliente.nome"", clientes.apelido as ""cliente.apelido"", 
+                            clientes.id as ""cliente.id"", clientes.nome as ""cliente.nome"", clientes.apelido as ""cliente.apelido"",  clientes.telefone as ""cliente.telefone"",
                             clientes.bairro as ""cliente.bairro"", clientes.cep as ""cliente.cep"", clientes.cidadeid as ""cliente.cidadeid"", 
                             clientes.complemento as ""cliente.complemento"", clientes.condicaopagamentoid as ""cliente.condicaopagamentoid""
 

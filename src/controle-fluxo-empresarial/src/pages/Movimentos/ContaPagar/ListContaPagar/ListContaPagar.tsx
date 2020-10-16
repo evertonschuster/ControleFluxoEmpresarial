@@ -17,19 +17,28 @@ const ListContaPagar: React.FC = () => {
 
     const columns: ColumnProps<ContaPagar>[] = [
         {
-            title: 'Modelo',
+            title: 'Mod.',
             dataIndex: 'modelo',
-            width: 70,
+            width: 55,
+            align: "right"
         },
         {
             title: 'Série',
             dataIndex: 'serie',
             width: 50,
+            align: "right"
         },
         {
             title: 'Número',
             dataIndex: 'numero',
             width: 70,
+            align: "right"
+        },
+        {
+            title: 'Par.',
+            dataIndex: 'parcela',
+            width: 50,
+            align: "right"
         },
         {
             title: 'Fornecedor',
@@ -37,30 +46,32 @@ const ListContaPagar: React.FC = () => {
             render: (item: Fornecedor) => item.nome
         },
         {
-            title: 'Parcela',
-            dataIndex: 'parcela',
-            width: 70,
-        },
-        {
             title: "Forma Pg.to.",
             render: (text: any, record: ContaPagar, index: number) => record.formaPagamento?.nome
         },
         {
-            title: 'Dt. Vencimento',
-            dataIndex: 'dataVencimento',
-            width: 120,
+            title: 'Emi.',
+            dataIndex: 'dataEmissao',
+            width: 90,
             align: "right",
             render: (data) => formatData(data)
         },
         {
-            title: 'Dt. Pagamento',
+            title: 'Ven.',
+            dataIndex: 'dataVencimento',
+            width: 90,
+            align: "right",
+            render: (data) => formatData(data)
+        },
+        {
+            title: 'Pag.',
             dataIndex: 'dataPagamento',
-            width: 120,
+            width: 90,
             align: "right",
             render: (data) => data ? formatData(data) : "-"
         },
         {
-            title: "Vlr. Parcela",
+            title: "Vlr.",
             width: 90,
             align: "right",
             render: (text: any, record: ContaPagar, index: number) => formatNumber2(record.valor!)

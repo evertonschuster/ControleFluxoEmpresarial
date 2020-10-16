@@ -50,7 +50,7 @@ const FormAndamentoOrdemServico: React.FC = () => {
         try {
             await OrdemServicoApi.Finalizar(os);
             message.success("Ordem de Serviço Finalizada!")
-            history.push("/ordem-servico")
+            history.push("/vendas")
         }
         catch (e) {
             errorBack(formikHelpers, e);

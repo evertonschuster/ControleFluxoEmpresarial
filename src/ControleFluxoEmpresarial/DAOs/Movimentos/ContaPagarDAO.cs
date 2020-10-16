@@ -31,6 +31,8 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                             INNER JOIN Fornecedores ON Fornecedores.id =  ContasPagar.FornecedorId
                             INNER JOIN formapagamentos ON formapagamentos.id =  ContasPagar.FormaPagamentoId
                         WHERE 1 = 1";
+
+            var orderby = " ORDER BY  ContasPagar.dataVencimento, ContasPagar.Numero::int, ContasPagar.Modelo, ContasPagar.Serie, ContasPagar.Parcela, ContasPagar.FornecedorId";
             var sqlWhereSituacao = "";
             var sqlWhere = "";
 
@@ -51,7 +53,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
 
             if (filter.Situacao.Contains(SituacaoContaPagarType.VENCIDA))
             {
-                sqlWhereSituacao += " OR (to_date(to_char(ContasPagar.datavencimento, 'DD/MM/YYYY'), 'DD/MM/YYYY') <=  to_date(to_char(now(), 'DD/MM/YYYY'), 'DD/MM/YYYY') " +
+                sqlWhereSituacao += " OR (to_char(ContasPagar.datavencimento, 'YYYY/MM/DD') <=  to_char(now(), 'YYYY/MM/DD') " +
                                             " AND ContasPagar.DataCancelamento is null" +
                                             " AND  ContasPagar.datapagamento is null )";
             }
@@ -78,7 +80,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
             {
                 sqlWhere = $" AND (1<>1 {sqlWhereSituacao}) " + sqlWhere;
             }
-            return this.ExecuteGetPaginated(sql + sqlWhere, "SELECT  COUNT(*) AS TotalItem FROM ContasPagar WHERE 1=1 " + sqlWhere, new { filter.Filter, byInt, byData }, filter);
+            return this.ExecuteGetPaginated(sql + sqlWhere + orderby, "SELECT  COUNT(*) AS TotalItem FROM ContasPagar WHERE 1=1 " + sqlWhere, new { filter.Filter, byInt, byData }, filter);
         }
 
         public List<ContaPagar> ListByCompraId(CompraId compraId)

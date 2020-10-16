@@ -43,10 +43,10 @@ const GeralForm: React.FC = () => {
                         path="cliente" />
                 </Col>
                 <Col span={4}>
-                    <InputTelefone name="telefone" label="Telefone" required placeholder="(45) 988293328" />
+                    <InputTelefone name="telefone" label="Telefone" required placeholder="" disabled/>
                 </Col>
                 <Col span={5}>
-                    <Input name="contato" label="Contato" />
+                    <Input name="contato" label="Contato" disabled/>
                 </Col>
 
                 <Col span={3}>

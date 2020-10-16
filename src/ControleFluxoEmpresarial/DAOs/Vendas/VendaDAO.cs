@@ -51,10 +51,9 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
 
             //Precisa ver se não existe uma conta a receber com este numero lançada manualmente
             var sqlContaReceber = @"SELECT 1 FROM contasreceber
-                                    WHERE	contasreceber.numero = @numero
-                                    LIMIT 1";
+                                    WHERE	contasreceber.numero = @numero";
 
-            while (this.ExecuteExist(sqlContaReceber, new { numero }))
+            while (this.ExecuteExist(sqlContaReceber, new { numero = numero.ToString() }))
             {
                 numero++;
             }

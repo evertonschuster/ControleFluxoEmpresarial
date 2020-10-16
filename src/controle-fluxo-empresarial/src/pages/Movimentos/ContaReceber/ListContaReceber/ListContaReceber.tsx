@@ -17,19 +17,28 @@ const ListContaReceber: React.FC = () => {
 
     const columns: ColumnProps<ContaReceber>[] = [
         {
-            title: 'Modelo',
+            title: 'Mod.',
             dataIndex: 'modelo',
-            width: 70,
+            width: 55,
+            align: "right"
         },
         {
             title: 'Série',
             dataIndex: 'serie',
             width: 50,
+            align: "right"
         },
         {
-            title: 'Número',
+            title: 'Nota',
             dataIndex: 'numero',
+            width: 60,
+            align: "right"
+        },
+        {
+            title: 'Parcela',
+            dataIndex: 'parcela',
             width: 70,
+            align: "right"
         },
         {
             title: 'Cliente',
@@ -37,31 +46,33 @@ const ListContaReceber: React.FC = () => {
             render: (item: Cliente) => item.nome
         },
         {
-            title: 'Parcela',
-            dataIndex: 'parcela',
-            width: 70,
-        },
-        {
             title: "Forma Pg.to.",
             render: (text: any, record: ContaReceber, index: number) => record.formaPagamento?.nome
         },
         {
-            title: 'Dt. Vencimento',
-            dataIndex: 'dataVencimento',
-            width: 120,
+            title: 'Emi.',
+            dataIndex: 'dataEmissao',
+            width: 90,
             align: "right",
             render: (data) => formatData(data)
         },
         {
-            title: 'Dt. Pagamento',
+            title: 'Ven.',
+            dataIndex: 'dataVencimento',
+            width: 90,
+            align: "right",
+            render: (data) => formatData(data)
+        },
+        {
+            title: 'Pag.',
             dataIndex: 'dataPagamento',
-            width: 120,
+            width: 90,
             align: "right",
             render: (data) => data ? formatData(data) : "-"
         },
         {
-            title: "Vlr. Parcela",
-            width: 90,
+            title: "Par.",
+            width: 70,
             align: "right",
             render: (text: any, record: ContaReceber, index: number) => formatNumber2(record.valor!)
         },

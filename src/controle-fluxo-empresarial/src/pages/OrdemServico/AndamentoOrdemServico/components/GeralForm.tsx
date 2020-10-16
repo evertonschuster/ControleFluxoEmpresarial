@@ -62,7 +62,7 @@ const GeralForm: React.FC = () => {
             <Panel header="Descrição da Ordem de Serviço" key="detalhesOS">
                 <DetalhesOS />
             </Panel>
-            <Panel header="Produtos e Serviço" key="produtosServicos" disabled={!dataExecucao}>
+            <Panel header="Serviço e Produtos" key="produtosServicos" disabled={!dataExecucao}>
                 <SelecaoProdutosServicos />
 
                 <Separator />

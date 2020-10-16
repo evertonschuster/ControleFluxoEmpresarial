@@ -11,6 +11,7 @@ import { ParcelaPagamento } from '../../../../../models/CondicaoPagamento/Parcel
 import { Input } from '../../../../../components/WithFormItem/withFormItem';
 import Separator from '../../../../../components/Separator/Separator';
 import { OrdemServicoProduto, OrdemServicoServico } from '../../../../../models/OrdemServicos/OrdemServicoItem';
+import InputDecimal from '../../../../../components/InputDecimal/InputDecimal';
 
 export interface Props {
     visible?: boolean;
@@ -86,7 +87,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
             visible={props.visible}>
             <Row>
                 <Col span={3}>
-                    <Input name="totalOS" label="Total OS" disabled />
+                    <InputDecimal placeholder="" name="totalOS" label="Total OS" disabled />
                 </Col>
                 <Col span={6}>
                     <SelectModelOne
@@ -111,17 +112,6 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                 </Col>
             </Row>
 
-            <Row>
-                <Col>
-                    <Separator />
-                    <Divider orientation="left" >Contas a Receber de Produtos</Divider>
-                    <ShowCondicaoPagamentoParcelas
-                        hiddenDesconto
-                        hiddenTotal
-                        loading={loading}
-                        dataSource={parcelasProduto ?? []} />
-                </Col>
-            </Row>
 
             <Row>
                 <Col>
@@ -132,6 +122,18 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                         hiddenTotal
                         loading={loading}
                         dataSource={parcelasServico ?? []} />
+                </Col>
+            </Row>
+
+            <Row hidden={produtos.length == 0}>
+                <Col>
+                    <Separator />
+                    <Divider orientation="left" >Contas a Receber de Produtos</Divider>
+                    <ShowCondicaoPagamentoParcelas
+                        hiddenDesconto
+                        hiddenTotal
+                        loading={loading}
+                        dataSource={parcelasProduto ?? []} />
                 </Col>
             </Row>
         </Modal>

@@ -127,24 +127,6 @@ const SelecaoProdutosServicos: React.FC = () => {
 
     return (
         <>
-            <InserirProduto />
-            <Row>
-                <Col>
-                    <WithItemNone showLabel={false}>
-                        <EditableTable
-                            showNewAction={false}
-                            rowKey={(item) => item.produtoId}
-                            columns={columnsProduto}
-                            validationSchema={OrdemServicoItemProdutoSchema}
-                            name="produtos"
-                            initiallValues={{}}
-                        />
-                    </WithItemNone>
-                </Col>
-            </Row>
-
-            <Separator />
-
             <InserirServico />
             <Row>
                 <Col>
@@ -155,6 +137,24 @@ const SelecaoProdutosServicos: React.FC = () => {
                             columns={columnsServico}
                             validationSchema={OrdemServicoItemServicoSchema}
                             name="servicos"
+                            initiallValues={{}}
+                        />
+                    </WithItemNone>
+                </Col>
+            </Row>
+
+
+            <Separator />
+            <InserirProduto />
+            <Row>
+                <Col>
+                    <WithItemNone showLabel={false}>
+                        <EditableTable
+                            showNewAction={false}
+                            rowKey={(item) => item.produtoId}
+                            columns={columnsProduto}
+                            validationSchema={OrdemServicoItemProdutoSchema}
+                            name="produtos"
                             initiallValues={{}}
                         />
                     </WithItemNone>

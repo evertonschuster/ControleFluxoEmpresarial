@@ -100,7 +100,7 @@ const RecordAction: React.FC<Props> = (props) => {
                 </Link>
 
 
-                <Link to={{
+                {/* <Link to={{
                     pathname: `contas-receber/view/${idUrl}`,
                     state: {
                         formType: FromContaReceberType.CancelarBaixa
@@ -110,7 +110,7 @@ const RecordAction: React.FC<Props> = (props) => {
                     <Tooltip placement="top" title="Visualiza Registro Selecionado." >
                         <Tag color="blue" key={props.index + "23"} className="custom-cursor-pointer" >Cancelar Baixa</Tag>
                     </Tooltip>
-                </Link>
+                </Link> */}
             </>);
     }
 

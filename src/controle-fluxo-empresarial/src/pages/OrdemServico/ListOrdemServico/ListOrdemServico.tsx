@@ -19,15 +19,19 @@ const ListOrdemServico: React.FC = () => {
 
     const columns = useMemo(() => [
         {
-            width: 70,
-            title: 'Código',
+            width: 95,
+            title: 'Número OS',
             dataIndex: 'id',
             key: 'id',
+            align:"right"
         },
         {
             title: 'Cliente',
-            dataIndex: 'cliente',
-            render: (record: Cliente) => record.nome
+            dataIndex: 'cliente.nome',
+        },
+        {
+            title: 'Telefone',
+            dataIndex: 'cliente.telefone',
         },
         {
             title: 'Equipamento',
