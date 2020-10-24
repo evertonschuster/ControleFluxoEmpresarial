@@ -114,7 +114,7 @@ const CompraPrincipal: React.FC = () => {
                     <InputDecimal name="outrasDespesas" label="Outras despesas" placeholder="21,50" disabled={disableForm} />
                 </Col>
                 <Col span={2}>
-                    <Switch name="conhecimentoFrete" label="Conhecimento de frete" disabled={disableForm} checkedChildren="Sim" unCheckedChildren="Não" />
+                    <Switch name="conhecimentoFrete" label="Conhecimento de frete" disabled={disableForm} checkedChildren="Sim" unCheckedChildren="Não" fast={false}/>
                 </Col>
 
                 <Col span={3} push={10}>

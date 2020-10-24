@@ -22,6 +22,14 @@ export const CompraSchema = Yup.object().shape<Compra>({
             return this.parent.fornecedor
         }),
 
+    condicaoPagamentoId: Yup.number()
+        .nullable()
+        .typeError("Informe a condição de pagamento.")
+        .required("Informe a condição de pagamento.")
+        .test("conta-pagar-conficao-pagamento", "Informe a condição de pagamento.", function () {
+            return this.parent.condicaoPagamento
+        }),
+
     dataEmissao: Yup.date()
         .nullable()
         .typeError("Data inválida.")

@@ -79,7 +79,7 @@ namespace ControleFluxoEmpresarial.Services.Compras
                 parcela.Numero = compra.Numero;
                 parcela.FornecedorId = compra.FornecedorId;
                 parcela.DataEmissao = compra.DataEmissao;
-                parcela.Descricao = "Lançada apartir de Compra";
+                parcela.Descricao = "Lançada a partir de Compra";
 
                 this.ContaPagarDAO.Insert(parcela, false);
             }

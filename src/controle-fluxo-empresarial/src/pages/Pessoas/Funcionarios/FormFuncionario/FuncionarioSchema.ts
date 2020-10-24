@@ -24,7 +24,7 @@ export const FuncionarioSchema = Yup.object().shape<Funcionario>({
     cep: Yup.string()
         .nullable()
         .max(9, "O CEP não deve possuir mais de 9 caracteres.")
-        .min(8, "O CEP deve possuir mais de 8 caracteres.")
+        .min(9, "O CEP deve possuir mais de 9 caracteres.")
         .required('Informe o CEP.'),
 
     complemento: Yup.string()

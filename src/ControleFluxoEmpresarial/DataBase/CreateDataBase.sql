@@ -174,7 +174,7 @@ CREATE TABLE CondicaoPagamentoParcelas (
 
     CONSTRAINT PK_Condicao_Pagamento_Parcelas PRIMARY KEY (Id),
     CONSTRAINT FK_Parcelas_FormaPagamentos_FormaPagamentoId FOREIGN KEY (FormaPagamentoId) REFERENCES FormaPagamentos (Id),
-    CONSTRAINT FK_Parcelas_FormaPagamentos_CondicaoPagamentosId FOREIGN KEY (CondicaoPagamentosId) REFERENCES FormaPagamentos (Id),
+    CONSTRAINT FK_Parcelas_FormaPagamentos_CondicaoPagamentosId FOREIGN KEY (CondicaoPagamentosId) REFERENCES CondicaoPagamentos (Id),
     CONSTRAINT FK_CondicaoPagamentoParcelas_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_CondicaoPagamentoParcelas_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
 );

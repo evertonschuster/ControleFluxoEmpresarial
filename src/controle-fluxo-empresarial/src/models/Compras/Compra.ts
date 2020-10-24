@@ -9,6 +9,7 @@ export interface Compra extends IBaseEntity2 {
     dataEmissao?: Date | null;
     dataChegada?: Date | null;
     conhecimentoFrete?: boolean | null;
+    condicaoPagamentoId?: number | null;
 
     frete?: number | null;
     seguro?: number | null;

@@ -163,6 +163,11 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 throw new BusinessException(new { DataPagamento = "Data de Pagamento inválida." });
             }
 
+            if(model.ValorBaixa < model.Desconto)
+            {
+                throw new BusinessException(new { Desconto = "Desconto não pode ser maior que o valor da Conta." });
+            }
+
             CheckParcelaConfirmacao(model, model.Parcela);
 
             entity.Desconto = model.Desconto;

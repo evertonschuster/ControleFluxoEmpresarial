@@ -74,7 +74,7 @@ namespace ControleFluxoEmpresarial.DAOs.Cidades
                 sql += $" AND ({this.TableName}.Nome ilike @Filter {sqlId}) ";
             }
 
-            if (filter is PaginationQuery<SituacaoType> filterSituacao)
+            if (filter is PaginationQuery<SituacaoType?> filterSituacao)
             {
                 if (filterSituacao.Situacao == SituacaoType.Habilitado)
                 {

@@ -7,6 +7,7 @@ import { UseListPagined } from '../../../../hoc/UseListPagined';
 import FormBasicLayout from '../../../../layouts/FormBasicLayout/FormBasicLayout';
 import ListForm from '../../../../components/ListForm/ListForm';
 import ShowSituation from '../../../../components/Situation/ShowSituation/ShowSituation';
+import { formatNumber2 } from './../../../../utils/FormatNumber';
 const { Text } = Typography;
 
 const ListProduto: React.FC = () => {
@@ -33,19 +34,26 @@ const ListProduto: React.FC = () => {
             dataIndex: 'marca.nome',
         },
         {
+            title: 'Estoque',
+            dataIndex: 'quantidade',
+            align: "right",
+            render: (quantidade: number, record: Produto) => {
+                if (record.quantidadeMinima! > quantidade) {
+                    return <Text type="warning">{formatNumber2(quantidade)}</Text>
+                }
+                return formatNumber2(quantidade)
+            }
+        },
+        {
             title: 'Valor de Venda',
             dataIndex: 'valorVenda',
             align: "right",
             render: (valorVenda: number, record: Produto) => {
-                let format = Intl.NumberFormat(undefined, {
-                    minimumFractionDigits: 2
-                });
-
                 if (record.valorVenda && record.valorCompra && record.valorVenda < record.valorCompra) {
-                    return <Text type="warning">{format.format(record.valorVenda)}</Text>
+                    return <Text type="warning">{formatNumber2(record.valorVenda)}</Text>
                 }
 
-                return format.format(record.valorVenda ?? 0)
+                return formatNumber2(record.valorVenda ?? 0)
             }
         },
         {

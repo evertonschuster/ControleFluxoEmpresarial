@@ -80,7 +80,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
 
             if (compra != null)
             {
-                throw new BusinessException(new { Numero = "Não é possível Ativar uma conta a pagar lançada por uma compra" });
+                throw new BusinessException(new { Numero = "Não é possível Ativar uma Conta a Receber lançada por uma Venda" });
             }
 
             var conta = this.ContaReceberDAO.GetByID(id);
@@ -102,7 +102,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
 
             if (compra != null)
             {
-                throw new BusinessException(new { Numero = "Não é possível cancelar uma conta a pagar lançada por uma compra" });
+                throw new BusinessException(new { Numero = "Não é possível cancelar uma Conta a Receber lançada por uma Venda" });
             }
 
             var result = this.UserDAO.PasswordSignIn(this.UserRequest.UserNome, model.Senha);
@@ -156,6 +156,10 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             if (dbEntity == null)
             {
                 throw new BusinessException(new { Parcela = "Conta a Receber não cadastrada." });
+            }
+            if (contaReceber.ValorBaixa < contaReceber.Desconto)
+            {
+                throw new BusinessException(new { Desconto = "Desconto não pode ser maior que o valor da Conta." });
             }
 
             CheckParcelaConfirmacao(contaReceber, contaReceber.Parcela);

@@ -92,6 +92,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
                         disabled={(!!parcelas && parcelas.length > 0) || disableForm}
                         fetchMethod={CondicaoPagamentoApi.GetById.bind(CondicaoPagamentoApi)}
                         name="condicaoPagamentoId"
+                        objectName="condicaoPagamento"
                         keyDescription="nome"
                         required={true}
                         label={{ title: "Seleção de Condição Pagamento", label: "Condição Pagamento" }}

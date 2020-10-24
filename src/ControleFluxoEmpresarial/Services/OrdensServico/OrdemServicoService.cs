@@ -115,7 +115,7 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
 
             if (produtoVenda.Count > 0)
             {
-                this.VendaService.VendaProduto(os.Id, "55", "1", os.ClienteId, os.CondicaoPagamentoId.Value, produtoVenda, os.ParcelasProduto, "Lançada apartir de OS", false);
+                this.VendaService.VendaProduto(os.Id, "55", "1", os.ClienteId, os.CondicaoPagamentoId.Value, produtoVenda, os.ParcelasProduto, "Lançada a partir de OS", false);
             }
 
             var servicoVenda = os.Servicos.Select(e => new VendaServico()
@@ -127,7 +127,7 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
             }).ToList();
             if (servicoVenda.Count > 0)
             {
-                this.VendaService.VendaServico(os.Id, "65", "1", os.ClienteId, os.CondicaoPagamentoId.Value, servicoVenda, os.ParcelasServico, "Lançada apartir de OS", false);
+                this.VendaService.VendaServico(os.Id, "65", "1", os.ClienteId, os.CondicaoPagamentoId.Value, servicoVenda, os.ParcelasServico, "Lançada a partir de OS", false);
             }
 
             os.DataDevolucaoCliente = DateTime.Now;

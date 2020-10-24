@@ -10,8 +10,8 @@ export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
     quantidade: Yup.number()
         .nullable()
         .typeError("Informe a Quantidade.")
-        .required("Informe a Quantidade.")
-        .min(0.001, "Informe a Quantidade."),
+        .min(0.001, "Informe a Quantidade.")
+        .required("Informe a Quantidade."),
         
         valorUnitario: Yup.number()
         .nullable()

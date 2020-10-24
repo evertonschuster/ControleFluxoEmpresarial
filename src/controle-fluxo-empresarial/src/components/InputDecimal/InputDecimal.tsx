@@ -21,7 +21,7 @@ export interface Props {
 
 const InputDecimal: React.FC<Props> = (props) => {
 
-    const [{ value }, { error, touched }, { setValue }] = useField(props.name);
+    const [{ value }, { error, touched }, { setValue, setTouched, }] = useField(props.name);
 
     const validateStatus = useMemo(() => {
         if (props.help) {
@@ -72,6 +72,7 @@ const InputDecimal: React.FC<Props> = (props) => {
                 <NumberFormat
                     disabled={props.disabled}
                     onValueChange={onValueChange}
+                    onBlur={() => setTouched(true)}
                     customInput={Input}
                     value={value}
                     style={{ textAlign: "end" }}

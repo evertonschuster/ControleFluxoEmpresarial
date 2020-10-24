@@ -10,7 +10,7 @@ export const TextArea = withFormItem(formikAntd.Input.TextArea, { fast: true });
 
 export const Select = withFormItem(formikAntd.Select, { fast: true })
 
-export const DatePicker = memo(withFormItem(formikAntd.DatePicker, { fast: true, format:"DD/MM/yyyy" }));
-export const RangePicker = withFormItem(formikAntd.DatePicker.RangePicker, { fast: true, format:"DD/MM/yyyy" })
+export const DatePicker = withFormItem(formikAntd.DatePicker, { fast: true, format: "DD/MM/yyyy" });
+export const RangePicker = withFormItem(formikAntd.DatePicker.RangePicker, { fast: true, format: "DD/MM/yyyy" })
 
 export const Switch = withFormItem(formikAntd.Switch, { fast: true });

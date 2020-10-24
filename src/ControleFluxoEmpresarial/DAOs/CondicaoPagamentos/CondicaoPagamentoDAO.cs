@@ -41,7 +41,11 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
         public override void Delete(int id, bool commit = true)
         {
-            var sql = $@"DELETE FROM CondicaoPagamentos 
+            var sql = $@"
+                        DELETE FROM condicaopagamentoparcelas
+                        WHERE condicaopagamentosid = @id;
+
+                        DELETE FROM CondicaoPagamentos 
                         WHERE Id = @id";
 
             base.ExecuteScript(sql, new { id });
@@ -80,7 +84,7 @@ namespace ControleFluxoEmpresarial.DAOs.CondicaoPagamentos
 
                 var id = base.ExecuteScriptInsert(sql, entity, false);
 
-                this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
+                //this.CondicaoPagamentoParcelaDAO.Transaction = this.Transaction;
                 foreach (var parcela in entity.Parcela)
                 {
                     this.CondicaoPagamentoParcelaDAO.Insert(parcela, id, false);
