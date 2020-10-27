@@ -2,7 +2,9 @@
 using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.Vendas;
+using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.DTO.Users;
+using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Models.Vendas;
 using ControleFluxoEmpresarial.Services.Movimentos;
@@ -20,7 +22,7 @@ namespace ControleFluxoEmpresarial.Services.Vendas
         public VendaProdutoDAO VendaProdutoDAO { get; set; }
         public VendaServicoDAO VendaServicoDAO { get; set; }
         public ContaReceberService ContaReceberService { get; set; }
-        public VendaService(VendaDAO vendaDAO, ProdutoDAO produtoDAO, UserRequest userRequest, 
+        public VendaService(VendaDAO vendaDAO, ProdutoDAO produtoDAO, UserRequest userRequest,
                 VendaProdutoDAO vendaProdutoDAO, VendaServicoDAO vendaServicoDAO,
                 ContaReceberService contaReceberService)
         {
@@ -32,33 +34,45 @@ namespace ControleFluxoEmpresarial.Services.Vendas
             ContaReceberService = contaReceberService ?? throw new ArgumentNullException(nameof(contaReceberService));
         }
 
-
-
-        public void VendaProduto(int OSId, string modelo, string serie, int clienteId, int condicaoPagamentoId, List<VendaProduto> produtos, List<ContaReceber> contasReceber, string descricao, bool commit)
+        public Venda GetByID(VendaId vendaId)
         {
-            var totalParcela = contasReceber?.Sum(e => e.Valor);
-            var totalOS = produtos?.Sum(e => e.Quantidade * e.Valor);
+            var venda = this.VendaDAO.GetByID(vendaId);
+            if (venda != null)
+            {
+                venda.Produtos = this.VendaProdutoDAO.GetInVenda(vendaId);
+                //venda.Parcelas = this.ContaReceberService
+            }
+
+            return venda;
+        }
+
+        public PaginationResult<Venda> GetPagined(PaginationQuery<SituacaoType?> filter)
+        {
+            var result = this.VendaDAO.GetPagined(filter);
+            foreach (var venda in result.Result)
+            {
+                venda.Produtos = VendaProdutoDAO.GetInVenda(venda.GetId());
+            }
+
+            return result;
+        }
+
+        public void VendaProduto(Venda venda, bool commit = true)
+        {
+            var totalParcela = venda.Parcelas?.Sum(e => e.Valor);
+            var totalOS = venda.Produtos?.Sum(e => e.Quantidade * e.Valor);
 
             if (totalParcela != totalOS)
             {
                 throw new BusinessException(new { Parcelas = "Soma das parcelas não confere com a soma dos Produtos." });
             }
 
-            var venda = new Venda()
-            {
-                Serie = serie,
-                Modelo = modelo,
-                Numero = this.GetNumeroOS(OSId),
-                ClienteId = clienteId,
-                DataEmissao = DateTime.Now,
-                Descricao = descricao,
-                CondicaoPagamentoId = condicaoPagamentoId,
-                OrdemServicoId = OSId,
-            };
-            this.VendaDAO.Insert(venda, false);
+            venda.Numero = this.GetNumeroOS(venda.OrdemServicoId);
+            venda.DataEmissao = DateTime.Now;
 
-            SalvarProdutoVenda(produtos, venda);
-            SalvarContasReceberVenda(contasReceber, venda);
+            this.VendaDAO.Insert(venda, false);
+            SalvarProdutoVenda(venda.Produtos, venda);
+            SalvarContasReceberVenda(venda.Parcelas, venda);
 
 
             if (commit)
@@ -75,32 +89,22 @@ namespace ControleFluxoEmpresarial.Services.Vendas
                     parcelas?.Where(e => e.Modelo == modeloServico).ToList());
         }
 
-        public void VendaServico(int OSId, string modelo, string serie, int clienteId, int condicaoPagamentoId, List<VendaServico> servicos, List<ContaReceber> contasReceber, string descricao, bool commit)
+        public void VendaServico(Venda venda, bool commit = true)
         {
-            var totalParcela = contasReceber?.Sum(e => e.Valor);
-            var totalOS = servicos?.Sum(e => e.Quantidade * e.Valor);
+            var totalParcela = venda.Parcelas?.Sum(e => e.Valor);
+            var totalOS = venda.Servicos?.Sum(e => e.Quantidade * e.Valor);
 
             if (totalParcela != totalOS)
             {
                 throw new BusinessException(new { Parcelas = "Soma das parcelas não confere com a soma dos Serviços." });
             }
 
-            var venda = new Venda()
-            {
-                Serie = serie,
-                Modelo = modelo,
-                Numero = this.GetNumeroOS(OSId),
-                ClienteId = clienteId,
-                DataEmissao = DateTime.Now,
-                Descricao = descricao,
-                CondicaoPagamentoId = condicaoPagamentoId,
-                OrdemServicoId = OSId,
-            };
+            venda.Numero = this.GetNumeroOS(venda.OrdemServicoId);
+            venda.DataEmissao = DateTime.Now;
+
             this.VendaDAO.Insert(venda, false);
-
-
-            SalvarServicoVenda(servicos, venda);
-            SalvarContasReceberVenda(contasReceber, venda);
+            SalvarServicoVenda(venda.Servicos, venda);
+            SalvarContasReceberVenda(venda.Parcelas, venda);
 
 
             if (commit)
@@ -158,9 +162,14 @@ namespace ControleFluxoEmpresarial.Services.Vendas
             }
         }
 
-        private string GetNumeroOS(int oSId)
+        private string GetNumeroOS(int? oSId)
         {
-            var numero = this.VendaDAO.GetNumeroByOS(oSId);
+            if (oSId == null)
+            {
+                return this.VendaDAO.GetNewNumero();
+            }
+
+            var numero = this.VendaDAO.GetNumeroByOS(oSId.Value);
             if (!string.IsNullOrEmpty(numero))
             {
                 return numero;

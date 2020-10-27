@@ -1,6 +1,5 @@
 import { IBaseEntity2 } from './../BaseEntity';
 import { Produto } from './../Movimentos/Produto';
-import { UnidadeMedida } from './../Movimentos/UnidadeMedida';
 
 export interface CompraProduto extends IBaseEntity2{
 

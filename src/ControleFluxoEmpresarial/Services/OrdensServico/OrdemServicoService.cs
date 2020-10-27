@@ -115,7 +115,19 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
 
             if (produtoVenda.Count > 0)
             {
-                this.VendaService.VendaProduto(os.Id, "55", "1", os.ClienteId, os.CondicaoPagamentoId.Value, produtoVenda, os.ParcelasProduto, "Lançada a partir de OS", false);
+                var venda = new Venda()
+                {
+                    Serie = "1",
+                    Modelo = "55",
+                    ClienteId = os.ClienteId,
+                    Descricao = "Lançada a partir de OS",
+                    CondicaoPagamentoId = os.CondicaoPagamentoId.Value,
+                    OrdemServicoId = os.Id,
+                    Produtos = produtoVenda,
+                    Parcelas = os.ParcelasProduto,
+                };
+
+                this.VendaService.VendaProduto(venda, false);
             }
 
             var servicoVenda = os.Servicos.Select(e => new VendaServico()
@@ -125,9 +137,22 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
                 Quantidade = e.Quantidade,
                 FuncionarioId = e.FuncionarioId,
             }).ToList();
+
             if (servicoVenda.Count > 0)
             {
-                this.VendaService.VendaServico(os.Id, "65", "1", os.ClienteId, os.CondicaoPagamentoId.Value, servicoVenda, os.ParcelasServico, "Lançada a partir de OS", false);
+                var venda = new Venda()
+                {
+                    Serie = "1",
+                    Modelo = "65",
+                    ClienteId = os.ClienteId,
+                    Descricao = "Lançada a partir de OS",
+                    CondicaoPagamentoId = os.CondicaoPagamentoId.Value,
+                    OrdemServicoId = os.Id,
+                    Parcelas = os.ParcelasServico,
+                    Servicos = servicoVenda
+                };
+
+                this.VendaService.VendaServico(venda, false);
             }
 
             os.DataDevolucaoCliente = DateTime.Now;

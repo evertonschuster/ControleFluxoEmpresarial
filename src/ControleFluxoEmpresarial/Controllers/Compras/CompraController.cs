@@ -1,12 +1,10 @@
 ﻿using ControleFluxoEmpresarial.DTO.Compras;
 using ControleFluxoEmpresarial.Models.Compras;
 using ControleFluxoEmpresarial.Services.Compras;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFluxoEmpresarial.Controllers.Compras
 {
-    [AllowAnonymous]
     [Route("api/compras")]
     [ApiController]
     public class CompraController : ControllerBase

@@ -4,6 +4,7 @@ using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Vendas;
 using System;
+using System.Collections.Generic;
 
 namespace ControleFluxoEmpresarial.DAOs.Vendas
 {
@@ -17,7 +18,7 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
 
     public class VendaProdutoDAO : DAO<VendaProduto, VendaProdutoId>
     {
-        public VendaProdutoDAO(DataBaseConnection context) : base(context, "VendaProdutos", new string[] { "Numero", "Serie", "Modelo", "ProdutoId" })
+        public VendaProdutoDAO(DataBaseConnection context) : base(context, "VendaProdutos", new string[] { "VendaNumero", "VendaSerie", "VendaModelo", "ProdutoId" })
         {
         }
 
@@ -29,6 +30,16 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
         public override void VerifyRelationshipDependence(object ids)
         {
             throw new NotImplementedException();
+        }
+
+        public List<VendaProduto> GetInVenda(VendaId vendaId)
+        {
+            var sql = @$"SELECT * 
+                            FROM VendaProdutos 
+                        WHERE 
+                            VendaNumero= @Numero AND VendaSerie= @Serie AND VendaModelo= @Serie ";
+
+            return base.ExecuteGetAll(sql, vendaId);
         }
     }
 }

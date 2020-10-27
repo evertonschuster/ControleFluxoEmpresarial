@@ -615,7 +615,7 @@ CREATE TABLE Vendas (
 
     ClienteId INTEGER NOT NULL,
     CondicaoPagamentoId INTEGER NOT NULL,
-    OrdemServicoId INTEGER NOT NULL,
+    OrdemServicoId INTEGER NULL,
 
     DataCriacao  TIMESTAMP WITH TIME ZONE ,
     DataAtualizacao TIMESTAMP WITH TIME ZONE,

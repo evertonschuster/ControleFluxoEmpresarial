@@ -1,4 +1,5 @@
-﻿using ControleFluxoEmpresarial.DAOs.compose;
+﻿using ControleFluxoEmpresarial.Architectures.Helper;
+using ControleFluxoEmpresarial.DAOs.compose;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Vendas;
@@ -22,7 +23,15 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
 
         public override PaginationResult<Venda> GetPagined(IPaginationQuery filter)
         {
-            throw new NotImplementedException();
+            var sql = @$"SELECT {this.Property.FormatProperty(e => $"Vendas.{e}")} ,
+                            clientes.id AS ""cliente.id"", clientes.nome AS ""cliente.nome"", clientes.apelido AS ""cliente.apelido""
+
+                        FROM Vendas
+                            INNER JOIN public.clientes ON clientes.id = vendas.clienteid";
+
+            var sqlPagination = "SELECT  COUNT(*) AS TotalItem FROM Vendas";
+
+            return base.ExecuteGetPaginated(sql, sqlPagination, filter, filter);
         }
 
         public override void VerifyRelationshipDependence(object ids)

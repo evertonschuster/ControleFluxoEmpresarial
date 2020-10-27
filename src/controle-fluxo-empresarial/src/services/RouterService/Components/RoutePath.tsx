@@ -41,6 +41,8 @@ import ListUser from '../../../pages/Pessoas/Users/ListUser/ListUser';
 import FromResumoOrdemServico from '../../../pages/OrdemServico/ResumoOrdemServico/FromResumoOrdemServico';
 import ListContaReceber from '../../../pages/Movimentos/ContaReceber/ListContaReceber/ListContaReceber';
 import FormContaReceber from '../../../pages/Movimentos/ContaReceber/FormContaReceber/FormContaReceber';
+import ListVenda from '../../../pages/Vendas/ListVenda/ListCompra';
+import FormVenda from '../../../pages/Vendas/FormVenda/FormVenda';
 
 const RoutePath: React.FC = () => {
 
@@ -133,6 +135,9 @@ const RoutePath: React.FC = () => {
             <Route path="/unidade-medida/new" component={FormUnidadeMedida} />
 
 
+            <Route path="/vendas" component={ListVenda}  exact/>
+            <Route path="/vendas/new" component={FormVenda}  />
+            <Route path="/vendas/view/:modelo/:serie/:numero" component={FormVenda}  />
            
 
 
