@@ -1,9 +1,11 @@
 ﻿
 using ControleFluxoEmpresarial.Architectures.Exceptions;
 using ControleFluxoEmpresarial.DAOs.Movimentos;
+using ControleFluxoEmpresarial.DAOs.Pessoas;
 using ControleFluxoEmpresarial.DAOs.Vendas;
 using ControleFluxoEmpresarial.DTO.Filters;
 using ControleFluxoEmpresarial.DTO.Users;
+using ControleFluxoEmpresarial.DTO.Vendas;
 using ControleFluxoEmpresarial.Filters.DTO;
 using ControleFluxoEmpresarial.Models.Movimentos;
 using ControleFluxoEmpresarial.Models.Vendas;
@@ -16,16 +18,19 @@ namespace ControleFluxoEmpresarial.Services.Vendas
 {
     public class VendaService : IService
     {
+        public UserDAO UserDAO { get; set; }
         public VendaDAO VendaDAO { get; set; }
         public ProdutoDAO ProdutoDAO { get; set; }
         public UserRequest UserRequest { get; set; }
         public VendaProdutoDAO VendaProdutoDAO { get; set; }
         public VendaServicoDAO VendaServicoDAO { get; set; }
         public ContaReceberService ContaReceberService { get; set; }
+
         public VendaService(VendaDAO vendaDAO, ProdutoDAO produtoDAO, UserRequest userRequest,
                 VendaProdutoDAO vendaProdutoDAO, VendaServicoDAO vendaServicoDAO,
-                ContaReceberService contaReceberService)
+                ContaReceberService contaReceberService, UserDAO userDAO)
         {
+            UserDAO = userDAO ?? throw new ArgumentNullException(nameof(userDAO));
             VendaDAO = vendaDAO ?? throw new ArgumentNullException(nameof(vendaDAO));
             ProdutoDAO = produtoDAO ?? throw new ArgumentNullException(nameof(produtoDAO));
             UserRequest = userRequest ?? throw new ArgumentNullException(nameof(userRequest));
@@ -40,10 +45,58 @@ namespace ControleFluxoEmpresarial.Services.Vendas
             if (venda != null)
             {
                 venda.Produtos = this.VendaProdutoDAO.GetInVenda(vendaId);
-                //venda.Parcelas = this.ContaReceberService
+                venda.Servicos =this.VendaServicoDAO.GetInVenda(vendaId);
+                venda.Parcelas = this.ContaReceberService.GetInVenda(vendaId);
             }
 
             return venda;
+        }
+
+        //Cancelar 
+        //Se uma parcela ja for dado baixa n pode, precisa cancelar a baixa
+        //Cancelar compra, deve voltar o valor original do produto
+        public void Cancelar(CancelarVenda cancelarVenda)
+        {
+            var result = this.UserDAO.PasswordSignIn(this.UserRequest.UserNome, cancelarVenda.Senha);
+            if (!result.Succeeded)
+            {
+                throw new BusinessException(new { Senha = "Senha inválido" });
+            }
+
+            var id = new VendaId()
+            {
+                Modelo = cancelarVenda.Modelo,
+                Serie = cancelarVenda.Serie,
+                Numero = cancelarVenda.Numero
+            };
+
+            var venda = this.GetByID(id);
+            var dataCancelamento = DateTime.Now;
+
+            foreach (var parcela in venda.Parcelas)
+            {
+                if (parcela.DataBaixa != null)
+                {
+                    throw new BusinessException(new { Numero = "Compra já possuir uma conta a pagar baixada." });
+                }
+
+                parcela.DataCancelamento = dataCancelamento;
+                parcela.UserCancelamento = UserRequest.Id.ToString();
+                parcela.JustificativaCancelamento = cancelarVenda.Justificativa;
+                this.ContaReceberService.Update(parcela, false);
+            }
+
+            foreach (var produto in venda.Produtos)
+            {
+                var produtoDb = this.ProdutoDAO.GetByID(produto.ProdutoId);
+                produtoDb.Quantidade += produto.Quantidade;
+                this.ProdutoDAO.Update(produtoDb, false);
+            }
+
+            venda.DataCancelamento = dataCancelamento;
+            venda.UserCancelamento = UserRequest.Id.ToString();
+            venda.JustificativaCancelamento = cancelarVenda.Justificativa;
+            this.VendaDAO.Update(venda);
         }
 
         public PaginationResult<Venda> GetPagined(PaginationQuery<SituacaoType?> filter)
@@ -81,7 +134,7 @@ namespace ControleFluxoEmpresarial.Services.Vendas
             }
         }
 
-        public (List<ContaReceber> contasProduto, List<ContaReceber> contasServico) getParcelasCompra(int id, string modeloProduto, string modeloServico)
+        public (List<ContaReceber> contasProduto, List<ContaReceber> contasServico) GetParcelasCompra(int id, string modeloProduto, string modeloServico)
         {
             var parcelas = this.ContaReceberService.GetByOSID(id);
 

@@ -138,6 +138,7 @@ const RoutePath: React.FC = () => {
             <Route path="/vendas" component={ListVenda}  exact/>
             <Route path="/vendas/new" component={FormVenda}  />
             <Route path="/vendas/view/:modelo/:serie/:numero" component={FormVenda}  />
+            <Route path="/vendas/cancel/:modelo/:serie/:numero" component={FormVenda}  />
            
 
 

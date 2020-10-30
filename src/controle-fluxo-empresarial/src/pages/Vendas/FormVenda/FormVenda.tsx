@@ -8,6 +8,7 @@ import { Venda } from '../../../models/Vendas/Venda';
 import { VendaApi } from '../../../apis/Vendas/VendaAPI';
 import { VendaSchema } from './VendaSchema';
 import GeralForm from './components/GeralForm';
+import FooterForm from './components/FooterForm';
 
 export enum FormModeVenda {
     VENDA,
@@ -23,14 +24,15 @@ const FormVenda: React.FC = () => {
         clienteId: null,
         condicaoPagamentoId: null,
         descricao: null,
-        modelo: null,
+        modelo: "55",
         numero: null,
         ordemServicoId: null,
-        serie: null,
+        serie: "1",
         userAtualizacao: null,
         userCriacao: null,
         produtos: [],
-    })
+        forMode: FormModeVenda.VENDA
+    } as Venda)
 
     const [loading, setLoading] = useState(false);
     const { modelo, serie, numero } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined }>()
@@ -49,7 +51,7 @@ const FormVenda: React.FC = () => {
 
             setLoading(true);
             let result = await VendaApi.GetById(modelo, serie!, numero!);
-            setOrdemSerico(result.data);
+            setOrdemSerico({ ...result.data, forMode: history.location.state.formMode } as Venda);
 
         } catch (e) {
             errorBack(null, e);
@@ -74,7 +76,7 @@ const FormVenda: React.FC = () => {
             backPath="/vendas"
             breadcrumbList={[{ displayName: "Venda", URL: "/vendas" }, { displayName: "Venda", URL: undefined }]}
             initialValues={ordemSerico}
-            // renderFooter={() => <FooterForm />}
+            renderFooter={() => <FooterForm />}
             validationSchema={VendaSchema}
             onSubmit={onSubmit}
         >

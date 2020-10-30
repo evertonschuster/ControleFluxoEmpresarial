@@ -55,7 +55,7 @@ const ListVenda: React.FC = () => {
             dataIndex: 'produtos',
             key: 'Totalprodutos',
             align: "right",
-            render: (produtos: VendaProduto[]) => formatNumber2((produtos ?? []).reduce((prev, a) => prev + a.valor!, 0))
+            render: (produtos: VendaProduto[]) => formatNumber2((produtos ?? []).reduce((prev, a) => (prev + a.valor! * a.quantidade!), 0))
         },
         {
             title: 'Qtde. Produtos',

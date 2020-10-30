@@ -48,7 +48,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             return this.ContaReceberDAO.Insert(entity, commit);
         }
 
-        public void Update(ContaReceber entity)
+        public void Update(ContaReceber entity, bool commit = true)
         {
             var dbEntity = this.ContaReceberDAO.GetByID(entity.GetId());
             if (dbEntity == null)
@@ -65,8 +65,13 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 throw new BusinessException(new { DataEmissao = "Não pode alterar a data de emissão." });
             }
 
-            this.ContaReceberDAO.Update(entity);
+            this.ContaReceberDAO.Update(entity, commit);
 
+        }
+
+        public List<ContaReceber> GetInVenda(VendaId vendaId)
+        {
+            return this.ContaReceberDAO.GetInVenda(vendaId);
         }
 
         public void Ativar(ContaReceberId id)
@@ -160,6 +165,14 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             if (contaReceber.ValorBaixa < contaReceber.Desconto)
             {
                 throw new BusinessException(new { Desconto = "Desconto não pode ser maior que o valor da Conta." });
+            }
+            if (dbEntity.DataCancelamento != null)
+            {
+                throw new BusinessException(new { Parcela = "Conta a Receber Cancelada." });
+            }
+            if (dbEntity.DataPagamento != null)
+            {
+                throw new BusinessException(new { Parcela = "Conta a Receber Paga." });
             }
 
             CheckParcelaConfirmacao(contaReceber, contaReceber.Parcela);

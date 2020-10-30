@@ -128,7 +128,11 @@ namespace ControleFluxoEmpresarial.Services.Compras
                 var produtoDb = this.ProdutoDAO.GetByID(produtoCompra.ProdutoId);
 
                 //(ValorAtual * (Estoque + QntdCompra)) - (QntdCompra * ValorCompra)) / EstoqueSemCompra
-                var novoCusto = (produtoDb.ValorCompra * (produtoDb.Quantidade) - (produtoCompra.Quantidade * produtoCompra.ValorUnitario)) / (produtoDb.Quantidade - produtoCompra.Quantidade);
+                var novoCusto = produtoDb.ValorCompra;
+                if (produtoDb.Quantidade - produtoCompra.Quantidade > 0)
+                {
+                    novoCusto = (produtoDb.ValorCompra * (produtoDb.Quantidade) - (produtoCompra.Quantidade * produtoCompra.ValorUnitario)) / (produtoDb.Quantidade - produtoCompra.Quantidade);
+                }
 
                 produtoDb.Quantidade -= produtoCompra.Quantidade;
                 produtoDb.ValorCompra = novoCusto;

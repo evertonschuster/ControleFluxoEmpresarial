@@ -1,5 +1,6 @@
 ﻿using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DAOs.compose;
+using ControleFluxoEmpresarial.DAOs.Vendas;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.DTO.Movimentos;
 using ControleFluxoEmpresarial.Filters.DTO;
@@ -79,6 +80,18 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                 sqlWhere = $" AND (1<>1 {sqlWhereSituacao}) " + sqlWhere;
             }
             return this.ExecuteGetPaginated(sql + sqlWhere + orderby, "SELECT  COUNT(*) AS TotalItem FROM ContasReceber WHERE 1=1 " + sqlWhere, new { filter.Filter, byInt, byData }, filter);
+        }
+
+        public List<ContaReceber> GetInVenda(VendaId vendaId)
+        {
+            var sql = $@"SELECT {PropertiesIds.FormatProperty(e => $"ContasReceber.{e}")}, {Property.FormatProperty(e => $"ContasReceber.{e}")},
+                            formapagamentos.id AS ""formapagamento.id"", formapagamentos.nome AS ""formapagamento.nome""
+                        FROM ContasReceber
+                            INNER JOIN public.formapagamentos ON formapagamentos.id = contasreceber.formapagamentoid
+                        WHERE
+                            Numero= @Numero AND Serie= @Serie AND Modelo= @Modelo";
+
+            return base.ExecuteGetAll(sql, vendaId);
         }
 
         public override void VerifyRelationshipDependence(object ids)

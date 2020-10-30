@@ -611,7 +611,10 @@ CREATE TABLE Vendas (
     Serie VARCHAR(2) NOT NULL,
     Descricao  VARCHAR(255) NULL,
     DataEmissao TIMESTAMP WITH TIME ZONE NOT NULL,
+
     DataCancelamento TIMESTAMP WITH TIME ZONE NULL,
+    UserCancelamento text NULL,
+    JustificativaCancelamento VARCHAR(255) NULL,
 
     ClienteId INTEGER NOT NULL,
     CondicaoPagamentoId INTEGER NOT NULL,

@@ -126,15 +126,15 @@ const SelecaoProdutosServicos: React.FC = () => {
                         <EditableTable
                             disabled
                             showNewAction={false}
-                            rowKey={(item) => item.produtoId}
-                            columns={columnsProduto}
-                            name="produtos"
+                            rowKey={(item) => item.servicoId}
+                            columns={columnsServico}
+                            name="servicos"
                             initiallValues={{}}
                         />
                     </WithItemNone>
                 </Col>
             </Row>
-
+            
             <Separator />
 
             <Row>
@@ -143,9 +143,9 @@ const SelecaoProdutosServicos: React.FC = () => {
                         <EditableTable
                             disabled
                             showNewAction={false}
-                            rowKey={(item) => item.servicoId}
-                            columns={columnsServico}
-                            name="servicos"
+                            rowKey={(item) => item.produtoId}
+                            columns={columnsProduto}
+                            name="produtos"
                             initiallValues={{}}
                         />
                     </WithItemNone>

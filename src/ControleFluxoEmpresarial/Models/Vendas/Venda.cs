@@ -23,6 +23,8 @@ namespace ControleFluxoEmpresarial.Models.Vendas
 
         public DateTime? DataEmissao { get; set; }
         public DateTime? DataCancelamento { get; set; }
+        public string UserCancelamento { get; set; }
+        public string JustificativaCancelamento { get; set; }
 
 
         public Cliente Cliente { get; set; }

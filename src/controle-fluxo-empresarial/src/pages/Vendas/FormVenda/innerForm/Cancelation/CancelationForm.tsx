@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react'
 import { FormikProps, FormikHelpers } from 'formik';
 import { Modal, Icon, Row, Col } from 'antd';
 import { useParams, useHistory } from 'react-router-dom';
-import { CompraApi } from './../../../../apis/Compras/CompraApi';
-import { errorBack } from '../../../../utils/MessageApi';
-import { Input, TextArea } from '../../../../components/WithFormItem/withFormItem';
-import InnerForm from '../../../../components/InnerForm/InnerForm';
-import { CancelarCompra } from '../../../../models/Compras/CancelarCompra';
-import { CancelarCompraSchema } from '../CancelarCompraSchema';
+import { errorBack } from '../../../../../utils/MessageApi';
+import { Input, TextArea } from '../../../../../components/WithFormItem/withFormItem';
+import InnerForm from '../../../../../components/InnerForm/InnerForm';
+import { CancelarVenda } from '../../../../../models/Vendas/CancelarVenda';
+import { VendaApi } from '../../../../../apis/Vendas/VendaAPI';
+import { CancelarVendaSchema } from './CancelarVendaSchema';
 
 export interface Props {
     showModal: boolean;
@@ -17,12 +17,11 @@ export interface Props {
 const CancelationForm: React.FC<Props> = (props) => {
 
     const { modelo, serie, numero, fornecedorId } = useParams<{ modelo: string | undefined, serie: string | undefined, numero: string | undefined, fornecedorId: string | undefined }>()
-    const innerForm = useRef<FormikProps<CancelarCompra>>(null);
+    const innerForm = useRef<FormikProps<CancelarVenda>>(null);
     const history = useHistory();
     const [loading, setLoading] = useState(false)
 
-    const initialValues: CancelarCompra = {
-        fornecedorId: Number.parseInt(fornecedorId!),
+    const initialValues: CancelarVenda = {
         modelo: modelo,
         numero: numero,
         serie: serie,
@@ -31,11 +30,11 @@ const CancelationForm: React.FC<Props> = (props) => {
     }
 
 
-    async function onSubmit(values: CancelarCompra, formikHelpers: FormikHelpers<CancelarCompra>) {
+    async function onSubmit(values: CancelarVenda, formikHelpers: FormikHelpers<CancelarVenda>) {
         try {
             setLoading(true);
-            await CompraApi.Cancelar(values);
-            history.push("/compras")
+            await VendaApi.Cancelar(values);
+            history.push("/vendas")
         }
         catch (e) {
             errorBack(formikHelpers, e);
@@ -48,7 +47,7 @@ const CancelationForm: React.FC<Props> = (props) => {
     const renderTitle = (
         <>
             <Icon type="exclamation-circle" style={{ color: "red", fontSize: 20, paddingRight: 10 }} />
-            <span style={{ fontSize: 20 }}>Cancelamento de Compra</span>
+            <span style={{ fontSize: 20 }}>Cancelamento de Venda</span>
         </>
     )
 
@@ -56,14 +55,14 @@ const CancelationForm: React.FC<Props> = (props) => {
         <InnerForm
             innerRef={innerForm}
             onSubmit={onSubmit}
-            validationSchema={CancelarCompraSchema}
+            validationSchema={CancelarVendaSchema}
             initialValues={initialValues}>
 
             <Modal
                 title={renderTitle}
                 destroyOnClose={true}
                 visible={props.showModal}
-                okText="Cancelar Compra"
+                okText="Cancelar Venda"
                 okType={"danger"}
                 okButtonProps={{ loading: loading }}
                 onOk={innerForm.current?.submitForm}

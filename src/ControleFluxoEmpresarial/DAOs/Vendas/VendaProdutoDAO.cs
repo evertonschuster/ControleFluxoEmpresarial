@@ -1,4 +1,5 @@
 ﻿
+using ControleFluxoEmpresarial.Architectures.Helper;
 using ControleFluxoEmpresarial.DAOs.compose;
 using ControleFluxoEmpresarial.DataBase;
 using ControleFluxoEmpresarial.Filters.DTO;
@@ -34,10 +35,12 @@ namespace ControleFluxoEmpresarial.DAOs.Vendas
 
         public List<VendaProduto> GetInVenda(VendaId vendaId)
         {
-            var sql = @$"SELECT * 
-                            FROM VendaProdutos 
+            var sql = @$"SELECT {PropertiesIds.FormatProperty(e => $"VendaProdutos.{e}")}, {Property.FormatProperty(e => $"VendaProdutos.{e}")},
+                            produtos.id AS ""produto.id"", produtos.nome AS ""produto.nome""
+                        FROM VendaProdutos 
+                            INNER JOIN produtos ON produtos.id = vendaprodutos.produtoid
                         WHERE 
-                            VendaNumero= @Numero AND VendaSerie= @Serie AND VendaModelo= @Serie ";
+                            VendaNumero= @Numero AND VendaSerie= @Serie AND VendaModelo= @Modelo ";
 
             return base.ExecuteGetAll(sql, vendaId);
         }

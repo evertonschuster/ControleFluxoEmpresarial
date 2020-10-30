@@ -11,6 +11,9 @@ import Separator from '../../../../components/Separator/Separator';
 import ShowCondicaoPagamentoParcelas from '../../../../components/ShowCondicaoPagamentoParcelas/ShowCondicaoPagamentoParcelas';
 import { ParcelaPagamento } from '../../../../models/CondicaoPagamento/ParcelaPagamento';
 import { FormModeVenda } from '../FormVenda';
+import { ColumnProps } from 'antd/lib/table';
+import { Link } from 'react-router-dom';
+import { FromContaReceberType } from '../../../Movimentos/ContaReceber/FormContaReceber/FormContaReceber';
 
 export interface Props {
     visible?: boolean;
@@ -22,12 +25,16 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     const [loading, setLoading] = useState(false)
 
     const [{ value: produtos }] = useField<VendaProduto[]>("produtos");
-    const [, , { setValue: setFormMode }] = useField<FormModeVenda>("forMode");
+    const [{ value: formMode }, , { setValue: setFormMode }] = useField<FormModeVenda>("forMode");
     const [{ value: condicaoPagamentoId }, ,] = useField("condicaoPagamentoId");
     const [{ value: parcelasProduto }, { error: errorParcelas }, { setValue: setParcelasProduto }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelas");
 
     async function calcularParcelas() {
         let totalProduto = produtos.reduce((a, e) => a + (e.quantidade! * e.valor!), 0);
+
+        if (totalProduto === 0) {
+            return;
+        }
 
         try {
             setLoading(true);
@@ -57,6 +64,9 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     }
 
     function disabledLimparParcelas() {
+        if (formMode === FormModeVenda.VISUALIZACAO) {
+            return true
+        }
 
         if (parcelasProduto?.length > 0) {
             return false;
@@ -65,6 +75,33 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
         return true
     }
 
+    const actions = {
+        key: "btnAcao",
+        title: "Ações",
+        render: (item: ContaReceber) => {
+            let url = `${item.modelo}/${item.serie}/${item.numero}/${item.parcela}`;
+
+            return (
+                <>
+                    <Link to={{
+                        pathname: "/contas-receber/view/" + url, state: {
+                            formType: FromContaReceberType.VerPaga
+                        }
+                    }}>
+                        <Button size="small" type="default">Ver</Button>
+                    </Link>
+
+                    {!item.dataPagamento && !item.dataCancelamento && <Link to={{
+                        pathname: "/contas-receber/receive/" + url, state: {
+                            formType: FromContaReceberType.Receber
+                        }
+                    }} style={{ paddingLeft: 8 }}>
+                        <Button size="small" type="primary">Receber</Button>
+                    </Link>}
+                </>)
+
+        }
+    } as ColumnProps<ParcelaPagamento>
 
 
     return (
@@ -82,16 +119,18 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                         errorMessage={{ noSelection: "Selecione uma Condição Pagamento!" }}
                         path="condicao-pagamento" />
                 </Col>
-                <Col span={3}>
-                    <WithItemNone showLabel={true} padding={false} >
-                        <Button type="primary" onClick={calcularParcelas} disabled={disabledCalcularParcelas()}  >Calcular Parcelas</Button>
-                    </WithItemNone>
-                </Col>
-                <Col span={3}>
-                    <WithItemNone showLabel={true} padding={false} >
-                        <Button type="danger" disabled={disabledLimparParcelas()} onClick={limparParcelas} >Limpar Parcelas</Button>
-                    </WithItemNone>
-                </Col>
+                {(formMode !== FormModeVenda.VISUALIZACAO && formMode !== FormModeVenda.CANCELAMENTO) && <>
+                    <Col span={3}>
+                        <WithItemNone showLabel={true} padding={false} >
+                            <Button type="primary" onClick={calcularParcelas} disabled={disabledCalcularParcelas()}  >Calcular Parcelas</Button>
+                        </WithItemNone>
+                    </Col>
+                    <Col span={3}>
+                        <WithItemNone showLabel={true} padding={false} >
+                            <Button type="danger" disabled={disabledLimparParcelas()} onClick={limparParcelas} >Limpar Parcelas</Button>
+                        </WithItemNone>
+                    </Col>
+                </>}
             </Row>
 
 
@@ -102,6 +141,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        action={[actions]}
                         error={errorParcelas}
                         loading={loading}
                         dataSource={parcelasProduto ?? []} />

@@ -4,10 +4,10 @@ import { message } from "antd";
 import { history } from "../services/RouterService/routing"
 
 let baseUri = "https://controle-fluxo-empresarial.herokuapp.com/";
-baseUri = "http://192.168.1.102:5000"
+baseUri = "http://localhost:5000"
 
 if (process.env.NODE_ENV === "development") {
-    baseUri = "http://192.168.1.102:5000"
+    baseUri = "http://localhost:5000"
 }
 
 const api = axios.create({

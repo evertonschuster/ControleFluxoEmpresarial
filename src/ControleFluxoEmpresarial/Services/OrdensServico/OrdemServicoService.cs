@@ -51,7 +51,7 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
             entity.Servicos = this.OrdemServicoServicoDAO.GetInOrdemServico(id) ?? new List<OrdemServicoServico>();
             entity.Produtos = this.OrdemServicoProdutoDAO.GetInOrdemServico(id) ?? new List<OrdemServicoProduto>();
 
-            (entity.ParcelasProduto, entity.ParcelasServico) = this.VendaService.getParcelasCompra(id, "55", "65");
+            (entity.ParcelasProduto, entity.ParcelasServico) = this.VendaService.GetParcelasCompra(id, "55", "65");
 
             return entity;
         }

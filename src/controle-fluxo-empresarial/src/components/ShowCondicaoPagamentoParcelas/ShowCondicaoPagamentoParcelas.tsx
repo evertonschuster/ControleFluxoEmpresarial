@@ -1,10 +1,13 @@
 import { FormaPagamento } from './../../models/CondicaoPagamento/FormaPagamento';
 import { formatNumber2, formatData } from './../../utils/FormatNumber';
 import { ParcelaPagamento } from '../../models/CondicaoPagamento/ParcelaPagamento';
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Button } from 'antd';
 import { WithItemNone } from '../../hoc/WithFormItem';
 import React, { useMemo, memo } from 'react'
 import Table, { ColumnProps } from 'antd/lib/table'
+import { Link } from 'react-router-dom';
+import ContaReceber from './../../models/Movimentos/ContaReceber';
+import { FromContaReceberType } from '../../pages/Movimentos/ContaReceber/FormContaReceber/FormContaReceber';
 
 interface Props {
     dataSource?: ParcelaPagamento[];
@@ -12,6 +15,7 @@ interface Props {
     hiddenDesconto?: boolean;
     hiddenTotal?: boolean;
     error?: string;
+    action?: ColumnProps<ParcelaPagamento>[];
 }
 
 const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
@@ -68,6 +72,10 @@ const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
                 title: "Valor Total",
                 render: (valorTotal: number) => formatNumber2(valorTotal)
             })
+        }
+
+        if (prop.action) {
+            columns = columns.concat(prop.action!)
         }
 
         return columns;
