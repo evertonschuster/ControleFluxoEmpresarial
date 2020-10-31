@@ -99,7 +99,7 @@ namespace ControleFluxoEmpresarial.Services.Vendas
             this.VendaDAO.Update(venda);
         }
 
-        public PaginationResult<Venda> GetPagined(PaginationQuery<SituacaoType?> filter)
+        public PaginationResult<Venda> GetPagined(VendaPaginationQuery filter)
         {
             var result = this.VendaDAO.GetPagined(filter);
             foreach (var venda in result.Result)

@@ -75,33 +75,42 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
         return true
     }
 
-    const actions = {
-        key: "btnAcao",
-        title: "Ações",
-        render: (item: ContaReceber) => {
-            let url = `${item.modelo}/${item.serie}/${item.numero}/${item.parcela}`;
-
-            return (
-                <>
-                    <Link to={{
-                        pathname: "/contas-receber/view/" + url, state: {
-                            formType: FromContaReceberType.VerPaga
-                        }
-                    }}>
-                        <Button size="small" type="default">Ver</Button>
-                    </Link>
-
-                    {!item.dataPagamento && !item.dataCancelamento && <Link to={{
-                        pathname: "/contas-receber/receive/" + url, state: {
-                            formType: FromContaReceberType.Receber
-                        }
-                    }} style={{ paddingLeft: 8 }}>
-                        <Button size="small" type="primary">Receber</Button>
-                    </Link>}
-                </>)
-
+    const actions = () => {
+        if (formMode === FormModeVenda.VENDA || formMode === FormModeVenda.PAGAMENTO) {
+            return undefined;
         }
-    } as ColumnProps<ParcelaPagamento>
+
+        return [{
+            key: "btnAcao",
+            title: "Ações",
+            width: 140,
+            render: (item: ContaReceber) => {
+                let url = `${item.modelo}/${item.serie}/${item.numero}/${item.parcela}`;
+
+                return (
+                    <>
+                        <Link to={{
+                            pathname: "/contas-receber/view/" + url, state: {
+                                formType: FromContaReceberType.VerPaga
+                            }
+                        }}>
+                            <Button size="small" type="default">Ver</Button>
+                        </Link>
+
+                        {!item.dataCancelamento && formMode === FormModeVenda.VISUALIZACAO &&
+                            <Link to={{
+                                pathname: "/contas-receber/receive/" + url, state: {
+                                    formType: FromContaReceberType.Receber
+                                }
+                            }}
+                                style={{ paddingLeft: 8 }}>
+                                <Button size="small" type="primary" disabled={!!item.dataPagamento}>Receber</Button>
+                            </Link>}
+                    </>)
+
+            }
+        }] as ColumnProps<ParcelaPagamento>[]
+    }
 
 
     return (
@@ -141,7 +150,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
-                        action={[actions]}
+                        action={actions()}
                         error={errorParcelas}
                         loading={loading}
                         dataSource={parcelasProduto ?? []} />

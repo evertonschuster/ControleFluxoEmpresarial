@@ -1,6 +1,6 @@
 import React from 'react'
 import { ColumnProps } from 'antd/lib/table';
-import { Produto } from './../../../models/Movimentos/Produto';
+import { Produto } from '../../../models/Movimentos/Produto';
 import { UseListPagined } from '../../../hoc/UseListPagined';
 import { Venda } from '../../../models/Vendas/Venda';
 import { VendaApi } from '../../../apis/Vendas/VendaAPI';
@@ -10,6 +10,7 @@ import ShowSituation from './componets/ShowSituation';
 import { formatData, formatNumber2 } from '../../../utils/FormatNumber';
 import { VendaProduto } from '../../../models/Vendas/VendaProduto';
 import VendaActions from './componets/VendaActions';
+import ListFilter from './componets/ListFilter';
 
 
 const ListVenda: React.FC = () => {
@@ -82,7 +83,7 @@ const ListVenda: React.FC = () => {
 
             <ListForm
                 // filterAdvancedHeader={<ListFilterAdvanced tableProps={requestProps} />}
-                // filterSimpleHeader={<ListFilter tableProps={requestProps} />}
+                filterSimpleHeader={<ListFilter tableProps={requestProps} />}
                 hiddenAction
                 tableProps={requestProps}
                 columns={columns} />

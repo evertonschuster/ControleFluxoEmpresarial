@@ -31,7 +31,7 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
                             INNER JOIN formapagamentos ON formapagamentos.id =  ContasReceber.FormaPagamentoId
                         WHERE 1 = 1";
 
-            var orderby = " ORDER BY  ContasReceber.dataVencimento, ContasReceber.Numero::int,  ContasReceber.Modelo, ContasReceber.Serie, ContasReceber.Parcela";
+            var orderby = " ORDER BY  ContasReceber.dataVencimento, ContasReceber.Numero::int DESC, ContasReceber.Serie, ContasReceber.Parcela";
             var sqlWhereSituacao = "";
             var sqlWhere = "";
 

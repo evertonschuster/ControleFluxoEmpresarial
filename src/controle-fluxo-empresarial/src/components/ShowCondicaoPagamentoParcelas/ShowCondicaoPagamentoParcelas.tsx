@@ -80,7 +80,7 @@ const ShowCondicaoPagamentoParcelas: React.FC<Props> = (prop) => {
 
         return columns;
 
-    }, [prop.hiddenDesconto, prop.hiddenTotal]);
+    }, [prop.hiddenDesconto, prop.hiddenTotal, prop.action]);
 
     return (
         <Row>

@@ -104,12 +104,12 @@ namespace ControleFluxoEmpresarial.DAOs.Compras
 
             if (filter.DataCompraInicio != null)
             {
-                sql += $" AND to_char(compras.dataemissao, 'DD/MM/YYYY') >= '{filter.DataCompraInicio?.ToString("dd/MM/yyyy")}' ";
+                sql += $" AND to_char(compras.dataemissao, 'YYYY/MM/DD') >= '{filter.DataCompraInicio?.ToString("yyyy/MM/dd")}' ";
             }
 
             if (filter.DataCompraFim != null)
             {
-                sql += $" AND to_char(compras.dataemissao, 'DD/MM/YYYY') <= '{filter.DataCompraFim?.ToString("dd/MM/yyyy")}' ";
+                sql += $" AND to_char(compras.dataemissao, 'YYYY/MM/DD') <= '{filter.DataCompraFim?.ToString("yyyy/MM/dd")}' ";
             }
 
             if (filter.ProdutosId?.Count > 0)
@@ -125,7 +125,7 @@ namespace ControleFluxoEmpresarial.DAOs.Compras
 
         public override PaginationResult<Compra> GetPagined(IPaginationQuery filter)
         {
-            var filterSql = this.BuildGenericsFilter((CompraPaginationQuery)filter) + this.BuildAdvancedFilter(filter as CompraPaginationQuery);
+            var filterSql = this.BuildGenericsFilter(filter as CompraPaginationQuery) + this.BuildAdvancedFilter(filter as CompraPaginationQuery);
 
             var sql = $@"SELECT compras.numero, compras.modelo, compras.serie, compras.fornecedorid, compras.dataemissao, compras.datachegada, compras.frete, compras.seguro, 
 		                    compras.outrasdespesas, compras.observacoes, compras.datacancelamento, compras.usercancelamento, compras.justificativacancelamento, 

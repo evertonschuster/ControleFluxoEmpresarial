@@ -33,7 +33,7 @@ namespace ControleFluxoEmpresarial.Controllers.Vendas
 
 
         [HttpPost("list")]
-        public IActionResult List(PaginationQuery<SituacaoType?> filter)
+        public IActionResult List(VendaPaginationQuery filter)
         {
             var result = this.VendaService.GetPagined(filter);
             return Ok(result);

@@ -10,6 +10,10 @@ import Separator from '../../../../components/Separator/Separator';
 import ShowCondicaoPagamentoParcelas from '../../../../components/ShowCondicaoPagamentoParcelas/ShowCondicaoPagamentoParcelas';
 import { CompraProduto } from '../../../../models/Compras/CompraProduto';
 import { message } from 'antd';
+import ContaPagar from './../../../../models/Movimentos/ContaPagar';
+import { FromContaPagarType } from '../../../Movimentos/ContaPagar/FromContaPagar/FromContaPagar';
+import { Link } from 'react-router-dom';
+import { ColumnProps } from 'antd/lib/table';
 
 const CondicaoPagamentoSelection: React.FC = () => {
 
@@ -81,6 +85,44 @@ const CondicaoPagamentoSelection: React.FC = () => {
         return false;
     }
 
+
+    const actions = () => {
+        if (formMode === FormCompraMode.COMPRA || formMode === FormCompraMode.PAGAMENTO) {
+            return undefined;
+        }
+
+        return [{
+            key: "btnAcao",
+            title: "Ações",
+            width: 140,
+            render: (item: ContaPagar) => {
+                let url = `${item.modelo}/${item.serie}/${item.numero}/${item.fornecedorId}/${item.parcela}`;
+
+                return (
+                    <>
+                        <Link to={{
+                            pathname: "/contas-pagar/view/" + url, state: {
+                                formType: FromContaPagarType.VerPaga
+                            }
+                        }}>
+                            <Button size="small" type="default">Ver</Button>
+                        </Link>
+
+                        {!item.dataCancelamento && formMode === FormCompraMode.VISUALIZACAO &&
+                            <Link to={{
+                                pathname: "/contas-pagar/pay/" + url, state: {
+                                    formType: FromContaPagarType.Pagar
+                                }
+                            }}
+                                style={{ paddingLeft: 8 }}>
+                                <Button size="small" type="primary" disabled={!!item.dataPagamento}>Pagar</Button>
+                            </Link>}
+                    </>)
+
+            }
+        }] as ColumnProps<ParcelaPagamento>[]
+    }
+
     return (
         <>
             <Separator />
@@ -116,6 +158,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        action={actions()}
                         error={loading ? "" : parcelasError}
                         loading={loading}
                         dataSource={parcelas ?? []} />

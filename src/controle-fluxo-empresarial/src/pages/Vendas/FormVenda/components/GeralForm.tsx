@@ -201,7 +201,7 @@ const GeralForm: React.FC = () => {
             <Separator />
             <Separator />
             {(formMode !== FormModeVenda.VISUALIZACAO && formMode !== FormModeVenda.CANCELAMENTO) && <InserirProduto disableForm={disableForm} />}
-            {produtos?.length > 0 && <Row>
+            {(produtos?.length || formMode === FormModeVenda.VENDA) > 0 && <Row>
                 <Col>
                     <WithItemNone showLabel={false}>
                         <EditableTable
