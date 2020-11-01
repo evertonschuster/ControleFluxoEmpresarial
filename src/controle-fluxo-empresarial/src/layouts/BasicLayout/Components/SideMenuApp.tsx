@@ -81,6 +81,10 @@ const SideMenuApp: React.FC = () => {
 
                         </SubMenu>
 
+                        <Menu.Item key="Equipamanetos">
+                            <Link to="/equipamentos">Equipamentos</Link>
+                        </Menu.Item>
+
                         <Menu.Item key="Fornecedor">
                             <Link to="/fornecedor">Fornecedores</Link>
                         </Menu.Item>
@@ -99,6 +103,10 @@ const SideMenuApp: React.FC = () => {
 
                         <Menu.Item key="Produto">
                             <Link to="/produto">Produtos</Link>
+                        </Menu.Item>
+
+                        <Menu.Item key="Problema Relatado">
+                            <Link to="/problemas-relatado">Problemas Relatado</Link>
                         </Menu.Item>
 
                         <Menu.Item key="Servico">

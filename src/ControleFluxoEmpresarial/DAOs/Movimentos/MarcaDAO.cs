@@ -14,6 +14,9 @@ namespace ControleFluxoEmpresarial.DAOs.Movimentos
         public override void VerifyRelationshipDependence(int id)
         {
             var sql = @"SELECT 1 FROM Produtos
+                            WHERE marcaId = @id 
+                        UNION
+                        SELECT 1 FROM Equipamentos
                             WHERE marcaId = @id ";
 
             if (this.ExecuteExist(sql, new { id }))

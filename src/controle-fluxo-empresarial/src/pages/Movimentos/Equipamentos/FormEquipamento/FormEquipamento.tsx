@@ -9,6 +9,8 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import CrudFormLayout from '../../../../layouts/CrudFormLayout/CrudFormLayout';
 import InputSituation from '../../../../components/Situation/InputSituation/InputSituation';
+import { MarcaApi } from '../../../../apis/Movimentos/MarcaApi';
+import SelectModelOne from '../../../../components/SelectModel/SelectModelOne';
 
 const FormEquipamento: React.FC<RouteComponentProps & RouteComponentProps<any>> = (props) => {
 
@@ -56,8 +58,8 @@ const FormEquipamento: React.FC<RouteComponentProps & RouteComponentProps<any>> 
     return (
         <CrudFormLayout
             isLoading={loading}
-            backPath="/equipamento"
-            breadcrumbList={[{ displayName: "Equipamentos", URL: "/equipamentos" }, { displayName: props.match.params.id ? "Edição da equipamento" :"Nova equipamento", URL: undefined }]}
+            backPath="/equipamentos"
+            breadcrumbList={[{ displayName: "Equipamentos", URL: "/equipamentos" }, { displayName: props.match.params.id ? "Edição da equipamento" : "Nova equipamento", URL: undefined }]}
             initialValues={equipamento}
             validationSchema={EquipamentoSchema}
             onSubmit={onSubmit}
@@ -70,8 +72,18 @@ const FormEquipamento: React.FC<RouteComponentProps & RouteComponentProps<any>> 
                 <Col span={6}>
                     <Input name="nome" label="Equipamento" placeholder="Equipamento" required />
                 </Col>
+                <Col span={7}>
+                    <SelectModelOne
+                        fetchMethod={MarcaApi.GetById.bind(MarcaApi)}
+                        name="marcaId"
+                        keyDescription="nome"
+                        required={true}
+                        label={{ title: "Seleção de Marca", label: "Marca" }}
+                        errorMessage={{ noSelection: "Selecione uma Marca!" }}
+                        path="marca" />
+                </Col>
                 <Col span={2}>
-                    <InputSituation name="situacao"  />
+                    <InputSituation name="situacao" />
                 </Col>
             </Row>
 

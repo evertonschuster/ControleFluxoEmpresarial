@@ -23,6 +23,10 @@ const ListEquipamento: React.FC = () => {
             dataIndex: 'nome',
         },
         {
+            title: 'Marca',
+            dataIndex: 'marca.nome',
+        },
+        {
             title: 'Situação',
             dataIndex: 'situacao',
             render: ShowSituation
