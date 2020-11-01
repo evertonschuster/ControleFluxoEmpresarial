@@ -7,7 +7,7 @@ export const ServicoSchema = Yup.object().shape<Servico>({
 
     nome: Yup.string()
         .max(60, "Serviço não deve possuir mais de 60 caracteres.")
-        .required('Serviço não pode estar vaziu.'),
+        .required('Serviço não pode estar vazio.'),
 
     valor: Yup.number()
         .min(-0.00001, "O valor não pode estar negativo.")

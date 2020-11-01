@@ -4,6 +4,8 @@ import { Input, TextArea } from '../../../../../components/WithFormItem/withForm
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne'
 import { ClienteApi } from '../../../../../apis/Pessoas/ClienteApi'
 import InputTelefone from '../../../../../components/InputTelefone/InputTelefone'
+import { EquipamentoApi } from '../../../../../apis/Movimentos/EquipamentoApi'
+import { ProblemaRelatadoApi } from '../../../../../apis/Movimentos/ProblemaRelatadoApi'
 
 
 const DetalhesOS: React.FC = () => {
@@ -42,21 +44,39 @@ const DetalhesOS: React.FC = () => {
             </Row>
 
             <Row>
-                <Col span={12}>
-                    <TextArea name="descricaoEquipamento" label="Equipamento" required rows={4} disabled />
+                <Col span={9}>
+                    <SelectModelOne
+                        fetchMethod={EquipamentoApi.GetById.bind(EquipamentoApi)}
+                        name="equipamentoId"
+                        keyDescription="nome"
+                        objectName="equipamento"
+                        required={true}
+                        disabled
+                        label={{ title: "Seleção de Equipamento", label: "Equipamento" }}
+                        errorMessage={{ noSelection: "Selecione um Equipamento!" }}
+                        path="equipamentos" />
                 </Col>
 
-                <Col span={12}>
-                    <TextArea name="descricaoProblemaRelatado" label="Problema Relatado" required rows={4} disabled />
+                <Col span={15}>
+                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} disabled/>
                 </Col>
             </Row>
             <Row>
-                <Col span={12}>
-                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} disabled />
+                <Col span={9}>
+                    <SelectModelOne
+                        fetchMethod={ProblemaRelatadoApi.GetById.bind(ProblemaRelatadoApi)}
+                        name="problemaRelatadoId"
+                        disabled
+                        keyDescription="nome"
+                        objectName="problemaRelatado"
+                        required={true}
+                        label={{ title: "Seleção de Problema Relatado", label: "Problema Relatado" }}
+                        errorMessage={{ noSelection: "Selecione um Problema Relatado!" }}
+                        path="problemas-relatado" />
                 </Col>
 
-                <Col span={12}>
-                    <TextArea name="descricaoObservacao" label="Observacões OS" required rows={4} disabled />
+                <Col span={15}>
+                    <TextArea name="descricaoObservacao" label="Observacões" rows={4} disabled/>
                 </Col>
             </Row>
         </>

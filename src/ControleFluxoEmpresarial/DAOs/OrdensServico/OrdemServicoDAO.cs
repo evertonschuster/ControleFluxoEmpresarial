@@ -17,17 +17,23 @@ namespace ControleFluxoEmpresarial.DAOs.OrdensServico
 
         public override OrdemServico GetByID(int id)
         {
-            var sql = @"SELECT OrdensServico.Id, OrdensServico.ClienteId, OrdensServico.Telefone, OrdensServico.Contato, OrdensServico.DescricaoEquipamento, OrdensServico.dataCancelamento,
-                            OrdensServico.DescricaoProblemaRelatado, OrdensServico.DescricaoAcessorio, OrdensServico.DescricaoObservacao, OrdensServico.DescricaoTecnico, 
+            var sql = @"SELECT OrdensServico.Id, OrdensServico.ClienteId, OrdensServico.Telefone, OrdensServico.Contato, OrdensServico.EquipamentoId, OrdensServico.dataCancelamento,
+                            OrdensServico.ProblemaRelatadoId, OrdensServico.DescricaoAcessorio, OrdensServico.DescricaoObservacao, OrdensServico.DescricaoTecnico, 
                             OrdensServico.DescricaoObservacaoTecnico, OrdensServico.NumeroSerie, OrdensServico.DataAbertura, OrdensServico.DataExecucao, OrdensServico.condicaopagamentoid,
                             OrdensServico.DataDevolucaoCliente, OrdensServico.DataCriacao, OrdensServico.UserCriacao, OrdensServico.DataAtualizacao, OrdensServico.UserAtualizacao,
 
                             clientes.id as ""cliente.id"", clientes.nome as ""cliente.nome"", clientes.apelido as ""cliente.apelido"", 
                             clientes.bairro as ""cliente.bairro"", clientes.cep as ""cliente.cep"", clientes.cidadeid as ""cliente.cidadeid"", 
-                            clientes.complemento as ""cliente.complemento"", clientes.condicaopagamentoid as ""cliente.condicaopagamentoid""
+                            clientes.complemento as ""cliente.complemento"", clientes.condicaopagamentoid as ""cliente.condicaopagamentoid"",
+
+                            Equipamentos.id AS ""equipamento.id"", Equipamentos.nome AS ""Equipamento.nome"",
+                            problemasrelatado.id AS ""problemarelatado.id"", problemasrelatado.nome AS ""problemarelatado.nome""
 
                           FROM OrdensServico
                             INNER JOIN clientes ON clientes.id = OrdensServico.clienteid
+                            INNER JOIN Equipamentos ON Equipamentos.id = ordensServico.equipamentoid
+                            INNER JOIN problemasrelatado on problemasrelatado.id = ordensServico.problemarelatadoid
+
                         WHERE OrdensServico.Id = @Id ";
 
             return this.ExecuteGetFirstOrDefault(sql, new { Id = id });
@@ -37,17 +43,23 @@ namespace ControleFluxoEmpresarial.DAOs.OrdensServico
         {
             var filter = genericsFilter as PaginationQuery<List<SituacaoOrdemServicoType>>;
 
-            var sql = @"SELECT OrdensServico.Id, OrdensServico.ClienteId, OrdensServico.Telefone, OrdensServico.Contato, OrdensServico.DescricaoEquipamento, 
-                            OrdensServico.DescricaoProblemaRelatado, OrdensServico.DescricaoAcessorio, OrdensServico.DescricaoObservacao, OrdensServico.DescricaoTecnico, 
+            var sql = @"SELECT OrdensServico.Id, OrdensServico.ClienteId, OrdensServico.Telefone, OrdensServico.Contato, OrdensServico.EquipamentoId, 
+                            OrdensServico.ProblemaRelatadoId, OrdensServico.DescricaoAcessorio, OrdensServico.DescricaoObservacao, OrdensServico.DescricaoTecnico, 
                             OrdensServico.DescricaoObservacaoTecnico, OrdensServico.NumeroSerie, OrdensServico.DataAbertura, OrdensServico.DataExecucao, OrdensServico.dataCancelamento,
                             OrdensServico.DataDevolucaoCliente, OrdensServico.DataCriacao, OrdensServico.UserCriacao, OrdensServico.DataAtualizacao, OrdensServico.UserAtualizacao,
 
                             clientes.id as ""cliente.id"", clientes.nome as ""cliente.nome"", clientes.apelido as ""cliente.apelido"",  clientes.telefone as ""cliente.telefone"",
                             clientes.bairro as ""cliente.bairro"", clientes.cep as ""cliente.cep"", clientes.cidadeid as ""cliente.cidadeid"", 
-                            clientes.complemento as ""cliente.complemento"", clientes.condicaopagamentoid as ""cliente.condicaopagamentoid""
+                            clientes.complemento as ""cliente.complemento"", clientes.condicaopagamentoid as ""cliente.condicaopagamentoid"",
+
+                            Equipamentos.id AS ""equipamento.id"", Equipamentos.nome AS ""Equipamento.nome"",
+                            problemasrelatado.id AS ""problemarelatado.id"", problemasrelatado.nome AS ""problemarelatado.nome""
 
                           FROM OrdensServico
                             INNER JOIN clientes ON clientes.id = OrdensServico.clienteid
+                            INNER JOIN Equipamentos ON Equipamentos.id = ordensServico.equipamentoid
+                            INNER JOIN problemasrelatado on problemasrelatado.id = ordensServico.problemarelatadoid
+
                         WHERE 1 = 1 ";
 
             var whereSituacao = "";
@@ -90,8 +102,8 @@ namespace ControleFluxoEmpresarial.DAOs.OrdensServico
                     whereFilter += " OR replace(replace(clientes.CPFCPNJ, '.',''),'-','') = replace(replace(@Filter, '.',''),'-','') ";
                 }
 
-                whereFilter += "  OR OrdensServico.DescricaoEquipamento ILIKE '%' || replace(@Filter, ' ','%') || '%' " +
-                                " OR OrdensServico.DescricaoEquipamento ILIKE '%' || replace(@Filter, ' ','%') || '%' " +
+                whereFilter += //"  OR OrdensServico.DescricaoEquipamento ILIKE '%' || replace(@Filter, ' ','%') || '%' " +
+                                //" OR OrdensServico.DescricaoEquipamento ILIKE '%' || replace(@Filter, ' ','%') || '%' " +
                                 " OR clientes.nome ILIKE '%' || replace(@Filter, ' ','%') || '%' ";
             }
             if (!string.IsNullOrEmpty(whereFilter))

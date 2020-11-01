@@ -15,8 +15,8 @@ const FormAberturaOrdemServico: React.FC = () => {
         telefone: null,
         contato: null,
         numeroSerie: null,
-        descricaoEquipamento: null,
-        descricaoProblemaRelatado: null,
+        equipamentoId: null,
+        problemaRelatadoId: null,
         descricaoAcessorio: null,
         descricaoObservacao: null,
     })

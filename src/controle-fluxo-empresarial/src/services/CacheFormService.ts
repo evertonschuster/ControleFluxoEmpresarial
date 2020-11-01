@@ -7,7 +7,7 @@ export interface FormData {
 
 export const useFormLocalStorage = () => {
     const history = useHistory();
-    const keyLocalStorage = `form-chache${history.location.pathname.toLowerCase()}`;
+    const keyLocalStorage = (pathname?: string) => `form-chache${(pathname ?? history.location.pathname).toLowerCase()}`;
 
     const saveFormStorage = (formValues: any) => {
         var values: FormData = {
@@ -15,18 +15,22 @@ export const useFormLocalStorage = () => {
             formData: formValues,
         };
 
-        localStorage.setItem(keyLocalStorage, JSON.stringify(values))
+        localStorage.setItem(keyLocalStorage(), JSON.stringify(values))
     }
 
     const removeCurrentFormStorage = () => {
-        localStorage.removeItem(keyLocalStorage);
+        localStorage.removeItem(keyLocalStorage());
+    }
+
+    const removePathnameFormStorage = (pathname: string) => {
+        localStorage.removeItem(keyLocalStorage(pathname));
     }
 
     const getCurrentFormStorage = () => {
-        try{
-            return JSON.parse(localStorage.getItem(keyLocalStorage) ?? "") as FormData;
+        try {
+            return JSON.parse(localStorage.getItem(keyLocalStorage()) ?? "") as FormData;
         }
-        catch(e){
+        catch (e) {
             return null
         }
     }
@@ -34,6 +38,7 @@ export const useFormLocalStorage = () => {
     return {
         saveFormStorage,
         removeCurrentFormStorage,
+        removePathnameFormStorage,
         getCurrentFormStorage
     }
 }

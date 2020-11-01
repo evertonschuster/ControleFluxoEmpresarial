@@ -7,6 +7,8 @@ import { useField } from 'formik';
 import InputTelefone from '../../../../components/InputTelefone/InputTelefone'
 import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
+import { EquipamentoApi } from '../../../../apis/Movimentos/EquipamentoApi'
+import { ProblemaRelatadoApi } from '../../../../apis/Movimentos/ProblemaRelatadoApi'
 
 const GeralForm: React.FC = () => {
 
@@ -43,10 +45,10 @@ const GeralForm: React.FC = () => {
                         path="cliente" />
                 </Col>
                 <Col span={4}>
-                    <InputTelefone name="telefone" label="Telefone" required placeholder="" disabled/>
+                    <InputTelefone name="telefone" label="Telefone" required placeholder="" disabled />
                 </Col>
                 <Col span={5}>
-                    <Input name="contato" label="Contato" disabled/>
+                    <Input name="contato" label="Contato" disabled />
                 </Col>
 
                 <Col span={3}>
@@ -61,20 +63,36 @@ const GeralForm: React.FC = () => {
             <Separator />
 
             <Row>
-                <Col span={12}>
-                    <TextArea name="descricaoEquipamento" label="Equipamento" required rows={4} />
+                <Col span={9}>
+                    <SelectModelOne
+                        fetchMethod={EquipamentoApi.GetById.bind(EquipamentoApi)}
+                        name="equipamentoId"
+                        keyDescription="nome"
+                        objectName="equipamento"
+                        required={true}
+                        label={{ title: "Seleção de Equipamento", label: "Equipamento" }}
+                        errorMessage={{ noSelection: "Selecione um Equipamento!" }}
+                        path="equipamentos" />
                 </Col>
 
-                <Col span={12}>
-                    <TextArea name="descricaoProblemaRelatado" label="Problema Relatado" required rows={4} />
+                <Col span={15}>
+                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} />
                 </Col>
             </Row>
             <Row>
-                <Col span={12}>
-                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} />
+                <Col span={9}>
+                    <SelectModelOne
+                        fetchMethod={ProblemaRelatadoApi.GetById.bind(ProblemaRelatadoApi)}
+                        name="problemaRelatadoId"
+                        keyDescription="nome"
+                        objectName="problemaRelatado"
+                        required={true}
+                        label={{ title: "Seleção de Problema Relatado", label: "Problema Relatado" }}
+                        errorMessage={{ noSelection: "Selecione um Problema Relatado!" }}
+                        path="problemas-relatado" />
                 </Col>
 
-                <Col span={12}>
+                <Col span={15}>
                     <TextArea name="descricaoObservacao" label="Observacões" rows={4} />
                 </Col>
             </Row>

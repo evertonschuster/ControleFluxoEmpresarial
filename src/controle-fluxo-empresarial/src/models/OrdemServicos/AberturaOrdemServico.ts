@@ -3,8 +3,8 @@ export default interface AberturaOrdemServico {
     telefone?: string | null;
     contato?: string | null;
     numeroSerie?: string | null;
-    descricaoEquipamento?: string | null;
-    descricaoProblemaRelatado?: string | null;
+    equipamentoId?: number | null;
+    problemaRelatadoId?: number | null;
     descricaoAcessorio?: string | null;
     descricaoObservacao?: string | null;
 }

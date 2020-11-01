@@ -16,8 +16,13 @@ namespace ControleFluxoEmpresarial.Models.OrdensServico
 
         public string Telefone { get; set; }
         public string Contato { get; set; }
-        public string DescricaoEquipamento { get; set; }
-        public string DescricaoProblemaRelatado { get; set; }
+        
+        public int EquipamentoId { get; set; }
+        public Equipamento Equipamento { get; set; }
+        public int ProblemaRelatadoId { get; set; }
+        public ProblemaRelatado ProblemaRelatado { get; set; }
+
+
         public string DescricaoAcessorio { get; set; }
         public string DescricaoObservacao { get; set; }
         public string DescricaoTecnico { get; set; }

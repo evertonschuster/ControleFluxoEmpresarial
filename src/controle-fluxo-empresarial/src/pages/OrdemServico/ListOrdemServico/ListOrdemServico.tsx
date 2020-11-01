@@ -35,11 +35,11 @@ const ListOrdemServico: React.FC = () => {
         },
         {
             title: 'Equipamento',
-            dataIndex: 'descricaoEquipamento',
+            dataIndex: 'equipamento.nome',
         },
         {
             title: 'Descrição',
-            dataIndex: 'descricaoProblemaRelatado',
+            dataIndex: 'problemaRelatado.nome',
         },
         {
             width: 100,

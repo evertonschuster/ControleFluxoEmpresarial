@@ -7,7 +7,7 @@ export const FuncaoFuncionarioSchema = Yup.object().shape<FuncaoFuncionario>({
     nome: Yup.string()
         .nullable()
         .max(50, "Função do Funcionário não deve possuir mais de 50 caracteres.")
-        .required('Função do Funcionário não pode estar vaziu.'),
+        .required('Função do Funcionário não pode estar vazio.'),
 
     cargaHoraria: Yup.number()
         .nullable()

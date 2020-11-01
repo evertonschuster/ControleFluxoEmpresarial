@@ -18,11 +18,7 @@ export interface Props {
     renderActionFooter?: (formik: FormikProps<any>) => React.ReactNode | null;
 }
 
-export interface FormikFormRef {
-    removeSavedFormLocalStorageForm: () => void;
-}
-
-const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((props, ref) => {
+const FormikForm: React.FC<Props & any> = (props, ref) => {
     const history = useHistory();
     const formik = useFormikContext<any>();
     const [userCriacao, setUserCriacao] = useState<string | undefined | null>(undefined)
@@ -39,9 +35,6 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formik.values]);
 
-    useImperativeHandle(ref, () => ({
-        removeSavedFormLocalStorageForm: removeCurrentFormStorage
-    }));
 
     const saveFormLocalStorage = useDebouncedCallback(() => {
         saveFormStorage(formik.values)
@@ -161,6 +154,6 @@ const FormikForm: React.FC<Props & any> = forwardRef<FormikFormRef, Props>((prop
             }
         </Form>
     )
-})
+}
 
 export default FormikForm

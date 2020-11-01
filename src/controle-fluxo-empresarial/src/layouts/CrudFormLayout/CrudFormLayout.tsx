@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import { BreadcrumbProp } from '../BasicLayout/BasicLayout';
 import { errorBack } from '../../utils/MessageApi';
 import { Formik, FormikConfig, FormikHelpers, FormikProps } from 'formik';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps, useHistory } from 'react-router-dom';
 import FormBasicLayout from '../FormBasicLayout/FormBasicLayout';
-import FormikForm, { FormikFormRef } from './components/FormikForm';
+import FormikForm from './components/FormikForm';
+import { useFormLocalStorage } from '../../services/CacheFormService';
 
 export interface Props extends FormikConfig<any> {
     breadcrumbList?: BreadcrumbProp[];
@@ -17,14 +18,17 @@ export interface Props extends FormikConfig<any> {
 
 const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
 
-    const childRef = useRef<FormikFormRef>();
+    const { removePathnameFormStorage } = useFormLocalStorage();
+    const history = useHistory();
 
     async function onSubmit(values: any, formikHelpers: FormikHelpers<any>) {
+        let pathname = history.location.pathname;
+
         try {
             await props.onSubmit(values, formikHelpers);
-            childRef.current?.removeSavedFormLocalStorageForm();
+            removePathnameFormStorage(pathname);
         } catch (e) {
-            errorBack(formikHelpers, e)
+            errorBack(formikHelpers, e);
             throw e;
         }
     }
@@ -42,7 +46,6 @@ const CrudFormBasicLayout: React.FC<Props & RouteComponentProps> = (props) => {
                 onSubmit={onSubmit}
                 enableReinitialize={true}  >
                 <FormikForm
-                    ref={childRef}
                     renderFooter={props.renderFooter}
                     renderActionFooter={props.renderActionFooter}
                     initialValues={props.initialValues}

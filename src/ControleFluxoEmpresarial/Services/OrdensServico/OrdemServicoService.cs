@@ -167,8 +167,8 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
                 Telefone = model.Telefone,
                 Contato = model.Contato,
                 NumeroSerie = model.NumeroSerie,
-                DescricaoEquipamento = model.DescricaoEquipamento,
-                DescricaoProblemaRelatado = model.DescricaoProblemaRelatado,
+                EquipamentoId = model.EquipamentoId,
+                ProblemaRelatadoId = model.ProblemaRelatadoId,
                 DescricaoAcessorio = model.DescricaoAcessorio,
                 DescricaoObservacao = model.DescricaoObservacao,
                 DataAbertura = DateTime.Now

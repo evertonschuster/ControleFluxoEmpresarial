@@ -9,7 +9,7 @@ export const CidadeSchema = Yup.object().shape<Cidade>({
 
     ddd: Yup.string()
         .max(5, "DDD não deve possuir mais de 5 caracteres.")
-        .required('DDD da Cidade não pode estar vaziu.'),
+        .required('DDD da Cidade não pode estar vazio.'),
 
     estadoId: Yup.number()
         .nullable()

@@ -8,6 +8,8 @@ import FormCidade from '../../../pages/Cidades/Cidade/FormCidade/FormCidade';
 import FormCliente from '../../../pages/Pessoas/Clientes/FormCliente/FormCliente';
 import FormCompra from '../../../pages/Compras/FormCompra/FormCompra';
 import FormCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/FormCondicaoPagamento/FormCondicaoPagamento';
+import FormContaReceber from '../../../pages/Movimentos/ContaReceber/FormContaReceber/FormContaReceber';
+import FormEquipamento from '../../../pages/Movimentos/Equipamentos/FormEquipamento/FormEquipamento';
 import FormEstado from '../../../pages/Cidades/Estado/FormEstado/FormEstado';
 import FormFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/FormFormaPagamento/FormFormaPagamento';
 import FormFornecedor from '../../../pages/Pessoas/Fornecedores/FormFornecedor/FormFornecedor';
@@ -19,30 +21,33 @@ import FormProduto from '../../../pages/Movimentos/Produtos/FormProduto/FormProd
 import FormServico from '../../../pages/Movimentos/Servicos/FormServico/FormServico';
 import FormUnidadeMedida from './../../../pages/Movimentos/UnidadeMedida/FormUnidadeMedida/FormUnidadeMedida';
 import FormUser from '../../../pages/Pessoas/Users/FormUser/FormUser';
+import FormVenda from '../../../pages/Vendas/FormVenda/FormVenda';
 import FromContaPagar from '../../../pages/Movimentos/ContaPagar/FromContaPagar/FromContaPagar';
+import FromResumoOrdemServico from '../../../pages/OrdemServico/ResumoOrdemServico/FromResumoOrdemServico';
 import ListCategoria from './../../../pages/Movimentos/Categorias/ListCategoria/ListCategoria';
 import ListCidade from '../../../pages/Cidades/Cidade/ListCidade/ListCidade';
 import ListCliente from '../../../pages/Pessoas/Clientes/ListCliente/ListCliente';
 import ListCompra from '../../../pages/Compras/ListCompra/ListCompra';
 import ListCondicaoPagamento from '../../../pages/CondicaoPagamento/CondicaoPagamento/ListCondicaoPagamento/ListCondicaoPagamento';
 import ListContaPagar from '../../../pages/Movimentos/ContaPagar/ListContaPagar/ListContaPagar';
+import ListContaReceber from '../../../pages/Movimentos/ContaReceber/ListContaReceber/ListContaReceber';
+import ListEquipamento from '../../../pages/Movimentos/Equipamentos/ListEquipamento/ListEquipamento';
 import ListEstado from '../../../pages/Cidades/Estado/ListEstado/ListEstado';
 import ListFormaPagamento from '../../../pages/CondicaoPagamento/FormPagamento/ListFormaPagamento/ListFormaPagamento';
 import ListFornecedor from '../../../pages/Pessoas/Fornecedores/ListFornecedor/ListFornecedor';
 import ListFuncaoFuncionario from './../../../pages/Pessoas/FuncaoFuncionario/ListFuncaoFuncionario/ListFuncaoFuncionario';
 import ListFuncionario from '../../../pages/Pessoas/Funcionarios/ListFuncionario/ListFuncionario';
-import ListMarca from '../../../pages/Movimentos/Marcas/ListCategoria/ListMarca';
+import ListMarca from '../../../pages/Movimentos/Marcas/ListMarca/ListMarca';
 import ListOrdemServico from '../../../pages/OrdemServico/ListOrdemServico/ListOrdemServico';
 import ListPais from '../../../pages/Cidades/Pais/ListPais/ListPais';
 import ListProduto from '../../../pages/Movimentos/Produtos/ListProduto/ListProduto';
 import ListServico from './../../../pages/Movimentos/Servicos/ListServico/ListServico';
 import ListUnidadeMedida from './../../../pages/Movimentos/UnidadeMedida/ListUnidadeMedida/ListUnidadeMedida';
 import ListUser from '../../../pages/Pessoas/Users/ListUser/ListUser';
-import FromResumoOrdemServico from '../../../pages/OrdemServico/ResumoOrdemServico/FromResumoOrdemServico';
-import ListContaReceber from '../../../pages/Movimentos/ContaReceber/ListContaReceber/ListContaReceber';
-import FormContaReceber from '../../../pages/Movimentos/ContaReceber/FormContaReceber/FormContaReceber';
 import ListVenda from '../../../pages/Vendas/ListVenda/ListVenda';
-import FormVenda from '../../../pages/Vendas/FormVenda/FormVenda';
+import ListProblemaRelatado from '../../../pages/Movimentos/ProblemaRelatado/ListProblemaRelatado/ListProblemaRelatado';
+import FormProblemaRelatado from '../../../pages/Movimentos/ProblemaRelatado/FormProblemaRelatado/FormProblemaRelatado';
+
 
 const RoutePath: React.FC = () => {
 
@@ -88,6 +93,10 @@ const RoutePath: React.FC = () => {
             <Route path="/estado/edit/:id" component={FormEstado} />
             <Route path="/estado/new" component={FormEstado} />
 
+            <Route path="/equipamentos" component={ListEquipamento} exact />
+            <Route path="/equipamentos/edit/:id" component={FormEquipamento} />
+            <Route path="/equipamentos/new" component={FormEquipamento} />
+
             <Route path="/forma-pagamento" component={ListFormaPagamento} exact />
             <Route path="/forma-pagamento/edit/:id" component={FormFormaPagamento} />
             <Route path="/forma-pagamento/new" component={FormFormaPagamento} />
@@ -115,6 +124,10 @@ const RoutePath: React.FC = () => {
             <Route path="/produto" component={ListProduto} exact />
             <Route path="/produto/edit/:id" component={FormProduto} />
             <Route path="/produto/new" component={FormProduto} />
+
+            <Route path="/problemas-relatado" component={ListProblemaRelatado} exact />
+            <Route path="/problemas-relatado/edit/:id" component={FormProblemaRelatado} />
+            <Route path="/problemas-relatado/new" component={FormProblemaRelatado} />
 
             <Route path="/servico" component={ListServico} exact />
             <Route path="/servico/edit/:id" component={FormServico} />

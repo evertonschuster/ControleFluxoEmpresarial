@@ -30,7 +30,7 @@ export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamen
 export const CondicaoPagamentoSchema = Yup.object().shape<CondicaoPagamento>({
     nome: Yup.string()
         .max(50, "Condição não deve possuir mais de 50 caracteres.")
-        .required('Condição não pode estar vaziu.'),
+        .required('Condição não pode estar vazio.'),
     juro: Yup.number()
         .required("Código inválido.")
         .typeError("Código inválido.")

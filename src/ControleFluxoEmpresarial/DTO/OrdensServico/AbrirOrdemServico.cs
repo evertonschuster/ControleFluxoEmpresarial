@@ -1,4 +1,5 @@
 ﻿
+using ControleFluxoEmpresarial.DAOs.Movimentos;
 using ControleFluxoEmpresarial.DAOs.Pessoas;
 using FluentValidation;
 using System;
@@ -15,9 +16,9 @@ namespace ControleFluxoEmpresarial.DTO.OrdensServico
 
         public string NumeroSerie { get; set; }
 
-        public string DescricaoEquipamento { get; set; }
+        public int EquipamentoId { get; set; }
 
-        public string DescricaoProblemaRelatado { get; set; }
+        public int ProblemaRelatadoId { get; set; }
 
         public string DescricaoAcessorio { get; set; }
 
@@ -27,10 +28,14 @@ namespace ControleFluxoEmpresarial.DTO.OrdensServico
     public class AbrirOrdemServicoValidator : AbstractValidator<AbrirOrdemServico>
     {
         public ClienteDAO ClienteDAO { get; set; }
+        public EquipamentoDAO EquipamentoDAO { get; set; }
+        public ProblemaRelatadoDAO ProblemaRelatadoDAO { get; set; }
 
-        public AbrirOrdemServicoValidator(ClienteDAO clienteDAO)
+        public AbrirOrdemServicoValidator(ClienteDAO clienteDAO, EquipamentoDAO equipamentoDAO, ProblemaRelatadoDAO problemaRelatadoDAO)
         {
             ClienteDAO = clienteDAO ?? throw new ArgumentNullException(nameof(clienteDAO));
+            EquipamentoDAO = equipamentoDAO ?? throw new ArgumentNullException(nameof(equipamentoDAO));
+            ProblemaRelatadoDAO = problemaRelatadoDAO ?? throw new ArgumentNullException(nameof(problemaRelatadoDAO));
 
             RuleFor(e => e.ClienteId)
                 .NotEmpty().WithMessage("Informe o cliente.")
@@ -47,13 +52,13 @@ namespace ControleFluxoEmpresarial.DTO.OrdensServico
             RuleFor(e => e.NumeroSerie)
                 .MaximumLength(50).WithMessage("Número Serie não deve ter mais de 50 caracteres.");
 
-            RuleFor(e => e.DescricaoEquipamento)
-                .MinimumLength(5).WithMessage("Descrição do equipamento deve ter pelo menos 5 caracteres.")
-                .MaximumLength(255).WithMessage("Descrição do equipamento não deve ter mais de 255 caracteres.");
+            RuleFor(e => e.EquipamentoId)
+                .NotEmpty().WithMessage("Informe o Equipamento.")
+                .Must(ExistEquipamento).WithMessage("Informe o Equipamento.");
 
-            RuleFor(e => e.DescricaoProblemaRelatado)
-                .MinimumLength(5).WithMessage("Problema Relatado do equipamento deve ter pelo menos 5 caracteres.")
-                .MaximumLength(255).WithMessage("Problema Relatado do equipamento não deve ter mais de 255 caracteres.");
+            RuleFor(e => e.ProblemaRelatadoId)
+                    .NotEmpty().WithMessage("Informe o Problema Relatado.")
+                    .Must(ExistProblemaRelatado).WithMessage("Informe o Problema Relatado.");
 
             RuleFor(e => e.DescricaoAcessorio)
                 .MinimumLength(5).WithMessage("Acessório do equipamento deve ter pelo menos 5 caracteres.")
@@ -67,6 +72,18 @@ namespace ControleFluxoEmpresarial.DTO.OrdensServico
         {
             var findCliente = this.ClienteDAO.GetByID(id);
             return findCliente != null && findCliente.Situacao == null;
+        }
+
+        private bool ExistEquipamento(AbrirOrdemServico contaPagar, int id)
+        {
+            var findEquipamento = this.EquipamentoDAO.GetByID(id);
+            return findEquipamento != null && findEquipamento.Situacao == null;
+        }
+
+        private bool ExistProblemaRelatado(AbrirOrdemServico contaPagar, int id)
+        {
+            var findProblemaRelatado = this.ProblemaRelatadoDAO.GetByID(id);
+            return findProblemaRelatado != null && findProblemaRelatado.Situacao == null;
         }
     }
 }

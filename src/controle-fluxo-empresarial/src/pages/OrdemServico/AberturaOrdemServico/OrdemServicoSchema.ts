@@ -24,17 +24,21 @@ export const OrdemServicoSchema = Yup.object().shape<AberturaOrdemServico>({
         .nullable()
         .max(50, "Número Serie não deve ter mais de 50 caracteres."),
 
-    descricaoEquipamento: Yup.string()
+    equipamentoId: Yup.number()
         .nullable()
         .required("Informe o Equipamento.")
-        .min(8, "Equipamento deve ter mais de 8 caracteres.")
-        .max(225, "Equipamento não deve ter mais de 225 caracteres."),
+        .typeError("Informe o Equipamento.")
+        .test("os-Equipamento", "Informe o Equipamento.", function () {
+            return this.parent.equipamento
+        }),
 
-    descricaoProblemaRelatado: Yup.string()
+    problemaRelatadoId: Yup.number()
         .nullable()
         .required("Informe o Problema Relatado.")
-        .min(8, "Problema Relatado deve ter mais de 8 caracteres.")
-        .max(225, "Problema Relatado não deve ter mais de 225 caracteres."),
+        .typeError("Informe o Problema Relatado.")
+        .test("os-Problema-Relatado", "Informe o Problema Relatado.", function () {
+            return this.parent.problemaRelatado
+        }),
 
     descricaoAcessorio: Yup.string()
         .nullable()
