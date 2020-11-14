@@ -37,6 +37,11 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             {
                 throw new BusinessException(new { Parcela = "Conta a Receber já cadastrada." });
             }
+            if(entity.Valor <= 0)
+            {
+                throw new BusinessException(new { Valor = "Valor da parcela inválida." });
+            }
+
             entity.DataBaixa = null;
             entity.DataPagamento = null;
             entity.UserBaixa = null;

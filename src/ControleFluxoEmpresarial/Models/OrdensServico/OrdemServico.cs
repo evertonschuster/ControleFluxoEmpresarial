@@ -46,6 +46,9 @@ namespace ControleFluxoEmpresarial.Models.OrdensServico
 
         public List<ContaReceber> ParcelasProduto { get; set; } = new List<ContaReceber>();
         public List<ContaReceber> ParcelasServico { get; set; } = new List<ContaReceber>();
+
+        public int? OrdemServicoId { get; set; }
+
     }
 
 

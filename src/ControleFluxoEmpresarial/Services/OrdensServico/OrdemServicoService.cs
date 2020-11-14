@@ -171,7 +171,8 @@ namespace ControleFluxoEmpresarial.Services.OrdensServico
                 ProblemaRelatadoId = model.ProblemaRelatadoId,
                 DescricaoAcessorio = model.DescricaoAcessorio,
                 DescricaoObservacao = model.DescricaoObservacao,
-                DataAbertura = DateTime.Now
+                DataAbertura = DateTime.Now,
+                OrdemServicoId = model.OrdemServicoId
             };
 
             return this.DAO.Insert(entity);

@@ -23,6 +23,8 @@ namespace ControleFluxoEmpresarial.DTO.OrdensServico
         public string DescricaoAcessorio { get; set; }
 
         public string DescricaoObservacao { get; set; }
+
+        public int? OrdemServicoId { get; set; }
     }
 
     public class AbrirOrdemServicoValidator : AbstractValidator<AbrirOrdemServico>

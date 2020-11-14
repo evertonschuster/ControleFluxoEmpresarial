@@ -9,10 +9,12 @@ export default interface OrdemServico {
 
     condicaoPagamentoId?: number | null;
 
-    descricaoEquipamento?: string | null;
-    descricaoProblemaRelatado?: string | null;
+    equipamentoId?: number | null;
+    problemaRelatadoId?: number | null;
     descricaoTecnico?: string | null;
     descricaoObservacaoTecnico?: string | null;
+    descricaoAcessorio?: string | null;
+    descricaoObservacao?: string | null;
 
     dataAbertura?: Date | null;
     dataExecucao?: Date | null;

@@ -1,15 +1,21 @@
-import React from 'react'
-import { Row, Col } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Button, Modal } from 'antd'
 import { Input, TextArea } from '../../../../../components/WithFormItem/withFormItem'
 import SelectModelOne from '../../../../../components/SelectModel/SelectModelOne'
 import { ClienteApi } from '../../../../../apis/Pessoas/ClienteApi'
 import InputTelefone from '../../../../../components/InputTelefone/InputTelefone'
 import { EquipamentoApi } from '../../../../../apis/Movimentos/EquipamentoApi'
 import { ProblemaRelatadoApi } from '../../../../../apis/Movimentos/ProblemaRelatadoApi'
+import { useField } from 'formik';
+import { ItemFormRender } from '../../../../../hoc/WithFormItem'
+import RouterServiceModel from '../../../../../services/RouterService/RouterServiceModel'
+import { FormMode } from '../../../../../layouts/BasicLayout/BasicLayoutContext'
 
 
 const DetalhesOS: React.FC = () => {
-    
+
+    const [{ value: ordemServicoId }] = useField("ordemServicoId");
+    const [showModal, setshowModal] = useState(false)
 
     return (
         <>
@@ -35,11 +41,10 @@ const DetalhesOS: React.FC = () => {
                     <Input name="contato" label="Contato" disabled />
                 </Col>
 
-                <Col span={3}>
-                    <Input name="dataAbertura" label="Data Abertura" disabled />
-                </Col>
-                <Col span={3}>
-                    <Input name="dataAprovacao" label="Data Aprovação" disabled />
+                <Col span={3} hidden={!ordemServicoId}>
+                    <ItemFormRender label={`Garantia da OS ${ordemServicoId}`}>
+                        <Button onClick={() => setshowModal(true)}>Ve OS</Button>
+                    </ItemFormRender>
                 </Col>
             </Row>
 
@@ -58,7 +63,7 @@ const DetalhesOS: React.FC = () => {
                 </Col>
 
                 <Col span={15}>
-                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} disabled/>
+                    <TextArea name="descricaoAcessorio" label="Acessórios" required rows={4} disabled />
                 </Col>
             </Row>
             <Row>
@@ -76,9 +81,24 @@ const DetalhesOS: React.FC = () => {
                 </Col>
 
                 <Col span={15}>
-                    <TextArea name="descricaoObservacao" label="Observacões" rows={4} disabled/>
+                    <TextArea name="descricaoObservacao" label="Observacões" rows={4} disabled />
                 </Col>
             </Row>
+
+            <Modal
+                wrapClassName="modal-wrap"
+                title="Ordem de Serviço"
+                className="moda-container"
+                width="95%"
+                style={{ top: 10, }}
+                cancelButtonProps={{ hidden: true }}
+                visible={showModal}
+                onOk={() => setshowModal(false)}
+                onCancel={() => setshowModal(false)}
+                destroyOnClose={true}>
+                <RouterServiceModel path={`ordem-servico/view/${ordemServicoId}`} setState={() => { }} formMode={FormMode.List} />
+
+            </Modal>
         </>
     )
 }

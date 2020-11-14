@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Cliente } from '../../../../models/Pessoas/Cliente'
 import { ClienteApi } from '../../../../apis/Pessoas/ClienteApi'
-import { Input, TextArea } from '../../../../components/WithFormItem/withFormItem'
+import { Input, Switch, TextArea } from '../../../../components/WithFormItem/withFormItem'
 import { Row, Col } from 'antd'
 import { useField } from 'formik';
 import InputTelefone from '../../../../components/InputTelefone/InputTelefone'
@@ -9,12 +9,21 @@ import SelectModelOne from '../../../../components/SelectModel/SelectModelOne'
 import Separator from '../../../../components/Separator/Separator'
 import { EquipamentoApi } from '../../../../apis/Movimentos/EquipamentoApi'
 import { ProblemaRelatadoApi } from '../../../../apis/Movimentos/ProblemaRelatadoApi'
+import { OrdemServicoApi } from '../../../../apis/OrdemServicos/OrdemServico'
+import OrdemServico from './../../../../models/OrdemServicos/OrdemServico';
 
 const GeralForm: React.FC = () => {
 
-    const [{ value: cliente }] = useField<Cliente>("cliente")
+    const [{ value: cliente }, , { setValue: setCliente }] = useField<Cliente>("cliente")
+    const [, , { setValue: setClienteId }] = useField<number>("clienteId")
+    const [, , { setValue: setEquipamentoId }] = useField<number>("equipamentoId")
+    const [, , { setValue: setProblemaRelatadoId }] = useField<number>("problemaRelatadoId")
+    const [, , { setValue: setDescricaoAcessorio }] = useField<string>("descricaoAcessorio")
+    const [, , { setValue: setDescricaoObservacao }] = useField<string>("descricaoObservacao")
     const [, , { setValue: setContato }] = useField<string>("contato")
     const [, , { setValue: setTelefone }] = useField<string>("telefone")
+    const [{ value: garantia }] = useField<boolean>("garantia")
+    const [{ value: ordemServico }] = useField<OrdemServico>("ordemServico")
 
     useEffect(() => {
         if (cliente) {
@@ -27,8 +36,40 @@ const GeralForm: React.FC = () => {
         }
     }, [cliente])
 
+    useEffect(() => {
+        if (!ordemServico) {
+            return;
+        }
+        setCliente(ordemServico.cliente!);
+        setClienteId(ordemServico.clienteId!);
+        setEquipamentoId(ordemServico.equipamentoId!);
+        setProblemaRelatadoId(ordemServico.problemaRelatadoId!);
+
+        setDescricaoAcessorio(ordemServico.descricaoAcessorio!);
+        setDescricaoObservacao(ordemServico.descricaoObservacao!);
+
+    }, [ordemServico])
+
     return (
         <>
+            <Row>
+                <Col span={2}>
+                    <Switch name="garantia" label="Garantia?" unCheckedChildren="Normal" checkedChildren="Garantia" />
+                </Col>
+
+                {garantia && <Col span={3}>
+                    <SelectModelOne
+                        fetchMethod={(id) => OrdemServicoApi.getById(id.toString())}
+                        name="ordemServicoId"
+                        objectName="ordemServico"
+                        keyDescription="nome"
+                        showDescription={false}
+                        required={true}
+                        label={{ title: "Seleção de Ordem Serviço", label: "OS" }}
+                        errorMessage={{ noSelection: "Selecione uma ordem de serviço!" }}
+                        path="ordem-servico" />
+                </Col>}
+            </Row>
             <Row>
                 <Col span={2}>
                     <Input name="id" label="Número OS" disabled />

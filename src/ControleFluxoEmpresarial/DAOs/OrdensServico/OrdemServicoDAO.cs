@@ -21,6 +21,7 @@ namespace ControleFluxoEmpresarial.DAOs.OrdensServico
                             OrdensServico.ProblemaRelatadoId, OrdensServico.DescricaoAcessorio, OrdensServico.DescricaoObservacao, OrdensServico.DescricaoTecnico, 
                             OrdensServico.DescricaoObservacaoTecnico, OrdensServico.NumeroSerie, OrdensServico.DataAbertura, OrdensServico.DataExecucao, OrdensServico.condicaopagamentoid,
                             OrdensServico.DataDevolucaoCliente, OrdensServico.DataCriacao, OrdensServico.UserCriacao, OrdensServico.DataAtualizacao, OrdensServico.UserAtualizacao,
+                            OrdensServico.OrdemServicoId,
 
                             clientes.id as ""cliente.id"", clientes.nome as ""cliente.nome"", clientes.apelido as ""cliente.apelido"", 
                             clientes.bairro as ""cliente.bairro"", clientes.cep as ""cliente.cep"", clientes.cidadeid as ""cliente.cidadeid"", 

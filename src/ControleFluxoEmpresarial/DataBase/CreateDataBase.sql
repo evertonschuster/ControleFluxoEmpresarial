@@ -556,7 +556,7 @@ CREATE TABLE CompraProdutos (
     CONSTRAINT FK_CompraProduto_compra FOREIGN KEY (Numero, Modelo, Serie, FornecedorId) REFERENCES Compras(Numero, Modelo, Serie, FornecedorId),
 	CONSTRAINT FK_CompraProduto_Produtos_ProdutoId FOREIGN KEY (ProdutoId) REFERENCES Produtos (Id),
     CONSTRAINT PK_CompraProduto PRIMARY KEY (Numero, Modelo, Serie, FornecedorId, ProdutoId)
-)
+);
 
 
 
@@ -593,7 +593,7 @@ CREATE TABLE OrdensServico (
     CONSTRAINT FK_OrdensServico_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_OrdensServico_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_OrdensServico_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id")
-)
+);
 
 
 CREATE TABLE OrdemServicoServicos (
@@ -615,7 +615,7 @@ CREATE TABLE OrdemServicoServicos (
 
     CONSTRAINT FK_OrdensServico_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_OrdensServico_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
-)
+);
 
 
 CREATE TABLE OrdemServicoProdutos (
@@ -635,7 +635,7 @@ CREATE TABLE OrdemServicoProdutos (
 
 	CONSTRAINT FK_OrdemServicoProdutos_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_OrdemServicoProdutos_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
-)
+);
 
 
 
@@ -667,7 +667,7 @@ CREATE TABLE Vendas (
 
 	CONSTRAINT FK_Vendas_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_Vendas_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
-)
+);
 
 CREATE TABLE VendaServicos (
 
@@ -692,7 +692,7 @@ CREATE TABLE VendaServicos (
 
 	CONSTRAINT FK_VendaServicos_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_VendaServicos_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
-)
+);
 
 CREATE TABLE VendaProdutos (
 
@@ -715,7 +715,7 @@ CREATE TABLE VendaProdutos (
 
 	CONSTRAINT FK_VendaProdutos_AspNetUsers_UserCriacao FOREIGN KEY (UserCriacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_VendaProdutos_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id")
-)
+);
 
 
 CREATE TABLE ContasReceber (
@@ -759,4 +759,4 @@ CREATE TABLE ContasReceber (
     CONSTRAINT FK_ContasReceber_AspNetUsers_UserAtualizacao FOREIGN KEY (UserAtualizacao) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT FK_ContasReceber_AspNetUsers_UserCancelamento FOREIGN KEY (UserCancelamento) REFERENCES "AspNetUsers" ("Id"),
     CONSTRAINT PK_ContasReceber PRIMARY KEY (Numero, Modelo, Serie, Parcela)
-)
+);
