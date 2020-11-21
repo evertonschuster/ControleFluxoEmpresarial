@@ -108,6 +108,7 @@ namespace ControleFluxoEmpresarial.Models.Movimentos
                 .Must(e => e >= 0).WithMessage("Valor não pode ser negativo.");
 
             RuleFor(e => e.Desconto)
+                .Must((parcela, desconto) => parcela.Valor >= desconto || desconto is null).WithMessage("Desconto não pode ser maior que o valor.")
                 .Must(e => e >= 0 || e == null).WithMessage("Desconto não pode ser negativo.");
 
             RuleFor(e => e.Multa)

@@ -64,7 +64,7 @@ const FormAction: React.FC = () => {
 
                 <Button type="default" onClick={() => history.push("/compras")} style={{ marginRight: "10px" }}>Voltar</Button>
                 {(formMode === FormCompraMode.PAGAMENTO || formMode === FormCompraMode.COMPRA) && <Button type="primary" onClick={() => formik.submitForm()} >Salvar</Button>}
-                {formMode === FormCompraMode.CANCELAMENTO && <Button type="danger" onClick={() => { setShowModal(true) }} >Cancelar Conta a Pagar</Button>}
+                {formMode === FormCompraMode.CANCELAMENTO && <Button type="danger" onClick={() => { setShowModal(true) }} >Cancelar Compra</Button>}
                 <CancelationForm setShowModal={setShowModal} showModal={showModal} />
             </Col>
         </Row>

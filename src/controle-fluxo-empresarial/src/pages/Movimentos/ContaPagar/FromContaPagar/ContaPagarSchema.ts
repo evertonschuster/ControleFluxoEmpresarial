@@ -66,8 +66,8 @@ export const ContaPagarSchema = Yup.object().shape<ContaPagar>({
         .test("data-pagamento-vencimento", "Data de vencimento inferioar da data de Emissão.", function () {
             let form = this.parent as ContaPagar;
             
-            form.dataEmissao!.setHours(0,0,0,0)
-            form.dataVencimento!.setHours(0,0,0,0)
+            form.dataEmissao?.setHours(0,0,0,0)
+            form.dataVencimento?.setHours(0,0,0,0)
             
             return form.dataEmissao! <= form.dataVencimento!
         }),
