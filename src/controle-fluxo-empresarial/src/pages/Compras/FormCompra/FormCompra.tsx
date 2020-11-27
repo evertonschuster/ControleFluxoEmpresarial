@@ -29,7 +29,7 @@ const FormCompra: React.FC = () => {
         conhecimentoFrete: true,
         
 
-        dataChegada: null,
+        dataChegada: new Date(),
         dataEmissao: null,
 
         produtos: [],

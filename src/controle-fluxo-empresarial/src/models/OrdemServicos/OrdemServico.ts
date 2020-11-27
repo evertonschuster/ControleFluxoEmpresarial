@@ -25,5 +25,5 @@ export default interface OrdemServico {
     servicos?: OrdemServicoServico[] | null;
 
     parcelasProduto?: ContaReceber[];
-    parcelasServico?: ContaReceber[];
+    parcelasServico?: ContaReceber[] | null;
 }

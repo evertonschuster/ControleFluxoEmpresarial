@@ -26,7 +26,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
     const [{ value: servicos }] = useField<OrdemServicoServico[]>("servicos");
     const [{ value: condicaoPagamentoId }, ,] = useField("condicaoPagamentoId");
     const [{ value: parcelasProduto }, , { setValue: setParcelasProduto }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelasProduto");
-    const [{ value: parcelasServico }, , { setValue: setParcelasServico }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelasServico");
+    const [{ value: parcelasServico }, { error: errorParcelasServico, touched: touchedParcelasServico }, { setValue: setParcelasServico }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelasServico");
 
     async function calcularParcelas() {
         let totalProduto = produtos.reduce((a, e) => a + (e.quantidade! * e.valor!), 0);
@@ -120,6 +120,8 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        touched={touchedParcelasServico}
+                        error={errorParcelasServico}
                         loading={loading}
                         dataSource={parcelasServico ?? []} />
                 </Col>
@@ -132,6 +134,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        touched={false}
                         loading={loading}
                         dataSource={parcelasProduto ?? []} />
                 </Col>

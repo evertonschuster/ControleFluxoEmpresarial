@@ -21,7 +21,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
     const [{ value: condicaoPagamentoId }] = useField<number>("condicaoPagamentoId");
     const [{ value: formMode }, , { setValue: setFormMode }] = useField<FormCompraMode>("formMode");
     const [{ value: produtos }, ,] = useField<CompraProduto[]>("produtos")
-    const [{ value: parcelas }, { error: parcelasError }, { setValue: setParcelas }] = useField<ParcelaPagamento[] | null>("parcelas")
+    const [{ value: parcelas }, { error: parcelasError, touched }, { setValue: setParcelas }] = useField<ParcelaPagamento[] | null>("parcelas")
 
     const disableForm = formMode === FormCompraMode.CANCELAMENTO || formMode === FormCompraMode.VISUALIZACAO;
     const [loading, setLoading] = useState(false)
@@ -158,6 +158,7 @@ const CondicaoPagamentoSelection: React.FC = () => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        touched={touched}
                         action={actions()}
                         error={loading ? "" : parcelasError}
                         loading={loading}

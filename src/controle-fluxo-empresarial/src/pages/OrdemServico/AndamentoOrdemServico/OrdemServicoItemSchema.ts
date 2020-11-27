@@ -31,5 +31,9 @@ export const OrdemServicoItemSchema = Yup.object().shape<OrdemServico>({
 
     condicaoPagamentoId: Yup.number()
         .nullable()
-        .required("Informe a Condição de pagamento")
+        .required("Informe a condição de pagamento"),
+
+    servicos: Yup.array<OrdemServicoServico>()
+        .nullable()
+        .required("Informe os serviços."),
 })

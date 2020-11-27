@@ -19,6 +19,7 @@ import { FormModeVenda } from '../FormVenda'
 import { getUserNameStorage } from '../../../../services/UserNameCache'
 import { OrdemServicoServico } from '../../../../models/OrdemServicos/OrdemServicoItem'
 import { Link } from 'react-router-dom'
+import { Cliente } from '../../../../models/Pessoas/Cliente'
 
 const GeralForm: React.FC = () => {
 
@@ -148,6 +149,7 @@ const GeralForm: React.FC = () => {
 
         SetTotalCompra(totalProduto + totalServico)
     }, [produtos])
+
 
     useEffect(() => {
         loadUserName()

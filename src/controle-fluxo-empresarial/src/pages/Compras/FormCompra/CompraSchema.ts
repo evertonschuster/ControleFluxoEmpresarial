@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { CompraProduto } from '../../../models/Compras/CompraProduto';
+import { ParcelaPagamento } from '../../../models/CondicaoPagamento/ParcelaPagamento';
 import { Compra } from './../../../models/Compras/Compra';
 
 export const CompraSchema = Yup.object().shape<Compra>({
@@ -37,6 +39,10 @@ export const CompraSchema = Yup.object().shape<Compra>({
         .test("data-emissao-compra", "A data não pode ser futura.", function () {
             let form = this.parent as Compra;
 
+                        
+            form.dataEmissao?.setHours(0,0,0,0)
+            form.dataChegada?.setHours(0,0,0,0)
+
             return form.dataEmissao! <= new Date();
         }),
 
@@ -46,10 +52,18 @@ export const CompraSchema = Yup.object().shape<Compra>({
         .required("Informe uma data.")
         .test("data-Chegada", "Data de Chegada não pode ser anterior a data de emissão", function () {
             let form = this.parent as Compra;
+
+            form.dataEmissao?.setHours(0,0,0,0)
+            form.dataChegada?.setHours(0,0,0,0)
+
             return form.dataEmissao! <= form.dataChegada!
         })
         .test("data-Chegada-2", "Data de Chegada não pode ser futura", function () {
             let form = this.parent as Compra;
+
+            form.dataEmissao?.setHours(0,0,0,0)
+            form.dataChegada?.setHours(0,0,0,0)
+            
             return form.dataChegada! <= new Date();
         }),
 
@@ -66,12 +80,18 @@ export const CompraSchema = Yup.object().shape<Compra>({
         .nullable()
         .min(0, "Outras Despesas não pode ser negativo"),
 
-    parcelas: Yup.mixed()
+    parcelas: Yup.array<ParcelaPagamento>()
+        // .nullable()
+        // .required("Calcule as parcelas."),
         .nullable()
         .when("formMode", {
-            is: 1,
+            is: [1, 0],
             then: Yup.array().required("Calcule as parcelas.")
         }),
+
+    produtos: Yup.array<CompraProduto>()
+        .nullable()
+        .required("Informe os produtos."),
 
     observacao: Yup.string()
         .nullable()

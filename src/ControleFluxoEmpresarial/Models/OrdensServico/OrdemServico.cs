@@ -87,6 +87,9 @@ namespace ControleFluxoEmpresarial.Models.OrdensServico
             RuleFor(e => e.Servicos)
                 .Must(e => e.Count > 0).WithMessage("Informe os serviços.");
 
+            RuleFor(e => e.ParcelasServico)
+                .Must(e => e?.Count > 0).WithMessage("Informe as parcelas.");
+
         }
         private bool ExistCondicaoPagamento(OrdemServico os, int? id)
         {

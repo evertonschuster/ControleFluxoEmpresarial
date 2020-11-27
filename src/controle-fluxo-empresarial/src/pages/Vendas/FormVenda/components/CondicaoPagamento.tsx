@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Row, Col, Button, Divider } from 'antd';
 import { useField, useFormikContext } from 'formik';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ import { FormModeVenda } from '../FormVenda';
 import { ColumnProps } from 'antd/lib/table';
 import { Link } from 'react-router-dom';
 import { FromContaReceberType } from '../../../Movimentos/ContaReceber/FormContaReceber/FormContaReceber';
+import { Cliente } from '../../../../models/Pessoas/Cliente';
 
 export interface Props {
     visible?: boolean;
@@ -24,15 +25,24 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
 
     const [loading, setLoading] = useState(false)
 
-    const [{ value: produtos }] = useField<VendaProduto[]>("produtos");
+    const [{ value: cliente }] = useField<Cliente>("cliente");
+    const [{ value: produtos }, , { setError, setTouched }] = useField<VendaProduto[]>("produtos");
     const [{ value: formMode }, , { setValue: setFormMode }] = useField<FormModeVenda>("forMode");
-    const [{ value: condicaoPagamentoId }, ,] = useField("condicaoPagamentoId");
-    const [{ value: parcelasProduto }, { error: errorParcelas }, { setValue: setParcelasProduto }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelas");
+    const [{ value: condicaoPagamentoId }, , { setValue: setCondicaoPagamentoId }] = useField("condicaoPagamentoId");
+    const [{ value: parcelasProduto }, { error: errorParcelas, touched: touchedParcelas }, { setValue: setParcelasProduto }] = useField<ContaReceber[] & ParcelaPagamento[]>("parcelas");
+
+    useEffect(() => {
+        if (cliente) {
+            setCondicaoPagamentoId(cliente.condicaoPagamentoId)
+        }
+    }, [cliente])
 
     async function calcularParcelas() {
         let totalProduto = produtos.reduce((a, e) => a + (e.quantidade! * e.valor!), 0);
 
         if (totalProduto === 0) {
+            setError("Adicione Produtos para calcular" as any)
+            setTouched(true);
             return;
         }
 
@@ -150,6 +160,7 @@ const CondicaoPagamento: React.FC<Props> = (props) => {
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
                         hiddenTotal
+                        touched={touchedParcelas}
                         action={actions()}
                         error={errorParcelas}
                         loading={loading}

@@ -31,6 +31,7 @@ const FormVenda: React.FC = () => {
         userAtualizacao: null,
         userCriacao: null,
         produtos: [],
+        parcelas: null,
         forMode: FormModeVenda.VENDA
     } as Venda)
 

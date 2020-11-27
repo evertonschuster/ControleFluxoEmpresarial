@@ -18,6 +18,7 @@ const CondicaoPagamento: React.FC = () => {
                 <Col>
                     <Divider orientation="left" >Contas a Receber de Produtos</Divider>
                     <ShowCondicaoPagamentoParcelas
+                        touched={false}
                         hiddenDesconto
                         hiddenTotal
                         dataSource={parcelasProduto ?? []} />
@@ -30,6 +31,7 @@ const CondicaoPagamento: React.FC = () => {
                     <Divider orientation="left" >Contas a Receber de Serviços</Divider>
                     <ShowCondicaoPagamentoParcelas
                         hiddenDesconto
+                        touched={false}
                         hiddenTotal
                         dataSource={parcelasServico ?? []} />
                 </Col>

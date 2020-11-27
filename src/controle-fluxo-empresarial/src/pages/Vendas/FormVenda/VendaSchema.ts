@@ -31,7 +31,11 @@ export const VendaSchema = Yup.object().shape<Venda>({
 
     parcelas: Yup.array<ContaReceber>()
         .nullable()
-        .required("Informe as parcelas.")
+        .required("Calcule as parcelas."),
+
+    produtos: Yup.array<VendaProduto>()
+        .nullable()
+        .required("Informe os produtos."),
 });
 
 

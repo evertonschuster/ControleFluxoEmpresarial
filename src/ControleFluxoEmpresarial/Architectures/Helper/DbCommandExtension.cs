@@ -33,6 +33,10 @@ namespace ControleFluxoEmpresarial.Architectures.Helper
                 {
                     dbParameter.Value = property.GetValue(@params).ToString();
                 }
+                else if (property.PropertyType == typeof(DateTime))
+                {
+                    dbParameter.Value = ((DateTime)property.GetValue(@params)).ToLocalTime();
+                }
                 else
                 {
                     dbParameter.Value = property.GetValue(@params);

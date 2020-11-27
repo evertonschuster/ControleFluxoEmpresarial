@@ -70,7 +70,6 @@ const ListDetailsProduto: React.ForwardRefRenderFunction<ListHandle, Props> = (p
             title: 'Und. Med.',
             dataIndex: 'produto',
             key: 'unidadeMedidaId',
-            editable: true,
             render: (unidadeMed: Produto) => {
                 return unidadeMed.unidadeMedidaId
             }
