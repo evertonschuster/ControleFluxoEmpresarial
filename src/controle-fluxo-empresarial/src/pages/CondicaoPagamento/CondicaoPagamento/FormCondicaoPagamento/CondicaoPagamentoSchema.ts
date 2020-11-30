@@ -9,12 +9,12 @@ export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamen
         .typeError("Código inválido.")
         .integer("Código inválido.")
         .required("Informe o número de dias.")
-        .min(0, "O número de dias deve estar maior que 0."),
+        .min(0, "O número de dias não pode ser negativo."),
     percentual: Yup.number()
         .typeError("Código inválido.")
         .required("Informe o percentual.")
-        .min(0.01, "O percentual deve estar maior que 0.")
-        .max(100, "O percentual não pode estar maior que 100."),
+        .min(0.01, "O percentual deve ser maior que 0.")
+        .max(100, "O percentual não pode ser maior que 100."),
     formaPagamentoId: Yup.number()
         .integer("Código inválido.")
         .typeError("Código inválido.")
@@ -30,22 +30,22 @@ export const CondicaoPagamentoParcelaSchema = Yup.object().shape<CondicaoPagamen
 export const CondicaoPagamentoSchema = Yup.object().shape<CondicaoPagamento>({
     nome: Yup.string()
         .max(50, "Condição não deve possuir mais de 50 caracteres.")
-        .required('Condição não pode estar vazio.'),
+        .required('Condição não pode ser vazio.'),
     juro: Yup.number()
         .required("Código inválido.")
         .typeError("Código inválido.")
-        .min(0, "O valor não pode ser menor que 0.")
-        .max(100, "O valor não pode ser maior que 100."),
+        .min(0, "Juro não pode ser negativo.")
+        .max(100, "Juro não pode ser igual ou superior a 100%."),
     multa: Yup.number()
         .required("Código inválido.")
         .typeError("Código inválido.")
-        .min(0, "O valor não pode estar menor que 0.")
-        .max(100, "O valor não pode estar maior que 100."),
+        .min(0, "Multa não pode ser negativo.")
+        .max(100, "Multa não pode ser igual ou superior a 100%."),
     desconto: Yup.number()
         .required("Código inválido.")
         .typeError("Código inválido.")
-        .min(0, "O valor não pode estar menor que 0.")
-        .max(100, "O valor não pode estar maior que 100."),
+        .min(0, "Desconto não pode ser negativo.")
+        .max(100, "Desconto não pode ser igual ou superior a 100%."),
     parcela: Yup.array()
         .of(CondicaoPagamentoParcelaSchema)
         .min(1, "Informe ao menos uma parcela.")

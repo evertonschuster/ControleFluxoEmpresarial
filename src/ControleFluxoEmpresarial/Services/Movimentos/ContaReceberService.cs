@@ -37,7 +37,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             {
                 throw new BusinessException(new { Parcela = "Conta a Receber já cadastrada." });
             }
-            if(entity.Valor <= 0)
+            if (entity.Valor <= 0)
             {
                 throw new BusinessException(new { Valor = "Valor da parcela inválida." });
             }
@@ -181,7 +181,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             }
 
             CheckParcelaConfirmacao(contaReceber, contaReceber.Parcela);
-           
+
             dbEntity.Desconto = contaReceber.Desconto;
             dbEntity.Multa = contaReceber.Multa;
             dbEntity.Juro = contaReceber.Juro;
@@ -234,7 +234,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             {
                 id.Parcela = i;
                 var parcela = this.ContaReceberDAO.GetByID(id);
-                if (parcela.DataPagamento == null)
+                if (parcela != null & parcela.DataPagamento == null)
                 {
                     parcelasPendentes.Add(i);
                 }

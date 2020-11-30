@@ -158,12 +158,12 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
                 throw new BusinessException(new { Parcela = "Conta a pagar não cadastrada." });
             }
 
-            if(entity.DataEmissao > model.DataPagamento)
+            if (entity.DataEmissao > model.DataPagamento)
             {
                 throw new BusinessException(new { DataPagamento = "Data de Pagamento inválida." });
             }
 
-            if(model.ValorBaixa < model.Desconto)
+            if (model.ValorBaixa < model.Desconto)
             {
                 throw new BusinessException(new { Desconto = "Desconto não pode ser maior que o valor da Conta." });
             }
@@ -232,7 +232,7 @@ namespace ControleFluxoEmpresarial.Services.Movimentos
             {
                 id.Parcela = i;
                 var parcela = this.ContaPagarDAO.GetByID(id);
-                if (parcela.DataPagamento == null)
+                if (parcela != null && parcela.DataPagamento == null)
                 {
                     parcelasPendentes.Add(i);
                 }

@@ -12,8 +12,8 @@ export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
         .typeError("Informe a Quantidade.")
         .min(0.001, "Informe a Quantidade.")
         .required("Informe a Quantidade."),
-        
-        valorUnitario: Yup.number()
+
+    valorUnitario: Yup.number()
         .nullable()
         .typeError("Informe o Valor.")
         .required("Informe o Valor.")
@@ -21,7 +21,16 @@ export const CompraProdutoSchema = Yup.object().shape<CompraProduto>({
 
     desconto: Yup.number()
         .nullable()
-        .typeError("Informe o Desconto"),
+        .typeError("Informe o Desconto")
+        .test("desconto-produto", "O desconto não pode ser maior que o valor.", function () {
+            let form = this.parent as CompraProduto;
+            if (!!!form.desconto) {
+                return true;
+            }
+
+            var valor = form.quantidade! * form.valorUnitario!;
+            return form.desconto! < valor;
+        }),
 
     ipi: Yup.number()
         .nullable()

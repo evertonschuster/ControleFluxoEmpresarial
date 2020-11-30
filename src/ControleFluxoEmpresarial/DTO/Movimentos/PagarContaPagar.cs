@@ -101,7 +101,8 @@ namespace ControleFluxoEmpresarial.DTO.Movimentos
 
             RuleFor(e => e.DataPagamento)
                 .NotEmpty().WithMessage("Informe a data de Pagamento.")
-                .Must((e, a) => CheckDataVencimento(e, a.Value)).WithMessage("Data de Pagamento inválida.");
+                .Must((e, a) => CheckDataVencimento(e, a.Value)).WithMessage("Data de Pagamento inválida.")
+                .Must(e => e <= DateTime.UtcNow).WithMessage("Data de pagamento futura.");
 
             RuleFor(e => e.Descricao)
                 .MaximumLength(255).WithMessage("Descrição deve ter menos de 255 caracteres.");
